@@ -44,9 +44,9 @@
 
 ---
 
-### **Summary**
+### **Summary*
+Un juego roguelite inspirado en la mitología azteca y maya con un toque contemporáneo mexicano. El jugador se adentra en una pirámide mística para derrotar dioses antiguos en combates desafiantes al estilo Dark Souls. Los power-ups y habilidades se encuentran en cartas de lotería que otorgan habilidades temporales únicas.
 
-Sum up your game idea in 2 sentences. A kind of elevator pitch. Keep it simple!
 
 ### **Gameplay**
 
