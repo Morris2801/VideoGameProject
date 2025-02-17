@@ -1,10 +1,14 @@
-# **Game Name Here**
+# **MayAztec: Rise of the Lotería**
 
 ## _Game Design Document_
 
 ---
 
 ##### **Copyright notice / author information / boring legal stuff nobody likes**
+###### Authors: 
+- Mauricio Emilio Monroy González
+- Hector Lugo
+- Nicolas Quintana
 
 ##
 ## _Index_
