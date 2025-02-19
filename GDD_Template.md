@@ -49,30 +49,24 @@
 ---
 
 ### **Summary*
-Un juego roguelite inspirado en la mitología azteca y maya con un toque contemporáneo mexicano. El jugador se adentra en una pirámide mística para derrotar dioses antiguos en combates desafiantes al estilo Dark Souls. Los power-ups y habilidades se encuentran en cartas de lotería que otorgan habilidades temporales únicas.
+Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Mayan mythology, infused with a contemporary Mexican flair. In this roguelite adventure, players must confront ancient gods in adrenaline-pumping battles reminiscent of Dark Souls, while discovering unique power-ups and abilities hidden within traditional lottery cards. Each card offers temporary, game-changing boosts, ensuring an ever-evolving and dynamic gameplay experience. Will you break the cycle of death and resurrection, or be trapped in the eternal curse forever?
 
 
 ### **Gameplay**
-
-El personaje del jugador existe en un mundo 2D, con niveles distintos que aseguran que no haya dos experiencias iguales. Para progresar, el jugador debe explorar áreas llenas de una mezcla de enemigos desafiantes, encontrar recompensas y recolectar cartas que ayuden en su avance.
+The player's character exists in a 2D world with distinct levels that ensure no two experiences are the same. To progress, the player must explore areas filled with a mix of challenging enemies, find rewards, and collect cards that aid in their advancement.
 
 #### Objetivo del Juego
-El objetivo es derrotar gradualmente a los antiguos dioses y romper sus maldiciones para escapar del ciclo infinito de muerte y resurrección.
+The objective is to gradually defeat the ancient gods and break their curses to escape the infinite cycle of death and resurrection.
 
 #### Obstáculos y Desafíos
-Uno de los principales desafíos que enfrentará el jugador es que las cartas de combate son consumibles. Una vez que se utiliza una carta, el jugador debe buscar más cartas para protección. Al recibir daño significativo, la mayor parte del progreso del jugador se perderá y volverá a recorrer los niveles desde el inicio, nunca de la misma manera. Solo podrá comenzar de nuevo con algunas cartas de su vida anterior, intentándolo repetidamente para completar el juego. Los dioses le proporcionan cierto tiempo limitado de preparación según cada nivel como reto antes de enfrentarse a ellos, permitiendo al jugador explorar y escoger qué desafíos enfrenta, cada uno escondiendo cartas de distinto beneficio. A mayor aventura, mayor la recompensa y mejor la ayuda. 
+One of the main challenges the player will face is that combat cards are consumable. Once a card is used, the player must search for more cards for protection. Upon taking significant damage, most of the player's progress will be lost, and they will have to traverse the levels from the beginning, never in the same way. They will only be able to start over with some cards from their previous life, repeatedly attempting to complete the game. The gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore and choose which challenges to face, each hiding cards of different benefits. The greater the adventure, the greater the reward and the better the help.
 
 #### Tácticas y Estrategias
-El jugador se enfrentará a varios enemigos desafiantes, lo que aumenta el peligro y la aventura. Para superar estos obstáculos, puede usar diferentes cartas recogidas de mejora o armas que le ayudarán progresivamente a avanzar. A medida que avanza, los tesoros que encuentra serán más valiosos, proporcionando mejores herramientas y ventajas.
+The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with little but seeking to improve in a tense and challenging environment. The player must feel curiosity to explore and gain rewards along the way but exercise caution due to the threat of losing their progress. They must manage their resources and attempts with a mix of strategy and improvisation, with constant determination to free themselves from their curses.
 
 
 ### **Mindset**
-
-What kind of mindset do you want to provoke in the player? Do you want them to feel powerful, or weak? Adventurous, or nervous? Hurried, or calm? How do you intend to provoke those emotions?
-
 El juego está pensado para ser jugado con una forma de pensar orientada a aventura y recompensa frente a lo desconocido, empezando con poco pero buscando mejorar en un ambiente tenso y retador. El jugador debe sentir curiosidad para explorar y obtener recompensas en el camino, pero ejercer precaución por la amenaza de perder su progreso. Para ello, tendrá que ser administrativo con sus recursos y sus intentos con una mezcla de estrategia e improvisación, pero con determinación constante a liberarse de sus calumnias. 
-
-
 
 
 ## _Technical_
@@ -93,14 +87,13 @@ El juego está pensado para ser jugado con una forma de pensar orientada a avent
 
 1. Movement
 	1. WASD keys
-     	2. Jump with space bar
-3. Combat
+2. Combat
 	1. Attack Button / Left Click: Swing macuahuitl or fire a weapon.
 	2. Dodge / Shift: Roll or dash in the movement direction.
-4. Lotería Cards Usage
+3. Lotería Cards Usage
 	1. Special Ability Button / Q: Activate the selected card.
 	2. Switch Card / E: Cycle through available cards.
-5. Menus & Options
+4. Menus & Options
 	1. Tab / Select: Open inventory.
 	2. M: Open the pyramid map.
 	3. Esc / Start: Pause the game and access settings.
