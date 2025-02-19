@@ -48,7 +48,7 @@
 
 ---
 
-### **Summary*
+### **Summary**
 Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Mayan mythology, infused with a contemporary Mexican flair. In this roguelite adventure, players must confront ancient gods in adrenaline-pumping battles reminiscent of Dark Souls, while discovering unique power-ups and abilities hidden within traditional lottery cards. Each card offers temporary, game-changing boosts, ensuring an ever-evolving and dynamic gameplay experience. Will you break the cycle of death and resurrection, or be trapped in the eternal curse forever?
 
 
@@ -62,11 +62,11 @@ The objective is to gradually defeat the ancient gods and break their curses to 
 One of the main challenges the player will face is that combat cards are consumable. Once a card is used, the player must search for more cards for protection. Upon taking significant damage, most of the player's progress will be lost, and they will have to traverse the levels from the beginning, never in the same way. They will only be able to start over with some cards from their previous life, repeatedly attempting to complete the game. The gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore and choose which challenges to face, each hiding cards of different benefits. The greater the adventure, the greater the reward and the better the help.
 
 #### Tácticas y Estrategias
-The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with little but seeking to improve in a tense and challenging environment. The player must feel curiosity to explore and gain rewards along the way but exercise caution due to the threat of losing their progress. They must manage their resources and attempts with a mix of strategy and improvisation, with constant determination to free themselves from their curses.
-
+The player will face several challenging enemies, increasing danger and adventure. To overcome these obstacles, they can use different cards collected for upgrades or weapons that will progressively help them advance. As they progress, the treasures they find will become more valuable, providing better tools and advantages.
 
 ### **Mindset**
-El juego está pensado para ser jugado con una forma de pensar orientada a aventura y recompensa frente a lo desconocido, empezando con poco pero buscando mejorar en un ambiente tenso y retador. El jugador debe sentir curiosidad para explorar y obtener recompensas en el camino, pero ejercer precaución por la amenaza de perder su progreso. Para ello, tendrá que ser administrativo con sus recursos y sus intentos con una mezcla de estrategia e improvisación, pero con determinación constante a liberarse de sus calumnias. 
+The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with little but seeking to improve in a tense and challenging environment. The player must feel curiosity to explore and gain rewards along the way but exercise caution due to the threat of losing their progress. They must manage their resources and attempts with a mix of strategy and improvisation, with constant determination to free themselves from their curses.
+
 
 
 ## _Technical_
