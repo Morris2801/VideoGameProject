@@ -68,21 +68,41 @@ What kind of mindset do you want to provoke in the player? Do you want them to f
 
 1. Title Screen
     1. Options
-2. Level Select
-3. Game
+2. Game
     1. Inventory
-    2. Assessment / Next Level
-4. End Credits
-
-_(example)_
+    2. HUD Game
+    3. Map screen
+4. Dead screen
 
 ### **Controls**
 
-How will the player interact with the game? Will they be able to choose the controls? What kind of in-game events are they going to be able to trigger, and how? (e.g. pressing buttons, opening doors, etc.)
+1. Movement
+	1. WASD keys
+     	2. Jump with space bar
+3. Combat
+	1. Attack Button / Left Click: Swing macuahuitl or fire a weapon.
+	2. Dodge / Shift: Roll or dash in the movement direction.
+4. Lotería Cards Usage
+	1. Special Ability Button / Q: Activate the selected card.
+	2. Switch Card / E: Cycle through available cards.
+5. Menus & Options
+	1. Tab / Select: Open inventory.
+	2. M: Open the pyramid map.
+	3. Esc / Start: Pause the game and access settings.
 
 ### **Mechanics**
 
-Are there any interesting mechanics? If so, how are you going to accomplish them? Physics, algorithms, etc.
+1. Lotería Card System (Dynamic Power-Ups)
+	1. Players collect and activate Lotería cards for temporary or permanent abilities.
+	2. Some cards give elemental effects (fire, wind, shadow) or transformation abilities (e.g., El Mariachi grants a music-based attack).
+lementation:
+	Card Collection: Stored in an inventory system using an array.
+	Effects Application: Each card applies a modifier to player stats using an event-driven system (e.g., attack power, speed boost).
+	Procedural Spawning: Randomized card drops use probability weight tables to ensure variety.
+2.  Multi-Phase Boss Fights (Soulslike & Zelda-Inspired)
+	1. Bosses have multiple attack phases that change dynamically based on health.
+Impletion:
+	Finite-State Machines (FSM): Used to transition between attack patterns based on boss health/stamina.
 
 ## _Level Design_
 
