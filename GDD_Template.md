@@ -54,11 +54,26 @@ Un juego roguelite inspirado en la mitología azteca y maya con un toque contemp
 
 ### **Gameplay**
 
-What should the gameplay be like? What is the goal of the game, and what kind of obstacles are in the way? What tactics should the player use to overcome them?
+El personaje del jugador existe en un mundo 2D, con niveles distintos que aseguran que no haya dos experiencias iguales. Para progresar, el jugador debe explorar áreas llenas de una mezcla de enemigos desafiantes, encontrar recompensas y recolectar cartas que ayuden en su avance.
+
+#### Objetivo del Juego
+El objetivo es derrotar gradualmente a los antiguos dioses y romper sus maldiciones para escapar del ciclo infinito de muerte y resurrección.
+
+#### Obstáculos y Desafíos
+Uno de los principales desafíos que enfrentará el jugador es que las cartas de combate son consumibles. Una vez que se utiliza una carta, el jugador debe buscar más cartas para protección. Al recibir daño significativo, la mayor parte del progreso del jugador se perderá y volverá a recorrer los niveles desde el inicio, nunca de la misma manera. Solo podrá comenzar de nuevo con algunas cartas de su vida anterior, intentándolo repetidamente para completar el juego. Los dioses le proporcionan cierto tiempo limitado de preparación según cada nivel como reto antes de enfrentarse a ellos, permitiendo al jugador explorar y escoger qué desafíos enfrenta, cada uno escondiendo cartas de distinto beneficio. A mayor aventura, mayor la recompensa y mejor la ayuda. 
+
+#### Tácticas y Estrategias
+El jugador se enfrentará a varios enemigos desafiantes, lo que aumenta el peligro y la aventura. Para superar estos obstáculos, puede usar diferentes cartas recogidas de mejora o armas que le ayudarán progresivamente a avanzar. A medida que avanza, los tesoros que encuentra serán más valiosos, proporcionando mejores herramientas y ventajas.
+
 
 ### **Mindset**
 
 What kind of mindset do you want to provoke in the player? Do you want them to feel powerful, or weak? Adventurous, or nervous? Hurried, or calm? How do you intend to provoke those emotions?
+
+El juego está pensado para ser jugado con una forma de pensar orientada a aventura y recompensa frente a lo desconocido, empezando con poco pero buscando mejorar en un ambiente tenso y retador. El jugador debe sentir curiosidad para explorar y obtener recompensas en el camino, pero ejercer precaución por la amenaza de perder su progreso. Para ello, tendrá que ser administrativo con sus recursos y sus intentos con una mezcla de estrategia e improvisación, pero con determinación constante a liberarse de sus calumnias. 
+
+
+
 
 ## _Technical_
 
