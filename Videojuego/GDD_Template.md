@@ -56,13 +56,13 @@ Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Ma
 The player's character exists in a 2D world with distinct levels that ensure no two experiences are the same. To progress, the player must explore areas filled with a mix of challenging enemies, find rewards, and collect cards that aid in their advancement.
 
 #### Objetivo del Juego
-The objective is to gradually defeat the ancient gods and break their curses to escape the infinite cycle of death and resurrection.
+The objective is to gradually defeat the ancient gods and break their curses to escape the infinite cycle of death and resurrection by colelcting powerful weapons that will be found during your adventures.
 
 #### Obstáculos y Desafíos
 One of the main challenges the player will face is that combat cards are consumable. Once a card is used, the player must search for more cards for protection. Upon taking significant damage, most of the player's progress will be lost, and they will have to traverse the levels from the beginning, never in the same way. They will only be able to start over with some cards from their previous life, repeatedly attempting to complete the game. The gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore and choose which challenges to face, each hiding cards of different benefits. The greater the adventure, the greater the reward and the better the help.
 
 #### Tácticas y Estrategias
-The player will face several challenging enemies, increasing danger and adventure. To overcome these obstacles, they can use different cards collected for upgrades or weapons that will progressively help them advance. As they progress, the treasures they find will become more valuable, providing better tools and advantages.
+The player will face several challenging enemies, increasing danger and adventure. To overcome these obstacles, they can use different cards collected for upgrades or weapons that will progressively help them advance. As they progress, the treasures they find will become more valuable, providing better tools and advantages to break the curse.
 
 ### **Mindset**
 The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with little but seeking to improve in a tense and challenging environment. The player must feel curiosity to explore and gain rewards along the way but exercise caution due to the threat of losing their progress. They must manage their resources and attempts with a mix of strategy and improvisation, with constant determination to free themselves from their curses.
@@ -91,7 +91,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 	1. Attack Button / Left Click: Swing macuahuitl or fire a weapon.
 	2. Dodge / Shift: Roll or dash in the movement direction.
 3. Lotería Cards Usage
-	1. Special Ability Button / Q: Activate the selected card.
+	1. Special Ability Button / Q: Activate a selected card.
 	2. Switch Card / E: Cycle through available cards.
 4. Menus & Options
 	1. Tab / Select: Open inventory.
@@ -101,14 +101,14 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 ### **Mechanics**
 
 1. Lotería Card System (Dynamic Power-Ups)
-	1. Players collect and activate Lotería cards for temporary or permanent abilities.
-	2. Some cards give elemental effects (fire, wind, shadow) or transformation abilities (e.g., El Mariachi grants a music-based attack).
+	1. Players collect and activate Lotería cards for temporary or permanent abilities depending on the rewards given.
+	2. Some cards give elemental effects (fire, wind, shadow, ice) or transformation abilities (e.g., El Mariachi grants a music-based attack).
 lementation:
 	Card Collection: Stored in an inventory system using an array.
 	Effects Application: Each card applies a modifier to player stats using an event-driven system (e.g., attack power, speed boost).
-	Procedural Spawning: Randomized card drops use probability weight tables to ensure variety.
+	Procedural Spawning: Randomized card drops use probability weight tables to ensure variety in every drop.
 2.  Multi-Phase Boss Fights (Soulslike & Zelda-Inspired)
-	1. Bosses have multiple attack phases that change dynamically based on health.
+	1. Bosses have multiple attack phases that change dynamically based on the health left.
 Impletion:
 	Finite-State Machines (FSM): Used to transition between attack patterns based on boss health/stamina.
 
@@ -132,6 +132,7 @@ _(Note : These sections can safely be skipped if they&#39;re not relevant, or yo
             1. Wolves
             2. Goblins
             3. Rocks
+            4. Vines
 2. Castle
     1. Mood
         1. Dangerous, tense, active
@@ -144,6 +145,7 @@ _(Note : These sections can safely be skipped if they&#39;re not relevant, or yo
             1. Guards
             2. Giant rats
             3. Chests
+            4. Medieval Weapons in Showcase
 
 _(example)_
 
