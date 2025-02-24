@@ -1,4 +1,4 @@
-# **MayAztec: Rise of the Lotería**
+# **MayAztec: El Ascenso de la Lotería**
 
 ## _Game Design Document_
 
