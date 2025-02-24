@@ -55,13 +55,13 @@ Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Ma
 ### **Gameplay**
 The player's character exists in a 2D world with distinct levels that ensure no two experiences are the same. To progress, the player must explore areas filled with a mix of challenging enemies, find rewards, and collect cards that aid in their advancement.
 
-#### Objetivo del Juego
+#### Game Objective
 The objective is to gradually defeat the ancient gods and break their curses to escape the infinite cycle of death and resurrection by colelcting powerful weapons that will be found during your adventures.
 
-#### Obstáculos y Desafíos
+#### Obstacles and Challenges
 One of the main challenges the player will face is that combat cards are consumable. Once a card is used, the player must search for more cards for protection. Upon taking significant damage, most of the player's progress will be lost, and they will have to traverse the levels from the beginning, never in the same way. They will only be able to start over with some cards from their previous life, repeatedly attempting to complete the game. The gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore and choose which challenges to face, each hiding cards of different benefits. The greater the adventure, the greater the reward and the better the help.
 
-#### Tácticas y Estrategias
+#### Tactics & Strategies
 The player will face several challenging enemies, increasing danger and adventure. To overcome these obstacles, they can use different cards collected for upgrades or weapons that will progressively help them advance. As they progress, the treasures they find will become more valuable, providing better tools and advantages to break the curse.
 
 ### **Mindset**
