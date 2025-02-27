@@ -1,4 +1,5 @@
 # **MayAztec: El Ascenso de la Lotería**
+![Game Logo.](Game_Logo.png) 
 
 ## _Game Design Document_
 
