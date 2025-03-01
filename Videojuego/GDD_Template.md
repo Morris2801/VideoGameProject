@@ -50,23 +50,23 @@
 ---
 
 ### **Summary**
-Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Mayan mythology, infused with a contemporary Mexican flair. In this roguelite adventure, players must confront ancient gods in adrenaline-pumping battles reminiscent of Dark Souls, while discovering unique power-ups and abilities hidden within traditional lottery cards. Each card offers temporary, game-changing boosts, ensuring an ever-evolving and dynamic gameplay experience. Will you break the cycle of death and resurrection, or be trapped in the eternal curse forever?
+Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Mayan mythology, infused with a contemporary Mexican flair. In this roguelite adventure, players must confront ancient gods in adrenaline-pumping battles, while discovering unique power-ups and abilities hidden within traditional lottery cards. Each card offers temporary, game-changing boosts, ensuring an ever-evolving and dynamic gameplay experience. Time runs out per level. The gods are waiting. Will you break the cycle of death and resurrection, or be trapped in the eternal curse forever?
 
 
 ### **Gameplay**
-The player's character exists in a 2D world with distinct levels that ensure no two experiences are the same. To progress, the player must explore areas filled with a mix of challenging enemies, find rewards, and collect cards that aid in their advancement.
+The player's character exists in a 2D world, based in an ancient pyramid vibe, with distinct levels that ensure no two experiences are the same. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the alloted time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
 
 #### Game Objective
-The objective is to gradually defeat the ancient gods and break their curses to escape the infinite cycle of death and resurrection by colelcting powerful weapons that will be found during your adventures.
+The objective is to gradually defeat the ancient gods and break their curses, in order to escape the infinite cycle of death and resurrection they've thrust yourself upon. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
 
 #### Obstacles and Challenges
-One of the main challenges the player will face is that combat cards are consumable. Once a card is used, the player must search for more cards for protection. Upon taking significant damage, most of the player's progress will be lost, and they will have to traverse the levels from the beginning, never in the same way. They will only be able to start over with some cards from their previous life, repeatedly attempting to complete the game. The gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore and choose which challenges to face, each hiding cards of different benefits. The greater the adventure, the greater the reward and the better the help.
+In order to finish the game, a player would have to beat all the levels in a single, continuous attempt. The player must fight with enemies spawning randomly in randomly generated room layouts, as well as manage inventory consumables adequately and strategically. All cards act as consumables, some with more, some with less. Once a card's allowed uses are spent, the player must search for more (either through combat, since defeated enemies have a chance to drop a card, or  through exploring) to refill their acting inventory. Upon taking significant damage, the current "game run" will be over, and most of the player's progress will be lost, and they will have to traverse the levels from the beginning. They will only be able to start over with the last card they picked up from their previous life, along with a basic default card, forcing the player to repeatedly attempt to complete the game from scratch. Also, the gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore the level, prepare their inventory with what they'd like to use for boss fights and choose which challenges to face. The greater the adventure, the better the reward.
 
 #### Tactics & Strategies
-The player will face several challenging enemies, increasing danger and adventure. To overcome these obstacles, they can use different cards collected for upgrades or weapons that will progressively help them advance. As they progress, the treasures they find will become more valuable, providing better tools and advantages to break the curse.
+The player will face 3 types of base-enemies in close-range combat, as well as boss fights. To overcome these obstacles, the player must experiment with different card usage, as well as find a balance on when to fight and when they decide they figure their inventory is just right for a boss fight, thus requiring a bit of exploring and combat to prepare. As they progress in further levels, the benefits reaped from the cards will increase as difficulty does, therefore providing better tools and advantages. Time and inventory management balanced will be of the essence.
 
 ### **Mindset**
-The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with little but seeking to improve in a tense and challenging environment. The player must feel curiosity to explore and gain rewards along the way but exercise caution due to the threat of losing their progress. They must manage their resources and attempts with a mix of strategy and improvisation, with constant determination to free themselves from their curses.
+The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with just a base weapon but seeking to improve in a tense and challenging environment. The player must feel the curiosity to explore rooms and gain rewards along the way, but exercise caution due to the threat of going all-in with each enemy the player encounters. They must manage their inventory conservatively, sometimes with a bit of improvisation but always rushing to face the level's boss.
 
 
 
@@ -75,28 +75,34 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 ---
 
 ### **Screens**
-
 1. Title Screen
-    1. Options
+    1. Login
+    2. Options
+    3. Leaderboard
 2. Game
-    1. Inventory
+    1. BaseCard Selection
     2. HUD Game
-    3. Map screen
-4. Dead screen
+    3. Inventory
+    4. Pause Menu
+        1. In-Game Options
+    5. Transition to next level
+4. Death screen
 
 ### **Controls**
 
 1. Movement
-	1. WASD keys
+	1. W / Up Arrow key: player moves "upward"/north
+    2. A / Left Arrow key: player moves left/west
+    3. S / Down Arrow key: player moves "downwards"/south
+    4. D / Right Arrow key: player moves right/east
+Combining keys provides diagonal movement (ex. W+A results in a northeasth direction)  
 2. Combat
-	1. Attack Button / Left Click: Swing macuahuitl or fire a weapon.
-	2. Dodge / Shift: Roll or dash in the movement direction.
+	1. Attack with BaseCard: 
 3. Lotería Cards Usage
 	1. Special Ability Button / Q: Activate a selected card.
 	2. Switch Card / E: Cycle through available cards.
 4. Menus & Options
-	1. Tab / Select: Open inventory.
-	2. M: Open the pyramid map.
+	1. Tab / Select
 	3. Esc / Start: Pause the game and access settings.
 
 ### **Mechanics**
@@ -121,9 +127,11 @@ _(Note : These sections can safely be skipped if they&#39;re not relevant, or yo
 
 ### **Themes**
 
-1. Forest
+1. General
     1. Mood
-        1. Dark, calm, foreboding
+2. Level 1 - "Nombre idk"
+    1. Mood
+        1. 
     2. Objects
         1. _Ambient_
             1. Fireflies
@@ -134,7 +142,7 @@ _(Note : These sections can safely be skipped if they&#39;re not relevant, or yo
             2. Goblins
             3. Rocks
             4. Vines
-2. Castle
+2. Level 2 - "otro nombre idk"
     1. Mood
         1. Dangerous, tense, active
     2. Objects
