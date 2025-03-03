@@ -54,7 +54,7 @@ Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Ma
 
 
 ### **Gameplay**
-The player's character exists in a 2D world, based in an ancient pyramid vibe, with distinct levels that ensure no two experiences are the same. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the alloted time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
+The player's character exists in a 2D world, based in an ancient pyramid, with distinct levels that ensure no two experiences are the same. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the alloted time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
 
 #### Game Objective
 The objective is to gradually defeat the ancient gods and break their curses, in order to escape the infinite cycle of death and resurrection they've thrust yourself upon. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
@@ -82,8 +82,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 2. Game
     1. BaseCard Selection
     2. HUD Game
-    3. Inventory
-    4. Pause Menu
+    3. Pause Menu
         1. In-Game Options
     5. Transition to next level
 4. Death screen
@@ -97,13 +96,15 @@ The game is designed to be played with an adventure-oriented and reward-facing m
     4. D / Right Arrow key: player moves right/east
 Combining keys provides diagonal movement (ex. W+A results in a northeasth direction)  
 2. Combat
-	1. Attack with BaseCard: 
+	1. Attack with BaseCard: [Spacebar]
 3. Lotería Cards Usage
-	1. Special Ability Button / Q: Activate a selected card.
-	2. Switch Card / E: Cycle through available cards.
+	1. F: chest interaction
+    2. Picked-up cards will be automatically asigned to a slot numbered from 1 to 5. The corresponding numbers on the keyboard when clicked will activate the assigned card. 
+    3. If the player comes into contact with a card, and a slot is empty, it will automatically be collected
+    4. If there is no space available, the player would have to use one of their inventoried cards to clear a space
 4. Menus & Options
-	1. Tab / Select
-	3. Esc / Start: Pause the game and access settings.
+	1. [ESC]: brings up Pause menu
+    2. Arrows: allows navigation in-menu
 
 ### **Mechanics**
 
@@ -119,6 +120,9 @@ lementation:
 Impletion:
 	Finite-State Machines (FSM): Used to transition between attack patterns based on boss health/stamina.
 
+// Hector se avienta lo de esta sección ^---^
+
+
 ## _Level Design_
 
 ---
@@ -127,22 +131,24 @@ _(Note : These sections can safely be skipped if they&#39;re not relevant, or yo
 
 ### **Themes**
 
+// Idk, esto sería como de Assets no Hector?
+
 1. General
     1. Mood
-2. Level 1 - "Nombre idk"
+2. Level 1 - "Pyramid Entrance"
     1. Mood
-        1. 
+        1. Uneasy, ancient, arqueological
     2. Objects
         1. _Ambient_
-            1. Fireflies
-            2. Beams of moonlight
-            3. Tall grass
+            1. Leaves
+            2. Ruins & Columns
+            3. 
         2. _Interactive_
             1. Wolves
             2. Goblins
             3. Rocks
             4. Vines
-2. Level 2 - "otro nombre idk"
+2. Level 2 - "Into the Abyss"
     1. Mood
         1. Dangerous, tense, active
     2. Objects
@@ -160,15 +166,19 @@ _(example)_
 
 ### **Game Flow**
 
-1. Player starts in forest
-2. Pond to the left, must move right
-3. To the right is a hill, player jumps to traverse it (&quot;jump&quot; taught)
-4. Player encounters castle - door&#39;s shut and locked
-5. There&#39;s a window within jump height, and a rock on the ground
-6. Player picks up rock and throws at glass (&quot;throw&quot; taught)
-7. … etc.
-
-_(example)_
+1. Introductory story-text appears, telling "why" the player starts where they start.
+2. Player spawns in a room with doors to their sides.
+3. Player leaves initial room with Base Weapon
+4. Player must explore and complete levels without dying. If the player loses all of their HP, almost all of the progress is reset up until Step 2 of Game Flow. 
+    1. Player explores and finds different rooms/enemies/chests/cards
+        1. If the player finds an enemy, they can choose to avoid or to attack by going near with melee attacks or by activating power-up cards
+        2. If the player finds a chest, they open it by pressing F
+        3. If player finds a room with a doorway, by travelling to it they can enter more rooms
+        4. If player encounters a card, they can pick it up by going near it
+    2. The player continously collects and uses different cards while travelling through rooms until the boss room is reached. 
+    3. A boss fight ensues. The player must reduce the health points of the boss to 0.
+    4. If the player beats the foe, a temporary buff is gained and the level is cleared, allowing the player to continue to the next level.
+5. When all levels are cleared in a single run, the player wins and the game ends. 
 
 ## _Development_
 
@@ -180,7 +190,7 @@ _(example)_
     1. BasePlayer
     2. BaseEnemy
     3. BaseObject
-2. BaseObstacle
+2. BaseObstacles
 3. BaseInteractable
 
 _(example)_
