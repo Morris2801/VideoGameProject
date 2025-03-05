@@ -197,32 +197,26 @@ Basic Room Mockup with Character:
 2. BaseObstacles
 3. BaseInteractable
 
-_(example)_
 
 ### **Derived Classes / Component Compositions**
 
 1. BasePlayer
     1. PlayerMain
-    2. PlayerUnlockable
-2. BaseEnemy
-    1. EnemyWolf
-    2. EnemyGoblin
-    3. EnemyGuard (may drop key)
-    4. EnemyGiantRat
-    5. EnemyPrisoner
+2. BaseEnemy (may drop 1 Card each)
+    1. EnemyTlaxcalteca
+    2. EnemyMariachi
+    3. EnemyDemon
+    4. EnemyQuetzalcoatl
+    5. EnemyAhPuch
 3. BaseObject
-    1. ObjectRock (pick-up-able, throwable)
-    2. ObjectChest (pick-up-able, throwable, spits gold coins with key)
-    3. ObjectGoldCoin (cha-ching!)
-    4. ObjectKey (pick-up-able, throwable)
+    1. ObjectCard (pick-up-able, consumable)
+        1. Card
 4. BaseObstacle
-    1. ObstacleWindow (destroyed with rock)
-    2. ObstacleWall
-    3. ObstacleGate (watches to see if certain buttons are pressed)
+    1. ObstacleWall
 5. BaseInteractable
-    1. InteractableButton
+    1. ObjectChest (interactable, gives 1 Card each guaranteed)
 
-_(example)_
+
 
 ## _Graphics_
 
