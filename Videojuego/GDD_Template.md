@@ -248,6 +248,7 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
 
         ![Main Character Sprite Prototype Action 1](/Videojuego/GDDImages/MainCharSpritePrototype%20(1).jpeg)
         ![Main Character Sprite Prototype Action 2](/Videojuego/GDDImages/MainCharSpritePrototype%20(2).jpeg)
+        
         2. Tlaxcalteca (idle, walking, stabbing)
         3. Mariachi (idle, walking, hitting)
         4. Demon (idle, walking, hitting)
@@ -258,6 +259,7 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
     1. Stone Block Variants
 
         ![Stone Block Variants Examples](/Videojuego/GDDImages/FloorTiles.jpg)
+        
         1. Stone Block
         2. Cracked Stone Block 
         3. Mossy Stone Block
