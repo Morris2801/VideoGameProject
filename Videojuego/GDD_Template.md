@@ -127,6 +127,10 @@ Impletion:
 ---
 ### **Themes**
 
+Basic Room Mockup with Character: 
+
+![Room prototype](/Videojuego/GDDImages/RoomSketch.jpeg)
+
 1. Level 1 - "Pyramid Entrance"
     1. Mood
         1. Uneasy, ancient, arqueological, but kind of bright or light-themed
@@ -241,6 +245,7 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
 1. Characters
     1. Human-like
         1. Main Character (idle, walking, stabbing, dashing)
+
         ![Main Character Sprite Prototype Action 1](/Videojuego/GDDImages/MainCharSpritePrototype%20(1).jpeg)
         ![Main Character Sprite Prototype Action 2](/Videojuego/GDDImages/MainCharSpritePrototype%20(2).jpeg)
         2. Tlaxcalteca (idle, walking, stabbing)
@@ -251,6 +256,7 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
         1. Quetzalcóatl: serpent-like (idle, slithering, hitting, shooting)
 2. Blocks
     1. Stone Block Variants
+
         ![Stone Block Variants Examples](/Videojuego/GDDImages/FloorTiles.jpg)
         1. Stone Block
         2. Cracked Stone Block 
