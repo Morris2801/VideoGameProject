@@ -140,109 +140,6 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 ### **Mechanics**
 
-1. **Lotería Card System (Dynamic Power-Ups)**  
-   - **Inventory Array**: Cards collected go into slots [1–5].  
-   - **Usage**: Press the corresponding number key to activate.  
-   - **Effects**: May increase speed, attack, or transform the player for a limited time.  
-   - **Balance**: Probability weight tables ensure varied card drops.
-
-2. **Boss Fights (Soulslike & Zelda-Inspired)**  
-   - Multi-phase attacks.  
-   - **HP Thresholds**: e.g., 50% HP triggers new pattern or bullet-hell.  
-   - **Reward**: Defeating a boss can grant permanent buffs or advanced cards.
-
-3. **Time & Inventory Management**  
-   - The deeper the level, the tougher the enemies, but the more potent the cards.  
-   - Inventory capacity is limited to **5** active card slots.
-
-4. **Procedural/Randomized Elements**  
-   - **Enemy spawn points**: Weighted random within each room.  
-   - **Card/Item drops**: Probability-based, scaling with each new level.
-
-## Considerations
-
-### Mindset & Player Experience
-- **Adventure-Oriented**: Encourage players to explore each room, face unknown threats, and chase potential rewards.
-- **Reward-Facing**: The tension between pressing forward or backtracking for more cards fosters strategic planning.
-- **Caution**: Overconfidence can lead to a quick defeat; careful resource usage is key.
-
-### Difficulty & Progression
-- **Incremental Complexity**: Each level introduces new card possibilities and tougher enemies.  
-- **Boss Difficulty Spike**: Encourages the player to utilize the best synergy of cards and sharpen their reflexes.
-
-###Lotería Cards
-
-Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, buff), a **damage** (if ap plicable), and an optional **duration** in seconds. Cards can be found in chests or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
-
-#### Cartas de Armas
-
-| **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
-|:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
-| A-001       | Macuahuitl      | Weapon   | 2 pts         | –           | Arma azteca con obsidiana incrustada. Replaces base weapon.                                                                    |
-| A-002       | Cuchillo Obs.   | Weapon   | 1 pt          | –           | Ligero y rápido, ideal para speed combos.                                                                                     |
-| A-003       | Machete         | Weapon   | 2 pts + 1 DoT | –           | +1 de veneno por 2 seg. Ideal vs. enemigos con alta HP (Heavy).                                                               |
-
-#### Cartas de Transformación
-
-| **Card ID** | **Name**         | **Type**         | **Damage** | **Duration** | **Effect / Description**                                                                                                                      |
-|:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
-| T-001       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 barras de vida temporal; el arma se convierte en guitarra con 4 pts de daño por “guitarrazo”.                                              |
-| T-002       | Diablo           | Transformation   | 2 pts (trident) | 10s       | Regeneración automática hasta 6 barras de vida, con un tridente de 2 pts de daño.                                                             |
-| T-003       | Guerrero Maya    | Transformation   | +1 actual weapon | 10s     | +2 barras de resistencia, regen de stamina 1 seg más rápida, y +1 daño al arma equipado.                                                      |
-
-#### 5.1.3 Cartas de Buff
-
-| **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
-|:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| B-001       | Corazón      | Buff      | –         | Instant     | Cura la vida completa y agrega 1 slot extra de vida. Si esa barra extra se pierde, no se regenera sin otra carta Corazón.                              |
-| B-002       | El Valiente  | Buff      | –         | 10s         | Otorga **inmunidad** total al daño por 10s, pero **pierdes 1 barra de vida** al activarla.                                                             |
-| B-003       | El Taco      | Buff      | –         | 10s         | La resistencia (stamina) no baja durante 10s, permitiendo dash o combos ilimitados en ese lapso.                                                       |
-| B-004       | La Calavera  | Buff      | –         | 10s         | Mata enemigos normales de 1 golpe; contra bosses, añade +10 pts de daño al arma por 10s. Efecto muy poderoso, pero rara vez droppea en early game.     |
-
-**Drop Probability (General Guidelines)**:
-- **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons (A-002) or buff cards (B-001, B-003).  
-- **Medium Enemy (Guerrero Maya)**: ~20% chance for mid-tier weapons (A-001, A-003) or transformation T-003.  
-- **Heavy Enemy (El Diablo)**: ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).  
-- **Chests**: Weighted random from the full set (A-001 to B-004), guaranteed at least 1 card.  
-- **Boss Fights**: 5–10% chance for transformations (T-001, T-002) plus guaranteed resources.
-
----
-
-### Enemies & Bosses
-
-#### Normal Enemies
-
-| **Enemy**             | **HP Range** | **Damage** | **Behavior**                                                                                 | **Drop Probability**                                                             |
-|:---------------------:|:-----------:|:---------:|:--------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-| **El Músico / Mariachi** (Light) | 10–15       | 1–2       | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier (A-002) or minor buffs (B-001, B-003).                  |
-| **Tlaxcaltecas** (Light)         | 10–15       | 1–2       | Appear in small groups with basic melee.                                                    | ~15% chance for A-002 or a buff card.                                            |
-| **Guerrero Maya** (Medium)       | 20–25       | 2–3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons (A-001, A-003) or T-003.                        |
-| **El Diablo (Replica)** (Heavy)  | 35–40       | 3–4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).            |
-
-**Scaling**:  
-- Light enemies: +2% HP each room.  
-- Medium enemies: +10% HP each level.  
-- Heavy enemies: +15% HP each level.  
-
-### Bosses
-
-1. **Quetzcoalt (Serpent Form)**  
-   - **HP**: ~80–100  
-   - **Damage**: 4–6  
-   - **Behavior**: Floats in serpent form, spitting acid or energy orbs.  
-   - **Phase 1**: Sweeping tail attacks, occasional projectile.  
-   - **Phase 2** (HP < 50%): Gains bullet-hell pattern (multiple orbs, swirling movement).  
-   - **Drop**: 5–10% chance for T-001 (Mariachi) or T-002 (Diablo), plus guaranteed healing/resources, and the blessing of God you get a greater resistance.
-
-2. **Ah Puch (God of Death)**  
-   - **HP**: ~120–140  
-   - **Damage**: 5–7  
-   - **Behavior**: Humanoid form, performs heavy physical strikes and launches fire zones.  
-   - **Phase 1**: Straightforward melee combos + fire projectiles.  
-   - **Phase 2** (HP < 50%): Expands fire zones, summons undead minions or orbs.  
-   - **Drop**: 5–10% chance for T-002 (Diablo) or T-003 (Guerrero Maya), plus a permanent unlock if design allows.
-
----
 
 
 ## _Level Design_
@@ -250,9 +147,10 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 ---
 ### **Themes**
 
-Basic Room Mockup with Character: 
+Basic Room Mockup: 
 
-![Room prototype](/Videojuego/GDDImages/RoomSketch.jpeg)
+![Empty Room prototype](/Videojuego/GDDImages/RoomSketch.jpeg)
+![Empty Room Prototype with Character](/Videojuego/GDDImages/RoomSketchChar.jpeg)
 
 1. Level 1 - "Pyramid Entrance"
     1. Mood
@@ -308,7 +206,7 @@ Basic Room Mockup with Character:
     1. Alternatively, if the player loses all of their HP, almost all of the progress is reset up until Step 2 of Game Flow. 
 
 ## _Development_
-
+?????????????
 ---
 
 ### **Abstract Classes / Components**
@@ -335,7 +233,12 @@ Basic Room Mockup with Character:
     1. ObjectCard (pick-up-able, consumable)
         1. Card
 4. BaseObstacle
-    1. ObstacleWall
+    1. ObstacleWall (with some variants in texture sprites)
+    2. ObstacleColumn
+    3. Miscellaneous
+        1. Torch
+        2. Vines
+        3. Glyphs
 5. BaseInteractable
     1. ObjectChest (interactable, gives 1 Card each guaranteed)
 
@@ -347,10 +250,12 @@ Basic Room Mockup with Character:
 
 ### **Style Attributes**
 
-What kinds of colors will you be using? Do you have a limited palette to work with? A post-processed HSV map/image? Consistency is key for immersion.
+The color palette to be followed revolves around Earthly, Warm and Ancient tones, particularly dominated by sandstone beiges, greys, greenery, browns and particular accent colors, as well as black for contrast. 
 
-What kind of graphic style are you going for? Cartoony? Pixel-y? Cute? How, specifically? Solid, thick outlines with flat hues? Non-black outlines with limited tints/shades? Emphasize smooth curvatures over sharp angles? Describe a set of general rules depicting your style here.
+The game is pictured as a pixel-art concept, with general cubic shapes governing the general ambiance except for noteworthy aspects of what is being shown, such as the character, enemies, objects, etc. to make them stand out at a glance. Therefore, these will be the ones without sharp angles, aiming for a more detailed shape. Solid edges will be used as well for important elements, but non-black outlines with tints and hue variants will also be relied upon in order to avoid having a monotonous, flat appearance in the object characterization. Weathered objects in the background and context will be interpreted by using color ramps to enhance textures, giving objects a more natural, weathered look. 
 
+
+?????
 Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), are great for teaching the player how to play through trial and error, instead of scripting a lengthy tutorial. What kind of visual feedback are you going to use to let the player know they&#39;re interacting with something? That they \*can\* interact with something?
 
 
@@ -408,56 +313,45 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
 
 ### **Style Attributes**
 
-Again, consistency is key. Define that consistency here. What kind of instruments do you want to use in your music? Any particular tempo, key? Influences, genre? Mood?
+For the style attributes, the game’s music and sound should have a consistent and immersive feel. The instrumentation will primarily consist of chiptune-style synths mixed with orchestral elements to create an atmospheric and adventurous sound. The tempo will vary based on intensity, with moderate pacing for exploration and faster tempos for action-heavy moments, particularly boss fights. Most tracks will be in minor keys to evoke mystery and tension, while major keys will be used sparingly for uplifting moments like victory themes. Influences include classic roguelikes, Dark Souls, Castlevania, and Legend of Zelda, aiming for a dark, mysterious, and adventurous tone. Sound effects will be subtle but distinct, ensuring clear feedback for player actions without overwhelming the music. The overall approach will balance realism with stylized elements, ensuring that auditory cues stand out without clashing with the environment.
 
-Stylistically, what kind of sound effects are you looking for? Do you want to exaggerate actions with lengthy, cartoony sounds (e.g. mario&#39;s jump), or use just enough to let the player know something happened (e.g. mega man&#39;s landing)? Going for realism? You can use the music style as a bit of a reference too.
+The game will need various sound effects to enhance immersion and provide auditory feedback for player actions. Footsteps will sound sharper against stone surfaces. Other environmental sounds include a chests opening, power-ups being used, and melee attacks landing, all designed to feel responsive and natural. Feedback sounds will be crucial for player experience, such as a relieved sigh when gaining health, a surprised grunt when taking damage, and a sad, descending chime upon death.
 
- Remember, auditory feedback should stand out from the music and other sound effects so the player hears it well. Volume, panning, and frequency/pitch are all important aspects to consider in both music _and_ sounds - so plan accordingly!
+The music will be structured to loop per level, maintaining an immersive experience throughout gameplay. Unsettling undertones will build tension, and the music will likely be slow paced. For triumphant moments, a short, victorious fanfare will play upon completing significant challenges, and a melancholic, fading theme will accompany game-over screens to emphasize the weight of failure.
+
 
 ### **Sounds Needed**
 
 1. Effects
-    1. Soft Footsteps (dirt floor)
-    2. Sharper Footsteps (stone floor)
-    3. Soft Landing (low vertical velocity)
-    4. Hard Landing (high vertical velocity)
-    5. Glass Breaking
-    6. Chest Opening
-    7. Door Opening
+    1. Sharp Footsteps (stone floor)
+    2. Chest Opening
+    3. Card picked up
+    4. Card used
 2. Feedback
     1. Relieved &quot;Ahhhh!&quot; (health)
     2. Shocked &quot;Ooomph!&quot; (attacked)
-    3. Happy chime (extra life)
-    4. Sad chime (died)
+    3. Sad chime (died)
 
-_(example)_
 
 ### **Music Needed**
 
-1. Slow-paced, nerve-racking &quot;forest&quot; track
-2. Exciting &quot;castle&quot; track
-3. Creepy, slow &quot;dungeon&quot; track
-4. Happy ending credits track
-5. Rick Astley&#39;s hit #1 single &quot;Never Gonna Give You Up&quot;
-
-_(example)_
+?????
 
 
 ## _Schedule_
 
+??????
 ---
 
-_(define the main activities and the expected dates when they should be finished. This is only a reference, and can change as the project is developed)_
-
-1. develop base classes
-    1. base entity
-        1. base player
+1. Develop base classes ---- 21/3/2025
+    1. Base entity  ---- 14/3/2025
+        1. Base player
         2. base enemy
         3. base block
-  2. base app state
+  2. Base app state  ---- 21/3/2025
         1. game world
         2. menu world
-2. develop player and basic block classes
+2. Develop player and basic block classes
     1. physics / collisions
 3. find some smooth controls/physics
 4. develop other derived classes
