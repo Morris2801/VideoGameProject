@@ -220,12 +220,30 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 | **El Diablo (Replica)** (Heavy)  | 35–40       | 3–4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).            |
 
 **Scaling**:  
-- Light enemies: +10% HP every 2 levels.  
+- Light enemies: +2% HP each room.  
 - Medium enemies: +10% HP each level.  
 - Heavy enemies: +15% HP each level.  
 
+### Bosses
+
+1. **Quetzcoalt (Serpent Form)**  
+   - **HP**: ~80–100  
+   - **Damage**: 4–6  
+   - **Behavior**: Floats in serpent form, spitting acid or energy orbs.  
+   - **Phase 1**: Sweeping tail attacks, occasional projectile.  
+   - **Phase 2** (HP < 50%): Gains bullet-hell pattern (multiple orbs, swirling movement).  
+   - **Drop**: 5–10% chance for T-001 (Mariachi) or T-002 (Diablo), plus guaranteed healing/resources, and the blessing of God you get a greater resistance.
+
+2. **Ah Puch (God of Death)**  
+   - **HP**: ~120–140  
+   - **Damage**: 5–7  
+   - **Behavior**: Humanoid form, performs heavy physical strikes and launches fire zones.  
+   - **Phase 1**: Straightforward melee combos + fire projectiles.  
+   - **Phase 2** (HP < 50%): Expands fire zones, summons undead minions or orbs.  
+   - **Drop**: 5–10% chance for T-002 (Diablo) or T-003 (Guerrero Maya), plus a permanent unlock if design allows.
 
 ---
+
 
 ## _Level Design_
 
