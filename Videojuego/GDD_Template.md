@@ -214,11 +214,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 | **Tlaxcaltecas** (Light)         | 10–15       | 1–2       | Appear in small groups with basic melee.                                                    | ~15% chance for A-002 or a buff card.                                            |
 | **Guerrero Maya** (Medium)       | 20–25       | 2–3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons (A-001, A-003) or T-003.                        |
 | **El Diablo (Replica)** (Heavy)  | 35–40       | 3–4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).            |
-
-**Scaling**:  
-- Light enemies: +2% HP each room.  
-- Medium enemies: +10% HP each level.  
-- Heavy enemies: +15% HP each level.  
+  
 
 ### Bosses
 
@@ -236,7 +232,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
    - **Behavior**: Humanoid form, performs heavy physical strikes and launches fire zones.  
    - **Phase 1**: Straightforward melee combos + fire projectiles.  
    - **Phase 2** (HP < 50%): Expands fire zones, summons undead minions or orbs.  
-   - **Drop**: 5–10% chance for T-002 (Diablo) or T-003 (Guerrero Maya), plus a permanent unlock if design allows.
+   - **Drop**: 5–10% chance for T-002 (Diablo) or T-003 (Guerrero Maya), plus a permanent unlock if design allows, and two bars of life.
 
 ### Combat and Timers
 
@@ -265,7 +261,13 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 **Note** : These values are estimates for balanced combat; should be tested in *playtesting* and adjusted according to desired difficulty. Stress tests are recommended to verify that the player cannot “break” the game by spamming combos or dashes without consequences.
 
 
-
+### Chest 
+**The chest appears in a probability of 25% in the room.**
+You have a secured card:
+- 10% of a rare card (Calavara, machete, obsidian, macuahuilt)
+- 50% of a common card ( Corazon, Valiente, Taco)
+- 30% of a medium card ( Mariachi, Mayan Warriror)
+  
 ---
 
 ## _Level Design_
