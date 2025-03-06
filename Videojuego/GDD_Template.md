@@ -141,6 +141,109 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 ### **Mechanics**
 
 
+1. **Lotería Card System (Dynamic Power-Ups)**  
+   - **Inventory Array**: Cards collected go into slots [1–5].  
+   - **Usage**: Press the corresponding number key to activate.  
+   - **Effects**: May increase speed, attack, or transform the player for a limited time.  
+   - **Balance**: Probability weight tables ensure varied card drops.
+
+2. **Boss Fights (Soulslike & Zelda-Inspired)**  
+   - Multi-phase attacks.  
+   - **HP Thresholds**: e.g., 50% HP triggers new pattern or bullet-hell.  
+   - **Reward**: Defeating a boss can grant permanent buffs or advanced cards.
+
+3. **Time & Inventory Management**  
+   - The deeper the level, the tougher the enemies, but the more potent the cards.  
+   - Inventory capacity is limited to **5** active card slots.
+
+4. **Procedural/Randomized Elements**  
+   - **Enemy spawn points**: Weighted random within each room.  
+   - **Card/Item drops**: Probability-based, scaling with each new level.
+
+## Considerations
+
+### Mindset & Player Experience
+- **Adventure-Oriented**: Encourage players to explore each room, face unknown threats, and chase potential rewards.
+- **Reward-Facing**: The tension between pressing forward or backtracking for more cards fosters strategic planning.
+- **Caution**: Overconfidence can lead to a quick defeat; careful resource usage is key.
+
+### Difficulty & Progression
+- **Incremental Complexity**: Each level introduces new card possibilities and tougher enemies.  
+- **Boss Difficulty Spike**: Encourages the player to utilize the best synergy of cards and sharpen their reflexes.
+
+###Lotería Cards
+
+Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, buff), a **damage** (if ap plicable), and an optional **duration** in seconds. Cards can be found in chests or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
+
+#### Cartas de Armas
+
+| **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
+|:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
+| A-001       | Macuahuitl      | Weapon   | 2 pts         | –           | Arma azteca con obsidiana incrustada. Replaces base weapon.                                                                    |
+| A-002       | Cuchillo Obs.   | Weapon   | 1 pt          | –           | Ligero y rápido, ideal para speed combos.                                                                                     |
+| A-003       | Machete         | Weapon   | 2 pts + 1 DoT | –           | +1 de veneno por 2 seg. Ideal vs. enemigos con alta HP (Heavy).                                                               |
+
+#### Cartas de Transformación
+
+| **Card ID** | **Name**         | **Type**         | **Damage** | **Duration** | **Effect / Description**                                                                                                                      |
+|:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
+| T-001       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 barras de vida temporal; el arma se convierte en guitarra con 4 pts de daño por “guitarrazo”.                                              |
+| T-002       | Diablo           | Transformation   | 2 pts (trident) | 10s       | Regeneración automática hasta 6 barras de vida, con un tridente de 2 pts de daño.                                                             |
+| T-003       | Guerrero Maya    | Transformation   | +1 actual weapon | 10s     | +2 barras de resistencia, regen de stamina 1 seg más rápida, y +1 daño al arma equipado.                                                      |
+
+#### 5.1.3 Cartas de Buff
+
+| **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
+|:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| B-001       | Corazón      | Buff      | –         | Instant     | Cura la vida completa y agrega 1 slot extra de vida. Si esa barra extra se pierde, no se regenera sin otra carta Corazón.                              |
+| B-002       | El Valiente  | Buff      | –         | 10s         | Otorga **inmunidad** total al daño por 10s, pero **pierdes 1 barra de vida** al activarla.                                                             |
+| B-003       | El Taco      | Buff      | –         | 10s         | La resistencia (stamina) no baja durante 10s, permitiendo dash o combos ilimitados en ese lapso.                                                       |
+| B-004       | La Calavera  | Buff      | –         | 10s         | Mata enemigos normales de 1 golpe; contra bosses, añade +10 pts de daño al arma por 10s. Efecto muy poderoso, pero rara vez droppea en early game.     |
+
+**Drop Probability (General Guidelines)**:
+- **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons (A-002) or buff cards (B-001, B-003).  
+- **Medium Enemy (Guerrero Maya)**: ~20% chance for mid-tier weapons (A-001, A-003) or transformation T-003.  
+- **Heavy Enemy (El Diablo)**: ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).  
+- **Chests**: Weighted random from the full set (A-001 to B-004), guaranteed at least 1 card.  
+- **Boss Fights**: 5–10% chance for transformations (T-001, T-002) plus guaranteed resources.
+
+---
+
+### Enemies & Bosses
+
+#### Normal Enemies
+
+| **Enemy**             | **HP Range** | **Damage** | **Behavior**                                                                                 | **Drop Probability**                                                             |
+|:---------------------:|:-----------:|:---------:|:--------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
+| **El Músico / Mariachi** (Light) | 10–15       | 1–2       | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier (A-002) or minor buffs (B-001, B-003).                  |
+| **Tlaxcaltecas** (Light)         | 10–15       | 1–2       | Appear in small groups with basic melee.                                                    | ~15% chance for A-002 or a buff card.                                            |
+| **Guerrero Maya** (Medium)       | 20–25       | 2–3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons (A-001, A-003) or T-003.                        |
+| **El Diablo (Replica)** (Heavy)  | 35–40       | 3–4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).            |
+
+**Scaling**:  
+- Light enemies: +2% HP each room.  
+- Medium enemies: +10% HP each level.  
+- Heavy enemies: +15% HP each level.  
+
+### Bosses
+
+1. **Quetzcoalt (Serpent Form)**  
+   - **HP**: ~80–100  
+   - **Damage**: 4–6  
+   - **Behavior**: Floats in serpent form, spitting acid or energy orbs.  
+   - **Phase 1**: Sweeping tail attacks, occasional projectile.  
+   - **Phase 2** (HP < 50%): Gains bullet-hell pattern (multiple orbs, swirling movement).  
+   - **Drop**: 5–10% chance for T-001 (Mariachi) or T-002 (Diablo), plus guaranteed healing/resources, and the blessing of God you get a greater resistance.
+
+2. **Ah Puch (God of Death)**  
+   - **HP**: ~120–140  
+   - **Damage**: 5–7  
+   - **Behavior**: Humanoid form, performs heavy physical strikes and launches fire zones.  
+   - **Phase 1**: Straightforward melee combos + fire projectiles.  
+   - **Phase 2** (HP < 50%): Expands fire zones, summons undead minions or orbs.  
+   - **Drop**: 5–10% chance for T-002 (Diablo) or T-003 (Guerrero Maya), plus a permanent unlock if design allows.
+
+---
 
 ## _Level Design_
 
@@ -261,7 +364,6 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
 
 
 
-
 ### **Graphics Needed**
 
 1. Characters
@@ -318,7 +420,6 @@ For the style attributes, the game’s music and sound should have a consistent 
 The game will need various sound effects to enhance immersion and provide auditory feedback for player actions. Footsteps will sound sharper against stone surfaces. Other environmental sounds include a chests opening, power-ups being used, and melee attacks landing, all designed to feel responsive and natural. Feedback sounds will be crucial for player experience, such as a relieved sigh when gaining health, a surprised grunt when taking damage, and a sad, descending chime upon death.
 
 The music will be structured to loop per level, maintaining an immersive experience throughout gameplay. Unsettling undertones will build tension, and the music will likely be slow paced. For triumphant moments, a short, victorious fanfare will play upon completing significant challenges, and a melancholic, fading theme will accompany game-over screens to emphasize the weight of failure.
-
 
 ### **Sounds Needed**
 
