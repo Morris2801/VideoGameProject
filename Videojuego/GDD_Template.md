@@ -443,13 +443,29 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 
 ### **Music Needed**
-
-?????
+- Menu music
+- Music for level 1
+- Boss music level 1
+- Music for level 2 
+- Boss music level 2
+- Victory music
+- Game over/death music
 
 
 ## _Schedule_
 
-??????
+1. Weeks 2-4,
+   - Defined our videogame
+   - Presented via elevator pitch
+   - Recieved feedback
+   - Established our parameters to build the game
+   - Made basic animations for main character
+   - Ilustrated our tiles for the walls and floor
+2. Week 5
+   - Establish our base for the Videogame
+   - Make slightly more complex animations (dodge, attack)
+   - Establish our base for the database
+   - Establish our base for the website where the game will be played
 ---
 
 1. Develop base classes ---- 21/3/2025
