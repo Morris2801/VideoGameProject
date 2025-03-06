@@ -107,7 +107,8 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Screen**                | **Description**                                                                                                                 |
 |---------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | **Title Screen**          | Displays game logo, “Start,” “Options,” “Exit.”                                                                               |
-| **Options**               | Audio volume, keybindings, video settings.                                                                                    |
+| **Options**               | Consult statistics
+                                                                                    |
 | **Game (Main Gameplay)**  | Core level exploration and combat take place here.                                                                            |
 | **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–5), base weapon icon, boss HP (when engaged), Timer Bar.                                                  |
 | **Pause Menu**            | [ESC] key triggers. Options to resume, adjust settings, or quit to Title.                                                     |
