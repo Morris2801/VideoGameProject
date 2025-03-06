@@ -54,38 +54,34 @@ Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Ma
 
 
 ### **Gameplay**
-The player's character exists in a 2D world, based in an ancient pyramid, with distinct levels that ensure no two experiences are the same. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the alloted time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
+The player's character exists in a 2D world, contextualized in an ancient underground pyramid, with distinct levels that seek to make two runs as  different as possible. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the allowed time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
 
 #### Game Objective
 The objective is to gradually defeat the ancient gods and break their curses, in order to escape the infinite cycle of death and resurrection they've thrust yourself upon. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
 
 #### Obstacles and Challenges
-In order to finish the game, a player would have to beat all the levels in a single, continuous attempt. The player must fight with enemies spawning randomly in randomly generated room layouts, as well as manage inventory consumables adequately and strategically. All cards act as consumables, some with more, some with less. Once a card's allowed uses are spent, the player must search for more (either through combat, since defeated enemies have a chance to drop a card, or  through exploring) to refill their acting inventory. Upon taking significant damage, the current "game run" will be over, and most of the player's progress will be lost, and they will have to traverse the levels from the beginning. They will only be able to start over with the last card they picked up from their previous life, along with a basic default card, forcing the player to repeatedly attempt to complete the game from scratch. Also, the gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore the level, prepare their inventory with what they'd like to use for boss fights and choose which challenges to face. The greater the adventure, the better the reward.
+In order to finish the game, a player would have to beat all the levels in a single, continuous attempt. The player must fight with enemies spawning randomly in randomly generated room layouts, as well as manage inventory consumables adequately and strategically. All cards act as consumables, some with more, some with less. Once a card's allowed uses are spent, the player must search for more (either through combat, since defeated enemies have a chance to drop a card, or  through exploring) to refill their acting inventory. Upon taking significant damage, the current "game run" will be over, and most of the player's progress will be lost, and they will have to traverse the levels from the beginning. They will only be able to start over with the last card they added to their inventory from their previous life, along with a basic default card, forcing the player to repeatedly attempt to complete the game from scratch. Also, the gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore the level, prepare their inventory with what they'd like to use for boss fights and choose which challenges to face. The greater the adventure, the better the reward.
 
 #### Tactics & Strategies
-The player will face 3 types of base-enemies in close-range combat, as well as 2 boss fights. To overcome these obstacles, the player must experiment with different card usage, as well as find a balance on when to fight and when they decide they figure their inventory is just right for a boss fight, thus requiring a bit of exploring and combat to prepare. As they progress in further levels, the benefits reaped from the cards will increase as difficulty does, therefore providing better tools and advantages. Time and inventory management balanced will be of the essence.
+The player will face 4 types of base-enemies in close-range combat, as well as 2 boss fights. To overcome these obstacles, the player must experiment with different card usage, as well as find a balance on when to fight and when they decide they figure their inventory is just right for a boss fight, thus requiring a bit of exploring and combat to prepare. As they progress in further levels, the benefits reaped from the cards will increase as difficulty does, therefore providing better tools and advantages. Time and inventory management will be essential.
 
 ##### Overview
-In **MayAztec**, the player must be balance **close-range-combat**, **inventory managment**, and **strategic use of Lotería cards**. With three types of base enemies and two major boss fights, every encounter demands a measured approach:
+In **MayAztec**, the player must balance **close-range-combat**, **inventory managment**, and **strategic use of Lotería cards**. With four types of base enemies and two major boss fights, every encounter demands a measured approach:
 
 - **Short-range battles**: The player wields a base weapon (e.g., a macuahuitl) and can enhance or replace it with cards.
 - **Exploration & Preparation**: Delving into each level, the player must decide when to keep exploring for better cards vs. when to confront the boss.
 - **Risk vs. Reward**: Entering fights unprepared could result in heavy damage or death, while thorough exploration may grant powerful temporary or permanent card effects.
 
 ##### Base Enemies Tactics
-1. **Light Enemies (Type I)**
-   - Low HP, fast movement.
-   - Recommended tactic: Time your attacks between their combos, use dash to evade.
-   - Card Synergy: Damage-boosting or healing cards to withstand longer fights.
-2. **Medium Enemies (Type II)**  
+1. **Medium Enemies (Type I)**  
    - Moderate HP, balanced offense.  
    - Recommended Tactic: Time your attacks between their combos, use dash to evade.  
    - Card Synergy: Damage-boosting or healing cards to withstand longer fights.
 
-3. **Heavy Enemies (Type III)**  
+2. **Heavy Enemies (Type II)**  
    - High HP, slower but with powerful hits.  
    - Recommended Tactic: Maintain distance, wait for their slow wind-up, then strike.  
-   - Card Synergy: Card hearth or DoT (Damage-over-Time) effects help chip away at their large health pool.
+   - Card Synergy: Card healing or DoT (Damage-over-Time) effects help chip away at their large health pool.
 
 ##### 1.3 Boss Fights Tactics
 - **Boss Phase Recognition**: Watch for animation or HP threshold cues that signal a shift in behavior.
@@ -140,7 +136,6 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 ### **Mechanics**
 
-
 1. **Lotería Card System (Dynamic Power-Ups)**  
    - **Inventory Array**: Cards collected go into slots [1–5].  
    - **Usage**: Press the corresponding number key to activate.  
@@ -154,7 +149,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 3. **Time & Inventory Management**  
    - The deeper the level, the tougher the enemies, but the more potent the cards.  
-   - Inventory capacity is limited to **5** active card slots.
+   - Inventory capacity is limited to **6** active card slots (1 Base card + 5 slots).
 
 4. **Procedural/Randomized Elements**  
    - **Enemy spawn points**: Weighted random within each room.  
@@ -171,34 +166,34 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 - **Incremental Complexity**: Each level introduces new card possibilities and tougher enemies.  
 - **Boss Difficulty Spike**: Encourages the player to utilize the best synergy of cards and sharpen their reflexes.
 
-###Lotería Cards
+### Lotería Cards
 
 Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, buff), a **damage** (if ap plicable), and an optional **duration** in seconds. Cards can be found in chests or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
 
-#### Cartas de Armas
+#### Weapon Cards
 
 | **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
 |:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
-| A-001       | Macuahuitl      | Weapon   | 2 pts         | –           | Arma azteca con obsidiana incrustada. Replaces base weapon.                                                                    |
-| A-002       | Cuchillo Obs.   | Weapon   | 1 pt          | –           | Ligero y rápido, ideal para speed combos.                                                                                     |
-| A-003       | Machete         | Weapon   | 2 pts + 1 DoT | –           | +1 de veneno por 2 seg. Ideal vs. enemigos con alta HP (Heavy).                                                               |
+| 1       | Macuahuitl      | Weapon   | 2 pts         | –           | Aztec obsidian weapon. Replaces base weapon.                                                                    |
+| 2       | Obsidiana Knife  | Weapon   | 1 pt          | –           | Light & fast, for quick combos.                                                                                     |
+| 3       | Machete         | Weapon   | 2 pts + 1 DoT | –           | +1 poison for 2 seconds. Ideal vs. enemies with high HP (Heavy).                                                               |
 
-#### Cartas de Transformación
+#### Transformation Cards
 
 | **Card ID** | **Name**         | **Type**         | **Damage** | **Duration** | **Effect / Description**                                                                                                                      |
 |:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
-| T-001       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 barras de vida temporal; el arma se convierte en guitarra con 4 pts de daño por “guitarrazo”.                                              |
-| T-002       | Diablo           | Transformation   | 2 pts (trident) | 10s       | Regeneración automática hasta 6 barras de vida, con un tridente de 2 pts de daño.                                                             |
-| T-003       | Guerrero Maya    | Transformation   | +1 actual weapon | 10s     | +2 barras de resistencia, regen de stamina 1 seg más rápida, y +1 daño al arma equipado.                                                      |
+| 4       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 temporary health bars; weapon turns into a guitar with 4 damage points per hit. 
+| 5       | Diablo           | Transformation   | 2 pts (trident) | 10s       | Automatic regeneration up until 6 health points, with a trident with 2 damage pts per hit.  |
+| 6       | Mayan Warrior    | Transformation   | +1 actual weapon | 10s     | +2 resistance bars, stamina bar regenerates +1 second faster, and adds +1 damage points to equipped weapon.                                                      |
 
 #### 5.1.3 Cartas de Buff
 
 | **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
 |:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| B-001       | Corazón      | Buff      | –         | Instant     | Cura la vida completa y agrega 1 slot extra de vida. Si esa barra extra se pierde, no se regenera sin otra carta Corazón.                              |
-| B-002       | El Valiente  | Buff      | –         | 10s         | Otorga **inmunidad** total al daño por 10s, pero **pierdes 1 barra de vida** al activarla.                                                             |
-| B-003       | El Taco      | Buff      | –         | 10s         | La resistencia (stamina) no baja durante 10s, permitiendo dash o combos ilimitados en ese lapso.                                                       |
-| B-004       | La Calavera  | Buff      | –         | 10s         | Mata enemigos normales de 1 golpe; contra bosses, añade +10 pts de daño al arma por 10s. Efecto muy poderoso, pero rara vez droppea en early game.     |
+| 7       | Corazón      | Buff      | –         | Instant     | Replenishes HP to the fullest, and adds 1 extra health slot. If said extra slot is lost, it won't be recovered unless another card is used.                              |
+| B-002       | El Valiente  | Buff      | –         | 10s         | Grants **immunity** to damage for 10s, but **1 health bar is lost** when activating it.                                                             |
+| 8       | El Taco      | Buff      | –         | 10s         | Stamina remains unchanged for 10s, allowing unlimited dashes or combos in said lapse.                                                       |
+| 9       | La Calavera  | Buff      | –         | 10s         | Eliminates base enemies in a single hit; against bosses, adds +10 damage points to the selected weapon for 10s. Rarely dropped in-game.     |
 
 **Drop Probability (General Guidelines)**:
 - **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons (A-002) or buff cards (B-001, B-003).  
@@ -268,7 +263,7 @@ Basic Room Mockup:
         2. _Interactive_
             1. Chests
             2. Cards
-            3. Tlaxcaltecas
+            3. Mayan Warrior
             4. Mariachis
             5. Quetzalcóatl, Aztec Serpent God
 2. Level 2 - "Into the Abyss"
@@ -309,7 +304,7 @@ Basic Room Mockup:
     1. Alternatively, if the player loses all of their HP, almost all of the progress is reset up until Step 2 of Game Flow. 
 
 ## _Development_
-?????????????
+
 ---
 
 ### **Abstract Classes / Components**
@@ -330,11 +325,24 @@ Basic Room Mockup:
     1. EnemyTlaxcalteca
     2. EnemyMariachi
     3. EnemyDemon
-    4. EnemyQuetzalcoatl
-    5. EnemyAhPuch
+    4. EnemyMayan
+    5. EnemyQuetzalcoatl
+    6. EnemyAhPuch
 3. BaseObject
     1. ObjectCard (pick-up-able, consumable)
-        1. Card
+        1. Weapons
+            1. MacuahuitlC
+            2. Cuchillo ObsidianaC
+            3. MacheteC
+        2. Transformation
+            1. MariachiC
+            2. DiabloC
+            3. MayanWarriorC
+        3. Buff
+            1. CorazonC
+            2. ValienteC
+            3. TacoC
+            4. CalaveraC
 4. BaseObstacle
     1. ObstacleWall (with some variants in texture sprites)
     2. ObstacleColumn
@@ -405,7 +413,7 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
 4. Other
     1. Chest
     2. Door (matching Wall block and Underground Wall block)
-    3. Card (7 miniatures for map appearance, 7 detailed screenings for player UI)
+    3. Card (10 miniatures for map appearance, 10 detailed screenings for player UI)
     4. Base weapon
 
 
