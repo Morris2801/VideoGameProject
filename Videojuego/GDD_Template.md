@@ -106,7 +106,7 @@ Combining keys provides diagonal movement (ex. W+A results in a northeasth direc
     2. Arrows: allow navigation in-menu
 
 ### **Mechanics**
-
+????????????
 1. Lotería Card System (Dynamic Power-Ups)
 	1. Players collect and activate Lotería cards for temporary or permanent abilities depending on the rewards given.
 	2. Some cards give elemental effects (fire, wind, shadow, ice) or transformation abilities (e.g., El Mariachi grants a music-based attack).
@@ -127,9 +127,10 @@ Impletion:
 ---
 ### **Themes**
 
-Basic Room Mockup with Character: 
+Basic Room Mockup: 
 
-![Room prototype](/Videojuego/GDDImages/RoomSketch.jpeg)
+![Empty Room prototype](/Videojuego/GDDImages/RoomSketch.jpeg)
+![Empty Room Prototype with Character](/Videojuego/GDDImages/RoomSketchChar.jpeg)
 
 1. Level 1 - "Pyramid Entrance"
     1. Mood
@@ -185,7 +186,7 @@ Basic Room Mockup with Character:
     1. Alternatively, if the player loses all of their HP, almost all of the progress is reset up until Step 2 of Game Flow. 
 
 ## _Development_
-
+?????????????
 ---
 
 ### **Abstract Classes / Components**
@@ -212,7 +213,12 @@ Basic Room Mockup with Character:
     1. ObjectCard (pick-up-able, consumable)
         1. Card
 4. BaseObstacle
-    1. ObstacleWall
+    1. ObstacleWall (with some variants in texture sprites)
+    2. ObstacleColumn
+    3. Miscellaneous
+        1. Torch
+        2. Vines
+        3. Glyphs
 5. BaseInteractable
     1. ObjectChest (interactable, gives 1 Card each guaranteed)
 
@@ -224,10 +230,12 @@ Basic Room Mockup with Character:
 
 ### **Style Attributes**
 
-What kinds of colors will you be using? Do you have a limited palette to work with? A post-processed HSV map/image? Consistency is key for immersion.
+The color palette to be followed revolves around Earthly, Warm and Ancient tones, particularly dominated by sandstone beiges, greys, greenery, browns and particular accent colors, as well as black for contrast. 
 
-What kind of graphic style are you going for? Cartoony? Pixel-y? Cute? How, specifically? Solid, thick outlines with flat hues? Non-black outlines with limited tints/shades? Emphasize smooth curvatures over sharp angles? Describe a set of general rules depicting your style here.
+The game is pictured as a pixel-art concept, with general cubic shapes governing the general ambiance except for noteworthy aspects of what is being shown, such as the character, enemies, objects, etc. to make them stand out at a glance. Therefore, these will be the ones without sharp angles, aiming for a more detailed shape. Solid edges will be used as well for important elements, but non-black outlines with tints and hue variants will also be relied upon in order to avoid having a monotonous, flat appearance in the object characterization. Weathered objects in the background and context will be interpreted by using color ramps to enhance textures, giving objects a more natural, weathered look. 
 
+
+?????
 Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), are great for teaching the player how to play through trial and error, instead of scripting a lengthy tutorial. What kind of visual feedback are you going to use to let the player know they&#39;re interacting with something? That they \*can\* interact with something?
 
 
@@ -285,56 +293,45 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
 
 ### **Style Attributes**
 
-Again, consistency is key. Define that consistency here. What kind of instruments do you want to use in your music? Any particular tempo, key? Influences, genre? Mood?
+For the style attributes, the game’s music and sound should have a consistent and immersive feel. The instrumentation will primarily consist of chiptune-style synths mixed with orchestral elements to create an atmospheric and adventurous sound. The tempo will vary based on intensity, with moderate pacing for exploration and faster tempos for action-heavy moments, particularly boss fights. Most tracks will be in minor keys to evoke mystery and tension, while major keys will be used sparingly for uplifting moments like victory themes. Influences include classic roguelikes, Dark Souls, Castlevania, and Legend of Zelda, aiming for a dark, mysterious, and adventurous tone. Sound effects will be subtle but distinct, ensuring clear feedback for player actions without overwhelming the music. The overall approach will balance realism with stylized elements, ensuring that auditory cues stand out without clashing with the environment.
 
-Stylistically, what kind of sound effects are you looking for? Do you want to exaggerate actions with lengthy, cartoony sounds (e.g. mario&#39;s jump), or use just enough to let the player know something happened (e.g. mega man&#39;s landing)? Going for realism? You can use the music style as a bit of a reference too.
+The game will need various sound effects to enhance immersion and provide auditory feedback for player actions. Footsteps will sound sharper against stone surfaces. Other environmental sounds include a chests opening, power-ups being used, and melee attacks landing, all designed to feel responsive and natural. Feedback sounds will be crucial for player experience, such as a relieved sigh when gaining health, a surprised grunt when taking damage, and a sad, descending chime upon death.
 
- Remember, auditory feedback should stand out from the music and other sound effects so the player hears it well. Volume, panning, and frequency/pitch are all important aspects to consider in both music _and_ sounds - so plan accordingly!
+The music will be structured to loop per level, maintaining an immersive experience throughout gameplay. Unsettling undertones will build tension, and the music will likely be slow paced. For triumphant moments, a short, victorious fanfare will play upon completing significant challenges, and a melancholic, fading theme will accompany game-over screens to emphasize the weight of failure.
+
 
 ### **Sounds Needed**
 
 1. Effects
-    1. Soft Footsteps (dirt floor)
-    2. Sharper Footsteps (stone floor)
-    3. Soft Landing (low vertical velocity)
-    4. Hard Landing (high vertical velocity)
-    5. Glass Breaking
-    6. Chest Opening
-    7. Door Opening
+    1. Sharp Footsteps (stone floor)
+    2. Chest Opening
+    3. Card picked up
+    4. Card used
 2. Feedback
     1. Relieved &quot;Ahhhh!&quot; (health)
     2. Shocked &quot;Ooomph!&quot; (attacked)
-    3. Happy chime (extra life)
-    4. Sad chime (died)
+    3. Sad chime (died)
 
-_(example)_
 
 ### **Music Needed**
 
-1. Slow-paced, nerve-racking &quot;forest&quot; track
-2. Exciting &quot;castle&quot; track
-3. Creepy, slow &quot;dungeon&quot; track
-4. Happy ending credits track
-5. Rick Astley&#39;s hit #1 single &quot;Never Gonna Give You Up&quot;
-
-_(example)_
+?????
 
 
 ## _Schedule_
 
+??????
 ---
 
-_(define the main activities and the expected dates when they should be finished. This is only a reference, and can change as the project is developed)_
-
-1. develop base classes
-    1. base entity
-        1. base player
+1. Develop base classes ---- 21/3/2025
+    1. Base entity  ---- 14/3/2025
+        1. Base player
         2. base enemy
         3. base block
-  2. base app state
+  2. Base app state  ---- 21/3/2025
         1. game world
         2. menu world
-2. develop player and basic block classes
+2. Develop player and basic block classes
     1. physics / collisions
 3. find some smooth controls/physics
 4. develop other derived classes
