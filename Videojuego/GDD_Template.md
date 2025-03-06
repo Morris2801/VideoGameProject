@@ -65,6 +65,40 @@ In order to finish the game, a player would have to beat all the levels in a sin
 #### Tactics & Strategies
 The player will face 3 types of base-enemies in close-range combat, as well as 2 boss fights. To overcome these obstacles, the player must experiment with different card usage, as well as find a balance on when to fight and when they decide they figure their inventory is just right for a boss fight, thus requiring a bit of exploring and combat to prepare. As they progress in further levels, the benefits reaped from the cards will increase as difficulty does, therefore providing better tools and advantages. Time and inventory management balanced will be of the essence.
 
+##### Overview
+In **MayAztec**, the player must be balance **close-range-combat**, **inventory managment**, and **strategic use of Lotería cards**. With three types of base enemies and two major boss fights, every encounter demands a measured approach:
+
+- **Short-range battles**: The player wields a base weapon (e.g., a macuahuitl) and can enhance or replace it with cards.
+- **Exploration & Preparation**: Delving into each level, the player must decide when to keep exploring for better cards vs. when to confront the boss.
+- **Risk vs. Reward**: Entering fights unprepared could result in heavy damage or death, while thorough exploration may grant powerful temporary or permanent card effects.
+
+##### Base Enemies Tactics
+1. **Light Enemies (Type I)**
+   - Low HP, fast movement.
+   - Recommended tactic: Time your attacks between their combos, use dash to evade.
+   - Card Synergy: Damage-boosting or healing cards to withstand longer fights.
+2. **Medium Enemies (Type II)**  
+   - Moderate HP, balanced offense.  
+   - Recommended Tactic: Time your attacks between their combos, use dash to evade.  
+   - Card Synergy: Damage-boosting or healing cards to withstand longer fights.
+
+3. **Heavy Enemies (Type III)**  
+   - High HP, slower but with powerful hits.  
+   - Recommended Tactic: Maintain distance, wait for their slow wind-up, then strike.  
+   - Card Synergy: Card hearth or DoT (Damage-over-Time) effects help chip away at their large health pool.
+
+##### 1.3 Boss Fights Tactics
+- **Boss Phase Recognition**: Watch for animation or HP threshold cues that signal a shift in behavior.
+- **Positioning**: Move diagonally to avoid linear bullet-hell attacks or area-of-effect strikes.
+- **Card Management**: Ensure at least one slot is free to pick up an on-the-fly power-up if you find a chest in the boss arena.
+
+##### 1.4 Inventory & Time Management
+- **Card Slots**: You have up to 5 Lotería card slots. Decide which effects to keep and which to discard.
+- **Resource Conservation**: Overusing your best cards early may leave you underpowered for the boss.
+- **Retreating**: If a fight seems too risky, backtrack to search for better cards or healing items.
+
+---
+
 ### **Mindset**
 The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with just a base weapon but seeking to improve in a tense and challenging environment. The player must feel the curiosity to explore rooms and gain rewards along the way, but exercise caution due to the threat of going all-in with each enemy the player encounters. They must manage their inventory conservatively, sometimes with a bit of improvisation but always rushing to face the level's boss.
 
@@ -72,54 +106,40 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 ## _Technical_
 
----
+### 3.1 Screens & Menus
 
-### **Screens**
+| **Screen**                | **Description**                                                                                                                 |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| **Title Screen**          | Displays game logo, “Start,” “Options,” “Exit.”                                                                               |
+| **Options**               | Audio volume, keybindings, video settings.                                                                                    |
+| **Game (Main Gameplay)**  | Core level exploration and combat take place here.                                                                            |
+| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–5), base weapon icon, boss HP (when engaged).                                                  |
+| **Pause Menu**            | [ESC] key triggers. Options to resume, adjust settings, or quit to Title.                                                     |
+| **In-Game Options**       | Accessible from Pause. Allows quick audio/controls tweak.                                                                      |
+| **Transition Screen**     | Brief fade-in/out or summary after clearing a level.                                                                          |
+| **Death Screen (Game Over)** | Shows final stats (time played, enemies killed, cards used). Option to restart or quit.                                       |
+| **Victory Screen**        | After defeating the final boss. Displays completion time and final card usage.                                                |
 
-1. Title Screen
-    1. Options
-2. Game
-    1. HUD Game
-    2. Pause Menu
-        1. In-Game Options
-    3. Transition to next level
-4. Death screen (Game Over)
-5. Victory screen
+
 
 ### **Controls**
 
-1. Movement
-	1. W / Up Arrow key: player moves "upwards"/north
-    2. A / Left Arrow key: player moves left/west
-    3. S / Down Arrow key: player moves "downwards"/south
-    4. D / Right Arrow key: player moves right/east
-Combining keys provides diagonal movement (ex. W+A results in a northeasth direction)  
-2. Combat
-	1. Attack with BaseCard: [Spacebar]
-3. Lotería Cards Usage
-	1. F: chest interaction
-    2. Picked-up cards will be automatically asigned to a slot numbered from 1 to 5. The corresponding numbers on the keyboard when clicked will activate the assigned card. 
-    3. If the player comes into contact with a card, and a slot is empty, it will automatically be collected
-    4. If there is no space available, the player would have to use one of their inventoried cards to clear a space
-4. Menus & Options
-	1. [ESC]: brings up Pause menu
-    2. Arrows: allow navigation in-menu
+| **Action**                 | **Default Key**                  | **Description**                                                                          |
+|----------------------------|----------------------------------|------------------------------------------------------------------------------------------|
+| **Move Up**                | W / Up Arrow                      | Moves player character north.                                                            |
+| **Move Left**              | A / Left Arrow                   | Moves player character west.                                                             |
+| **Move Down**              | S / Down Arrow                   | Moves player character south.                                                            |
+| **Move Right**             | D / Right Arrow                  | Moves player character east.                                                             |
+| **Attack (BaseCard)**      | Spacebar                         | Performs a melee attack with the base weapon/card.                                       |
+| **Interact (Chest)**       | F                                | Opens chests, picks up items if available.                                               |
+| **Use Card 1–5**           | Number Keys 1–5                  | Activates the assigned Lotería card.                                                     |
+| **Dash**                   | Shift                            | Brief invulnerability and burst movement. Consumes stamina.                              |
+| **Pause Menu**             | ESC                              | Opens pause menu with in-game options.                                                   |
+| **Menu Navigation**        | Arrow Keys / W, A, S, D + Enter  | Navigate in menus, confirm selections.                                                   |
+
 
 ### **Mechanics**
-????????????
-1. Lotería Card System (Dynamic Power-Ups)
-	1. Players collect and activate Lotería cards for temporary or permanent abilities depending on the rewards given.
-	2. Some cards give elemental effects (fire, wind, shadow, ice) or transformation abilities (e.g., El Mariachi grants a music-based attack).
-lementation:
-	Card Collection: Stored in an inventory system using an array.
-	Effects Application: Each card applies a modifier to player stats using an event-driven system (e.g., attack power, speed boost).
-	Procedural Spawning: Randomized card drops use probability weight tables to ensure variety in every drop.
-2.  Multi-Phase Boss Fights (Soulslike & Zelda-Inspired)
-	1. Bosses have multiple attack phases that change dynamically based on the health left.
-Impletion:
-	Finite-State Machines (FSM): Used to transition between attack patterns based on boss health/stamina.
 
-// Hector se avienta lo de esta sección ^---^
 
 
 ## _Level Design_
