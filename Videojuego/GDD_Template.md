@@ -252,9 +252,9 @@ To prevent the player or enemies from abusing attacks or moves, the following **
    - **Partial invulnerability**: The first 0.2 seconds of the dash make the player invincible, but after that instant he can take damage if it coincides with an enemy attack.
 
 3. **Enemies - Attack Frequency and Detection**.  
-   - ** Light Enemies (Mariachi, Tlaxcaltecas)**.  
-     - Attack frequency**: 1 s cooldown between each hit.  
-     - Detection range**: ~5 cells (or tiles) away; at advanced levels, increases to 6.  
+   - **Light Enemies (Mariachi, Tlaxcaltecas)**.  
+     - **Attack frequency**: 1 s cooldown between each hit.  
+     - **Detection range**: ~5 cells (or tiles) away; at advanced levels, increases to 6.  
    - **Medium (Mayan Warrior)**.  
      - **Attack frequency**: ~1.2 s cooldown; can chain 2 hits if the player is very close.  
      - **Detection range**: ~7 cells; increases to 8 at higher levels.  
