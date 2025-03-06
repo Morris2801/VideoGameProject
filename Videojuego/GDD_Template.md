@@ -109,9 +109,9 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Title Screen**          | Displays game logo, “Start,” “Options,” “Exit.”                                                                               |
 | **Options**               | Audio volume, keybindings, video settings.                                                                                    |
 | **Game (Main Gameplay)**  | Core level exploration and combat take place here.                                                                            |
-| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–5), base weapon icon, boss HP (when engaged).                                                  |
+| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–5), base weapon icon, boss HP (when engaged), Timer Bar.                                                  |
 | **Pause Menu**            | [ESC] key triggers. Options to resume, adjust settings, or quit to Title.                                                     |
-| **In-Game Options**       | Accessible from Pause. Allows quick audio/controls tweak.                                                                      |
+| **In-Game Options**       | Accessible from Pause. Quit to main screen.                                                                     |
 | **Transition Screen**     | Brief fade-in/out or summary after clearing a level.                                                                          |
 | **Death Screen (Game Over)** | Shows final stats (time played, enemies killed, cards used). Option to restart or quit.                                       |
 | **Victory Screen**        | After defeating the final boss. Displays completion time and final card usage.                                                |
@@ -147,11 +147,12 @@ The game is designed to be played with an adventure-oriented and reward-facing m
    - **HP Thresholds**: e.g., 50% HP triggers new pattern or bullet-hell.  
    - **Reward**: Defeating a boss can grant permanent buffs or advanced cards.
 
-3. **Time & Inventory Management**  
+3. **Time & Inventory Management**
+   - Limited time to finish each run.
    - The deeper the level, the tougher the enemies, but the more potent the cards.  
    - Inventory capacity is limited to **6** active card slots (1 Base card + 5 slots).
 
-4. **Procedural/Randomized Elements**  
+5. **Procedural/Randomized Elements**  
    - **Enemy spawn points**: Weighted random within each room.  
    - **Card/Item drops**: Probability-based, scaling with each new level.
 
@@ -267,6 +268,11 @@ You have a secured card:
 - 10% of a rare card (Calavara, machete, obsidian, macuahuilt)
 - 50% of a common card ( Corazon, Valiente, Taco)
 - 30% of a medium card ( Mariachi, Mayan Warriror)
+
+### Timer
+In each level you will have a limited time.
+- In the first level 7 min (so you have time to get used to the game mechanics).
+- In the second level 4 min (already with experience you know what to do and how to face the challenges)
   
 ---
 
