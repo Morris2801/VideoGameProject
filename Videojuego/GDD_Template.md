@@ -243,26 +243,26 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 To prevent the player or enemies from abusing attacks or moves, the following **cooldowns** and reaction times are set:
 
 1. **Main Character Attacks  
-   - Time between hits**: 0.5 s cooldown after a single attack before being able to initiate another one.  
-   - 3-hit combo**: Each hit of the combo has ~0.3 s delay. After the third hit, there is an overall **cooldown** of 0.8-1 s before restarting the combo.  
+   - **Time between hits**: 0.5 s cooldown after a single attack before being able to initiate another one.  
+   - **3-hit combo**: Each hit of the combo has ~0.3 s delay. After the third hit, there is an overall **cooldown** of 0.8-1 s before restarting the combo.  
    - Justification**: Avoids “spamming” attacks and forces the player to measure times, giving enemies a chance to respond.
 
-2. **Dash Collapse  
-   - Dash**: 2 seconds of cooldown after using it (the player can't darshear again until those 2 seconds are over).  
-   - Partial invulnerability**: The first 0.2 seconds of the dash make the player invincible, but after that instant he can take damage if it coincides with an enemy attack.
+2. **Dash Collapse**  
+   - **Dash**: 2 seconds of cooldown after using it (the player can't darshear again until those 2 seconds are over).  
+   - **Partial invulnerability**: The first 0.2 seconds of the dash make the player invincible, but after that instant he can take damage if it coincides with an enemy attack.
 
 3. **Enemies - Attack Frequency and Detection**.  
-   - Light Enemies (Mariachi, Tlaxcaltecas)** **.  
+   - ** Light Enemies (Mariachi, Tlaxcaltecas)**.  
      - Attack frequency**: 1 s cooldown between each hit.  
      - Detection range**: ~5 cells (or tiles) away; at advanced levels, increases to 6.  
-   - Medium (Mayan Warrior)**.  
-     - Attack frequency**: ~1.2 s cooldown; can chain 2 hits if the player is very close.  
-     - Detection range**: ~7 cells; increases to 8 at higher levels.  
+   - **Medium (Mayan Warrior)**.  
+     - **Attack frequency**: ~1.2 s cooldown; can chain 2 hits if the player is very close.  
+     - **Detection range**: ~7 cells; increases to 8 at higher levels.  
    - **Heavy (El Diablo Replica)**.  
-     - Attack frequency**: 1.5 s cooldown; enemy pauses for a short time after each teleport before attacking.  
-     - Detection range**: ~10 cells; maintains intense pursuit until breaking line of sight.
+     - **Attack frequency**: 1.5 s cooldown; enemy pauses for a short time after each teleport before attacking.  
+     - **Detection range**: ~10 cells; maintains intense pursuit until breaking line of sight.
 
-**Note**: These values are estimates for balanced combat; should be tested in *playtesting* and adjusted according to desired difficulty. Stress tests are recommended to verify that the player cannot “break” the game by spamming combos or dashes without consequences.
+**Note** : These values are estimates for balanced combat; should be tested in *playtesting* and adjusted according to desired difficulty. Stress tests are recommended to verify that the player cannot “break” the game by spamming combos or dashes without consequences.
 
 
 
