@@ -104,17 +104,16 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 ### 3.1 Screens & Menus
 
-| **Screen**                | **Description**                                                                                                                 |
+| **Screen**                | **Description**                                                                                                               |
 |---------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | **Title Screen**          | Displays game logo, “Start,” “Options,” “Exit.”                                                                               |
-| **Options**               | Consult statistics
-                                                                                    |
+| **Options**               | Consult statistics                                                                                                            |
 | **Game (Main Gameplay)**  | Core level exploration and combat take place here.                                                                            |
-| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–5), base weapon icon, boss HP (when engaged), Timer Bar.                                                  |
-| **Pause Menu**            | [ESC] key triggers. Options to resume, adjust settings, or quit to Title.                                                     |
-| **In-Game Options**       | Accessible from Pause. Quit to main screen.                                                                     |
+| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–5), base weapon icon, boss HP (when engaged), Timer Bar.                 |
+| **Pause Menu**            | [ESC] key triggers. Options to resume, adjust settings, or quit to Title.                                                    |
+| **In-Game Options**       | Accessible from Pause. Quit to main screen.                                                                                   |
 | **Transition Screen**     | Brief fade-in/out or summary after clearing a level.                                                                          |
-| **Death Screen (Game Over)** | Shows final stats (time played, enemies killed, cards used). Option to restart or quit.                                       |
+| **Death Screen (Game Over)** | Shows final stats (time played, enemies killed, cards used). Option to restart or quit.                                      |
 | **Victory Screen**        | After defeating the final boss. Displays completion time and final card usage.                                                |
 
 
