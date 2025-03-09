@@ -420,15 +420,19 @@ Basic Room Mockup:
 
 ### **Style Attributes**
 
-The color palette to be followed revolves around Earthly, Warm and Ancient tones, particularly dominated by sandstone beiges, greys, greenery, browns and particular accent colors, as well as black for contrast. 
+The color palette to be followed revolves around Earthly, Warm and Ancient tones, particularly dominated by sandstone beiges, greys, greenery, browns and particular accent colors, as well as black for contrast.
 
-The game is pictured as a pixel-art concept, with general cubic shapes governing the general ambiance except for noteworthy aspects of what is being shown, such as the character, enemies, objects, etc. to make them stand out at a glance. Therefore, these will be the ones without sharp angles, aiming for a more detailed shape. Solid edges will be used as well for important elements, but non-black outlines with tints and hue variants will also be relied upon in order to avoid having a monotonous, flat appearance in the object characterization. Weathered objects in the background and context will be interpreted by using color ramps to enhance textures, giving objects a more natural, weathered look. 
+The game is pictured as a pixel-art concept, with general cubic shapes governing the general ambiance except for noteworthy aspects of what is being shown, such as the character, enemies, objects, etc. to make them stand out at a glance. Therefore, these will be the ones without sharp angles, aiming for a more detailed shape. Solid edges will be used as well for important elements, but non-black outlines with tints and hue variants will also be relied upon in order to avoid having a monotonous, flat appearance in the object characterization. Weathered objects in the background and context will be interpreted by using color ramps to enhance textures, giving objects a more natural, weathered look.
 
+Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), are great for teaching the player how to play through trial and error, instead of scripting a lengthy tutorial.
 
-?????
-Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), are great for teaching the player how to play through trial and error, instead of scripting a lengthy tutorial. What kind of visual feedback are you going to use to let the player know they&#39;re interacting with something? That they \*can\* interact with something?
-
-
+For interactive elements, visual feedback should feel intuitive and fit naturally within the pixel-art style and color philosophy:
+- Subtle Motion and Animation: Gentle bobbing or floating for collectibles and quest items, swaying or tilting for doors, levers, and buttons when the player is near.
+- Color and Lighting Variations: Slight hue shifts to distinguish interactable objects, soft lighting pulses or glows, and weathering differences to make usable objects stand out naturally.
+- Contextual Edge Highlights: Instead of solid black outlines, interactive objects may have subtle colored highlights when approached, ensuring clarity without disrupting the aesthetic.
+- Environmental Cues: Worn-out ground textures in front of frequently used doors, polished handles on chests and levers, or NPCs gesturing toward significant objects to provide guidance.
+- Particle Effects & Overlays: Dust puffs when approaching interactable objects, faint sparkles or glow for magical or rare items, and minimalistic pixel-art icons or symbols appearing subtly when close to an interactable element.
+These elements ensure that interactions feel organic and help guide players naturally without breaking immersion.
 
 
 ### **Graphics Needed**
