@@ -362,7 +362,7 @@ Basic Room Mockup:
 
 
 ### **Game Flow**
-
+![GameFlow Diagram](/Videojuego/GDDImages/GameFlow%20(1).png)
 1. Start screen.
 2. Introductory story-text appears, telling "why" the player starts where they start.
 3. Player spawns in a room with doors to their sides.
