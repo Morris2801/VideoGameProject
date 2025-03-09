@@ -5,7 +5,8 @@
 
 ---
 
-##### **Copyright notice / author information / boring legal stuff nobody likes**
+###### Tecnológico de Monterrey
+![School Logo.](https://www.google.com/url?sa=i&url=https%3A%2F%2Fjavier.rodriguez.org.mx%2Fprojects%2Fitesm-artwork&psig=AOvVaw0Kj6z3fpdGk_mKd-fLrFxj&ust=1741637314009000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLCYg93m_YsDFQAAAAAdAAAAABAE)
 ###### Authors: 
 - Mauricio Emilio Monroy González
 - Hector Lugo
@@ -54,7 +55,7 @@ Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Ma
 
 
 ### **Gameplay**
-The player's character exists in a 2D world, contextualized in an ancient underground pyramid, with distinct levels that seek to make two runs as  different as possible. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the allowed time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
+The player's character exists in a 2D pixel world, contextualized in an ancient underground pyramid, with 2 distinct levels that seek to make two runs as different as possible. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the allowed time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
 
 #### Game Objective
 The objective is to gradually defeat the ancient gods and break their curses, in order to escape the infinite cycle of death and resurrection they've thrust yourself upon. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
