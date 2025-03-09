@@ -260,8 +260,8 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 #### Timer Justifications
 In each level you will have a limited time.
-- In the first level 7 min (so you have time to get used to the game mechanics).
-- In the second level 4 min (already with experience you know what to do and how to face the challenges)
+- In the first level 10 min (so you have time to get used to the game mechanics).
+- In the second level 7 min (already with experience you know what to do and how to face the challenges)
 
 ### Combat and Timers
 
@@ -289,9 +289,25 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 
 **Note** : These values are estimates for balanced combat; should be tested in *playtesting* and adjusted according to desired difficulty. Stress tests are recommended to verify that the player cannot “break” the game by spamming combos or dashes without consequences.
 
+### Procedural/Randomized Elements
+| | **Level 1** | **Level 2** |
+|---|----------|------------|
+| **Rooms** | 12 Possible choices: <ul><li>You enter a starting room</li><li>You have multiple paths</li><li>Some doors are closed and you can't pass through them</li><li>All accessible paths lead to the boss.</li></ul> | 15 cuartos de dungeon: <ul><li>More possibilities to explore and try to reach the boss</li><li>All accessible paths lead to the boss.</li></ul> |
+| **Enemies** | 4 to 1 enemy in each dungeon room: <ul><li>Can do 1, 2, 3, 4 enemies in each room</li></ul> | From 2 to 5 enemies in each room: <ul><li>Higher possibility of high-category enemies</li></ul> |
+| **Chests** | A chest has a 20% chance in every room of the dungeon at this level. | A chest has a 15% chance in every room of the dungeon at this level. |
+
+| **Enemy Probabilities**   | **Level 1**                  | **Level 2**                  |
+|---------------------------|------------------------------|------------------------------|
+| **Mariachi** (Light)      | ~40% of appearances         | ~20% of appearances         |
+| **Tlaxcaltecas** (Light)  | ~40% of appearances         | ~20% of appearances         |
+| **Maya Warrior** (Medium) | ~15% of appearances         | ~40% of appearances         |
+| **Diablo (Replica)** (Heavy) | ~5% of appearances      | ~20% of appearances         |
+| **Boss Quetzalcoatl**     | Only in the final boss room (100% chance if it's the last room in Level 1) | 0% in normal rooms |
+| **Boss Ah Puch**          | 0% in normal rooms         | Only in the final boss room (100% chance if it's the last room in Level 2) |
+
 
 ### Chest 
-**The chest appears in a probability of 25% in the room.**
+**Card Probabilities**
 You have a secured card:
 - 10% of a rare card (Calavara, machete, obsidian, macuahuilt)
 - 50% of a common card ( Corazon, Valiente, Taco)
