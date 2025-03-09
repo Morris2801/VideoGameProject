@@ -292,7 +292,7 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 ### Procedural/Randomized Elements
 | | **Level 1** | **Level 2** |
 |---|----------|------------|
-| **Rooms** | 12 Possible choices: <ul><li>You enter a starting room</li><li>You have multiple paths</li><li>Some doors are closed and you can't pass through them</li><li>All accessible paths lead to the boss.</li></ul> | 15 cuartos de dungeon: <ul><li>More possibilities to explore and try to reach the boss</li><li>All accessible paths lead to the boss.</li></ul> |
+| **Rooms** | 12 Possible choices: <ul><li>You enter a starting room</li><li>You have multiple paths</li><li>Some doors are closed and you can't pass through them</li><li>All accessible paths lead to the boss.</li></ul> | 15 Possible choices: <ul><li>More possibilities to explore and try to reach the boss</li><li>All accessible paths lead to the boss.</li></ul> |
 | **Enemies** | 4 to 1 enemy in each dungeon room: <ul><li>Can do 1, 2, 3, 4 enemies in each room</li></ul> | From 2 to 5 enemies in each room: <ul><li>Higher possibility of high-category enemies</li></ul> |
 | **Chests** | A chest has a 20% chance in every room of the dungeon at this level. | A chest has a 15% chance in every room of the dungeon at this level. |
 
