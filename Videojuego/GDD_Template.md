@@ -102,8 +102,18 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 ## _Technical_
 
-### 3.1 Screens & Menus
+### Main Character Stats & Balance
 
+| **Attribute**    | **Base Value**         | **Details**                                                                                                                                           | **Justification**                                                                    |
+| ---------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **HP**           | 10 Life Bars           | Each bar is 1HP, automatically recovers 5 bars without using cards.                                                                                   | Survives 5 hits from basic enemies and 2-3 from difficult enemies.                   |
+| **Stamina**      | 5 bars                 | Each dash consumes 1 bar. Regenerates every 1.5 sec per bar.                                                                                          | Allows 5 dashes without being completely defenseless, but still requires management. |
+| **Card Slots**   | 5+1                    | - 1 slot for the base weapon. 5 for Lotería cards.                                                                                                    | Balanced so that the player cannot farm cards excessively and must manage resources. |
+| **Attack Speed** |                        | **3-hit combo**: Each hit of the combo has \~0.3s delay. After the third hit, there is an overall **cooldown** of 0.8-1s before restarting the combo. | Allows fluid gameplay without overusing combos.                                      |
+| **Base Damage**  | 3 pts with base weapon | Allows balanced combat: normal enemies die in 4 hits, difficult ones in 4-6, bosses in 15-25 (without using cards).                                   |                                                 
+
+
+### Screens & Menus
 | **Screen**                | **Description**                                                                                                               |
 |---------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | **Title Screen**          | Displays game logo, “Start,” “Options,” “Exit.”                                                                               |
@@ -175,19 +185,19 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 | **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
 |:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
-| 1       | Macuahuitl      | Weapon   | 2 pts         | –           | Aztec obsidian weapon. Replaces base weapon.                                                                    |
-| 2       | Obsidiana Knife  | Weapon   | 1 pt          | –           | Light & fast, for quick combos.                                                                                     |
-| 3       | Machete         | Weapon   | 2 pts + 1 DoT | –           | +1 poison for 2 seconds. Ideal vs. enemies with high HP (Heavy).                                                               |
+| 1       | Macuahuitl      | Weapon   | 5 pts         | 10 hits           | Aztec obsidian weapon. Replaces base weapon.                                                                    |
+| 2       | Obsidiana Knife  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos.                                                                                     |
+| 3       | Machete         | Weapon   | 3 pts + 1 DoT | 7 hits           | +1 poison for 2 seconds. Ideal vs. enemies with high HP (Heavy).                                                               |
 
 #### Transformation Cards
 
 | **Card ID** | **Name**         | **Type**         | **Damage** | **Duration** | **Effect / Description**                                                                                                                      |
 |:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
 | 4       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 temporary health bars; weapon turns into a guitar with 4 damage points per hit. 
-| 5       | Diablo           | Transformation   | 2 pts (trident) | 10s       | Automatic regeneration up until 6 health points, with a trident with 2 damage pts per hit.  |
-| 6       | Mayan Warrior    | Transformation   | +1 actual weapon | 10s     | +2 resistance bars, stamina bar regenerates +1 second faster, and adds +1 damage points to equipped weapon.                                                      |
+| 5       | Diablo           | Transformation   | 3 pts (trident) | 10s       | Automatic regeneration up until 6 health points, with a trident with 2 damage pts per hit.  |
+| 6       | Mayan Warrior    | Transformation   | +2 actual weapon | 10s     | +2 resistance bars, stamina bar regenerates +1 second faster, and adds +1 damage points to equipped weapon.                                                      |
 
-#### 5.1.3 Cartas de Buff
+#### Cartas de Buff
 
 | **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
 |:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -211,16 +221,16 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 | **Enemy**             | **HP Range** | **Damage** | **Behavior**                                                                                 | **Drop Probability**                                                             |
 |:---------------------:|:-----------:|:---------:|:--------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-| **El Músico / Mariachi** (Light) | 10–15       | 1–2       | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier (A-002) or minor buffs (B-001, B-003).                  |
-| **Tlaxcaltecas** (Light)         | 10–15       | 1–2       | Appear in small groups with basic melee.                                                    | ~15% chance for A-002 or a buff card.                                            |
-| **Guerrero Maya** (Medium)       | 20–25       | 2–3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons (A-001, A-003) or T-003.                        |
-| **El Diablo (Replica)** (Heavy)  | 35–40       | 3–4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).            |
+| **El Músico / Mariachi** (Light) | 10       | 1      | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier (A-002) or minor buffs (B-001, B-003).                  |
+| **Tlaxcaltecas** (Light)         | 15       | 2       | Appear in small groups with basic melee.                                                    | ~15% chance for A-002 or a buff card.                                            |
+| **Guerrero Maya** (Medium)       | 20       | 3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons (A-001, A-003) or T-003.                        |
+| **El Diablo (Replica)** (Heavy)  | 35       | 4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).            |
   
 
 ### Bosses
 
 1. **Quetzcoalt (Serpent Form)**  
-   - **HP**: ~80–100  
+   - **HP**: ~85  
    - **Damage**: 4–6  
    - **Behavior**: Floats in serpent form, spitting acid or energy orbs.  
    - **Phase 1**: Sweeping tail attacks, occasional projectile.  
@@ -228,12 +238,29 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
    - **Drop**: 5–10% chance for T-001 (Mariachi) or T-002 (Diablo), plus guaranteed healing/resources, and the blessing of God you get a greater resistance.
 
 2. **Ah Puch (God of Death)**  
-   - **HP**: ~120–140  
+   - **HP**: ~110  
    - **Damage**: 5–7  
    - **Behavior**: Humanoid form, performs heavy physical strikes and launches fire zones.  
    - **Phase 1**: Straightforward melee combos + fire projectiles.  
    - **Phase 2** (HP < 50%): Expands fire zones, summons undead minions or orbs.  
    - **Drop**: 5–10% chance for T-002 (Diablo) or T-003 (Guerrero Maya), plus a permanent unlock if design allows, and two bars of life.
+
+**Escalado de Dificultad en Niveles**
+
+| **Enemy**             | **Level 1 (HP/Damage)** | **level 2 (HP/Damage)** | 
+|:-----------------------:|:---------------------:|:---------------------:|
+| **Mariachi**            | 10/1                  | 13/1             |          
+| **Tlaxcaltecas**        | 15/1               | 17/2                | 
+| **Guerrero Maya**       | 20/2                  | 25/2               | 
+| **Diablo (Réplica)**    | 35/3                  | 40/4               | 
+| **Boss Quetzalcóatl**   | 85/4                  | N/A                   | 
+| **Boss Ah Puch**        | N/A                   | 105/6                 | 
+| **Time limit**| 10 min | 7 min|
+
+#### Timer Justifications
+In each level you will have a limited time.
+- In the first level 7 min (so you have time to get used to the game mechanics).
+- In the second level 4 min (already with experience you know what to do and how to face the challenges)
 
 ### Combat and Timers
 
@@ -269,11 +296,7 @@ You have a secured card:
 - 50% of a common card ( Corazon, Valiente, Taco)
 - 30% of a medium card ( Mariachi, Mayan Warriror)
 
-### Timer
-In each level you will have a limited time.
-- In the first level 7 min (so you have time to get used to the game mechanics).
-- In the second level 4 min (already with experience you know what to do and how to face the challenges)
-  
+ 
 ---
 
 ## _Level Design_
