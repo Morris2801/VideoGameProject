@@ -592,6 +592,10 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 ![Base enemy spritesheet: Mariachi](/Videojuego/GDDImages/mariachiSpriteSheet.jpeg)
 
+**Mariachi Enemy Card**
+
+![Mariachi Card](/Videojuego/GDDImages/mariachiCard.jpeg)
+
 **BaseWeapon Card to show in player's UI**
 
 ![Macahuitl Card](/Videojuego/GDDImages/baseweaponCard.jpeg)
