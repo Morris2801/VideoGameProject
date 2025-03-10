@@ -395,7 +395,7 @@ Basic Room Mockup:
     4. If the player beats the foe, a permanent buff is gained and the level is cleared, allowing the player to continue to the next level.
 6. When both levels are cleared in a single run, the player wins and the game ends. 
     1. Alternatively, if the player loses all of their HP, almost all of the progress is reset up until Step 2 of Game Flow. 
-
+![MAPA IDEA](/Videojuego/GDDImages/Mapa%20Idea.jpeg)
 ---
 
 ## _Development_
