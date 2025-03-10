@@ -410,6 +410,10 @@ Basic Room Mockup:
     3. BaseObject
 2. BaseObstacles
 3. BaseInteractable
+4. Level
+5. Room
+6. TextLabel
+7. Rect
 
 
 ### **Derived Classes / Component Compositions**
@@ -447,6 +451,10 @@ Basic Room Mockup:
         3. Runes
 5. BaseInteractable
     1. ObjectChest (interactable, gives 1 Card each guaranteed)
+6. Level1
+7. Level2
+8. BossRoom
+9. OrdinaryRoom
 
 ---
 
