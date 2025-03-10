@@ -580,9 +580,9 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 **GUI Mockups**
 
-![GUI Mockup V1](/Videojuego/GDDImages/GUI Images.jpg)
+![GUI Mockup V1](/Videojuego/GDDImages/GUIImages.jpg)
 
-![GUI Mokcup V2](/Videojuego/GDDImages/GUI Images 2.jpeg)
+![GUI Mokcup V2](/Videojuego/GDDImages/GUIImages2.jpeg)
 
 **Main Character's spritesheet** 
 
