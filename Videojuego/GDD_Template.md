@@ -5,8 +5,16 @@
 
 ---
 
-###### Tecnológico de Monterrey
-![School Logo.](https://www.google.com/url?sa=i&url=https%3A%2F%2Fjavier.rodriguez.org.mx%2Fprojects%2Fitesm-artwork&psig=AOvVaw0Kj6z3fpdGk_mKd-fLrFxj&ust=1741637314009000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLCYg93m_YsDFQAAAAAdAAAAABAE)
+###### Tecnológico de Monterrey, Campus Santa Fe
+![School Logo.](/Videojuego/GDDImages/Tecnologico-Monterrey-Logo.jpg)
+
+###### _TC2005B: Construcción de software y toma de decisiones_
+
+###### Profesores: 
+- Desarrollo de videojuegos - Gilberto Echeverría Furió
+- Desarrollo Web - Octavio Navarro Hinojosa 
+- Base de datos y análisis y modelación de sistemas de software - Esteban Castillo Juarez
+
 ###### Authors: 
 - Mauricio Emilio Monroy González
 - Hector Lugo
@@ -44,7 +52,8 @@
     1. [Style Attributes](#style-attributes-1)
     2. [Sounds Needed](#sounds-needed)
     3. [Music Needed](#music-needed)
-8. [Schedule](#schedule)
+8. [Illustrations](#illustrations)
+9. [Schedule](#schedule)
 
 ## _Game Design_
 
@@ -58,10 +67,14 @@ Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Ma
 The player's character exists in a 2D pixel world, contextualized in an ancient underground pyramid, with 2 distinct levels that seek to make two runs as different as possible. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the allowed time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
 
 #### Game Objective
-The objective is to gradually defeat the ancient gods and break their curses, in order to escape the infinite cycle of death and resurrection they've thrust yourself upon. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
+_Background_
+Legend speaks of a time where gods were not as pleased with prehispanic civilizations as history has led us to believe. The gods had gifted them with their knowledge, abundance, and power, but began to feel disrespected. They watched as mortals grew complacent, failing to honor the sacred balance between humanity, nature, and the divine. Temples were left unmaintained, rituals dwindled, and acts of greed marred the harmony the gods once sought to protect. Together, the civilizations turned to a sacred prophecy that spoke of a chosen warrior, one who would represent the best of whatever good was left in them. Together, they tasked that warrior to venture into the Lost Pyramid, the original point of contact with the gods, in hopes of making them change their mind before the world as they know it collapses. 
+That warrior, is you. What everyone did not know, is that once you enter the Pyramid, the only outcomes are your eternal deaths or emerging victorious.
+
+The objective of the game is to gradually defeat the ancient gods  in order to escape the infinite cycle of death and resurrection they've thrust yourself upon, and proving yourself as the chosen warrior, saving all of the groups. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
 
 #### Obstacles and Challenges
-In order to finish the game, a player would have to beat all the levels in a single, continuous attempt. The player must fight with enemies spawning randomly in randomly generated room layouts, as well as manage inventory consumables adequately and strategically. All cards act as consumables, some with more, some with less. Once a card's allowed uses are spent, the player must search for more (either through combat, since defeated enemies have a chance to drop a card, or  through exploring) to refill their acting inventory. Upon taking significant damage, the current "game run" will be over, and most of the player's progress will be lost, and they will have to traverse the levels from the beginning. They will only be able to start over with the last card they added to their inventory from their previous life, along with a basic default card, forcing the player to repeatedly attempt to complete the game from scratch. Also, the gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore the level, prepare their inventory with what they'd like to use for boss fights and choose which challenges to face. The greater the adventure, the better the reward.
+In order to finish the game, a player would have to beat all the levels in a single, continuous attempt. The player must fight with enemies spawning randomly in randomly generated room layouts, as well as manage inventory consumables adequately and strategically. Enemies will try to attack the player, either with melee hits or in the boss's cases, with ranged attacks. All cards act as consumables, some with more, some with less. Once a card's allowed uses are spent, the player must search for more (either through combat, since defeated enemies have a chance to drop a card, or  through exploring) to refill their acting inventory. Upon taking significant damage and depleting all of the player's Health Points, the current "game run" will be over, and most of the player's progress will be lost, and they will have to traverse the levels from the beginning. They will only be able to start over with the last card they added to their inventory from their previous life, along with a basic default card, forcing the player to repeatedly attempt to complete the game from scratch. Also, the gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore the level, prepare their inventory with what they'd like to use for boss fights and choose which challenges to face. The greater the adventure, the better the reward.
 
 #### Tactics & Strategies
 The player will face 4 types of base-enemies in close-range combat, as well as 2 boss fights. To overcome these obstacles, the player must experiment with different card usage, as well as find a balance on when to fight and when they decide they figure their inventory is just right for a boss fight, thus requiring a bit of exploring and combat to prepare. As they progress in further levels, the benefits reaped from the cards will increase as difficulty does, therefore providing better tools and advantages. Time and inventory management will be essential.
@@ -530,6 +543,8 @@ The music will be structured to loop per level, maintaining an immersive experie
 - Boss music level 2
 - Victory music
 - Game over/death music
+
+## _Illustrations_
 
 
 ## _Schedule_
