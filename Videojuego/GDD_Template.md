@@ -10,7 +10,7 @@
 
 ###### _TC2005B: Construcción de software y toma de decisiones_
 
-###### Profesores: 
+###### Teachers: 
 - Desarrollo de videojuegos - Gilberto Echeverría Furió
 - Desarrollo Web - Octavio Navarro Hinojosa 
 - Base de datos y análisis y modelación de sistemas de software - Esteban Castillo Juarez
@@ -20,6 +20,7 @@
 - Hector Lugo
 - Nicolas Quintana
 
+--- 
 ##
 ## _Index_
 
@@ -54,6 +55,10 @@
     3. [Music Needed](#music-needed)
 8. [Illustrations](#illustrations)
 9. [Schedule](#schedule)
+
+
+
+---
 
 ## _Game Design_
 
@@ -107,14 +112,14 @@ In **MayAztec**, the player must balance **close-range-combat**, **inventory man
 - **Resource Conservation**: Overusing your best cards early may leave you underpowered for the boss.
 - **Retreating**: If a fight seems too risky, backtrack to search for better cards or healing items.
 
----
-
 ### **Mindset**
 The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with just a base weapon but seeking to improve in a tense and challenging environment. The player must feel the curiosity to explore rooms and gain rewards along the way, but exercise caution due to the threat of going all-in with each enemy the player encounters. They must manage their inventory conservatively, sometimes with a bit of improvisation but always rushing to face the level's boss.
 
-
+---
 
 ## _Technical_
+
+---
 
 ### Main Character Stats & Balance
 
@@ -139,7 +144,6 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Transition Screen**     | Brief fade-in/out or summary after clearing a level.                                                                          |
 | **Death Screen (Game Over)** | Shows final stats (time played, enemies killed, cards used). Option to restart or quit.                                      |
 | **Victory Screen**        | After defeating the final boss. Displays completion time and final card usage.                                                |
-
 
 
 ### **Controls**
@@ -180,22 +184,22 @@ The game is designed to be played with an adventure-oriented and reward-facing m
    - **Enemy spawn points**: Weighted random within each room.  
    - **Card/Item drops**: Probability-based, scaling with each new level.
 
-## Considerations
+### Considerations
 
-### Mindset & Player Experience
+#### Mindset & Player Experience
 - **Adventure-Oriented**: Encourage players to explore each room, face unknown threats, and chase potential rewards.
 - **Reward-Facing**: The tension between pressing forward or backtracking for more cards fosters strategic planning.
 - **Caution**: Overconfidence can lead to a quick defeat; careful resource usage is key.
 
-### Difficulty & Progression
+#### Difficulty & Progression
 - **Incremental Complexity**: Each level introduces new card possibilities and tougher enemies.  
-- **Boss Difficulty Spike**: Encourages the player to utilize the best synergy of cards and sharpen their reflexes.
+- **Boss Difficulty Spike**: Encourages the player to use the best synergy of cards and sharpen their reflexes.
 
-### Lotería Cards
+#### Lotería Cards
 
-Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, buff), a **damage** (if ap plicable), and an optional **duration** in seconds. Cards can be found in chests or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
+Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, buff), a **damage** (if applicable), and an optional **duration** in seconds. Cards can be found in chests or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
 
-#### Weapon Cards
+##### Weapon Cards
 
 | **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
 |:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
@@ -203,7 +207,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 | 2       | Obsidiana Knife  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos.                                                                                     |
 | 3       | Machete         | Weapon   | 3 pts + 1 DoT | 7 hits           | +1 poison for 2 seconds. Ideal vs. enemies with high HP (Heavy).                                                               |
 
-#### Transformation Cards
+##### Transformation Cards
 
 | **Card ID** | **Name**         | **Type**         | **Damage** | **Duration** | **Effect / Description**                                                                                                                      |
 |:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
@@ -211,14 +215,14 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 | 5       | Diablo           | Transformation   | 3 pts (trident) | 10s       | Automatic regeneration up until 6 health points, with a trident with 2 damage pts per hit.  |
 | 6       | Mayan Warrior    | Transformation   | +2 actual weapon | 10s     | +2 resistance bars, stamina bar regenerates +1 second faster, and adds +1 damage points to equipped weapon.                                                      |
 
-#### Cartas de Buff
+##### Cartas de Buff
 
 | **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
 |:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 7       | Corazón      | Buff      | –         | Instant     | Replenishes HP to the fullest, and adds 1 extra health slot. If said extra slot is lost, it won't be recovered unless another card is used.                              |
-| B-002       | El Valiente  | Buff      | –         | 10s         | Grants **immunity** to damage for 10s, but **1 health bar is lost** when activating it.                                                             |
-| 8       | El Taco      | Buff      | –         | 10s         | Stamina remains unchanged for 10s, allowing unlimited dashes or combos in said lapse.                                                       |
-| 9       | La Calavera  | Buff      | –         | 10s         | Eliminates base enemies in a single hit; against bosses, adds +10 damage points to the selected weapon for 10s. Rarely dropped in-game.     |
+| 8       | El Valiente  | Buff      | –         | 10s         | Grants **immunity** to damage for 10s, but **1 health bar is lost** when activating it.                                                             |
+| 9       | El Taco      | Buff      | –         | 10s         | Stamina remains unchanged for 10s, allowing unlimited dashes or combos in said lapse.                                                       |
+| 10       | La Calavera  | Buff      | –         | 10s         | Eliminates base enemies in a single hit; against bosses, adds +10 damage points to the selected weapon for 10s. Rarely dropped in-game.     |
 
 **Drop Probability (General Guidelines)**:
 - **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons (A-002) or buff cards (B-001, B-003).  
@@ -227,11 +231,11 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 - **Chests**: Weighted random from the full set (A-001 to B-004), guaranteed at least 1 card.  
 - **Boss Fights**: 5–10% chance for transformations (T-001, T-002) plus guaranteed resources.
 
----
 
-### Enemies & Bosses
 
-#### Normal Enemies
+#### Enemies & Bosses
+
+##### Normal Enemies
 
 | **Enemy**             | **HP Range** | **Damage** | **Behavior**                                                                                 | **Drop Probability**                                                             |
 |:---------------------:|:-----------:|:---------:|:--------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
@@ -241,7 +245,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 | **El Diablo (Replica)** (Heavy)  | 35       | 4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).            |
   
 
-### Bosses
+#### Bosses
 
 1. **Quetzcoalt (Serpent Form)**  
    - **HP**: ~85  
@@ -259,7 +263,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
    - **Phase 2** (HP < 50%): Expands fire zones, summons undead minions or orbs.  
    - **Drop**: 5–10% chance for T-002 (Diablo) or T-003 (Guerrero Maya), plus a permanent unlock if design allows, and two bars of life.
 
-**Escalado de Dificultad en Niveles**
+**Level difficulties**
 
 | **Enemy**             | **Level 1 (HP/Damage)** | **level 2 (HP/Damage)** | 
 |:-----------------------:|:---------------------:|:---------------------:|
@@ -276,7 +280,7 @@ In each level you will have a limited time.
 - In the first level 10 min (so you have time to get used to the game mechanics).
 - In the second level 7 min (already with experience you know what to do and how to face the challenges)
 
-### Combat and Timers
+##### Combat and Timers
 
 To prevent the player or enemies from abusing attacks or moves, the following **cooldowns** and reaction times are set:
 
@@ -326,7 +330,7 @@ You have a secured card:
 - 50% of a common card ( Corazon, Valiente, Taco)
 - 30% of a medium card ( Mariachi, Mayan Warriror)
 
- 
+
 ---
 
 ## _Level Design_
@@ -346,7 +350,7 @@ Basic Room Mockup:
         1. _Ambient_
             1. Vines
             2. Columns
-            3. Glyphs
+            3. Runes
             4. Stone tile variants
             5. Pyramid wall tiles
         2. _Interactive_
@@ -362,7 +366,7 @@ Basic Room Mockup:
         1. _Ambient_
             1. Vines
             2. Columns
-            3. Glyphs
+            3. Runes
             4. Torches
             5. Stone tile variants
             6. Underground wall tiles
@@ -391,6 +395,8 @@ Basic Room Mockup:
     4. If the player beats the foe, a permanent buff is gained and the level is cleared, allowing the player to continue to the next level.
 6. When both levels are cleared in a single run, the player wins and the game ends. 
     1. Alternatively, if the player loses all of their HP, almost all of the progress is reset up until Step 2 of Game Flow. 
+
+---
 
 ## _Development_
 
@@ -438,11 +444,11 @@ Basic Room Mockup:
     3. Miscellaneous
         1. Torch
         2. Vines
-        3. Glyphs
+        3. Runes
 5. BaseInteractable
     1. ObjectChest (interactable, gives 1 Card each guaranteed)
 
-
+---
 
 ## _Graphics_
 
@@ -457,13 +463,15 @@ The game is pictured as a pixel-art concept, with general cubic shapes governing
 Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), are great for teaching the player how to play through trial and error, instead of scripting a lengthy tutorial.
 
 For interactive elements, visual feedback should feel intuitive and fit naturally within the pixel-art style and color philosophy:
-- Subtle Motion and Animation: Gentle bobbing or floating for collectibles and quest items, swaying or tilting for doors, levers, and buttons when the player is near.
-- Color and Lighting Variations: Slight hue shifts to distinguish interactable objects, soft lighting pulses or glows, and weathering differences to make usable objects stand out naturally.
-- Contextual Edge Highlights: Instead of solid black outlines, interactive objects may have subtle colored highlights when approached, ensuring clarity without disrupting the aesthetic.
-- Environmental Cues: Worn-out ground textures in front of frequently used doors, polished handles on chests and levers, or NPCs gesturing toward significant objects to provide guidance.
-- Particle Effects & Overlays: Dust puffs when approaching interactable objects, faint sparkles or glow for magical or rare items, and minimalistic pixel-art icons or symbols appearing subtly when close to an interactable element.
-These elements ensure that interactions feel organic and help guide players naturally without breaking immersion.
+- Subtle Motion and Animation: Gentle bobbing for collectibles (cards) will be incorporated.
+- Color and Lighting Variations: Slight hue shifts to distinguish interactable objects, soft lighting pulses or glows, as will be the case for chests
 
+### User Interface
+The idea is to have in the center of the canvas, the actual game window, with each room taking the entirety of the alloted screen with the characters inside. Outside of said room, the player will be able to see their cards, their health, stamina, timer and buffs as the following image suggests: 
+
+![]()
+
+The idea is for the interface to be as simple as possible, also in a pixel-like style and with everything neatly tagged.
 
 ### **Graphics Needed**
 
@@ -471,11 +479,14 @@ These elements ensure that interactions feel organic and help guide players natu
     1. Human-like
         1. Main Character (idle, walking, stabbing, dashing)
 
-        ![Main Character Sprite Prototype Action 1](/Videojuego/GDDImages/MainCharSpritePrototype%20(1).jpeg)
-        ![Main Character Sprite Prototype Action 2](/Videojuego/GDDImages/MainCharSpritePrototype%20(2).jpeg)
+        ![Main character's spritesheet](/Videojuego/GDDImages/mainCharSpriteSheet.jpeg)
+
         
         2. Tlaxcalteca (idle, walking, stabbing)
         3. Mariachi (idle, walking, hitting)
+
+        ![Base enemy spritesheet: Mariachi](/Videojuego/GDDImages/mariachiSpriteSheet.jpeg)
+
         4. Demon (idle, walking, hitting)
         5. Ah Puch (idle, walking, hitting, shooting)
     2. Other
@@ -488,7 +499,10 @@ These elements ensure that interactions feel organic and help guide players natu
         1. Stone Block
         2. Cracked Stone Block 
         3. Mossy Stone Block
-    2. Pyramid wall tiles
+    2. Pyramid wall tiles [Source](https://opengameart.org/content/stoneblocks)
+        
+        ![Wall examples](/Videojuego/GDDImages/pyramidWall.png)
+
         1. Wall block
         2. Cracked wall block
         3. Wall border
@@ -500,15 +514,27 @@ These elements ensure that interactions feel organic and help guide players natu
         1. Cracked column
         2. Vined column
 3. Ambient
-    1. Torch (flame1, flame2)
-    2. Vines (variant1, variant2)
-    3. Glyphs (sun symbol, mayan zero, dots)
+    1. Torch [Source](https://opengameart.org/content/simple-torch-animation-16x16)
+
+        ![Torch animation asset](/Videojuego/GDDImages/torch_anim.png)
+
+    2. Vines [Source](https://opengameart.org/content/vines)
+
+        ![Vines asset](/Videojuego/GDDImages/Vines.png)
+
+    3. Runes [Source](https://opengameart.org/content/runes)
+        ![Runes asset](/Videojuego/GDDImages/display-Runes.png)
+
+
 4. Other
     1. Chest
     2. Door (matching Wall block and Underground Wall block)
     3. Card (10 miniatures for map appearance, 10 detailed screenings for player UI)
     4. Base weapon
 
+        ![Macahuitl card mockup](/Videojuego/GDDImages/baseweaponCard.jpeg)
+
+---
 
 ## _Sounds/Music_
 
@@ -525,36 +551,44 @@ The music will be structured to loop per level, maintaining an immersive experie
 ### **Sounds Needed**
 
 1. Effects
-    1. Sharp Footsteps (stone floor)
-    2. Chest Opening
-    3. Card picked up
-    4. Card used
+    1. Sharp Footsteps (stone floor) [Source](https://opengameart.org/content/step-sound-walking)
+    2. Chest Opening [Source]()
+    3. Card picked up [Source]()
+    4. Card used [Source]()
 2. Feedback
-    1. Relieved &quot;Ahhhh!&quot; (health)
-    2. Shocked &quot;Ooomph!&quot; (attacked)
-    3. Sad chime (died)
+    1. Relieved &quot;Ahhhh!&quot; (health) [Source]()
+    2. Shocked &quot;Ooomph!&quot; (attacked) [Source]()
+    3. Sad chime (died) [Source]()
 
 
 ### **Music Needed**
-- Menu music
-- Music for level 1
-- Boss music level 1
-- Music for level 2 
-- Boss music level 2
-- Victory music
-- Game over/death music
+- Menu music [Source]()
+- Music for level 1 [Source]()
+- Boss music level 1 [Source]()
+- Music for level 2 [Source]()
+- Boss music level 2 [Source]()
+- Victory music [Source]()
+- Game over/death music [Source]()
+
+
 
 ## _Illustrations_
 
 **Mockup of empty room with player inside**
+
 ![Empty room with player](/Videojuego/GDDImages/RoomSketchChar.jpeg)
 
 **Main Character's spritesheet** 
+
 ![Main character's spritesheet](/Videojuego/GDDImages/mainCharSpriteSheet.jpeg)
 
 **Enemy spritesheet: Mariachi**
+
 ![Base enemy spritesheet: Mariachi](/Videojuego/GDDImages/mariachiSpriteSheet.jpeg)
 
+**BaseWeapon Card to show in player's UI**
+
+![Macahuitl Card](/Videojuego/GDDImages/baseweaponCard.jpeg)
 
 
 ## _Schedule_
@@ -571,7 +605,8 @@ The music will be structured to loop per level, maintaining an immersive experie
    - Make slightly more complex animations (dodge, attack)
    - Establish our base for the database
    - Establish our base for the website where the game will be played
----
+
+   ??
 
 1. Develop base classes ---- 21/3/2025
     1. Base entity  ---- 14/3/2025
