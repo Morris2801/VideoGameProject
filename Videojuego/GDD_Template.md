@@ -590,6 +590,10 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 ![Macahuitl Card](/Videojuego/GDDImages/baseweaponCard.jpeg)
 
+**Heart Card to show in player's UI**
+
+![Heart Card](/Videojuego/GDDImages/heartCard.jpeg)
+
 
 ## _Schedule_
 
