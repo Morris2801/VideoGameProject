@@ -546,6 +546,16 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 ## _Illustrations_
 
+**Mockup of empty room with player inside**
+![Empty room with player](/Videojuego/GDDImages/RoomSketchChar.jpeg)
+
+**Main Character's spritesheet** 
+![Main character's spritesheet](/Videojuego/GDDImages/mainCharSpriteSheet.jpeg)
+
+**Enemy spritesheet: Mariachi**
+![Base enemy spritesheet: Mariachi](/Videojuego/GDDImages/mariachiSpriteSheet.jpeg)
+
+
 
 ## _Schedule_
 
