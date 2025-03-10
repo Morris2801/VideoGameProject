@@ -578,6 +578,12 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 ![Empty room with player](/Videojuego/GDDImages/RoomSketchChar.jpeg)
 
+**GUI Mockups**
+
+![GUI Mockup V1](/Videojuego/GDDImages/GUI Images.jpg)
+
+![GUI Mokcup V2](/Videojuego/GDDImages/GUI Images 2.jpeg)
+
 **Main Character's spritesheet** 
 
 ![Main character's spritesheet](/Videojuego/GDDImages/mainCharSpriteSheet.jpeg)
