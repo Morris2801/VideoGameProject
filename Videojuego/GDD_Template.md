@@ -192,7 +192,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 #### Lotería Cards
 
-Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, buff), a **damage** (if applicable), and an optional **duration** in seconds. Cards can be found in chests or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
+Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, power-up), a **damage** (if applicable), and an optional **duration** in seconds. Cards can be found in chests or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
 
 ##### Weapon Cards
 
@@ -208,7 +208,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 |:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
 | 4       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 temporary health bars; weapon turns into a guitar with 4 damage points per hit. 
 | 5       | Diablo           | Transformation   | 3 pts (trident) | 10s       | Automatic regeneration up until 6 health points, with a trident with 2 damage pts per hit.  |
-| 6       | Mayan Warrior    | Transformation   | +2 actual weapon | 10s     | +2 resistance bars, stamina bar regenerates +1 second faster, and adds +1 damage points to equipped weapon.                                                      |
+| 6       | Guerrero Maya    | Transformation   | +2 actual weapon | 10s     | +2 resistance bars, stamina bar regenerates +1 second faster, and adds +1 damage points to equipped weapon.                                                      |
 
 ##### Cartas de Buff
 
@@ -312,7 +312,7 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 |---------------------------|------------------------------|------------------------------|
 | **Mariachi** (Light)      | ~40% of appearances         | ~20% of appearances         |
 | **Tlaxcaltecas** (Light)  | ~40% of appearances         | ~20% of appearances         |
-| **Maya Warrior** (Medium) | ~15% of appearances         | ~40% of appearances         |
+| **Guerrero Maya** (Medium) | ~15% of appearances         | ~40% of appearances         |
 | **Diablo (Replica)** (Heavy) | ~5% of appearances      | ~20% of appearances         |
 | **Boss Quetzalcoatl**     | Only in the final boss room (100% chance if it's the last room in Level 1) | 0% in normal rooms |
 | **Boss Ah Puch**          | 0% in normal rooms         | Only in the final boss room (100% chance if it's the last room in Level 2) |
@@ -415,7 +415,7 @@ Basic Room Mockup:
 
 1. `BasePlayer`
     1. `PlayerMain`
-2. `BaseEnemy` (may drop 1 Card each)
+2. `BaseEnemy` (may drop up to 1 Card each)
     1. `EnemyTlaxcalteca`
     2. `EnemyMariachi`
     3. `EnemyDemon`
