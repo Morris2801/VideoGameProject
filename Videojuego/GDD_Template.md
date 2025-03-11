@@ -37,11 +37,6 @@
     3. [Mechanics](#mechanics)
 4. [Level Design](#level-design)
     1. [Themes](#themes)
-        1. Ambience
-        2. Objects
-            1. Ambient
-            2. Interactive
-        3. Challenges
     2. [Game Flow](#game-flow)
 5. [Development](#development)
     1. [Abstract Classes](#abstract-classes--components)
@@ -85,7 +80,7 @@ In order to finish the game, a player would have to beat all the levels in a sin
 The player will face 4 types of base-enemies in close-range combat, as well as 2 boss fights. To overcome these obstacles, the player must experiment with different card usage, as well as find a balance on when to fight and when they decide they figure their inventory is just right for a boss fight, thus requiring a bit of exploring and combat to prepare. As they progress in further levels, the benefits reaped from the cards will increase as difficulty does, therefore providing better tools and advantages. Time and inventory management will be essential.
 
 ##### Overview
-In **MayAztec**, the player must balance **close-range-combat**, **inventory managment**, and **strategic use of Lotería cards**. With four types of base enemies and two major boss fights, every encounter demands a measured approach:
+In **MayAztec**, the player must balance **close-range-combat**, **inventory management**, and **strategic use of Lotería cards**. With four types of base enemies and two major boss fights, every encounter demands a measured approach:
 
 - **Short-range battles**: The player wields a base weapon (e.g., a macuahuitl) and can enhance or replace it with cards.
 - **Exploration & Preparation**: Delving into each level, the player must decide when to keep exploring for better cards vs. when to confront the boss.
@@ -290,7 +285,7 @@ To prevent the player or enemies from abusing attacks or moves, the following **
    - Justification**: Avoids “spamming” attacks and forces the player to measure times, giving enemies a chance to respond.
 
 2. **Dash Collapse**  
-   - **Dash**: 2 seconds of cooldown after using it (the player can't darshear again until those 2 seconds are over).  
+   - **Dash**: 2 seconds of cooldown after using it (the player can't dash again until those 2 seconds are over).  
    - **Partial invulnerability**: The first 0.2 seconds of the dash make the player invincible, but after that instant he can take damage if it coincides with an enemy attack.
 
 3. **Enemies - Attack Frequency and Detection**.  
@@ -326,9 +321,9 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 ### Chest 
 **Card Probabilities**
 You have a secured card:
-- 10% of a rare card (Calavara, machete, obsidian, macuahuilt)
-- 50% of a common card ( Corazon, Valiente, Taco)
-- 30% of a medium card ( Mariachi, Mayan Warriror)
+- 10% of a rare card (Calavera, machete, obsidian, macuahuilt)
+- 50% of a common card (Corazon, Valiente, Taco)
+- 30% of a medium card (Mariachi, Mayan Warriror)
 
 
 ---
@@ -345,7 +340,7 @@ Basic Room Mockup:
 
 1. Level 1 - "Pyramid Entrance"
     1. Mood
-        1. Uneasy, ancient, arqueological, but kind of bright or light-themed
+        1. Uneasy, ancient, archaeological, but kind of bright or light-themed
     2. Objects
         1. _Ambient_
             1. Vines
@@ -361,7 +356,7 @@ Basic Room Mockup:
             5. Quetzalcóatl, Aztec Serpent God
 2. Level 2 - "Into the Abyss"
     1. Mood
-        1. Dangerous, tense, arqueological, but darker in ambiance
+        1. Dangerous, tense, archaeological, but darker in ambiance
     2. Objects
         1. _Ambient_
             1. Vines
@@ -390,12 +385,12 @@ Basic Room Mockup:
         2. If the player finds a chest, they open it by pressing F
         3. If player finds a room with a doorway, by travelling to it they can enter more rooms
         4. If player encounters a card, they can pick it up by going near it
-    2. The player continously collects and uses different cards while travelling through rooms until the boss room is reached. 
+    2. The player continuously collects and uses different cards while travelling through rooms until the boss room is reached. 
     3. A boss fight ensues. The player must reduce the Health Points of each boss to 0.
     4. If the player beats the foe, a permanent buff is gained and the level is cleared, allowing the player to continue to the next level.
 6. When both levels are cleared in a single run, the player wins and the game ends. 
     1. Alternatively, if the player loses all of their HP, almost all of the progress is reset up until Step 2 of Game Flow. 
-![MAPA IDEA](/Videojuego/GDDImages/Mapa%20Idea.jpeg)
+![Map Idea](/Videojuego/GDDImages/Mapa%20Idea.jpeg)
 ---
 
 ## _Development_
@@ -404,57 +399,60 @@ Basic Room Mockup:
 
 ### **Abstract Classes / Components**
 
-1. BasePhysics
-    1. BasePlayer
-    2. BaseEnemy
-    3. BaseObject
-2. BaseObstacles
-3. BaseInteractable
-4. Level
-5. Room
-6. TextLabel
-7. Rect
+1. `BasePhysics`
+    1. `BasePlayer`
+    2. `BaseEnemy`
+    3. `BaseObject`
+2. `BaseObstacles`
+3. `BaseInteractable`
+4. `BaseLevel`
+5. `BaseRoom`
+6. `TextLabel`
+7. `Rect`
 
 
 ### **Derived Classes / Component Compositions**
 
-1. BasePlayer
-    1. PlayerMain
-2. BaseEnemy (may drop 1 Card each)
-    1. EnemyTlaxcalteca
-    2. EnemyMariachi
-    3. EnemyDemon
-    4. EnemyMayan
-    5. EnemyQuetzalcoatl
-    6. EnemyAhPuch
-3. BaseObject
-    1. ObjectCard (pick-up-able, consumable)
-        1. Weapons
-            1. MacuahuitlC
-            2. Cuchillo ObsidianaC
-            3. MacheteC
-        2. Transformation
-            1. MariachiC
-            2. DiabloC
-            3. MayanWarriorC
-        3. Buff
-            1. CorazonC
-            2. ValienteC
-            3. TacoC
-            4. CalaveraC
-4. BaseObstacle
-    1. ObstacleWall (with some variants in texture sprites)
-    2. ObstacleColumn
-    3. Miscellaneous
-        1. Torch
-        2. Vines
-        3. Runes
-5. BaseInteractable
-    1. ObjectChest (interactable, gives 1 Card each guaranteed)
-6. Level1
-7. Level2
-8. BossRoom
-9. OrdinaryRoom
+1. `BasePlayer`
+    1. `PlayerMain`
+2. `BaseEnemy` (may drop 1 Card each)
+    1. `EnemyTlaxcalteca`
+    2. `EnemyMariachi`
+    3. `EnemyDemon`
+    4. `EnemyMayan`
+    5. `EnemyQuetzalcoatl`
+    6. `EnemyAhPuch`
+3. `BaseObject`
+    1. `ObjectCard` (pick-up-able, consumable)
+        1. `Weapons`
+            1. `MacuahuitlC`
+            2. `Cuchillo ObsidianaC`
+            3. `MacheteC`
+        2. `Transformation`
+            1. `MariachiC`
+            2. `DiabloC`
+            3. `MayanWarriorC`
+        3. `Buff`
+            1. `CorazonC`
+            2. `ValienteC`
+            3. `TacoC`
+            4. `CalaveraC`
+4. `BaseObstacle`
+    1. `ObstacleWall` (with some variants in texture sprites)
+    2. `ObstacleColumn`
+    3. `Miscellaneous`
+        1. `Torch`
+        2. `Vines`
+        3. `Runes`
+5. `BaseInteractable`
+    1. `ObjectChest` (interactable, gives 1 Card each guaranteed)
+6. `BaseLevel`
+    1. `Level1`
+    2. `Level2`
+7. `BaseRoom`
+    1. `BossRoom`
+    2. `OrdinaryRoom`
+
 
 ---
 
@@ -475,9 +473,9 @@ For interactive elements, visual feedback should feel intuitive and fit naturall
 - Color and Lighting Variations: Slight hue shifts to distinguish interactable objects, soft lighting pulses or glows, as will be the case for chests
 
 ### User Interface
-The idea is to have in the center of the canvas, the actual game window, with each room taking the entirety of the alloted screen with the characters inside. Outside of said room, the player will be able to see their cards, their health, stamina, timer and buffs as the following image suggests: 
+The idea is to have in the center of the canvas, the actual game window, with each room taking the entirety of the allotted screen with the characters inside. Outside of said room, the player will be able to see their cards, their health, stamina, timer and buffs as the following image suggests: 
 
-![]()
+![GUI Mockup](/Videojuego/GDDImages/GUIImages.jpg)
 
 The idea is for the interface to be as simple as possible, also in a pixel-like style and with everything neatly tagged.
 
@@ -531,6 +529,7 @@ The idea is for the interface to be as simple as possible, also in a pixel-like 
         ![Vines asset](/Videojuego/GDDImages/Vines.png)
 
     3. Runes [Source](https://opengameart.org/content/runes)
+
         ![Runes asset](/Videojuego/GDDImages/display-Runes.png)
 
 
@@ -590,7 +589,7 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 ![GUI Mockup V1](/Videojuego/GDDImages/GUIImages.jpg)
 
-![GUI Mokcup V2](/Videojuego/GDDImages/GUIImages2.jpeg)
+![GUI Mockup V2](/Videojuego/GDDImages/GUIImages2.jpeg)
 
 **Main Character's spritesheet** 
 
@@ -612,50 +611,41 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 ![Heart Card](/Videojuego/GDDImages/heartCard.jpeg)
 
+--- 
 
 ## _Schedule_
 
-1. Weeks 2-4,
-   - Defined our videogame
-   - Presented via elevator pitch
-   - Recieved feedback
-   - Established our parameters to build the game
-   - Made basic animations for main character
-   - Ilustrated our tiles for the walls and floor
-2. Week 5
-   - Establish our base for the Videogame
-   - Make slightly more complex animations (dodge, attack)
-   - Establish our base for the database
-   - Establish our base for the website where the game will be played
+---
 
-   ??
+### Sprint 1: 
 
-1. Develop base classes ---- 21/3/2025
-    1. Base entity  ---- 14/3/2025
-        1. Base player
-        2. base enemy
-        3. base block
-  2. Base app state  ---- 21/3/2025
-        1. game world
-        2. menu world
-2. Develop player and basic block classes
-    1. physics / collisions
-3. find some smooth controls/physics
-4. develop other derived classes
-    1. blocks
-        1. moving
-        2. falling
-        3. breaking
-        4. cloud
-    2. enemies
-        1. soldier
-        2. rat
-        3. etc.
-5. design levels
-    1. introduce motion/jumping
-    2. introduce throwing
-    3. mind the pacing, let the player play between lessons
-6. design sounds
-7. design music
+1. Create folder structure inside repository for HTML, JavaScript, and CSS files, as well as assets
+2. Base classes & controls
+    1. Creation of character & object base classes such as `BasePhysics`, `BasePlayer`, `BaseEnemy`, `BaseObject`, `TextLabel`, `Rect`, `BaseObstacles`
+3. Basic `Event listeners` for player (movement, attack), `boxOverlap()` functions
 
-_(example)_
+### Sprint 2:
+1. Set up `Basic Enemy derived classes`
+2. Delve into combat system and player attributes, as well as player sprite animation
+3. Set up Interactables
+
+### Sprint 3: 
+1. Finish designing sprites and setting up basic animations for characters
+2. Set up `Card classes` with sprites
+3. Set up `Boss classes` with sprites
+4. Work on Boss's phases
+
+### Sprint 4: 
+1. Work on level generation
+2. Setup interactions between entities
+3. Work on screens, start/pause menu
+
+### Sprint 5: 
+1. Work on placing entities onto `context`
+2. Incorporate entities onto GUI with assets
+3. Work on front-end, screens and bringing everything together
+
+### Sprint 6: 
+1. Add sound effects 
+2. Make adjustments in gameplay based on testing
+3. Correct bugs
