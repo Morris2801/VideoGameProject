@@ -122,7 +122,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | ---------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | **HP**           | 10 Life Bars           | Each bar is 1HP, automatically recovers 5 bars without using cards.                                                                                   | Survives 5 hits from basic enemies and 2-3 from difficult enemies.                   |
 | **Stamina**      | 5 bars                 | Each dash consumes 1 bar. Regenerates every 1.5 sec per bar.                                                                                          | Allows 5 dashes without being completely defenseless, but still requires management. |
-| **Card Slots**   | 5+1                    | - 1 slot for the base weapon. 5 for Lotería cards.                                                                                                    | Balanced so that the player cannot farm cards excessively and must manage resources. |
+| **Card Slots**   | 5+1                    | - 1 slot for the base weapon. 5 for Lottery cards.                                                                                                    | Balanced so that the player cannot farm cards excessively and must manage resources. |
 | **Attack Speed** |                        | **3-hit combo**: Each hit of the combo has \~0.3s delay. After the third hit, there is an overall **cooldown** of 0.8-1s before restarting the combo. | Allows fluid gameplay without overusing combos.                                      |
 | **Base Damage**  | 3 pts with base weapon | Allows balanced combat: normal enemies die in 4 hits, difficult ones in 4-6, bosses in 15-25 (without using cards).                                   |                                                 
 
@@ -173,7 +173,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 3. **Time & Inventory Management**
    - Limited time to finish each run.
    - The deeper the level, the tougher the enemies, but the more potent the cards.  
-   - Inventory capacity is limited to **6** active card slots (1 Base card + 5 slots).
+   - Inventory capacity is limited to **6** active card slots (1 Base card + 5 empty slots).
 
 5. **Procedural/Randomized Elements**  
    - **Enemy spawn points**: Weighted random within each room.  
@@ -199,7 +199,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 | **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
 |:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
 | 1       | Macuahuitl      | Weapon   | 5 pts         | 10 hits           | Aztec obsidian weapon. Replaces base weapon.                                                                    |
-| 2       | Obsidiana Knife  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos.                                                                                     |
+| 2       | Cuchillo de Obsidiana  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos.                                                                                     |
 | 3       | Machete         | Weapon   | 3 pts + 1 DoT | 7 hits           | +1 poison for 2 seconds. Ideal vs. enemies with high HP (Heavy).                                                               |
 
 ##### Transformation Cards
@@ -214,7 +214,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 | **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
 |:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 7       | Corazón      | Buff      | –         | Instant     | Replenishes HP to the fullest, and adds 1 extra health slot. If said extra slot is lost, it won't be recovered unless another card is used.                              |
+| 7       | Corazón      | Buff      | –         | Instant     | Replenishes HP to the fullest, and adds 1 extra health slot. If said extra slot is lost, it won't be recovered unless another "Corazón" card is used.                              |
 | 8       | El Valiente  | Buff      | –         | 10s         | Grants **immunity** to damage for 10s, but **1 health bar is lost** when activating it.                                                             |
 | 9       | El Taco      | Buff      | –         | 10s         | Stamina remains unchanged for 10s, allowing unlimited dashes or combos in said lapse.                                                       |
 | 10       | La Calavera  | Buff      | –         | 10s         | Eliminates base enemies in a single hit; against bosses, adds +10 damage points to the selected weapon for 10s. Rarely dropped in-game.     |
@@ -335,7 +335,7 @@ You have a secured card:
 
 Basic Room Mockup: 
 
-![Empty Room prototype](/Videojuego/GDDImages/RoomSketch.jpeg)
+![Empty Room Prototype](/Videojuego/GDDImages/RoomSketch.jpeg)
 ![Empty Room Prototype with Character](/Videojuego/GDDImages/RoomSketchChar.jpeg)
 
 1. Level 1 - "Pyramid Entrance"
@@ -373,8 +373,8 @@ Basic Room Mockup:
             5. Ah Puch, Mayan God of Death
 
 
-### **Game Flow**
-![GameFlow Diagram](/Videojuego/GDDImages/GameFlow%20(1).png)
+### ****
+![GameFlow Diagram](/Videojuego/GDDImages/GameFlow.jpeg)
 1. Start screen.
 2. Introductory story-text appears, telling "why" the player starts where they start.
 3. Player spawns in a room with doors to their sides.
@@ -623,6 +623,9 @@ The music will be structured to loop per level, maintaining an immersive experie
 2. Base classes & controls
     1. Creation of character & object base classes such as `BasePhysics`, `BasePlayer`, `BaseEnemy`, `BaseObject`, `TextLabel`, `Rect`, `BaseObstacles`
 3. Basic `Event listeners` for player (movement, attack), `boxOverlap()` functions
+4. Make character design
+5. UML recreational model
+6. Set up project structure with HTML, JS, and CSS files
 
 ### Sprint 2:
 1. Set up `Basic Enemy derived classes`
