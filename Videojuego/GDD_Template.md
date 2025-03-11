@@ -373,8 +373,8 @@ Basic Room Mockup:
             5. Ah Puch, Mayan God of Death
 
 
-### **Game Flow**
-![GameFlow Diagram](/Videojuego/GDDImages/GameFlow%20(1).png)
+### ****
+![GameFlow Diagram](/Videojuego/GDDImages/GameFlow.jpeg)
 1. Start screen.
 2. Introductory story-text appears, telling "why" the player starts where they start.
 3. Player spawns in a room with doors to their sides.
