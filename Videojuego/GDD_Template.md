@@ -399,22 +399,24 @@ Basic Room Mockup:
 
 ### **Abstract Classes / Components**
 
-1. `BasePhysics`
-    1. `BasePlayer`
-    2. `BaseEnemy`
-    3. `BaseObject`
-2. `BaseObstacles`
-3. `BaseInteractable`
-4. `BaseLevel`
-5. `BaseRoom`
-6. `TextLabel`
-7. `Rect`
+1. `GameObject`
+    1. `BaseCharacter`
+        1. `BasePlayer`
+        2. `BaseEnemy`
+    2. `BaseCard`
+    3. `BaseObstacles`
+    4. `BaseInteractable`
+2. `BaseLevel`
+3. `BaseRoom`
+4. `TextLabel`
+5. `Rect`
+6. `Inventory`
+7. `Game`
 
 
 ### **Derived Classes / Component Compositions**
 
 1. `BasePlayer`
-    1. `PlayerMain`
 2. `BaseEnemy` (may drop 1 Card each)
     1. `EnemyTlaxcalteca`
     2. `EnemyMariachi`
@@ -422,21 +424,20 @@ Basic Room Mockup:
     4. `EnemyMayan`
     5. `EnemyQuetzalcoatl`
     6. `EnemyAhPuch`
-3. `BaseObject`
-    1. `ObjectCard` (pick-up-able, consumable)
-        1. `Weapons`
-            1. `MacuahuitlC`
-            2. `Cuchillo ObsidianaC`
-            3. `MacheteC`
-        2. `Transformation`
-            1. `MariachiC`
-            2. `DiabloC`
-            3. `MayanWarriorC`
-        3. `Buff`
-            1. `CorazonC`
-            2. `ValienteC`
-            3. `TacoC`
-            4. `CalaveraC`
+3. `ObjectCard` (pick-up-able, consumable)
+    1. `Weapons`
+        1. `MacuahuitlC`
+        2. `Cuchillo ObsidianaC`
+        3. `MacheteC`
+    2. `Transformation`
+        1. `MariachiC`
+        2. `DiabloC`
+        3. `MayanWarriorC`
+    3. `Buff`
+        1. `CorazonC`
+        2. `ValienteC`
+        3. `TacoC`
+        4. `CalaveraC`
 4. `BaseObstacle`
     1. `ObstacleWall` (with some variants in texture sprites)
     2. `ObstacleColumn`
