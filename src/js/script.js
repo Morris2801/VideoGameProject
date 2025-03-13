@@ -44,6 +44,7 @@ function gameStart() {
     // Register the game object, which creates all other objects
     game = new Game('playing', new Level(GAME_LEVELS[1])); //<- Será [2]
     console.log(game.player);
+    
     setEventListeners();
 
     // Call the first frame with the current time

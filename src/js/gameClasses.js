@@ -11,7 +11,9 @@ let level;
 let player;
 const scale = 32;
 
-// Class for text to be printed out on the screen
+// -------------------------------------------------
+
+// Text
 class TextLabel{
     constructor(x,y,font,color){
         this.x = x;
@@ -62,12 +64,10 @@ class GameObject{
         this.size = new Vec(width, height);
         this.color = color;
         this.type = type;
-
         // Sprite properties
         this.spriteImage = undefined;
         this.spriteRect = undefined;
     }
-
     setSprite(imagePath, rect) {
         this.spriteImage = new Image();
         this.spriteImage.src = imagePath;
@@ -75,7 +75,6 @@ class GameObject{
             this.spriteRect = rect;
         }
     }
-
     draw(ctx, scale) {
         if (this.spriteImage) {
             // Draw a sprite if the object has one defined
@@ -143,7 +142,6 @@ class AnimatedObject extends GameObject{
     }
 }
 
-
 // Box class for testing
 class Box extends GameObject{
     constructor(position,width,height,color,type){
@@ -151,7 +149,14 @@ class Box extends GameObject{
     }
 }
 
-
+class Torch extends AnimatedObject{
+    constructor(_color, width, height, x, y, _type) {
+        super("orange", width, height, x, y, "torch");
+    }
+    update(_level, deltaTime) {
+        this.updateFrame(deltaTime);
+    }
+}
 // BaseCharacter Class
 class BaseCharacter extends AnimatedObject{
     constructor(_color, width, height, x, y, _type) {
@@ -160,15 +165,46 @@ class BaseCharacter extends AnimatedObject{
         this.health = 0;
         this.damage = 0;
 
-        // Default movement variables to define directions and animations
+        // Default mov. vars.
         this.movement = {
-            right: { status: false, axis: "x", sign: 1, repeat: true, duration: 100, moveFrames: [0, 0], idleFrames: [0, 0] },
-            left:  { status: false, axis: "x", sign: -1, repeat: true, duration: 100, moveFrames: [0, 0], idleFrames: [0, 0] },
-            up:    { status: false, axis: "y", sign: -1, repeat: true, duration: 100, moveFrames: [0, 0], idleFrames: [0, 0] },
-            down:  { status: false, axis: "y", sign: 1, repeat: true, duration: 100, moveFrames: [0, 0], idleFrames: [0, 0] },
+            right: { 
+                status: false, 
+                axis: "x", 
+                sign: 1, 
+                repeat: true, 
+                duration: 100, 
+                moveFrames: [0, 0], 
+                idleFrames: [0, 0] 
+            },
+            left:  { 
+                status: false, 
+                axis: "x",
+                sign: -1, 
+                repeat: true, 
+                duration: 100, 
+                moveFrames: [0, 0], 
+                idleFrames: [0, 0] 
+            },
+            up:    { 
+                status: false, 
+                axis: "y", 
+                sign: -1, 
+                repeat: true, 
+                duration: 100, 
+                moveFrames: [0, 0], 
+                idleFrames: [0, 0] 
+            },
+            down:  { 
+                status: false, 
+                axis: "y", 
+                sign: 1, 
+                repeat: true, 
+                duration: 100, 
+                moveFrames: [0, 0], 
+                idleFrames: [0, 0] 
+            },
         };
     }
-
     setMovementFrames(direction, moveFrames, idleFrames) {
         if (this.movement[direction]) {
             this.movement[direction].moveFrames = moveFrames;
@@ -179,12 +215,10 @@ class BaseCharacter extends AnimatedObject{
     update(level, deltaTime) {
         // Find out where the player should end if it moves
         let newPosition = this.position.plus(this.velocity.times(deltaTime));
-
         // Move only if the player does not move inside a wall
         if (!level.contact(newPosition, this.size, 'wall')) {
             this.position = newPosition;
         }
-
         this.updateFrame(deltaTime);
     }
 
@@ -194,28 +228,70 @@ class BaseCharacter extends AnimatedObject{
             dirData.status = true;
             this.velocity[dirData.axis] = dirData.sign * playerSpeed;
             this.setAnimation(...dirData.moveFrames, dirData.repeat, dirData.duration);
-            console.log("Started movement");
+            //console.log("Started movement");
         }
     }
-
     stopMovement(direction) {
         const dirData = this.movement[direction];
         dirData.status = false;
         this.velocity[dirData.axis] = 0;
         this.setAnimation(...dirData.idleFrames, dirData.repeat, dirData.duration);
-        console.log("Stopped movement");
+        // console.log("Stopped movement");
     }
 }
 
+// Stack DataStruct pero con otro nombre
+class Inventory {
+    constructor() {
+      this.items = []; 
+      this.max = 6;
+    }
+    push(element) {
+      if (this.items.length < this.max ){
+        this.items.push(element);
+        return true;
+      }
+      console.log("Inventory is full");
+      return false;
+    }
+    pop() {
+      if (this.isEmpty()) {
+        return "Stack is empty"; 
+      }
+      return this.items.pop();
+    }
+    peek() {
+      if (this.isEmpty()) {
+        return "Stack is empty"; 
+      }
+      return this.items[this.items.length - 1];
+    }
+    isEmpty() {
+      return this.items.length === 0;
+    }
+    size() {
+      return this.items.length;
+    }
+    print() {
+        for(let i = 0; i < this.items.length; i++){
+            console.log(items[i]);
+        }
+    }
+}
+
+// Jugador
 class BasePlayer extends BaseCharacter {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
         this.health = 10;
         this.stamina = 5;
         this.damage = 3;
+        this.inventory = new Inventory();
 
-        // Configure animation frames for this specific character
-        this.setMovementFrames('right', [6, 8], [7, 9,10]);
+        // Animation Frames: flow for [a,b],[c,d,e]
+        // Ex.Dispaly para right: a->c->b->d->e
+        // movementFrames: [a,b]; idleFrames: [c,d,e]
+        this.setMovementFrames('right',  [6, 11], [8,7,9,10],);
         this.setMovementFrames('left', [12,15], [16, 14, 13]);
         this.setMovementFrames('up', [19,21], [18,17]);
         this.setMovementFrames('down', [1, 3], [0, 0]);
@@ -223,30 +299,35 @@ class BasePlayer extends BaseCharacter {
 }
 // Enemies
 class BaseEnemy extends BaseCharacter{
-    constructor(_color, width, height, x, y, _type, health, damage){
-        //Inheritance
-        super("red", width, height, x, y, "enemy");
+    constructor(_color, width, height, x, y, _type) {
+        super("red", width, height, x, y, _type);
         //Atributes
-        this.health = health;
-        this.damage = damage;
+    }
+}
+class BaseBoss extends BaseCharacter{
+    constructor(_color, width, height, x, y, _type) {
+        super("red", width, height, x, y, _type);
+        //Atributes
+        this.attack1 = 0;
+        this.attack2 = 0;
     }
 }
 
 // BaseCard
 class BaseCard extends GameObject{
-    constructor(position,width,height,color,type){
-        super(position,width,height,color,type);
+    constructor(color, width, height, x, y, type){
+        super("yellow", width, height, x, y, type);
+        this.healthBuff = 0;
+        this.healthRegenBuff = 0; 
+        this.staminaBuff = 0;
+        this.staminaRegenBuff = 0; 
+        this.damageBuff = 0;
     }
 }
+// Crear más subclases por carta o instanciar la base con distintas cosas? idk
 
-// Base Obstacles
-class BaseObstacle extends GameObject{
-    constructor(position,width,height,color,type){
-        super(position,width,height,color,type);
-    }
-}
 
-// Base Interactable
+// Base Interactable (cofrecito)
 class BaseInteractable extends GameObject{
     constructor(position,width,height,color,type){
         super(position,width,height,color,type);
@@ -257,48 +338,60 @@ class BaseInteractable extends GameObject{
 
 
 
-// Elements
+// Lectura de chars para armar nivel
 const levelChars = {
     // Rect defined as offset from the first tile, and size of the tiles
+    // Cosas para el mapa
     ".": {objClass: GameObject,
-          label: "floor",
-          sprite: '../assets/FloorTiles.jpg',
-          rect: new Rect(0, 0, 32, 32)},
+        label: "floor",
+        sprite: '../assets/FloorTiles.jpg',
+        rect: new Rect(0, 0, 47, 47)},
     "#": {objClass: GameObject ,
-          label: "wall",
-          sprite: '../assets/pyramidWall.png',
-          rect: new Rect(0, 0, 32, 32)},
+        label: "wall",
+        sprite: '../assets/brickYellow.png',
+        rect: new Rect(0, 0, 64, 32)},
+    "*": {objClass: GameObject,
+        label: "door",
+        sprite: '../assets/door.png',
+        rect: new Rect(0, 0, 52, 52)},
+    "t": {objClass: Torch,
+        label: "torch", 
+        sprite: '../assets/torch_anim.png',
+        rect: new Rect(0,0, 16, 16),
+        sheetCols: 3,
+        startFrame: [0,3]},
+    "v": {objClass : GameObject,
+        label: "vine", 
+        sprite : '../assets/Vines.png',
+        rect : new Rect(0,0,32,32)},
+    
+    
+    
+    // Cartas
+    "$": {objClass: BaseCard,
+        label: "card",
+        sprite: '../assets/heartCard.jpeg',
+        rect: new Rect(0, 0, 80, 150)},
+    
+    
+    // Personajes
     "@": {objClass: BasePlayer,
-          label: "player",
-          //sprite: '../assets/sprites/blordrough_quartermaster-NESW.png',
-          //rect: new Rect(0, 0, 48, 64),
-          //sheetCols: 3,
-          //startFrame: [7, 7]},
-          sprite: '../assets/testSpriteSheet.png',
-          rect: new Rect(0, 0, 65, 76),
-          sheetCols: 6,
-          startFrame: [0, 0]},
-    // "$": {objClass: Coin,
-    //       label: "collectible",
-    //       sprite: '../assets/sprites/coin_gold.png',
-    //       rect: new Rect(0, 0, 32, 32),
-    //       sheetCols: 8,
-    //       startFrame: [0, 7]},
+        label: "player",
+        sprite: '../assets/testSpriteSheet.png',
+        rect: new Rect(0, 0, 65, 76),
+        sheetCols: 6,
+        startFrame: [0, 0]},
+    
+    
 };
 
 
 
 
-
-
-
-
-
-
-//Base Room
+// Room Test
 class Level {
     constructor(plan) {
-        // Split the plan string into a matrix of strings
+        // Matriz de strs
         let rows = plan.trim().split('\n').map(l => [...l]);
         this.height = rows.length;
         this.width = rows[0].length;
@@ -312,62 +405,70 @@ class Level {
                 let objClass = item.objClass;
                 let cellType = item.label;
                 // Create a new instance of the type specified
-                let actor = new objClass("grey", 1, 1, x, y, item.label);
-                // Configurations for each type of cell
-                // TODO: Simplify this code, sinde most of it is repeated
+                let actor = new objClass("white", 1, 1, x, y, item.label);
                 if (actor.type == "player") {
                     // Also instantiate a floor tile below the player
                     this.addBackgroundFloor(x, y);
-
                     actor.setSprite(item.sprite, item.rect);
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.player = actor;
                     cellType = "empty";
 
-                // } else if (actor.type == "coin") {
-                //     // Also instantiate a floor tile below the player
-                //     this.addBackgroundFloor(x, y);
-
-                //     actor.setSprite(item.sprite, item.rect);
-                //     actor.sheetCols = item.sheetCols;
-                //     actor.setAnimation(...item.startFrame, true, 100);
-                //     this.actors.push(actor);
-                //     cellType = "empty";
-                // 
                 } else if (actor.type == "wall") {
                     // Randomize sprites for each wall tile
-                    item.rect = this.randomTile(31, 10, 17);     // green broken bricks
-                    // item.rect = this.randomTile(2, 3, 19);     // green broken bricks
+                    item.rect = this.randomTile(31, 10, 17);
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "wall";
                 } else if (actor.type == "floor") {
                     // Randomize sprites for each wall tile
-                    item.rect = this.randomTile(11, 4, 17);     // beige dirt
+                    item.rect = this.randomTile(0, 47, 0);
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "floor";
+                }
+                else if(actor.type == "door"){
+                    actor.setSprite(item.sprite, item.rect);
+                    this.actors.push(actor);
+                    cellType = "door";
+                }
+                else if(actor.type == "torch"){
+                    this.addBackgroundFloor(x, y);
+                    actor.setSprite(item.sprite, item.rect);
+                    actor.sheetCols = item.sheetCols;
+                    actor.setAnimation(...item.startFrame, true, 100);
+                    this.actors.push(actor);
+                    cellType = "empty";
+                }
+                else if(actor.type == "card"){
+                    this.addBackgroundFloor(x, y);
+                    actor.setSprite(item.sprite, item.rect);
+                    this.actors.push(actor);
+                    cellType = "empty";
+                }
+                else if (actor.type == "vine"){
+                    this.addBackgroundFloor(x, y);
+                    actor.setSprite(item.sprite, item.rect); 
+                    this.actors.push(actor);
+                    cellType = "empty";
                 }
                 return cellType;
             });
         });
     }
-
     addBackgroundFloor(x, y) {
         let floor = levelChars['.'];
         let floorActor = new GameObject("grey", 1, 1, x, y, floor.label);
-        floor.rect = this.randomTile(11, 4, 17);     // beige dirt
+        floor.rect = this.randomTile(0, 47, 0);
         floorActor.setSprite(floor.sprite, floor.rect);
         this.actors.push(floorActor);
     }
-
     // Randomize sprites for each wall tile
     randomTile(xStart, xRange, y) {
         let tile = Math.floor(Math.random() * xRange + xStart);
         return new Rect(tile, y, 32, 32);
     }
-
     // Detect when the player touches a wall
     contact(playerPos, playerSize, type) {
         // Determine which cells the player is occupying
@@ -375,7 +476,6 @@ class Level {
         let xEnd = Math.ceil(playerPos.x + playerSize.x);
         let yStart = Math.floor(playerPos.y);
         let yEnd = Math.ceil(playerPos.y + playerSize.y);
-
         // Check each of those cells
         for (let y=yStart; y<yEnd; y++) {
             for (let x=xStart; x<xEnd; x++) {
@@ -392,8 +492,7 @@ class Level {
     }
 }
 
-
-//Base Level
+// Para qué era esto?
 class BaseLevel{
     constructor(levelName, levelNumber){
         this.levelName = levelName;
@@ -412,10 +511,8 @@ class Game {
     constructor(state, level) {
         this.state = state;
         this.level = level;
-        this.player = this.level.player; // Ensure the player is assigned correctly
+        this.player = this.level.player;
         this.actors = level.actors;
-        console.log("Game initialized. Player:", this.player);
-        //console.log(level);
         
     }
 
@@ -430,11 +527,15 @@ class Game {
         // Detect collisions
         for (let actor of currentActors) {
             if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
-                //console.log(`Collision of ${this.player.type} with ${actor.type}`);
+                console.log(`Collision of ${this.player.type} with ${actor.type}`);
                 if (actor.type == 'wall') {
                     console.log("Hit a wall");
-                } else if (actor.type == 'card') {
+                } 
+                else if (actor.type == 'card') {
+                    this.player.inventory.push(actor);
+                    // console.log("Picked up a card");
                     this.actors = this.actors.filter(item => item !== actor);
+                    // console.log(this.player);
                 }
             }
         }
@@ -452,7 +553,7 @@ class Game {
 
 // -------------------------------------------------
 
-
+// Algo iba aquí
 
 
 
@@ -462,10 +563,10 @@ class Game {
 // Functions
 
 
-// Function to check if two squared objects are overlapping
+// Overlap cUadrados
 function boxOverlap(obj1, obj2){
-    return obj1.position.x + obj1.width > obj2.position.x && 
-    obj1.position.x < obj2.position.x + obj2.width &&
-    obj1.position.y + obj2.height > obj2.position.y &&
-    obj1.position.y < obj2.position.y + obj2.height;
+    return obj1.position.x + obj1.size.x > obj2.position.x &&
+    obj1.position.x < obj2.position.x + obj2.size.x &&
+    obj1.position.y + obj1.size.y > obj2.position.y &&
+    obj1.position.y < obj2.position.y + obj2.size.y;
 }
