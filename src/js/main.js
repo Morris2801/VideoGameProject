@@ -4,12 +4,6 @@ Main Script for MayAztec
 
 "use strict";
 
-
-import { Game } from '/src/world/game.js';
-import { Level } from '/src/world/level.js';
-import { GAME_LEVELS } from '/src/world/levelGen.js';
-import { scale } from '/src/engine/engine.js';
-
 // Global variables
 const canvasWidth = 900;
 const canvasHeight = 700;
@@ -106,3 +100,10 @@ function drawScene(newTime){
     oldTime = newTime;
     requestAnimationFrame(drawScene);
 }
+
+function main() {
+    // Get a reference to the object with id 'canvas' in the page
+    window.onload = init
+}
+
+main();

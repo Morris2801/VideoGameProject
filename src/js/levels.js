@@ -1,12 +1,9 @@
-import { GameObject } from '../engine/engine.js';
-import { levelChars } from './levelChars.js';
-
-export function levGen(width, heigth, card, torch, vine, door){
+function levGen(width, heigth, card, torch, vine, door){
     
 }
 
 
-export let GAME_LEVELS = [`
+let GAME_LEVELS = [`
 ................
 .##############.
 .#............#.
