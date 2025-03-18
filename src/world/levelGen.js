@@ -1,12 +1,12 @@
-"use strict";
+import { GameObject } from '../engine/engine.js';
+import { levelChars } from './levelChars.js';
 
-
-function levGen(width, heigth, card, torch, vine, door){
+export function levGen(width, heigth, card, torch, vine, door){
     
 }
 
 
-let GAME_LEVELS = [`
+export let GAME_LEVELS = [`
 ................
 .##############.
 .#............#.
