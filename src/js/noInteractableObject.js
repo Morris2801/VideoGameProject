@@ -1,6 +1,4 @@
-import { AnimatedObject } from './engine.js';
-
-export class Torch extends AnimatedObject{
+class Torch extends AnimatedObject{
     constructor(_color, width, height, x, y, _type) {
         super("orange", width, height, x, y, "torch");
     }

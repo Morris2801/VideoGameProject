@@ -1,10 +1,8 @@
-import { boxOverlap } from './engine.js';
-
 
 console.log("Game module loaded");
 
 // Game Class
-export class Game {
+class Game {
     constructor(state, level) {
         this.state = state;
         this.level = level;

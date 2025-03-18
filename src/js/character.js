@@ -1,7 +1,6 @@
 // BaseCharacter Class
-import { AnimatedObject, Vec, playerSpeed } from './engine.js';
 
-export class BaseCharacter extends AnimatedObject{
+class BaseCharacter extends AnimatedObject{
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
         this.velocity = new Vec(0.0, 0.0);

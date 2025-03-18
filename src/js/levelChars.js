@@ -1,10 +1,6 @@
-import { GameObject, Rect } from './engine.js';
-import { BasePlayer } from './player.js';
-import { BaseCard } from './card.js';
-import { Torch } from './noInteractableObject.js';
 
 // Lectura de chars para armar nivel
-export const levelChars = {
+const levelChars = {
     // Rect defined as offset from the first tile, and size of the tiles
     // Cosas para el mapa
     ".": {objClass: GameObject,

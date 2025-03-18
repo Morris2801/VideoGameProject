@@ -6,13 +6,13 @@ Game Classes Development for MayAztec
 "use strict";
 
 // Global Variables
-export const playerSpeed = 0.005;
-export const scale = 32;
+const playerSpeed = 0.005;
+const scale = 32;
 
 // -------------------------------------------------
 
 // Text
-export class TextLabel{
+class TextLabel{
     constructor(x,y,font,color){
         this.x = x;
         this.y = y;
@@ -27,7 +27,7 @@ export class TextLabel{
 }
 
 // Class for bounding boxes
-export class Rect{
+class Rect{
     constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
@@ -37,7 +37,7 @@ export class Rect{
 }
 
 // Class to manage directions and positions
-export class Vec {
+class Vec {
     constructor(x,y){
         this.x = x; 
         this.y = y; 
@@ -56,7 +56,7 @@ export class Vec {
     }
 }
 
-export class GameObject{
+class GameObject{
     constructor(color, width, height, x, y, type) {
         this.position = new Vec(x, y);
         this.size = new Vec(width, height);
@@ -104,7 +104,7 @@ export class GameObject{
 
 
 
-export class AnimatedObject extends GameObject{
+class AnimatedObject extends GameObject{
     constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
         // Animation properties
@@ -147,7 +147,7 @@ export class AnimatedObject extends GameObject{
 // export { Vec, Rect, GameObject, boxOverlap };
 
 
-export function boxOverlap(obj1, obj2) {
+function boxOverlap(obj1, obj2) {
     return obj1.position.x + obj1.size.x > obj2.position.x &&
            obj1.position.x < obj2.position.x + obj2.size.x &&
            obj1.position.y + obj1.size.y > obj2.position.y &&

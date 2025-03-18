@@ -1,8 +1,6 @@
-import { GameObject, Rect } from './engine.js';
-import { levelChars } from './levelChars.js';
 
 // Room Test
-export class Level {
+class Level {
     constructor(plan) {
         // Matriz de strs
         let rows = plan.trim().split('\n').map(l => [...l]);
@@ -107,7 +105,7 @@ export class Level {
 
 // Para qué era esto?
 // segun yo para definir, cuantos cuartos, cuantos enemigos etc,
-export class BaseLevel{
+class BaseLevel{
     constructor(levelName, levelNumber){
         this.levelName = levelName;
         this.levelNumber = levelNumber;

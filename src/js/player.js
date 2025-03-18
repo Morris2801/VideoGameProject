@@ -1,7 +1,6 @@
-import { BaseCharacter } from './character.js';
-import { Inventory } from './inventory.js';
+
 // Jugador
-export class BasePlayer extends BaseCharacter {
+class BasePlayer extends BaseCharacter {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
         this.health = 10;

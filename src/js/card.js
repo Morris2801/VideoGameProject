@@ -1,6 +1,5 @@
-import { GameObject } from './engine.js';
 
-export class BaseCard extends GameObject{
+class BaseCard extends GameObject{
     constructor(color, width, height, x, y, type){
         super("yellow", width, height, x, y, type);
         this.healthBuff = 0;

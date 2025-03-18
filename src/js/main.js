@@ -4,12 +4,6 @@ Main Script for MayAztec
 
 "use strict";
 
-
-import { Game } from './game.js';
-import { Level } from './level.js';
-import { GAME_LEVELS } from './levelGen.js';
-import { scale } from './engine.js';
-
 // Global variables
 const canvasWidth = 900;
 const canvasHeight = 700;
@@ -23,10 +17,10 @@ let oldTime;
 
 // ------------------------------------------------------
 // Functions
-
-
-document.addEventListener('DOMContentLoaded', init);
-
+function main() {
+    // Get a reference to the object with id 'canvas' in the page
+    window.onload = init
+}
 
 function init(){
     console.log("iniciando juego..");

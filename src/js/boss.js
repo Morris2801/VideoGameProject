@@ -1,4 +1,3 @@
-import { BaseCharacter } from './character.js';
 
 class BaseBoss extends BaseCharacter{
     constructor(_color, width, height, x, y, _type) {

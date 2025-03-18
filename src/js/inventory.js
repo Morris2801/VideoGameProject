@@ -1,5 +1,5 @@
 // Stack DataStruct pero con otro nombre
-export class Inventory {
+class Inventory {
     constructor() {
       this.items = []; 
       this.max = 6;
