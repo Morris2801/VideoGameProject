@@ -1,5 +1,5 @@
-import { BaseCharacter } from '/src/entities/character.js';
-import { Inventory } from '/src/items/inventory.js';
+import { BaseCharacter } from './character.js';
+import { Inventory } from './inventory.js';
 // Jugador
 export class BasePlayer extends BaseCharacter {
     constructor(_color, width, height, x, y, _type) {

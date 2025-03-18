@@ -1,7 +1,7 @@
-import { GameObject, Rect } from '/src/engine/engine.js';
-import { BasePlayer } from '../entities/player.js';
-import { BaseCard } from '/src/items/card.js';
-import { Torch } from '/src/world/noInteractableObject.js';
+import { GameObject, Rect } from './engine.js';
+import { BasePlayer } from './player.js';
+import { BaseCard } from './card.js';
+import { Torch } from './noInteractableObject.js';
 
 // Lectura de chars para armar nivel
 export const levelChars = {

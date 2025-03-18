@@ -1,4 +1,4 @@
-import { boxOverlap } from '../engine/engine.js';
+import { boxOverlap } from './engine.js';
 
 
 console.log("Game module loaded");

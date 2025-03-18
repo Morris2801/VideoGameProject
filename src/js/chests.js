@@ -1,4 +1,4 @@
-import { GameObject } from '../engine/engine.js';
+import { GameObject } from './engine.js';
 
 // Base Interactable (cofrecito)
 export class BaseInteractable extends GameObject{

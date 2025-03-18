@@ -1,4 +1,4 @@
-import { GameObject } from '/src/engine/engine.js';
+import { GameObject } from './engine.js';
 
 export class BaseCard extends GameObject{
     constructor(color, width, height, x, y, type){

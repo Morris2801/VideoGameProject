@@ -5,10 +5,10 @@ Main Script for MayAztec
 "use strict";
 
 
-import { Game } from '/src/world/game.js';
-import { Level } from '/src/world/level.js';
-import { GAME_LEVELS } from '/src/world/levelGen.js';
-import { scale } from '/src/engine/engine.js';
+import { Game } from './game.js';
+import { Level } from './level.js';
+import { GAME_LEVELS } from './levelGen.js';
+import { scale } from './engine.js';
 
 // Global variables
 const canvasWidth = 900;

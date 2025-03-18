@@ -1,5 +1,5 @@
 // BaseCharacter Class
-import { AnimatedObject, Vec, playerSpeed } from '/src/engine/engine.js';
+import { AnimatedObject, Vec, playerSpeed } from './engine.js';
 
 export class BaseCharacter extends AnimatedObject{
     constructor(_color, width, height, x, y, _type) {

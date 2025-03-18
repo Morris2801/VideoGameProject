@@ -1,5 +1,5 @@
-import { GameObject, Rect } from '/src/engine/engine.js';
-import { levelChars } from '/src/world/levelChars.js';
+import { GameObject, Rect } from './engine.js';
+import { levelChars } from './levelChars.js';
 
 // Room Test
 export class Level {

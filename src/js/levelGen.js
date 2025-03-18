@@ -1,4 +1,4 @@
-import { GameObject } from '../engine/engine.js';
+import { GameObject } from './engine.js';
 import { levelChars } from './levelChars.js';
 
 export function levGen(width, heigth, card, torch, vine, door){
