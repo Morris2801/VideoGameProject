@@ -5,11 +5,14 @@ Main Script for MayAztec
 "use strict";
 
 
+import { Game } from '/src/world/game.js';
+import { Level } from '/src/world/level.js';
+import { GAME_LEVELS } from '/src/world/levelGen.js';
+import { scale } from '/src/engine/engine.js';
 
 // Global variables
 const canvasWidth = 900;
 const canvasHeight = 700;
-
 let ctx;
 let game;
 let oldTime;
@@ -22,13 +25,11 @@ let oldTime;
 // Functions
 
 
-function main() {
-    // Get a reference to the object with id 'canvas' in the page
-    window.onload = init
-}
+document.addEventListener('DOMContentLoaded', init);
 
 
 function init(){
+    console.log("iniciando juego..");
     const canvas = document.getElementById('canvas');
     // Resize the element
     canvas.width = canvasWidth;
@@ -105,5 +106,3 @@ function drawScene(newTime){
     oldTime = newTime;
     requestAnimationFrame(drawScene);
 }
-
-main();
