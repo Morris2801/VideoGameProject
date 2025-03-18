@@ -1,5 +1,5 @@
 import { GameObject, Rect } from '/src/engine/engine.js';
-import { BasePlayer } from '/src/entities/player.js';
+import { BasePlayer } from '../entities/player.js';
 import { BaseCard } from '/src/items/card.js';
 import { Torch } from '/src/world/noInteractableObject.js';
 
