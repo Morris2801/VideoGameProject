@@ -399,61 +399,50 @@ Basic Room Mockup:
 
 ### **Abstract Classes / Components**
 
-1. `GameObject`
-    1. `BaseCharacter`
-        1. `BasePlayer`
-        2. `BaseEnemy`
-    2. `BaseCard`
-    3. `BaseObstacles`
-    4. `BaseInteractable`
-2. `BaseLevel`
-3. `BaseRoom`
-4. `TextLabel`
-5. `Rect`
+1. `TextLabel` 
+2. `Rect`
+3. `Vec`
+4. `GameObject`
+5. `Game`
 6. `Inventory`
-7. `Game`
+7. `Level`
+
 
 
 ### **Derived Classes / Component Compositions**
 
-1. `BasePlayer`
-2. `BaseEnemy` (may drop 1 Card each)
-    1. `EnemyTlaxcalteca`
-    2. `EnemyMariachi`
-    3. `EnemyDemon`
-    4. `EnemyMayan`
-    5. `EnemyQuetzalcoatl`
-    6. `EnemyAhPuch`
-3. `ObjectCard` (pick-up-able, consumable)
-    1. `Weapons`
-        1. `MacuahuitlC`
-        2. `Cuchillo ObsidianaC`
-        3. `MacheteC`
-    2. `Transformation`
-        1. `MariachiC`
-        2. `DiabloC`
-        3. `MayanWarriorC`
-    3. `Buff`
-        1. `CorazonC`
-        2. `ValienteC`
-        3. `TacoC`
-        4. `CalaveraC`
-4. `BaseObstacle`
-    1. `ObstacleWall` (with some variants in texture sprites)
-    2. `ObstacleColumn`
-    3. `Miscellaneous`
-        1. `Torch`
-        2. `Vines`
-        3. `Runes`
-5. `BaseInteractable`
-    1. `ObjectChest` (interactable, gives 1 Card each guaranteed)
-6. `BaseLevel`
+1. `GameObject`
+    1. `AnimatedObject` 
+        1. `BaseCharacter`
+            1. `BaseEnemy`
+                1. `EnemyTlaxcalteca`
+                2. `EnemyMariachi`
+                3. `EnemyDemon`
+                4. `EnemyMayan`
+            2. `BaseBoss`
+                1. `EnemyQuetzalcoatl`
+                2. `EnemyAhPuch`
+            3. `BasePlayer`
+        2. `Torch`
+    2. `BaseCard`
+        1. `Weapons`
+            1. `MacuahuitlC`
+            2. `Cuchillo ObsidianaC`
+            3. `MacheteC`
+        2. `Transformation`
+            1. `MariachiC`
+            2. `DiabloC`
+            3. `MayanWarriorC`
+        3. `Buff`
+            1. `CorazonC`
+            2. `ValienteC`
+            3. `TacoC`
+            4. `CalaveraC`
+    3. `BaseInteractable`
+        1. `ObjectChest`
+2. `Level`
     1. `Level1`
     2. `Level2`
-7. `BaseRoom`
-    1. `BossRoom`
-    2. `OrdinaryRoom`
-
 
 ---
 
