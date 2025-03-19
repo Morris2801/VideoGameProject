@@ -71,6 +71,7 @@ function levGen(width, height, numEnemies, numCards){
     for (let i = 0; i < numCards; i++){
         placeX("$");
     }
+    
 
     //Forzar que junto a # haya . (floortile)
     level[2* width + Math.floor(width/2)] = "."; //Arriba
