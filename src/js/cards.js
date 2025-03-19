@@ -11,7 +11,32 @@ class BaseCard extends GameObject{
         this.staminaRegenBuff = 0; 
         this.damageBuff = 0;
     }
-    //método para applyEffect?
+    applyEffect(target) {
+        if (!target) {
+            console.error("No hay un objetivo válido para aplicar el efecto.");
+            return;
+        }
+        console.log(`Aplicando efectos de la carta a ${target.type}`);
+
+        // Aplica los buffs a los atributos del objetivo dependiendo la carta usada
+        target.health += this.healthBuff;
+        target.healthRegen += this.healthRegenBuff;
+        target.stamina += this.staminaBuff;
+        target.staminaRegen += this.staminaRegenBuff;
+        target.damage += this.damageBuff;
+
+        // Revertir efectos cuando el tiempo es igual a 0
+        if (this.duration !== undefined && this.duration > 0) {
+            setTimeout(() => {
+                target.health -= this.healthBuff;
+                target.healthRegen -= this.healthRegenBuff;
+                target.stamina -= this.staminaBuff;
+                target.staminaRegen -= this.staminaRegenBuff;
+                target.damage -= this.damageBuff;
+                console.log(`El efecto de la carta en ${target.type} ha terminado.`);
+            }, this.duration * 1000);
+        }
+    }
 }
 
 class MacahuitlCard extends BaseCard{
