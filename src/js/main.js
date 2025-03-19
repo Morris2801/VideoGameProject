@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', init);
 
 
 function init(){
-    console.log("iniciando juego..");
     const canvas = document.getElementById('canvas');
     // Resize the element
     canvas.width = canvasWidth;
@@ -37,7 +36,8 @@ function init(){
 
 function gameStart() {
     // Register the game object, which creates all other objects
-    game = new Game('playing', new Level(GAME_LEVELS[1])); //<- Será [2]
+    game = new Game('playing', new Level(GAME_LEVELS[0]));
+    console.log(game.level);
     console.log(game.player);
     
     setEventListeners();
@@ -79,11 +79,6 @@ function setEventListeners() {
     });
 }
 
-
-
-
-
-
 // Function to draw the scene
 function drawScene(newTime){
     if (oldTime == undefined) {
@@ -96,14 +91,6 @@ function drawScene(newTime){
     game.update(deltaTime);
     game.draw(ctx,scale);
 
-
     oldTime = newTime;
     requestAnimationFrame(drawScene);
 }
-
-function main() {
-    // Get a reference to the object with id 'canvas' in the page
-    window.onload = init
-}
-
-main();
