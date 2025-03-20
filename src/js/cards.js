@@ -25,6 +25,19 @@ class BaseCard extends GameObject{
         target.staminaRegen += this.staminaRegenBuff;
         target.damage += this.damageBuff;
 
+        //Print de los stat buffs y cuanto tiempo le resta
+        this.printStatus(target, this.duration);
+        if (this.duration !== undefined && this.duration > 0) {
+            let remainingTime = this.duration;
+            let interval = setInterval(() => {
+                remainingTime -= 1;
+                if (remainingTime > 0) {
+                    this.printStatus(target, remainingTime);
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000);
+
         // Revertir efectos cuando el tiempo es igual a 0
         if (this.duration !== undefined && this.duration > 0) {
             setTimeout(() => {
@@ -36,6 +49,15 @@ class BaseCard extends GameObject{
                 console.log(`El efecto de la carta en ${target.type} ha terminado.`);
             }, this.duration * 1000);
         }
+    }
+        printStatus(target, timeLeft) {
+        console.log(`Estado de ${target.type}:`);
+        console.log(`Vida: ${target.health}`);
+        console.log(`Regen Vida: ${target.healthRegen}`);
+        console.log(`Stamina: ${target.stamina}`);
+        console.log(`Regen Stamina: ${target.staminaRegen}`);
+        console.log(`Daño: ${target.damage}`);
+        console.log(`Tiempo restante: ${timeLeft} segundos`);
     }
 }
 
