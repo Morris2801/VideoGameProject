@@ -134,10 +134,17 @@ class AnimatedObject extends GameObject{
             // Loop around the animation frames if the animation is set to repeat
             // Otherwise stay on the last frame
             let restartFrame = (this.repeat ? this.minFrame : this.frame);
+            
+            // Verificar si la animación esta por terminar
+            let wasLastFrame = (this.frame === this.maxFrame);
+            
             this.frame = this.frame < this.maxFrame ? this.frame + 1 : restartFrame;
             this.spriteRect.x = this.frame % this.sheetCols;
             this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
             this.totalTime = 0;
+            
+            // Señalar cuando la animacion ha completado un ciclo
+            this.animationComplete = wasLastFrame && !this.repeat;
         }
     }
 }
