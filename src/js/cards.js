@@ -1,16 +1,17 @@
 
 // BaseCard
-class BaseCard extends GameObject{
-    constructor(color, width, height, x, y, type){
-        super("yellow", width, height, x, y, type);
+class BaseCard extends GameObject {
+    constructor(color, width, height, x, y, type) {
+        super(color, width, height, x, y, type);
         this.maxUses = -1;
         this.duration = undefined;
-        this.healthBuff = 0;        
-        this.healthRegenBuff = 0; 
+        this.healthBuff = 0;
+        this.healthRegenBuff = 0;
         this.staminaBuff = 0;
-        this.staminaRegenBuff = 0; 
+        this.staminaRegenBuff = 0;
         this.damageBuff = 0;
     }
+
     applyEffect(target) {
         if (!target) {
             console.error("No hay un objetivo válido para aplicar el efecto.");
@@ -25,7 +26,7 @@ class BaseCard extends GameObject{
         target.staminaRegen += this.staminaRegenBuff;
         target.damage += this.damageBuff;
 
-        //Print de los stat buffs y cuanto tiempo le resta
+        // Print de los stat buffs y cuanto tiempo le resta
         this.printStatus(target, this.duration);
         if (this.duration !== undefined && this.duration > 0) {
             let remainingTime = this.duration;
@@ -37,6 +38,7 @@ class BaseCard extends GameObject{
                     clearInterval(interval);
                 }
             }, 1000);
+        }
 
         // Revertir efectos cuando el tiempo es igual a 0
         if (this.duration !== undefined && this.duration > 0) {
@@ -50,7 +52,8 @@ class BaseCard extends GameObject{
             }, this.duration * 1000);
         }
     }
-        printStatus(target, timeLeft) {
+
+    printStatus(target, timeLeft) {
         console.log(`Estado de ${target.type}:`);
         console.log(`Vida: ${target.health}`);
         console.log(`Regen Vida: ${target.healthRegen}`);

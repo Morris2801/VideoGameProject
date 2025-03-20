@@ -54,4 +54,14 @@ class BasePlayer extends BaseCharacter {
         this.setMovementFrames('up', [19,21], [18,17]);
         this.setMovementFrames('down', [1, 3], [0, 0]);
     }
+    useCard(index){
+      if(index >=0 && index < this.inventory.size()){
+        let card = this.inventory.items[index];
+        card.applyEffect(this);
+        if(card.maxUses == 0){
+          this.inventory.items.splice(index, 1);
+        }
+        console.log("Card used: ${card.type}");
+      }
+    }
 }

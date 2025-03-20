@@ -61,6 +61,11 @@ function setEventListeners() {
         if (event.key == 'd' || event.key == "D" || event.code == "ArrowRight") {
             game.player.startMovement("right");
         }
+        if (event.key >= '1' && event.key <= '6') {
+            let index = parseInt(event.key) - 1;
+            game.player.useCard(index);
+            console.log("Key pressed: " + event.key);
+        }
     });
 
     window.addEventListener("keyup", event => {
