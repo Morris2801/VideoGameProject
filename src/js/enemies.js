@@ -9,10 +9,10 @@ class Mariachi extends BaseEnemy {
         super("red", width, heigth,x,y,"mariachi");
         this.health = 10;
         this.damage = 1;
-        this.setMovementFrames('right',  [], [],);
-        this.setMovementFrames('left', [], []);
-        this.setMovementFrames('up', [], []);
-        this.setMovementFrames('down', [], []);
+        this.setMovementFrames('right', [7,8,9,10], [6,11],);
+        this.setMovementFrames('left', [1,2,3,4], [0,5]);
+        this.setMovementFrames('up', [13,15], [12,14]);
+        this.setMovementFrames('down', [13,15], [12,14]);
     }
 }
 class Tlaxcalteca extends BaseEnemy{
