@@ -121,7 +121,7 @@ class BasePlayer extends BaseCharacter {
 
 
   
-  // Método de ataque
+  // Metodo de ataque
   startAttack() {
       if (this.attackCooldown > 0) return;
       
@@ -233,10 +233,10 @@ drawAttackAnimation(ctx, scale) {
   // Usar exactamente las mismas posiciones y tamaños que el personaje normal
   const scaledX = this.position.x * scale;
   const scaledY = this.position.y * scale;
-  const scaledWidth = this.size.x * scale;  // Sin multiplicar por PLAYER_SCALE aquí
-  const scaledHeight = this.size.y * scale; // Sin multiplicar por PLAYER_SCALE aquí
+  const scaledWidth = this.size.x * scale;  
+  const scaledHeight = this.size.y * scale; 
   
-  // Configurar transformación
+  // Configurar transformacion
   if (direction === 'left') {
       ctx.translate(scaledX + scaledWidth, scaledY);
       ctx.scale(-1, 1);
@@ -253,7 +253,7 @@ drawAttackAnimation(ctx, scale) {
       attackFrame * characterWidth, 0,
       characterWidth, characterHeight,
       0, 0,
-      scaledWidth, scaledHeight  // Usar el mismo tamaño que el personaje normal
+      scaledWidth, scaledHeight  
   );
   
   // Restaurar el contexto
@@ -271,7 +271,7 @@ drawWeapon(ctx, scale, direction, attackFrame) {
   const scaledWidth = this.size.x * scale;
   const scaledHeight = this.size.y * scale;
   
-  // Variables para la posición del arma que puedes ajustar fácilmente
+  
   let offsetX = 0;
   let offsetY = 0;
   let angle = 0;
@@ -302,10 +302,10 @@ drawWeapon(ctx, scale, direction, attackFrame) {
   // Guardar contexto
   ctx.save();
   
-  // Posicionar el arma usando el offset
+  // Posicionar el arma 
   ctx.translate(scaledX*2 + offsetX, scaledY*2 + offsetY);
   
-  // Rotar según dirección
+  // Rotar 
   ctx.rotate(angle);
   
   // Dibujar el arma con tamaño fijo
