@@ -14,7 +14,7 @@ class Game {
     }    
     update(deltaTime) {     
         this.player.update(this.level, deltaTime);
-        this.player.updateAttack(deltaTime); //metodo para los golpes
+        
 
         for (let actor of this.actors) {
             if(typeof actor.update === "function"){
@@ -56,11 +56,10 @@ class Game {
         for (let actor of this.actors) {
             actor.draw(ctx, scale);
         }
-
-        for(let effect of this.attackEffects){
-            effect.draw(ctx, scale);
-        }
-
+    for (let effect of this.attackEffects) {
+    console.log("Dibujando efecto en:", effect.position.x, effect.position.y);
+        effect.draw(ctx, scale);
+    }
         this.player.draw(ctx, scale);
         }
 }

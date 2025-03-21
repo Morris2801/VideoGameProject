@@ -75,26 +75,29 @@ class GameObject{
             this.spriteRect = rect;
         }
     }
-    draw(ctx, scale) {
+    draw(ctx, scale, customScale = 1) {
+        const scaledX = this.position.x * scale;
+        const scaledY = this.position.y * scale;
+        const scaledWidth = this.size.x * scale * customScale;
+        const scaledHeight = this.size.y * scale * customScale;
+        
         if (this.spriteImage) {
-            // Draw a sprite if the object has one defined
             if (this.spriteRect) {
                 ctx.drawImage(this.spriteImage,
-                              this.spriteRect.x * this.spriteRect.width,
-                              this.spriteRect.y * this.spriteRect.height,
-                              this.spriteRect.width, this.spriteRect.height,
-                              this.position.x * scale, this.position.y * scale,
-                              this.size.x * scale, this.size.y * scale);
+                          this.spriteRect.x * this.spriteRect.width,
+                          this.spriteRect.y * this.spriteRect.height,
+                          this.spriteRect.width, this.spriteRect.height,
+                          scaledX, scaledY,
+                          scaledWidth, scaledHeight);
             } else {
                 ctx.drawImage(this.spriteImage,
-                              this.position.x * scale, this.position.y * scale,
-                              this.size.x * scale, this.size.y * scale);
+                          scaledX, scaledY,
+                          scaledWidth, scaledHeight);
             }
         } else {
-            // If there is no sprite asociated, just draw a color square
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.position.x * scale, this.position.y * scale,
-                         this.size.x * scale, this.size.y * scale);
+            ctx.fillRect(scaledX, scaledY,
+                     scaledWidth, scaledHeight);
         }
     }
 
