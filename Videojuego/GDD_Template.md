@@ -618,12 +618,15 @@ The music will be structured to loop per level, maintaining an immersive experie
 1. Set up `Basic Enemy derived classes`
 2. Delve into combat system and player attributes, as well as player sprite animation
 3. Set up Interactables
+4. Add the `ApplyEffect` to the power up system
 
 ### Sprint 3: 
 1. Finish designing sprites and setting up basic animations for characters
-2. Set up `Card classes` with sprites
-3. Set up `Boss classes` with sprites
-4. Work on Boss's phases
+2. Start the website page with its aesthetics
+3. Start the Database and learn the CRUD method
+4. Set up `Card classes` with sprites
+5. Set up `Boss classes` with sprites
+6. Work on Boss's phases
 
 ### Sprint 4: 
 1. Work on level generation
