@@ -17,17 +17,54 @@
     <body>
 
         <audio id="levelMusic1" src="" loop> </audio>
-        <audio id="bossMusic" src="" loop> </audio>
+        <audio id="levelMusic" src="" loop> </audio>
+        <audio id="bossMusic1" src="" loop> </audio>
+        <audio is="bossMusic2" src="" loop> </audio>
         <script>
             let levelMusic1 = document.getelementbyID("levelMusic1");
-            let bossMusic = document.getelementbyID("bossMusic");
+            let levelMsuic2 = document.getelementbyID("levelMusic2")
+            let bossMusic1 = document.getelementbyID("bossMusic1");
+            let bossMusic2 = document.getelementbyID("bossMusic2")
 
-            levelMusic1.play();
+            let currentMusic == levelMusic1;
+            currentMusic.play();
 
-            function BossSwitchMusic() {
-                levelMusic1.pause();
-                bossMusic.play();
+            function SwitchtoBoss1();{
+                currentMusic.pause();
+                bossMusic1.play();
+                currentMusic == bossMusic1;
             }
+
+            function SwitchtoLevel2();{
+                currentMusic.pause();
+                levelMusic2.play();
+                currentMusic == levelMusic2;
+            }
+
+            function SwitchtoBoss2();{
+                currentMusic.pause();
+                bossMusic2.play();
+                currentMusic == bossMusic2;
+            }
+
+            function SwitchtoLevel1();{
+                if (currentMusic == bossMusic2) {
+                    currentMusic.pause();
+                    levelMusic1.play();
+                    currentMusic == levelMusic1;
+                }
+                else if (currentMusic == levelMusic2) {
+                    currentMusic.pause();
+                    levelMusic1.play();
+                    currentMusic == levelMusic1;
+                }
+                else if (currentMusic == bossMusic1) {
+                    currentMusic.pause();
+                    levelMusic1.play();
+                    currentMusic == levelMusic1;
+                }
+            }
+            
         </script>
         <div id="headerContainer">
             <h1>MayAztec</h1>
