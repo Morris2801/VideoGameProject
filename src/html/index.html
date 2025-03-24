@@ -15,6 +15,20 @@
         <script src="../js/main.js"></script>
     </head>
     <body>
+
+        <audio id="levelMusic1" src="" loop> </audio>
+        <audio id="bossMusic" src="" loop> </audio>
+        <script>
+            let levelMusic1 = document.getelementbyID("levelMusic1");
+            let bossMusic = document.getelementbyID("bossMusic");
+
+            levelMusic1.play();
+
+            function BossSwitchMusic() {
+                levelMusic1.pause();
+                bossMusic.play();
+            }
+        </script>
         <div id="headerContainer">
             <h1>MayAztec</h1>
         </div>
