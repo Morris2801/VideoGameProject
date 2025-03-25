@@ -626,7 +626,7 @@ The music will be structured to loop per level, maintaining an immersive experie
 3. Start the Database and learn the CRUD method
 4. Set up `Card classes` with sprites
 5. Set up `Boss classes` with sprites
-6. Work on Boss's phases
+6. Have background music running for each of the levels and bosses
 
 ### Sprint 4: 
 1. Work on level generation
