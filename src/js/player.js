@@ -164,6 +164,11 @@ class BasePlayer extends BaseCharacter {
     this.stamina = 5;
     this.damage = 3;
     this.inventory = new Inventory();
+
+    //Arma base stadisticas
+    this.basehealth = 10;
+    this.baseStamina = 5;
+    this.baseDamage = 3;
     
     // Variables de estado de ataque
     this.attacking = false;
@@ -172,6 +177,7 @@ class BasePlayer extends BaseCharacter {
     this.attackDuration = 0;
     this.attackMaxDuration = 700; // 500ms para completar el ataque
     this.lastDirection = "right"; // direccion por defecto
+    this.hasHitEnemy = false;
 
     // Cajas de colision de ataque (para detectar golpes)
     this.attackBoxes = {
@@ -207,10 +213,39 @@ class BasePlayer extends BaseCharacter {
     this.weaponSprite.onload = () => console.log("Weapon loaded");
     
     // Cargar sprite de ataque
-    this.attackingSprite = new Image();
-    this.attackingSprite.src = "../assets/Prueba_SpritePeleando.png";
-    this.attackingSprite.onload = () => console.log("Attack sprite loaded");
+    this.normalAttackingSprite = new Image();
+    this.normalAttackingSprite.src = "../assets/Prueba_SpritePeleando.png";
+    this.normalAttackingSprite.onload = () => console.log("Attack sprite loaded");
     
+    //sprites de todas las tranformaciones & weapon 
+    this.transformationSprites = {
+      "default":{
+        main: "../assets/Prueba_SpritePeleando.png",
+        attacking: "../assets/Prueba_SpritePeleando.png"
+      },
+      "mariachi":{
+        main:  "../assests/mariachi_sprite.png",
+        attacking: " "
+      }
+      // agregar para cada sprite de tranformacion
+    }
+    this.weaponSprites ={
+      "default":{
+        main: "../assets/Prueba_SpritePeleando.png",
+        attacking: "../assets/Prueba_SpritePeleando.png"
+      }
+    }
+
+    //sprite activos
+    this.currentSprite = this.normalSprite;
+    this.currentAttackingSprite = this.normalAttackingSprite;
+    
+    // Estados Actuales
+    this.activeWeaponType = "default";
+    this.transformationType = "default";
+    this.isTransformed = false;
+    this.transformationTimer = 0;
+
     // Establecer frames de movimiento
     this.setMovementFrames('right', [6, 11], [8, 7, 9, 10]);
     this.setMovementFrames('left', [12, 15], [16, 14, 13]);
@@ -285,7 +320,39 @@ class BasePlayer extends BaseCharacter {
         this.switchBackToIdleState();
       }
     }
+
+    //actualizar timer si esta tranformado
+    if(this.isTransformed && this.transformationTimer>0){
+      this.transformationTimer -= deltaTime;
+
+      if(this.transformationTimer<= 0){
+        this.revertTrasformation();
+      }
+    }
   }
+
+  equipWeapon(weaponType){
+    this.activeWeaponType = weaponType;
+
+    if(!this.isTransformed){
+      this.updateCurrentSprites();
+    }
+
+    console.log('weapon equipped: ${weaponType}');
+  }
+
+  //metodo para tranformarse
+  applyTransformation(transformationType, duration){
+    this.isTransformed = true;
+    this.transformationType = transformationType;
+    this.transformationTimer = duration * 1000; //convertir segundos a milisegundos
+
+    this.updateCurrentSprites();
+     
+    console.log('Tranformation applied: ${tranformationType} for ${duration} seconds ');
+  }
+
+  rever
   
   switchBackToIdleState() {
     switch (this.lastDirection) {
