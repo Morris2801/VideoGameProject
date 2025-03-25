@@ -43,6 +43,7 @@ class Game {
                 else if (actor.type == 'card') {
                     this.player.inventory.push(actor);
                     // console.log("Picked up a card");
+                    this.player.inv
                     this.actors = this.actors.filter(item => item !== actor);
                     // console.log(this.player);
                 }

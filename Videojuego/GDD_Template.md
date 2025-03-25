@@ -95,7 +95,7 @@ In **MayAztec**, the player must balance **close-range-combat**, **inventory man
 2. **Heavy Enemies (Type II)**  
    - High HP, slower but with powerful hits.  
    - Recommended Tactic: Maintain distance, wait for their slow wind-up, then strike.  
-   - Card Synergy: Card healing or DoT (Damage-over-Time) effects help chip away at their large health pool.
+   - Card Synergy: Card healing  effects help chip away at their large health pool.
 
 ##### 1.3 Boss Fights Tactics
 - **Boss Phase Recognition**: Watch for animation or HP threshold cues that signal a shift in behavior.
@@ -149,7 +149,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Move Left**              | A / Left Arrow                   | Moves player character west.                                                             |
 | **Move Down**              | S / Down Arrow                   | Moves player character south.                                                            |
 | **Move Right**             | D / Right Arrow                  | Moves player character east.                                                             |
-| **Attack (BaseCard)**      | Spacebar                         | Performs a melee attack with the base weapon/card.                                       |
+| **Attack (BaseCard)**      | X                         | Performs a melee attack with the base weapon/card.                                       |
 | **Interact (Chest)**       | F                                | Opens chests, picks up items if available.                                               |
 | **Use Card 1–5**           | Number Keys 1–5                  | Activates the assigned Lotería card.                                                     |
 | **Dash**                   | Shift                            | Brief invulnerability and burst movement. Consumes stamina.                              |
@@ -198,33 +198,33 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 | **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
 |:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
-| 1       | Macuahuitl      | Weapon   | 5 pts         | 10 hits           | Aztec obsidian weapon. Replaces base weapon.                                                                    |
-| 2       | Cuchillo de Obsidiana  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos.                                                                                     |
-| 3       | Machete         | Weapon   | 3 pts + 1 DoT | 7 hits           | +1 poison for 2 seconds. Ideal vs. enemies with high HP (Heavy).                                                               |
+|    0    | Macuahuitl      | Weapon   | 5 pts         | 10 hits           | Aztec obsidian weapon. Replaces base weapon.                                                                    |
+| 1       | Cuchillo de Obsidiana  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos.                                                                                     |
+| 2       | Machete         | Weapon   | 6 pts | 5 hits           | Ideal vs. enemies with high HP (Heavy).                                                               |
 
 ##### Transformation Cards
 
 | **Card ID** | **Name**         | **Type**         | **Damage** | **Duration** | **Effect / Description**                                                                                                                      |
 |:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
-| 4       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 temporary health bars; weapon turns into a guitar with 4 damage points per hit. 
-| 5       | Diablo           | Transformation   | 3 pts (trident) | 10s       | Automatic regeneration up until 6 health points, with a trident with 2 damage pts per hit.  |
-| 6       | Guerrero Maya    | Transformation   | +2 actual weapon | 10s     | +2 resistance bars, stamina bar regenerates +1 second faster, and adds +1 damage points to equipped weapon.                                                      |
+| 3       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 temporary health bars; weapon turns into a guitar with 4 damage points per hit. 
+| 4       | Diablo           | Transformation   | 3 pts (trident) | 10s       | Automatic regeneration up until 6 health points, with a trident with 3 damage pts per hit.  |
+| 5       | Guerrero Maya    | Transformation   | +2 actual weapon | 10s     | +2 stamina bars, stamina bar regenerates +1 second faster                                          |
 
 ##### Cartas de Buff
 
 | **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
 |:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 7       | Corazón      | Buff      | –         | Instant     | Replenishes HP to the fullest, and adds 1 extra health slot. If said extra slot is lost, it won't be recovered unless another "Corazón" card is used.                              |
-| 8       | El Valiente  | Buff      | –         | 10s         | Grants **immunity** to damage for 10s, but **1 health bar is lost** when activating it.                                                             |
-| 9       | El Taco      | Buff      | –         | 10s         | Stamina remains unchanged for 10s, allowing unlimited dashes or combos in said lapse.                                                       |
-| 10       | La Calavera  | Buff      | –         | 10s         | Eliminates base enemies in a single hit; against bosses, adds +10 damage points to the selected weapon for 10s. Rarely dropped in-game.     |
+| 6       | Corazon      | Buff      | –         | Instant     | Replenishes HP to the fullest, and adds 1 extra health slot. If said extra slot is lost, it won't be recovered unless another "Corazón" card is used.                              |
+| 7       | El Valiente  | Buff      | –         | 10s         | Grants **immunity** to damage for 10s, but **1 health bar is lost** when activating it.                                                             |
+| 8       | El Taco      | Buff      | –         | 10s         | Stamina remains unchanged for 10s, allowing unlimited dashes or combos in said lapse.                                                       |
+| 9       | La Calavera  | Buff      | –         | 10s         | Eliminates base enemies in a single hit; against bosses, adds +10 damage points to the selected weapon for 10s. Rarely dropped in-game.     |
 
 **Drop Probability (General Guidelines)**:
-- **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons (A-002) or buff cards (B-001, B-003).  
-- **Medium Enemy (Guerrero Maya)**: ~20% chance for mid-tier weapons (A-001, A-003) or transformation T-003.  
-- **Heavy Enemy (El Diablo)**: ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).  
-- **Chests**: Weighted random from the full set (A-001 to B-004), guaranteed at least 1 card.  
-- **Boss Fights**: 5–10% chance for transformations (T-001, T-002) plus guaranteed resources.
+- **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons or buff cards.  
+- **Medium Enemy (Guerrero Maya)**: ~20% chance for mid-tier weapons or transformation.  
+- **Heavy Enemy (El Diablo)**: ~10–15% chance for high-tier gear or powerful buffs.  
+- **Chests**: Weighted random from the full set, guaranteed at least 1 card.  
+- **Boss Fights**: 5–10% chance for transformations plus guaranteed resources.
 
 
 
@@ -234,10 +234,10 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 | **Enemy**             | **HP Range** | **Damage** | **Behavior**                                                                                 | **Drop Probability**                                                             |
 |:---------------------:|:-----------:|:---------:|:--------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-| **El Músico / Mariachi** (Light) | 10       | 1      | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier (A-002) or minor buffs (B-001, B-003).                  |
-| **Tlaxcaltecas** (Light)         | 15       | 2       | Appear in small groups with basic melee.                                                    | ~15% chance for A-002 or a buff card.                                            |
-| **Guerrero Maya** (Medium)       | 20       | 3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons (A-001, A-003) or T-003.                        |
-| **El Diablo (Replica)** (Heavy)  | 35       | 4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear (A-003) or powerful buffs (B-004).            |
+| **El Músico / Mariachi** (Light) | 10       | 1      | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier or minor buffs.                  |
+| **Tlaxcaltecas** (Light)         | 15       | 2       | Appear in small groups with basic melee.                                                    | ~15% chance for Type Two or a buff card.                                            |
+| **Guerrero Maya** (Medium)       | 20       | 3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons  or transformation.                        |
+| **El Diablo (Replica)** (Heavy)  | 35       | 4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear  or powerful buffs.            |
   
 
 #### Bosses
@@ -248,7 +248,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
    - **Behavior**: Floats in serpent form, spitting acid or energy orbs.  
    - **Phase 1**: Sweeping tail attacks, occasional projectile.  
    - **Phase 2** (HP < 50%): Gains bullet-hell pattern (multiple orbs, swirling movement).  
-   - **Drop**: 5–10% chance for T-001 (Mariachi) or T-002 (Diablo), plus guaranteed healing/resources, and the blessing of God you get a greater resistance.
+   - **Drop**: 5–10% chance for Mariachi or Diablo, plus guaranteed healing/resources, and the blessing of God you get a greater resistance.
 
 2. **Ah Puch (God of Death)**  
    - **HP**: ~110  
@@ -256,7 +256,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
    - **Behavior**: Humanoid form, performs heavy physical strikes and launches fire zones.  
    - **Phase 1**: Straightforward melee combos + fire projectiles.  
    - **Phase 2** (HP < 50%): Expands fire zones, summons undead minions or orbs.  
-   - **Drop**: 5–10% chance for T-002 (Diablo) or T-003 (Guerrero Maya), plus a permanent unlock if design allows, and two bars of life.
+   - **Drop**: 5–10% chance for Diablo or Mayan Warrior, plus a permanent unlock if design allows, and two bars of life.
 
 **Level difficulties**
 
@@ -399,61 +399,47 @@ Basic Room Mockup:
 
 ### **Abstract Classes / Components**
 
-1. `GameObject`
-    1. `BaseCharacter`
-        1. `BasePlayer`
-        2. `BaseEnemy`
-    2. `BaseCard`
-    3. `BaseObstacles`
-    4. `BaseInteractable`
-2. `BaseLevel`
-3. `BaseRoom`
-4. `TextLabel`
-5. `Rect`
+1. `TextLabel` 
+2. `Rect`
+3. `Vec`
+4. `GameObject`
+5. `Game`
 6. `Inventory`
-7. `Game`
+7. `Level`
+
 
 
 ### **Derived Classes / Component Compositions**
 
-1. `BasePlayer`
-2. `BaseEnemy` (may drop 1 Card each)
-    1. `EnemyTlaxcalteca`
-    2. `EnemyMariachi`
-    3. `EnemyDemon`
-    4. `EnemyMayan`
-    5. `EnemyQuetzalcoatl`
-    6. `EnemyAhPuch`
-3. `ObjectCard` (pick-up-able, consumable)
-    1. `Weapons`
-        1. `MacuahuitlC`
-        2. `Cuchillo ObsidianaC`
-        3. `MacheteC`
-    2. `Transformation`
-        1. `MariachiC`
-        2. `DiabloC`
-        3. `MayanWarriorC`
-    3. `Buff`
-        1. `CorazonC`
-        2. `ValienteC`
-        3. `TacoC`
-        4. `CalaveraC`
-4. `BaseObstacle`
-    1. `ObstacleWall` (with some variants in texture sprites)
-    2. `ObstacleColumn`
-    3. `Miscellaneous`
-        1. `Torch`
-        2. `Vines`
-        3. `Runes`
-5. `BaseInteractable`
-    1. `ObjectChest` (interactable, gives 1 Card each guaranteed)
-6. `BaseLevel`
+1. `GameObject`
+    1. `AnimatedObject` 
+        1. `BaseCharacter`
+            1. `BaseEnemy`
+                1. `EnemyTlaxcalteca`
+                2. `EnemyMariachi`
+                3. `EnemyDemon`
+                4. `EnemyMayan`
+            2. `BaseBoss`
+                1. `EnemyQuetzalcoatl`
+                2. `EnemyAhPuch`
+            3. `BasePlayer`
+        2. `Torch`
+    2. `BaseCard`
+        A. `MacuahuitlCard`
+        B. `ObsidianKnifeCard`
+        C. `MacheteCard`
+        D. `MariachiCard`
+        E. `DiabloCard`
+        F. `MayanWarriorCard`
+        G. `CorazonCard`
+        H. `ValienteCard`
+        I. `TacoCard`
+        J. `CalaveraCard`
+    3. `BaseInteractable`
+        1. `ObjectChest`
+2. `Level`
     1. `Level1`
     2. `Level2`
-7. `BaseRoom`
-    1. `BossRoom`
-    2. `OrdinaryRoom`
-
 
 ---
 
@@ -632,12 +618,15 @@ The music will be structured to loop per level, maintaining an immersive experie
 1. Set up `Basic Enemy derived classes`
 2. Delve into combat system and player attributes, as well as player sprite animation
 3. Set up Interactables
+4. Add the `ApplyEffect` to the power up system
 
 ### Sprint 3: 
 1. Finish designing sprites and setting up basic animations for characters
-2. Set up `Card classes` with sprites
-3. Set up `Boss classes` with sprites
-4. Work on Boss's phases
+2. Start the website page with its aesthetics
+3. Start the Database and learn the CRUD method
+4. Set up `Card classes` with sprites
+5. Set up `Boss classes` with sprites
+6. Work on Boss's phases
 
 ### Sprint 4: 
 1. Work on level generation

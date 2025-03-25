@@ -6,7 +6,7 @@ Main Script for MayAztec
 
 // Global variables
 const canvasWidth = 900;
-const canvasHeight = 700;
+const canvasHeight = 600;
 let ctx;
 let game;
 let oldTime;
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', init);
 
 
 function init(){
-    console.log("iniciando juego..");
     const canvas = document.getElementById('canvas');
     // Resize the element
     canvas.width = canvasWidth;
@@ -37,7 +36,8 @@ function init(){
 
 function gameStart() {
     // Register the game object, which creates all other objects
-    game = new Game('playing', new Level(GAME_LEVELS[1])); //<- Será [2]
+    game = new Game('playing', new Level(GAME_LEVELS[0]));
+    console.log(game.level);
     console.log(game.player);
     
     setEventListeners();
@@ -61,13 +61,17 @@ function setEventListeners() {
         if (event.key == 'd' || event.key == "D" || event.code == "ArrowRight") {
             game.player.startMovement("right");
         }
+        if (event.key >= '1' && event.key <= '6') {
+            let index = parseInt(event.key) - 1;
+            game.player.useCard(index);
+            console.log("Key pressed: " + event.key);
+        }
 
         //ataque del player
         if(event.key == "x" || event.key == "X"){
             game.player.startAttack();
             console.log("ataque realizado");
         }
-
     });
 
     window.addEventListener("keyup", event => {
@@ -88,11 +92,6 @@ function setEventListeners() {
     });
 }
 
-
-
-
-
-
 // Function to draw the scene
 function drawScene(newTime){
     if (oldTime == undefined) {
@@ -105,14 +104,6 @@ function drawScene(newTime){
     game.update(deltaTime);
     game.draw(ctx,scale);
 
-
     oldTime = newTime;
     requestAnimationFrame(drawScene);
 }
-
-function main() {
-    // Get a reference to the object with id 'canvas' in the page
-    window.onload = init
-}
-
-main();

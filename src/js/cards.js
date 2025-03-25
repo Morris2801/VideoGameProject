@@ -1,20 +1,65 @@
 // BaseCard
-class BaseCard extends GameObject{
-    constructor(color, width, height, x, y, type){
-        super("yellow", width, height, x, y, type);
+class BaseCard extends GameObject {
+    constructor(color, width, height, x, y, type) {
+        super(color, width, height, x, y, type);
         this.maxUses = -1;
         this.duration = undefined;
-        this.healthBuff = 0;        
-        this.healthRegenBuff = 0; 
+        this.healthBuff = 0;
+        this.healthRegenBuff = 0;
         this.staminaBuff = 0;
-        this.staminaRegenBuff = 0; 
+        this.staminaRegenBuff = 0;
         this.damageBuff = 0;
     }
-    applyEffect(character) {
-        character.health += this.healthBuff;
-        character.stamina += this.staminaBuff;
-        character.damage += this.damageBuff;
-        // y más buffs
+
+    applyEffect(target) {
+        if (!target) {
+            console.error("No hay un objetivo válido para aplicar el efecto.");
+            return;
+        }
+        console.log(`Aplicando efectos de la carta a ${target.type}`);
+
+        // Aplica los buffs a los atributos del objetivo dependiendo la carta usada
+        target.health += this.healthBuff;
+        target.healthRegen += this.healthRegenBuff;
+        target.stamina += this.staminaBuff;
+        target.staminaRegen += this.staminaRegenBuff;
+        target.damage += this.damageBuff;
+
+        // Print de los stat buffs y cuanto tiempo le resta
+        this.printStatus(target, this.duration);
+        if (this.duration !== undefined && this.duration > 0) {
+            let remainingTime = this.duration;
+            let interval = setInterval(() => {
+                remainingTime -= 1;
+                if (remainingTime > 0) {
+                    this.printStatus(target, remainingTime);
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+
+        // Revertir efectos cuando el tiempo es igual a 0
+        if (this.duration !== undefined && this.duration > 0) {
+            setTimeout(() => {
+                target.health -= this.healthBuff;
+                target.healthRegen -= this.healthRegenBuff;
+                target.stamina -= this.staminaBuff;
+                target.staminaRegen -= this.staminaRegenBuff;
+                target.damage -= this.damageBuff;
+                console.log(`El efecto de la carta en ${target.type} ha terminado.`);
+            }, this.duration * 1000);
+        }
+    }
+
+    printStatus(target, timeLeft) {
+        console.log(`Estado de ${target.type}:`);
+        console.log(`Vida: ${target.health}`);
+        console.log(`Regen Vida: ${target.healthRegen}`);
+        console.log(`Stamina: ${target.stamina}`);
+        console.log(`Regen Stamina: ${target.staminaRegen}`);
+        console.log(`Daño: ${target.damage}`);
+        console.log(`Tiempo restante: ${timeLeft} segundos`);
     }
 }
 

@@ -1,94 +1,363 @@
-*{
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
+* {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+/* ------------------ Background History Page ------------------ */
+#gameTitle{
+    font-size: 3em;
+    color: white;
+    text-align: center;
+}
+
+
+/* Cosas para el grid (Layout 2 de Octavio)*/ 
+.grid-container2{  
+  display: grid;
+  grid-template-columns: 1.20fr 1.05fr 1.05fr;
+  grid-template-rows: 15% 45% 30%;
+  gap: 20px;
+  height: 100%;
+  padding: 10px;
+  grid-template-areas:
+      "header header nav"
+      "lat bar bar"
+      "lat . ."
+      "footer footer footer";
+}
+
+
+
+#grid-item-2-3 {
+  border: 4px solid #8b4513;
+  background-color: rgba(55, 34, 9, 0.95);
+}
+
+#grid-item-2-4 {
+  border: 4px solid #8b4513;
+  background-color: rgba(85, 75, 66, 0.9);
+}
+
+#grid-item-2-5, #grid-item-2-6 {
+  border: 4px solid #8b4513;
+  background-color: rgba(34, 35, 34, 0.9);
+}
+
+#grid-item-2-4 p {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  line-height: 1.4;
+  color: #fff;
+  text-shadow: 1px 1px 0px #000;
+}
+
+footer {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: #e8c766;
+  padding-top: 15px;
+}
+
+/* Estilo para las cuadrículas de cartas y enemigos */
+.card-grid, .enemy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.card-item, .enemy-item {
+  background-color: #8b4513;
+  border: 2px solid #e8c766;
+  padding: 15px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+}
+
+.card-item:hover, .enemy-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(232, 199, 102, 0.5);
+  border-color: #fff;
+}
+
+#grid-item-2-2 {
+  background-color: rgba(34, 26, 20, 0.9);
+  border: 3px solid #453624;
+}
+
+/* ------------- Home Page -------------- */
+#homeBody {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-image: url("../assets/mainBackground.jpeg");
+  background-color: rgb(0, 0, 0);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; 
+  min-height: 100vh;
+  color: white;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+.game-header {
+  text-align: left;
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 30px;
+}
+
+.game-header img {
+  max-width: 80%;
+  max-height: 150px;
+  filter: drop-shadow(0px 0px 10px rgba(232, 199, 102, 0.8));
+}
+
+/* Estilos para la navegación vertical */
+.game-nav {
+  display: flex;
+  flex-direction: column; 
+  gap: 15px;
+  margin-bottom: 40px;
+  padding: 20px;
+
+  border-radius: 20px;
+  width: 220px; 
+  position: absolute; 
+  left: 50px; 
+  top: 40%; 
+}
+
+.nav-button{
+  width: 100%;
+}
+.nav-button a {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 20px;
+  color: #e8c766;
+  background-color: #000;
+  padding: 15px 20px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  display: block; 
+  text-align: center;
+  transition: all 0.2s ease;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+  position: relative;
+  letter-spacing: 1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-button a:hover {
+  background-color: #7d5a1a;
+  color: #fff;
+  transform: translateX(10px);
+}
+
+.nav-button a:hover::before {
+  opacity: 1;
+}
+
+/* Estilos para las cartas */
+.card-section {
+  text-align: center;
+  position: absolute;
+  bottom: 180px;
+  left: 60%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 5;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  perspective: 1000px;
+}
+
+.card {
+  width: 120px;
+  height: 170px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.card img {
+  width: 100%;
+  height: 150%;
+  object-fit: cover;
+  border: 3px solid #000;
+  border-radius: 5px;
+}
+
+
+.card:hover {
+  transform: translateY(-15px) scale(1.1) rotate(2deg);
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+
+footer {
+  position: fixed; 
+  bottom: 0;
+  left: 0;
+  width: 100%; 
+  text-align: center;
+  padding: 5px;
+  background-color: rgba(21, 54, 27, 0.8); 
+  z-index: 100; /* Asegura que esté por encima de otros elementos */
+  margin: 0; 
   
-  body {
-      background-color: rgb(0, 0, 0);
-      width: 100vw;
-      height: 100vh;
-      box-sizing: border-box;
-      margin: 0;
-      overflow: hidden;
-      display:grid;
-      grid-template-rows: 10vh 1fr;
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "header"
-        "main";
-      justify-content: center;
-      align-items: center;
-      justify-items: center;
-  }
-  
-  #headerContainer{
-    grid-area: header;
-    background-color: rgb(68, 63, 12);
-    width: 75%;
-    height: 150%;
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px 20px 20px 20px;
-    border: 10px solid rgb(34, 87, 52);
-  }
-  
-  h1{
-    margin: 0px;
-    color: white; 
-    font-size: 40px; 
-  }
-  
-  canvas {
-      /* width: 75vw; */
-      /* height: 75vh; */
-      border: 10px solid rgb(145, 145, 145);
-      background-color: #414b4e;
-      border-radius: 100px;
-      /* width: 600px; */
-      /* height: 600px; */
-  }
-  
-  #canvas {
-    background-color: #626262;
-    grid-area: main;
-  }
-  
-  .lil-gui.autoPlace{
+}
+
+.linkContainer a {
+  font-family: "Press Start 2P", cursive;
+  font-size: 14px;
+  color: #e8c766;
+  background-color: #000;
+  border: none;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+  transition: all 0.2s ease;
+  position: relative;
+  letter-spacing: 1px;
+  /* background-color: rgb(75, 59, 46); para encontrarlo, si quieren quitar va */
+}
+.linkContainer a:hover{
+  background-color: #7d5a1a;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ------------------ Game Page ------------------ */
+
+#gameBody{
+  background-color: rgb(0, 0, 0);
+  height: 100vh;
+  color: white;
+  overflow: hidden;
+}
+/* Cosas para el gamegrid*/ 
+.grid-containerGame{  
+  display: grid;
+  grid-template-columns: 1.05fr 1.15fr 1.15fr;
+  grid-template-rows: 15% 670px 5%;
+  gap: 20px;
+  height: 100%;
+  padding: 35px;
+  grid-template-areas:
+      "header header nav"
+      "lat canvas canvas"
+      "footer footer footer";
+}
+#grid-item-G-1 {
+  grid-area: header;
+  background-color: rgba(21, 54, 27, 0.3);
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  border-bottom-left-radius: 50px;
+}
+#grid-item-G-2 {
+  grid-area: nav;
+  background-color:  rgb(75, 59, 46, 0.3);
+  border-bottom-right-radius: 50px;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+}
+#grid-item-G-3{
+  grid-area: lat;
+  background-color: rgba(55, 34, 9, 0.886);
+  padding: 30px;
+  border: rgb(62, 62, 62) 3px solid;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+  height: auto;
+}
+#grid-item-G-4{
+  grid-area: canvas;
+  background-color:  transparent;
+}
+#canvas {
+  border: 10px solid rgb(145, 145, 145);
+  background-color: #414b4e;
+  border-radius: 100px;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+}
+#grid-item-G-5 {
+  grid-area: footer;
+  background-color: rgb(21, 54, 27, 0.3);
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  position: relative;
+}
+footer img {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  border-image: solid 3px rgba(52, 73, 56, 0.3);
+}
+
+
+
+
+
+
+.lil-gui.autoPlace {
     top: 15vh;
     right: 5vw;
-  }
-  
-  #backButton {
-      margin: 10px;
-  }
-  
-  #uiContainer {
-    position: absolute;
-    top: 15vh;
-    right: 5vw;
-    z-index: 3;
-    font-family: monospace;
-    pointer-events: none;
-    padding: 1em;
-    background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 1em;
-    border: 1px solid turquoise;
-  
-    text-shadow:
-     -1px -1px 0 #FFF,
-      1px -1px 0 #FFF,
-      -1px 1px 0 #FFF,
-       1px 1px 0 #FFF;
-  }
-  #ui {
+}
+
+#ui {
     opacity: 0.8;
-  }
-  #ui>div {
+}
+
+#ui > div {
     pointer-events: none;
-  }
-  #ui input, #ui select, #ui option, #ui canvas {
+}
+
+#ui input, #ui select, #ui option, #ui canvas {
     pointer-events: auto;
-  }
-  
+}
+
+
+
+/* ------------------ Credits Page ------------------ */
