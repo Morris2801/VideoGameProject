@@ -149,7 +149,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Move Left**              | A / Left Arrow                   | Moves player character west.                                                             |
 | **Move Down**              | S / Down Arrow                   | Moves player character south.                                                            |
 | **Move Right**             | D / Right Arrow                  | Moves player character east.                                                             |
-| **Attack (BaseCard)**      | Spacebar                         | Performs a melee attack with the base weapon/card.                                       |
+| **Attack (BaseCard)**      | X                         | Performs a melee attack with the base weapon/card.                                       |
 | **Interact (Chest)**       | F                                | Opens chests, picks up items if available.                                               |
 | **Use Card 1–5**           | Number Keys 1–5                  | Activates the assigned Lotería card.                                                     |
 | **Dash**                   | Shift                            | Brief invulnerability and burst movement. Consumes stamina.                              |

@@ -192,6 +192,7 @@ footer img {
   left: 50%;
   transform: translateX(-50%);
   display: none;
+  border-image: solid 3px rgba(52, 73, 56, 0.3);
 }
 
 
