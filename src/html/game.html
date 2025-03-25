@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MayAztec Game</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/basicClasses.js"></script>
+    <script src="../js/player.js"></script>
+    <script src="../js/enemies.js"></script>
+    <script src="../js/cards.js"></script>
+    <script src="../js/animatedObjects.js"></script>
+    <script src="../js/interactables.js"></script>
+    <script src="../js/levels.js"></script>
+    <script src="../js/world.js"></script>
+    <script src="../js/game.js"></script>
+    <script src="../js/main.js"></script>
+</head>
+<body id="gameBody">
+    <div class="grid-containerGame">
+        <header id="grid-item-G-1">
+            <img src="../assets/Game_LogoTitle.png">
+        </header>
+        <nav id="grid-item-G-2">
+            <div class="linkContainer">
+                <a href="home.html">Home</a>
+            </div>
+            <div class="linkContainer">
+                <a href="game.html">Play</a>
+            </div>
+            <div class="linkContainer">
+                <a href="credits.html">Credits</a>
+            </div>
+        </nav>
+        <aside id = "grid-item-G-3">
+            <p>
+                Idealmente, averiguaremos cómo poner estadísticas aquí
+            </p>
+        </aside>
+        <div id="grid-item-G-4">
+            <canvas id="canvas"></canvas>
+        </div>
+        <footer id="grid-item-G-5">
+            <p>Need a hint? Hover for controls!</p>
+            <img id="footerImage" src="../images/footer_image.png" alt="Footer Image" style="display: none;">
+        </footer>
+    </div>
+    <audio id="levelMusic1" src="" loop></audio>
+    <audio id="bossMusic" src="" loop></audio>
+    <script>
+        let levelMusic1 = document.getElementById("levelMusic1");
+        let bossMusic = document.getElementById("bossMusic");
+
+        levelMusic1.play();
+
+        function BossSwitchMusic() {
+            levelMusic1.pause();
+            bossMusic.play();
+        }
+
+        document.querySelector('footer').addEventListener('mouseover', () => {
+            document.getElementById('footerImage').style.display = 'block';
+        });
+
+        document.querySelector('footer').addEventListener('mouseout', () => {
+            document.getElementById('footerImage').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

@@ -6,7 +6,7 @@ Main Script for MayAztec
 
 // Global variables
 const canvasWidth = 900;
-const canvasHeight = 700;
+const canvasHeight = 600;
 let ctx;
 let game;
 let oldTime;
