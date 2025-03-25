@@ -81,6 +81,13 @@ const levelChars = {
         rect: new Rect(0, 0, 65, 76),
         sheetCols: 6,
         startFrame: [0, 0]},
+    //ENEMYstest
+    "e": {objClass: BaseEnemy,
+        label: "enemy",
+        sprite: '../assets/mariachiSpriteSheet.jpeg',
+        rect: new Rect(0, 0, 65, 76),
+        sheetCols: 6,
+        startFrame: [0, 0]},
     
     
 };
@@ -150,6 +157,16 @@ class Level {
                 else if (actor.type == "vine"){
                     this.addBackgroundFloor(x, y);
                     actor.setSprite(item.sprite, item.rect); 
+                    this.actors.push(actor);
+                    cellType = "empty";
+                }
+
+
+                else if(actor.type == "enemy"){
+                    this.addBackgroundFloor(x, y);
+                    actor.setSprite(item.sprite, item.rect);
+                    actor.sheetCols = item.sheetCols;
+                    actor.setAnimation(...item.startFrame, true, 100);
                     this.actors.push(actor);
                     cellType = "empty";
                 }

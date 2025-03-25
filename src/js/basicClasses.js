@@ -56,6 +56,12 @@ class Vec {
     magnitude(){
         return Math.sqrt(this.x **2 + this.y **2);
     }
+    distanceTo(vec2){
+        return this.minus(vec2).magnitude();
+    }
+    direction(){
+        return new Vec(this.x/this.magnitude(), this.y/this.magnitude());
+    }
 }
 
 class GameObject{

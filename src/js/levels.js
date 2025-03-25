@@ -61,12 +61,13 @@ function levGen(width, height, numEnemies, numCards){
     for (let i = 0; i < Math.floor(cells / 25); i++){// Jugar con la división cells/n para mantener ratio
         placeX("v");
     }
-    //enemiesTest
-    /*
+ 
+    //enemiesTest   
     for (let i = 0; i < numEnemies; i++){
         placeX("e");
     }
-    */
+    
+
     //cardsTest
     for (let i = 0; i < numCards; i++){
         placeX("$");
