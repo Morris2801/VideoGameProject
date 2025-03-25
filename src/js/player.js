@@ -207,16 +207,20 @@ class BasePlayer extends BaseCharacter {
       }
     };
     
-    // Cargar sprite del arma
-    this.weaponSprite = new Image();
-    this.weaponSprite.src = "../assets/Prueba_SpritePeleando.png";
-    this.weaponSprite.onload = () => console.log("Weapon loaded");
-    
-    // Cargar sprite de ataque
+    // Personaje
+    this.normalSprite = new Image(); // AÑADIDO: definir normalSprite
+    this.normalSprite.src = "../assets/Prueba_SpritePeleando.png";
+    this.normalSprite.onload = () => console.log("Normal sprite loaded");
+  
     this.normalAttackingSprite = new Image();
     this.normalAttackingSprite.src = "../assets/Prueba_SpritePeleando.png";
     this.normalAttackingSprite.onload = () => console.log("Attack sprite loaded");
-    
+  
+  // Sprites para armas
+    this.weaponSprite = new Image();
+    this.weaponSprite.src = "../assets/Prueba_SpritePeleando.png";
+    this.weaponSprite.onload = () => console.log("Weapon loaded");
+
     //sprites de todas las tranformaciones & weapon 
     this.transformationSprites = {
       "default":{
@@ -352,7 +356,20 @@ class BasePlayer extends BaseCharacter {
     console.log('Tranformation applied: ${tranformationType} for ${duration} seconds ');
   }
 
-  rever
+  revertTransformation() {
+    this.isTransformed = false;
+    this.transformationType = "default";
+    
+    // Actualizar sprites - volver a los del arma activa si hay alguna
+    this.updateCurrentSprites();
+    
+    // Restaurar estadísticas base
+    this.health = this.baseHealth;
+    this.stamina = this.baseStamina;
+    this.damage = this.baseDamage;
+    
+    console.log("Transformation reverted to normal");
+  }
   
   switchBackToIdleState() {
     switch (this.lastDirection) {
@@ -477,7 +494,7 @@ class BasePlayer extends BaseCharacter {
     const spriteY = Math.floor(frameToUse / this.sheetCols) * characterHeight;
     
     ctx.drawImage(
-      this.attackingSprite,
+      this.currentAttackingSprite,
       spriteX, spriteY,
       characterWidth, characterHeight,
       0, 0,
