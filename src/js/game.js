@@ -4,14 +4,32 @@ class Game {
         this.level = level;
         this.player = this.level.player;
         this.actors = level.actors;
+        this.attackEffects = []; // lista de efectos de ataque 
         
     }
 
+    addAttackEffect(effect)
+    {
+        this.attackEffects.push(effect);
+    }    
     update(deltaTime) {     
         this.player.update(this.level, deltaTime);
+        
 
         for (let actor of this.actors) {
-            actor.update(this.level, deltaTime);
+            if(typeof actor.update === "function"){
+                actor.update(this.level, deltaTime);
+            }
+        }
+
+        for(let i = this.attackEffects.length-1; i >= 0; i--){
+            const effect = this.attackEffects[i];
+            effect.update(this.level, deltaTime);
+    
+            //eliminar animacion inactivas
+            if(effect.shouldRemove){
+                this.attackEffects.splice(i,1);
+            }
         }
 
         let currentActors = this.actors;
@@ -32,13 +50,18 @@ class Game {
             }
         }
     }
+    
+    
 
     draw(ctx, scale) {
         for (let actor of this.actors) {
             actor.draw(ctx, scale);
         }
+    for (let effect of this.attackEffects) {
+    console.log("Dibujando efecto en:", effect.position.x, effect.position.y);
+        effect.draw(ctx, scale);
+    }
         this.player.draw(ctx, scale);
-
         }
 }
 

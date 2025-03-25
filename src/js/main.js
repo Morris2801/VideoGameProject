@@ -66,6 +66,12 @@ function setEventListeners() {
             game.player.useCard(index);
             console.log("Key pressed: " + event.key);
         }
+
+        //ataque del player
+        if(event.key == "x" || event.key == "X"){
+            game.player.startAttack();
+            console.log("ataque realizado");
+        }
     });
 
     window.addEventListener("keyup", event => {
@@ -81,6 +87,8 @@ function setEventListeners() {
         if (event.key == 'd' || event.key == "D" || event.code == "ArrowRight") {
             game.player.stopMovement("right");
         }
+
+    
     });
 }
 

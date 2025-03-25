@@ -1,4 +1,3 @@
-
 // BaseCard
 class BaseCard extends GameObject {
     constructor(color, width, height, x, y, type) {

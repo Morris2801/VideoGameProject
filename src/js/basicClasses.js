@@ -75,26 +75,29 @@ class GameObject{
             this.spriteRect = rect;
         }
     }
-    draw(ctx, scale) {
+    draw(ctx, scale, customScale = 1) {
+        const scaledX = this.position.x * scale;
+        const scaledY = this.position.y * scale;
+        const scaledWidth = this.size.x * scale * customScale;
+        const scaledHeight = this.size.y * scale * customScale;
+        
         if (this.spriteImage) {
-            // Draw a sprite if the object has one defined
             if (this.spriteRect) {
                 ctx.drawImage(this.spriteImage,
-                              this.spriteRect.x * this.spriteRect.width,
-                              this.spriteRect.y * this.spriteRect.height,
-                              this.spriteRect.width, this.spriteRect.height,
-                              this.position.x * scale, this.position.y * scale,
-                              this.size.x * scale, this.size.y * scale);
+                          this.spriteRect.x * this.spriteRect.width,
+                          this.spriteRect.y * this.spriteRect.height,
+                          this.spriteRect.width, this.spriteRect.height,
+                          scaledX, scaledY,
+                          scaledWidth, scaledHeight);
             } else {
                 ctx.drawImage(this.spriteImage,
-                              this.position.x * scale, this.position.y * scale,
-                              this.size.x * scale, this.size.y * scale);
+                          scaledX, scaledY,
+                          scaledWidth, scaledHeight);
             }
         } else {
-            // If there is no sprite asociated, just draw a color square
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.position.x * scale, this.position.y * scale,
-                         this.size.x * scale, this.size.y * scale);
+            ctx.fillRect(scaledX, scaledY,
+                     scaledWidth, scaledHeight);
         }
     }
 
@@ -134,10 +137,17 @@ class AnimatedObject extends GameObject{
             // Loop around the animation frames if the animation is set to repeat
             // Otherwise stay on the last frame
             let restartFrame = (this.repeat ? this.minFrame : this.frame);
+            
+            // Verificar si la animación esta por terminar
+            let wasLastFrame = (this.frame === this.maxFrame);
+            
             this.frame = this.frame < this.maxFrame ? this.frame + 1 : restartFrame;
             this.spriteRect.x = this.frame % this.sheetCols;
             this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
             this.totalTime = 0;
+            
+            // Señalar cuando la animacion ha completado un ciclo
+            this.animationComplete = wasLastFrame && !this.repeat;
         }
     }
 }
