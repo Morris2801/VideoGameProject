@@ -84,8 +84,8 @@ const levelChars = {
     //ENEMYstest
     "e": {objClass: BaseEnemy,
         label: "enemy",
-        sprite: '../assets/mariachiSpriteSheet.jpeg',
-        rect: new Rect(0, 0, 65, 76),
+        sprite: '../assets/skelMariachi_SpriteSheet.png',
+        rect: new Rect(0, 0,96,74),
         sheetCols: 6,
         startFrame: [0, 0]},
     

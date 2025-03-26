@@ -1,4 +1,4 @@
-let maxCols = 26;
+let maxCols = 24;
 let minCols = 19;
 let maxRows = 17;
 let minRows = 12;

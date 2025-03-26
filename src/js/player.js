@@ -157,7 +157,7 @@ class AttackAnimation extends AnimatedObject {
 // Jugador
 
 
-let rescale = 0.7;
+let rescale = 0.9;
 class BasePlayer extends BaseCharacter {
   constructor(_color, width, height, x, y, _type) {
     super(_color, width*rescale, height*rescale, x, y, _type);

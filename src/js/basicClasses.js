@@ -216,7 +216,7 @@ class BaseCharacter extends AnimatedObject{
         // Find out where the player should end if it moves
         let newPosition = this.position.plus(this.velocity.times(deltaTime));
         // Move only if the player does not move inside a wall
-        if (!level.contact(newPosition, this.size, 'wall')) {
+        if (!level.contact(newPosition, this.size, 'wall') && !level.contact(newPosition, this.size, 'door')) {
             this.position = newPosition;
         }
         this.updateFrame(deltaTime);
