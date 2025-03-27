@@ -22,6 +22,8 @@ class Game {
             }
         }
 
+        
+
         for(let i = this.attackEffects.length-1; i >= 0; i--){
             const effect = this.attackEffects[i];
             effect.update(this.level, deltaTime);
@@ -31,12 +33,12 @@ class Game {
                 this.attackEffects.splice(i,1);
             }
         }
-
+        this.actors = this.actors.filter(actor => actor.alive !== false);
         let currentActors = this.actors;
         // Detect collisions
         for (let actor of currentActors) {
             if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
-                console.log(`Collision of ${this.player.type} with ${actor.type}`);
+                //console.log(`Collision of ${this.player.type} with ${actor.type}`);
                 if (actor.type == 'wall') {
                     console.log("Hit a wall");
                 } 
@@ -57,12 +59,12 @@ class Game {
         for (let actor of this.actors) {
             actor.draw(ctx, scale);
         }
-    for (let effect of this.attackEffects) {
+    /*for (let effect of this.attackEffects) {
     console.log("Dibujando efecto en:", effect.position.x, effect.position.y);
         effect.draw(ctx, scale);
-    }
+    }*/
         this.player.draw(ctx, scale);
-        }
+    }
 }
 
 

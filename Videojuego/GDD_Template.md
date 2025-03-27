@@ -305,15 +305,15 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 | | **Level 1** | **Level 2** |
 |---|----------|------------|
 | **Rooms** | 12 Possible choices: <ul><li>You enter a starting room</li><li>You have multiple paths</li><li>Some doors are closed and you can't pass through them</li><li>All accessible paths lead to the boss.</li></ul> | 15 Possible choices: <ul><li>More possibilities to explore and try to reach the boss</li><li>All accessible paths lead to the boss.</li></ul> |
-| **Enemies** | 4 to 1 enemy in each dungeon room: <ul><li>Can do 1, 2, 3, 4 enemies in each room</li></ul> | From 2 to 5 enemies in each room: <ul><li>Higher possibility of high-category enemies</li></ul> |
+| **Enemies** | 3-5 enemies in each dungeon room: <ul><li>Can do 3, 4, 5 enemies in each room</li></ul> | From 4 to 7 enemies in each room: <ul><li>Higher possibility of high-category enemies</li></ul> |
 | **Chests** | A chest has a 20% chance in every room of the dungeon at this level. | A chest has a 15% chance in every room of the dungeon at this level. |
 
 | **Enemy Probabilities**   | **Level 1**                  | **Level 2**                  |
 |---------------------------|------------------------------|------------------------------|
-| **Mariachi** (Light)      | ~40% of appearances         | ~20% of appearances         |
-| **Tlaxcaltecas** (Light)  | ~40% of appearances         | ~20% of appearances         |
-| **Guerrero Maya** (Medium) | ~15% of appearances         | ~40% of appearances         |
-| **Diablo (Replica)** (Heavy) | ~5% of appearances      | ~20% of appearances         |
+| **Mariachi** (Type1)      | ~40% of appearances         | ~20% of appearances         |
+| **Tlaxcaltecas** (Type1)  | ~40% of appearances         | ~20% of appearances         |
+| **Guerrero Maya** (Type2) | ~15% of appearances         | ~40% of appearances         |
+| **Diablo (Replica)** (Type2) | ~5% of appearances      | ~20% of appearances         |
 | **Boss Quetzalcoatl**     | Only in the final boss room (100% chance if it's the last room in Level 1) | 0% in normal rooms |
 | **Boss Ah Puch**          | 0% in normal rooms         | Only in the final boss room (100% chance if it's the last room in Level 2) |
 

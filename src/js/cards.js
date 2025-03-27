@@ -9,6 +9,8 @@ class BaseCard extends GameObject {
         this.staminaBuff = 0;
         this.staminaRegenBuff = 0;
         this.damageBuff = 0;
+
+        this.cardType = '';
     }
 
     applyEffect(target) {
@@ -65,74 +67,84 @@ class BaseCard extends GameObject {
 
 class MacahuitlCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "weaponCard");
+        super(color, width, height, x, y, type);
         this.damageBuff = 5;
         this.maxUses = 10;
+        this.cardType = "weaponCard";
     }
 }
 class ObsidianKnifeCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "weaponCard");
+        super(color, width, height, x, y, );
         this.damageBuff = 4;
         this.maxUses = 10;
+        this.cardType = "weaponCard";
     }
 }
 class MacheteCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "weaponCard");
+        super(color, width, height, x, y, type);
         this.damageBuff = 6;
         this.maxUses = 5;
+        this.cardType = "weaponCard";
     }
 }
 class MariachiCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "transformationCard");
+        super(color, width, height, x, y, type);
         this.damageBuff = 4;
         this.healthBuff = 3;
         this.duration = 10;
+        this.cardType = "transformationCard";
     }
 }
 class DiabloCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "transformationCard");
+        super(color, width, height, x, y, type);
         this.damageBuff = 3;
         this.duration = 10;
         this.healthRegenBuff = 6;
+        this.cardType = "transformationCard";
     }
 }
 class MayanWarriorCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "transformationCard");
+        super(color, width, height, x, y, type);
         this.duration = 10;
         this.staminaBuff = 2;
         this.staminaRegenBuff = 1;
+        this.cardType = "transformationCard";
     }
 }
 class CorazonCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "powerCard");
+        super(color, width, height, x, y, type);
         this.healthBuff = 10;
         this.maxUses = 1;
+        this.cardType = "powerCard";
     }
 }
 class ValienteCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "powerCard");
+        super(color, width, height, x, y, type);
         //poner cosas de inmunidad que idk
         this.duration = 10;
+        this.cardType = "powerCard";
     }
 }
 class TacoCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "powerCard");
+        super(color, width, height, x, y, type);
         //bloqueo de stamina por 10 s
         this.duration = 10;
+        this.cardType = "powerCard";
     }
 }
 class CalaveraCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, "powerCard");
+        super(color, width, height, x, y, type);
         this.duration = 10;
         this.damageBuff = 10;
+        this.cardType = "powerCard";
     }
 }

@@ -89,7 +89,7 @@ class AttackAnimation extends AnimatedObject {
     this.active = true;
     
     if (sprite) {
-      this.setSprite(sprite, new Rect(0, 64, 112, 64));
+      this.setSprite(sprite, new Rect(0, 64, 64, 64));
       this.sheetCols = 6;
       this.setAnimation(0, 5, false, 100);
     }
@@ -177,7 +177,7 @@ class BasePlayer extends BaseCharacter {
     this.attackCooldown = 100;
     this.attackDuration = 0;
     this.attackMaxDuration = 700; // 500ms para completar el ataque
-    this.lastDirection = "right"; // direccion por defecto
+    this.lastDirection = "right"; //  por defecto
     this.hasHitEnemy = false;
 
     // Cajas de colision de ataque (para detectar golpes)
@@ -189,22 +189,22 @@ class BasePlayer extends BaseCharacter {
         height: PLAYER_SCALE+0.5  
       },
       left: {
-        xOffset: -10 * PLAYER_SCALE, 
-        yOffset: this.size.y / 2 - (5 * PLAYER_SCALE) / 2, 
-        width: 10 * PLAYER_SCALE, 
-        height: 5 * PLAYER_SCALE  
+        xOffset: -this.size.x-0.5 , 
+        yOffset: 3+this.size.y / 2 - (5 * PLAYER_SCALE) / 2, 
+        width: PLAYER_SCALE, 
+        height: PLAYER_SCALE+0.5  
       },
       up: {
-        xOffset: this.size.x / 2 - (5 * PLAYER_SCALE) / 2,
-        yOffset: -10 * PLAYER_SCALE, 
-        width: 5 * PLAYER_SCALE, 
-        height: 10 * PLAYER_SCALE 
+        xOffset: -this.size.x+0.5,
+        yOffset: -2*this.size.y - 0.1, 
+        width: PLAYER_SCALE+0.5, 
+        height: PLAYER_SCALE 
       },
       down: {
-        xOffset: this.size.x / 2 - (5 * PLAYER_SCALE) / 2, 
-        yOffset: this.size.y, 
-        width: 5 * PLAYER_SCALE,  
-        height: 10 * PLAYER_SCALE 
+        xOffset: -this.size.x+0.5,
+        yOffset: this.size.y - 0.1,
+        width: PLAYER_SCALE+0.5, 
+        height: PLAYER_SCALE 
       }
     };
     
@@ -266,6 +266,17 @@ class BasePlayer extends BaseCharacter {
     };
     
     this.hasHitEnemy = false;
+  }
+
+  useCard(index){
+    if(index >=0 && index < this.inventory.size()){
+      let card = this.inventory.items[index];
+      card.applyEffect(this);
+      if(card.maxUses == 0){
+        this.inventory.items.splice(index, 1);
+      }
+      console.log("Card used: ${card.type}");
+    }
   }
   
   update(level, deltaTime) {
@@ -403,7 +414,7 @@ class BasePlayer extends BaseCharacter {
     this.setAnimation(attackFrameRange[0], attackFrameRange[1], false, 100);
     
     // Crear efecto de ataque
-    this.createAttackEffect();
+    this.createAttackEffect();  
   }
   
   createAttackEffect() {
