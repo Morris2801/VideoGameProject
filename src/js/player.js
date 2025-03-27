@@ -7,6 +7,10 @@ class Inventory {
     constructor() {
       this.items = []; 
       this.max = 6;
+      this.activeWeapon = null;
+      this.activeTransformation = null;
+      this.activeBuff = null;
+      this.player = null; // Reference to the player
     }
     push(element) {
       if (this.items.length < this.max ){
@@ -40,22 +44,100 @@ class Inventory {
         }
     }
 
+    setPlayer(player) {
+      this.player = player;
+    }
+
     activateCard(cardIndex){ //saber que tipo de carta esta activa en el inventario
       const card = this.items[cardIndex];
       if(!card) return false;
 
       if(card.type === "weaponCard"){
         this.activeWeapon = card;
+        // Connect to player equipment system
+        if(this.player) {
+          this.player.equipWeapon(card.weaponType || "default");
+        }
       }
       
-      else if(card.type === "tranformationCard"){
+      else if(card.type === "transformationCard"){
         this.activeTransformation = card;
-        // programar lo que va durar, la tranformacion etc
+        // Connect to player transformation system
+        if(this.player) {
+          const duration = card.duration || 30; // Default 30 seconds
+          this.player.applyTransformation(card.transformationType || "default", duration);
+        }
       }
       
       else if(card.type === "powerCard"){
-        this.activeBuff = card;
-        //programar que haga pop al acabarse el efecto
+        // Handle power/buff cards
+        this.activeBuff = this.activeBuff || [];
+        this.activeBuff.push(card);
+        
+        // Apply buff effects
+        if(this.player) {
+          this.applyBuffEffects(card);
+        }
+        
+        // Set expiration timer
+        if(card.duration) {
+          setTimeout(() => {
+            this.removeBuff(card);
+          }, card.duration * 1000);
+        }
+      }
+      
+      // Return true if successfully activated
+      return true;
+    }
+
+    applyBuffEffects(card) {
+      if(!this.player) return;
+      
+      // Apply stat bonuses if defined
+      if(card.healthBonus) {
+        this.player.health += card.healthBonus;
+      }
+      if(card.staminaBonus) {
+        this.player.stamina += card.staminaBonus;
+      }
+      if(card.damageBonus) {
+        // Damage bonus handled in getDamageBonus()
+      }
+      
+      // Visual effects if applicable
+      if(card.visualEffect && this.player.applyVisualEffect) {
+        this.player.applyVisualEffect(card.visualEffect);
+      }
+    }
+    
+    removeBuff(cardToRemove) {
+      if(!this.activeBuff) return;
+      
+      // Remove the buff from active buffs
+      this.activeBuff = this.activeBuff.filter(card => card !== cardToRemove);
+      
+      // Revert buff effects
+      if(this.player) {
+        this.revertBuffEffects(cardToRemove);
+      }
+    }
+    
+    revertBuffEffects(card) {
+      if(!this.player) return;
+      
+      // Revert stat changes
+      if(card.healthBonus) {
+        this.player.health = Math.max(1, this.player.health - card.healthBonus);
+      }
+      if(card.staminaBonus) {
+        this.player.stamina = Math.max(0, this.player.stamina - card.staminaBonus);
+      }
+      // No need to revert damage as it's calculated dynamically
+      
+      // Remove visual effect if applicable
+      if(card.visualEffect && this.player.removeVisualEffect) {
+        this.player.removeVisualEffect();
       }
     }
 
@@ -159,7 +241,7 @@ class AttackAnimation extends AnimatedObject {
 
 class BasePlayer extends BaseCharacter {
   constructor(_color, width, height, x, y, _type) {
-    super(_color, width*2.4, height*2.4, x, y, _type);
+    super(_color, width, height, x, y, _type);
     this.health = 10;
     this.stamina = 5;
     this.damage = 3;
@@ -184,26 +266,26 @@ class BasePlayer extends BaseCharacter {
       right: {
         xOffset: this.size.x, 
         yOffset: 3+this.size.y / 2 - (5 * PLAYER_SCALE) / 2,
-        width: PLAYER_SCALE, 
-        height: PLAYER_SCALE+0.5  
+        width: PLAYER_SCALE,
+        height: PLAYER_SCALE+0.5
       },
       left: {
-        xOffset: -10 * PLAYER_SCALE, 
-        yOffset: this.size.y / 2 - (5 * PLAYER_SCALE) / 2, 
-        width: 10 * PLAYER_SCALE, 
-        height: 5 * PLAYER_SCALE  
+        xOffset: -3.5 * PLAYER_SCALE+1, 
+        yOffset: this.size.y / 2 - (4 * PLAYER_SCALE) / 2, 
+        width: 3 * PLAYER_SCALE, 
+        height: 4 * PLAYER_SCALE 
       },
       up: {
-        xOffset: this.size.x / 2 - (5 * PLAYER_SCALE) / 2,
-        yOffset: -10 * PLAYER_SCALE, 
-        width: 5 * PLAYER_SCALE, 
-        height: 10 * PLAYER_SCALE 
+        xOffset: this.size.x / 2 - (4 * PLAYER_SCALE) / 2, 
+        yOffset: -7 * PLAYER_SCALE, 
+        width: 4 * PLAYER_SCALE,
+        height: 7 * PLAYER_SCALE 
       },
       down: {
-        xOffset: this.size.x / 2 - (5 * PLAYER_SCALE) / 2, 
+        xOffset: this.size.x / 2 - (4 * PLAYER_SCALE) / 2, 
         yOffset: this.size.y, 
-        width: 5 * PLAYER_SCALE,  
-        height: 10 * PLAYER_SCALE 
+        width: 4 * PLAYER_SCALE, 
+        height: 7 * PLAYER_SCALE 
       }
     };
     
@@ -265,6 +347,12 @@ class BasePlayer extends BaseCharacter {
     };
     
     this.hasHitEnemy = false;
+
+    // conectar el inventario con el jugador
+    this.inventory.setPlayer(this);
+    
+    // agregar el efectecto de ataque
+    this.currentVisualEffect = null;
   }
   
   update(level, deltaTime) {
@@ -330,7 +418,7 @@ class BasePlayer extends BaseCharacter {
       this.transformationTimer -= deltaTime;
 
       if(this.transformationTimer<= 0){
-        this.revertTrasformation();
+        this.revertTransformation();
       }
     }
   }
@@ -370,6 +458,44 @@ class BasePlayer extends BaseCharacter {
     
     console.log("Transformation reverted to normal");
   }
+
+  updateCurrentSprites() {
+  // Determinar que sprites usar segu el estado actual
+  if (this.isTransformed) {
+    // Si el jugador está transformado, usar sprites de transformacion
+    const transformSprites = this.transformationSprites[this.transformationType];
+    if (transformSprites) {
+      this.currentSprite = new Image();
+      this.currentSprite.src = transformSprites.main;
+      
+      this.currentAttackingSprite = new Image();
+      this.currentAttackingSprite.src = transformSprites.attacking || transformSprites.main;
+    }
+  } else {
+    // Si el jugador esta en estado normal, usar sprites de arma
+    const weaponSprites = this.weaponSprites[this.activeWeaponType];
+    if (weaponSprites) {
+      this.currentSprite = new Image();
+      this.currentSprite.src = weaponSprites.main;
+      
+      this.currentAttackingSprite = new Image();
+      this.currentAttackingSprite.src = weaponSprites.attacking || weaponSprites.main;
+    } else {
+      // Usar sprites predeterminados si no hay arma
+      this.currentSprite = this.normalSprite;
+      this.currentAttackingSprite = this.normalAttackingSprite;
+    }
+  }
+  
+  // Actualizar también el sprite del arma si es necesario
+  if (this.activeWeaponType !== "default" && this.weaponSprites[this.activeWeaponType]) {
+    this.weaponSprite = new Image();
+    this.weaponSprite.src = this.weaponSprites[this.activeWeaponType].attacking || 
+                         "../assets/Prueba_SpritePeleando.png";
+  }
+  
+  console.log(`Sprites actualizados: ${this.isTransformed ? 'transformado-' + this.transformationType : 'arma-' + this.activeWeaponType}`);
+}
   
   switchBackToIdleState() {
     switch (this.lastDirection) {
@@ -448,15 +574,25 @@ class BasePlayer extends BaseCharacter {
   }
   
   draw(ctx, scale) {
+    // Draw with visual effects if active
+    if (this.currentVisualEffect) {
+      // Apply visual effect before drawing the player
+      this.applyEffectToContext(ctx, scale);
+    }
+    
+    // Continue with normal drawing
     if (this.attacking) {
-      
       this.drawAttackingPlayer(ctx, scale);
       this.drawWeapon(ctx, scale);
       this.drawAttackHitbox(ctx, scale); //Dibujar hitbox 
-
     } else {
       // Dibujar jugador normal
       super.draw(ctx, scale);
+    }
+    
+    // Reset context if effect was applied
+    if (this.currentVisualEffect) {
+      ctx.restore();
     }
   }
   
@@ -583,4 +719,64 @@ class BasePlayer extends BaseCharacter {
     ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
   }
 
+  applyVisualEffect(effectType) {
+    this.currentVisualEffect = effectType;
+    
+    // Apply visual effect (glow, particles, etc)
+    console.log(`Applied visual effect: ${effectType}`);
+    
+    // This could trigger special rendering in the draw method
+  }
+  
+  removeVisualEffect() {
+    this.currentVisualEffect = null;
+    console.log("Visual effect removed");
+  }
+  
+  applyEffectToContext(ctx, scale) {
+    ctx.save();
+    
+    // Different visual effects based on type
+    switch(this.currentVisualEffect) {
+      case "glow":
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "yellow";
+        break;
+      case "power":
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "red";
+        break;
+      case "speed":
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "blue";
+        break;
+      default:
+        // No effect or custom effect
+        break;
+    }
+  }
+
+  // metodopara usar cartas desde el inventario
+  useCard(index) {
+    if (index >= 0 && index < this.inventory.items.length) {
+      const card = this.inventory.items[index];
+      console.log(`Usando carta: ${card.constructor.name} en posición ${index}`);
+      
+      // Intentar activar la carta
+      const activated = this.inventory.activateCard(index);
+      
+      if (activated) {
+        console.log("Carta activada exitosamente");
+        // quitar la carta del inventario si es de un solo uso
+        if (card.maxUses === 1) {
+          this.inventory.items.splice(index, 1);
+          console.log("Carta de un solo uso removida del inventario");
+        }
+      } else {
+        console.log("No se pudo activar la carta");
+      }
+    } else {
+      console.log("No hay carta en esa posición del inventario");
+    }
+  }
 }
