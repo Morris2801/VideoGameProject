@@ -45,18 +45,54 @@
             <img id="footerImage" src="../assets/controls.png" alt="Controls" style="display: none;" width="40%">
         </footer>
     </div>
-    <audio id="levelMusic1" src="" loop></audio>
-    <audio id="bossMusic" src="" loop></audio>
+        <audio id="levelMusic1" src="Nivel1.mp3" loop> </audio>
+        <audio id="levelMusic2" src="Nivel2.mp3" loop> </audio>
+        <audio id="bossMusic1" src="Boss1.mp3" loop> </audio>
+        <audio is="bossMusic2" src="Boss2.mp3" loop> </audio>
     <script>
-        let levelMusic1 = document.getElementById("levelMusic1");
-        let bossMusic = document.getElementById("bossMusic");
+            let levelMusic1 = document.getelementbyID("Nivel1");
+            let levelMsuic2 = document.getelementbyID("Nivel2")
+            let bossMusic1 = document.getelementbyID("Boss1");
+            let bossMusic2 = document.getelementbyID("Boss2")
 
-        levelMusic1.play();
+            let currentMusic == levelMusic1;
+            currentMusic.play();
 
-        function BossSwitchMusic() {
-            levelMusic1.pause();
-            bossMusic.play();
-        }
+            function SwitchtoBoss1();{
+                currentMusic.pause();
+                bossMusic1.play();
+                currentMusic == bossMusic1;
+            }
+
+            function SwitchtoLevel2();{
+                currentMusic.pause();
+                levelMusic2.play();
+                currentMusic == levelMusic2;
+            }
+
+            function SwitchtoBoss2();{
+                currentMusic.pause();
+                bossMusic2.play();
+                currentMusic == bossMusic2;
+            }
+
+            function SwitchtoLevel1();{
+                if (currentMusic == bossMusic2) {
+                    currentMusic.pause();
+                    levelMusic1.play();
+                    currentMusic == levelMusic1;
+                }
+                else if (currentMusic == levelMusic2) {
+                    currentMusic.pause();
+                    levelMusic1.play();
+                    currentMusic == levelMusic1;
+                }
+                else if (currentMusic == bossMusic1) {
+                    currentMusic.pause();
+                    levelMusic1.play();
+                    currentMusic == levelMusic1;
+                }
+            }
 
         document.querySelector('footer').addEventListener('mouseover', () => {
             document.getElementById('footerImage').style.display = 'block';
