@@ -157,9 +157,10 @@ class AttackAnimation extends AnimatedObject {
 // Jugador
 
 
+let rescale = 0.9;
 class BasePlayer extends BaseCharacter {
   constructor(_color, width, height, x, y, _type) {
-    super(_color, width*2.4, height*2.4, x, y, _type);
+    super(_color, width*rescale, height*rescale, x, y, _type);
     this.health = 10;
     this.stamina = 5;
     this.damage = 3;
