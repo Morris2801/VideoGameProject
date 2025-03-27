@@ -73,6 +73,30 @@ class Game {
 // Algo iba aquí
 
 
+document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los archivos de audio
+    const audioFiles = {
+        levelMusic1: new Audio("Nivel1.mp3"),
+        levelMusic2: new Audio("Nivel2.mp3"),
+        bossMusic1: new Audio("Boss1.mp3"),
+        bossMusic2: new Audio("Boss2.mp3"),
+    };
+
+    let currentMusic = audioFiles.levelMusic1;
+    currentMusic.loop = true;
+    currentMusic.play();
+
+    function switchMusic(newMusic) {
+        if (currentMusic !== newMusic) {
+            currentMusic.pause();
+            currentMusic.currentTime = 0;
+            currentMusic = newMusic;
+            currentMusic.loop = true;
+            currentMusic.play();
+        }
+    }
+});
+
 
 
 
