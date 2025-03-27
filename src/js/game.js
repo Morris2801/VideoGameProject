@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+// setTimeout(() => switchMusic(audioFiles.levelMusic2), 10000); USE THIS FOR SIMULATION
 
 
 
