@@ -166,6 +166,12 @@ class BasePlayer extends BaseCharacter {
     this.damage = 3;
     this.inventory = new Inventory();
 
+    //stats?
+    this.killCount = 0; 
+    this.cardPickupCount = 0;
+    this.cardsUsed = 0; 
+
+
     //Arma base stadisticas
     this.basehealth = 10;
     this.baseStamina = 5;
@@ -272,10 +278,17 @@ class BasePlayer extends BaseCharacter {
     if(index >=0 && index < this.inventory.size()){
       let card = this.inventory.items[index];
       card.applyEffect(this);
-      if(card.maxUses == 0){
-        this.inventory.items.splice(index, 1);
+      this.cardsUsed++;
+
+      if(card.maxUses > 0){
+        card.maxUses--;
+        console.log(`Card ${card.type} uses: ${card.maxUses}`);
+        if(card.maxUses == 0){
+          this.inventory.items.splice(index, 1);
+        }
+       
       }
-      console.log("Card used: ${card.type}");
+      console.log(`Card used: ${card.cardType}`);
     }
   }
   

@@ -266,7 +266,7 @@ footer {
 /* Cosas para el gamegrid*/ 
 .grid-containerGame{  
   display: grid;
-  grid-template-columns: 1.05fr 1.15fr 1.15fr;
+  grid-template-columns: 0.7fr 1.2fr 1.2fr;
   grid-template-rows: 15% 670px 5%;
   gap: 20px;
   height: 100%;
@@ -335,7 +335,22 @@ footer img {
   display: none;
   border-image: solid 3px rgba(52, 73, 56, 0.3);
 }
-
+#uiCanvas {
+  border: 10px solid rgb(92, 89, 89);
+  background-color: #0d0f10;
+  border-radius: 100px;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+  clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
+}
+#statsCanvas {
+  background-color: rgba(55, 34, 9, 0.886);
+  padding: 30px;
+  border: rgb(62, 62, 62) 3px solid;
+  border-radius: 30px;
+  
+}
 
 
 

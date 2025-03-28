@@ -15,20 +15,21 @@ class BaseCard extends GameObject {
 
     applyEffect(target) {
         if (!target) {
-            console.error("No hay un objetivo válido para aplicar el efecto.");
+            console.log("No hay un objetivo válido para aplicar el efecto.");
             return;
         }
-        console.log(`Aplicando efectos de la carta a ${target.type}`);
-
-        // Aplica los buffs a los atributos del objetivo dependiendo la carta usada
+        console.log(`Aplicando efectos de ${this.type} a ${target.type}`);
+        // Apply buffs to the target's attributes
         target.health += this.healthBuff;
         target.healthRegen += this.healthRegenBuff;
         target.stamina += this.staminaBuff;
         target.staminaRegen += this.staminaRegenBuff;
         target.damage += this.damageBuff;
 
-        // Print de los stat buffs y cuanto tiempo le resta
+        // Print the buffs and remaining time
         this.printStatus(target, this.duration);
+
+        // Handle duration-based effects
         if (this.duration !== undefined && this.duration > 0) {
             let remainingTime = this.duration;
             let interval = setInterval(() => {
@@ -39,10 +40,8 @@ class BaseCard extends GameObject {
                     clearInterval(interval);
                 }
             }, 1000);
-        }
 
-        // Revertir efectos cuando el tiempo es igual a 0
-        if (this.duration !== undefined && this.duration > 0) {
+            // Revert effects when the duration ends
             setTimeout(() => {
                 target.health -= this.healthBuff;
                 target.healthRegen -= this.healthRegenBuff;
@@ -50,6 +49,15 @@ class BaseCard extends GameObject {
                 target.staminaRegen -= this.staminaRegenBuff;
                 target.damage -= this.damageBuff;
                 console.log(`El efecto de la carta en ${target.type} ha terminado.`);
+
+                // Remove the card from the inventory
+                if (target.inventory) {
+                    const index = target.inventory.items.indexOf(this);
+                    if (index !== -1) {
+                        target.inventory.items.splice(index, 1);
+                        console.log(`Carta eliminada del inventario: ${this.cardType}`);
+                    }
+                }
             }, this.duration * 1000);
         }
     }
@@ -63,6 +71,8 @@ class BaseCard extends GameObject {
         console.log(`Daño: ${target.damage}`);
         console.log(`Tiempo restante: ${timeLeft} segundos`);
     }
+
+    
 }
 
 class MacahuitlCard extends BaseCard{
@@ -75,7 +85,7 @@ class MacahuitlCard extends BaseCard{
 }
 class ObsidianKnifeCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, );
+        super(color, width, height, x, y, type);
         this.damageBuff = 4;
         this.maxUses = 10;
         this.cardType = "weaponCard";

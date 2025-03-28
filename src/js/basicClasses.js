@@ -9,7 +9,7 @@ Game Classes Development for MayAztec
 const playerSpeed = 0.005;
 let level;
 let player;
-const scale = 32;
+const scale = 40;
 
 // -------------------------------------------------
 

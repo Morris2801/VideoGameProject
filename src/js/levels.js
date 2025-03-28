@@ -1,7 +1,7 @@
-let maxCols = 24;
-let minCols = 19;
-let maxRows = 17;
-let minRows = 12;
+let maxCols = 21;
+let minCols = 18;
+let maxRows = 10;
+let minRows = 8;
 let cols = Math.floor(Math.random() * (maxCols - minCols) + maxCols);
 let rows = Math.floor(Math.random() * (maxRows - minRows) + minRows); 
 
@@ -130,10 +130,10 @@ function levGen(width, height, levelNum, numCards){
     */
     placeX("0");
     placeX("1");
-    //placeX("2");
+    placeX("2");
     placeX("3");
-    //placeX("4");
-    //placeX("5");
+    placeX("4");
+    placeX("5");
     placeX("6");
     placeX("7");
     placeX("8");

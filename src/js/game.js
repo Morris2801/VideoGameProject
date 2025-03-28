@@ -5,7 +5,6 @@ class Game {
         this.player = this.level.player;
         this.actors = level.actors;
         this.attackEffects = []; // lista de efectos de ataque 
-        
     }
 
     addAttackEffect(effect)
@@ -15,14 +14,11 @@ class Game {
     update(deltaTime) {     
         this.player.update(this.level, deltaTime);
         
-
         for (let actor of this.actors) {
             if(typeof actor.update === "function"){
                 actor.update(this.level, deltaTime);
             }
         }
-
-        
 
         for(let i = this.attackEffects.length-1; i >= 0; i--){
             const effect = this.attackEffects[i];
@@ -43,18 +39,18 @@ class Game {
                     console.log("Hit a wall");
                 } 
                 else if (actor.type == 'card') {
-                    this.player.inventory.push(actor);
-                    // console.log("Picked up a card");
-                    this.player.inv
-                    this.actors = this.actors.filter(item => item !== actor);
+                    if(this.player.inventory.items.length != this.player.inventory.max){
+                        this.player.inventory.push(actor);
+                        this.player.cardPickupCount++;
+                        this.actors = this.actors.filter(item => item !== actor);
+                        // console.log("Picked up a card");
+                    }
                     // console.log(this.player);
                 }
             }
         }
     }
     
-    
-
     draw(ctx, scale) {
         for (let actor of this.actors) {
             actor.draw(ctx, scale);
