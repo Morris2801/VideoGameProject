@@ -10,7 +10,7 @@ class Inventory {
       this.activeWeapon = null;
       this.activeTransformation = null;
       this.activeBuff = null;
-      this.player = null; // Reference to the player
+      this.player = null; //referencia para conectar con plyaer
     }
     push(element) {
       if (this.items.length < this.max ){
@@ -57,7 +57,7 @@ class Inventory {
       // 
       if(card.cardType === "weaponCard"){
         this.activeWeapon = card;
-        // Connect to player equipment system
+        // conectar el metodo de equipar
         if(this.player) {
           this.player.equipWeapon(card.weaponType || "default");
         }
@@ -66,9 +66,9 @@ class Inventory {
       
       else if(card.cardType === "transformationCard"){
         this.activeTransformation = card;
-        // Connect to player transformation system
+        // conectar el metodo de tranformacion
         if(this.player) {
-          const duration = card.duration || 30; // Default 30 seconds
+          const duration = card.duration || 30; // Default 30 sec
           this.player.applyTransformation(card.transformationType || "default", duration);
         }
         return true;
@@ -78,12 +78,12 @@ class Inventory {
         this.activeBuff = this.activeBuff || [];
         this.activeBuff.push(card);
         
-        // Apply buff effects
+        //aplicar efectos de buff
         if(this.player) {
           this.applyBuffEffects(card);
         }
         
-        // Set expiration timer
+        
         if(card.duration) {
           setTimeout(() => {
             this.removeBuff(card);
@@ -99,7 +99,7 @@ class Inventory {
     applyBuffEffects(card) {
       if(!this.player) return;
       
-      // Apply stat bonuses if defined
+      //aplicar bonus
       if(card.healthBonus) {
         this.player.health += card.healthBonus;
       }
@@ -107,10 +107,10 @@ class Inventory {
         this.player.stamina += card.staminaBonus;
       }
       if(card.damageBonus) {
-        // Damage bonus handled in getDamageBonus()
+        // Damage functionhandle getDamageBonus()
       }
       
-      // Visual effects if applicable
+      
       if(card.visualEffect && this.player.applyVisualEffect) {
         this.player.applyVisualEffect(card.visualEffect);
       }
@@ -119,10 +119,10 @@ class Inventory {
     removeBuff(cardToRemove) {
       if(!this.activeBuff) return;
       
-      // Remove the buff from active buffs
+      //remover los buff actuales
       this.activeBuff = this.activeBuff.filter(card => card !== cardToRemove);
       
-      // Revert buff effects
+      // 
       if(this.player) {
         this.revertBuffEffects(cardToRemove);
       }
@@ -131,16 +131,16 @@ class Inventory {
     revertBuffEffects(card) {
       if(!this.player) return;
       
-      // Revert stat changes
+      // revertir los cambuos
       if(card.healthBonus) {
         this.player.health = Math.max(1, this.player.health - card.healthBonus);
       }
       if(card.staminaBonus) {
         this.player.stamina = Math.max(0, this.player.stamina - card.staminaBonus);
       }
-      // No need to revert damage as it's calculated dynamically
       
-      // Remove visual effect if applicable
+      
+      
       if(card.visualEffect && this.player.removeVisualEffect) {
         this.player.removeVisualEffect();
       }
