@@ -627,7 +627,10 @@ The music will be structured to loop per level, maintaining an immersive experie
 4. Set up `Card classes` with sprites
 5. Set up `Boss classes` with sprites
 6. Have background music running for each of the levels and bosses
+<<<<<<< HEAD
 7. Have a function where the background music in a function where its called to switch musics depending on the level
+=======
+>>>>>>> HectorSprint2_Ataque
 
 ### Sprint 4: 
 1. Work on level generation

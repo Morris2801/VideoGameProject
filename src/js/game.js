@@ -20,6 +20,8 @@ class Game {
             }
         }
 
+        
+
         for(let i = this.attackEffects.length-1; i >= 0; i--){
             const effect = this.attackEffects[i];
             effect.update(this.level, deltaTime);

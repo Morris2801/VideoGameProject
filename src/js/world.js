@@ -113,6 +113,38 @@ const levelChars = {
         rect: new Rect(0, 0,64,64),
         sheetCols: 4,
         startFrame: [0, 0]},
+
+    //Enemystest
+    "e": {objClass: BaseEnemy,
+        label: "enemy",
+        sprite: '../assets/skelMariachi_SpriteSheet.png',
+        rect: new Rect(0, 0,96,74),
+        sheetCols: 6,
+        startFrame: [0, 0]},
+    "M": {objClass: Mariachi,
+        label: "enemy",
+        sprite: '../assets/skelMariachi_SpriteSheet.png',
+        rect: new Rect(0, 0,96,74),
+        sheetCols: 6,
+        startFrame: [0, 0]},
+    "T": {objClass: Tlaxcalteca,
+        label: "enemy",
+        sprite: '',
+        rect: new Rect(0, 0,96,74),
+        sheetCols: 6,
+        startFrame: [0, 0]},
+    "W": {objClass: MayanWarrior,
+        label: "enemy",
+        sprite: '',
+        rect: new Rect(0, 0,96,74),
+        sheetCols: 6,
+        startFrame: [0, 0]},
+    "D": {objClass: Devil,
+        label: "enemy",
+        sprite: '../assets/devilWalk.png',
+        rect: new Rect(0, 0,64,64),
+        sheetCols: 4,
+        startFrame: [0, 0]},
 };
 
 
@@ -180,6 +212,16 @@ class Level {
                 else if (actor.type == "vine"){
                     this.addBackgroundFloor(x, y);
                     actor.setSprite(item.sprite, item.rect); 
+                    this.actors.push(actor);
+                    cellType = "empty";
+                }
+
+
+                else if(actor.type == "enemy"){
+                    this.addBackgroundFloor(x, y);
+                    actor.setSprite(item.sprite, item.rect);
+                    actor.sheetCols = item.sheetCols;
+                    actor.setAnimation(...item.startFrame, true, 100);
                     this.actors.push(actor);
                     cellType = "empty";
                 }

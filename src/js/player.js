@@ -7,6 +7,10 @@ class Inventory {
     constructor() {
       this.items = []; 
       this.max = 6;
+      this.activeWeapon = null;
+      this.activeTransformation = null;
+      this.activeBuff = null;
+      this.player = null; // Reference to the player
     }
     push(element) {
       if (this.items.length < this.max ){
@@ -40,22 +44,103 @@ class Inventory {
         }
     }
 
+    setPlayer(player) {
+      this.player = player;
+    }
+
     activateCard(cardIndex){ //saber que tipo de carta esta activa en el inventario
       const card = this.items[cardIndex];
       if(!card) return false;
 
-      if(card.type === "weaponCard"){
+      console.log(`Activating card: ${card.cardType || card.type}, weapon type: ${card.weaponType}, transformation type: ${card.transformationType}`);
+
+      // Check cardType instead of type
+      if(card.cardType === "weaponCard"){
         this.activeWeapon = card;
+        // Connect to player equipment system
+        if(this.player) {
+          this.player.equipWeapon(card.weaponType || "default");
+        }
       }
       
-      else if(card.type === "tranformationCard"){
+      else if(card.type === "transformationCard"){
         this.activeTransformation = card;
-        // programar lo que va durar, la tranformacion etc
+        // Connect to player transformation system
+        if(this.player) {
+          const duration = card.duration || 30; // Default 30 seconds
+          this.player.applyTransformation(card.transformationType || "default", duration);
+        }
       }
       
       else if(card.type === "powerCard"){
-        this.activeBuff = card;
-        //programar que haga pop al acabarse el efecto
+        // Handle power/buff cards
+        this.activeBuff = this.activeBuff || [];
+        this.activeBuff.push(card);
+        
+        // Apply buff effects
+        if(this.player) {
+          this.applyBuffEffects(card);
+        }
+        
+        // Set expiration timer
+        if(card.duration) {
+          setTimeout(() => {
+            this.removeBuff(card);
+          }, card.duration * 1000);
+        }
+      }
+      
+      // Return true if successfully activated
+      return true;
+    }
+
+    applyBuffEffects(card) {
+      if(!this.player) return;
+      
+      // Apply stat bonuses if defined
+      if(card.healthBonus) {
+        this.player.health += card.healthBonus;
+      }
+      if(card.staminaBonus) {
+        this.player.stamina += card.staminaBonus;
+      }
+      if(card.damageBonus) {
+        // Damage bonus handled in getDamageBonus()
+      }
+      
+      // Visual effects if applicable
+      if(card.visualEffect && this.player.applyVisualEffect) {
+        this.player.applyVisualEffect(card.visualEffect);
+      }
+    }
+    
+    removeBuff(cardToRemove) {
+      if(!this.activeBuff) return;
+      
+      // Remove the buff from active buffs
+      this.activeBuff = this.activeBuff.filter(card => card !== cardToRemove);
+      
+      // Revert buff effects
+      if(this.player) {
+        this.revertBuffEffects(cardToRemove);
+      }
+    }
+    
+    revertBuffEffects(card) {
+      if(!this.player) return;
+      
+      // Revert stat changes
+      if(card.healthBonus) {
+        this.player.health = Math.max(1, this.player.health - card.healthBonus);
+      }
+      if(card.staminaBonus) {
+        this.player.stamina = Math.max(0, this.player.stamina - card.staminaBonus);
+      }
+      // No need to revert damage as it's calculated dynamically
+      
+      // Remove visual effect if applicable
+      if(card.visualEffect && this.player.removeVisualEffect) {
+        this.player.removeVisualEffect();
       }
     }
 
@@ -191,8 +276,8 @@ class BasePlayer extends BaseCharacter {
       right: {
         xOffset: this.size.x, 
         yOffset: 3+this.size.y / 2 - (5 * PLAYER_SCALE) / 2,
-        width: PLAYER_SCALE, 
-        height: PLAYER_SCALE+0.5  
+        width: PLAYER_SCALE,
+        height: PLAYER_SCALE+0.5
       },
       left: {
         xOffset: -this.size.x-0.5 , 
@@ -215,8 +300,8 @@ class BasePlayer extends BaseCharacter {
     };
     
     // Personaje
-    this.normalSprite = new Image(); // AÑADIDO: definir normalSprite
-    this.normalSprite.src = "../assets/Prueba_SpritePeleando.png";
+    this.normalSprite = new Image();
+    this.normalSprite.src = "../assets/testSpriteSheet.png";
     this.normalSprite.onload = () => console.log("Normal sprite loaded");
   
     this.normalAttackingSprite = new Image();
@@ -231,17 +316,25 @@ class BasePlayer extends BaseCharacter {
     //sprites de todas las tranformaciones & weapon 
     this.transformationSprites = {
       "default":{
-        main: "../assets/Prueba_SpritePeleando.png",
+        main: "../assets/testSpriteSheet.png",
         attacking: "../assets/Prueba_SpritePeleando.png"
       },
       "mariachi":{
-        main:  "../assests/mariachi_sprite.png",
-        attacking: " "
+        main:  "../assets/SpriteSheet_Mariachi.png",
+        attacking: "../assets/Prueba_SpritePeleando.png"
       }
       // agregar para cada sprite de tranformacion
     }
     this.weaponSprites ={
       "default":{
+        main: "../assets/testSpriteSheet.png",
+        attacking: "../assets/Prueba_SpritePeleando.png"
+      },
+      "macahuitl": {
+        main: "../assets/Prueba_SpritePeleando.png",
+        attacking: "../assets/Prueba_SpritePeleando.png"
+      },
+      "obsidianKnife": {
         main: "../assets/Prueba_SpritePeleando.png",
         attacking: "../assets/Prueba_SpritePeleando.png"
       }
@@ -272,6 +365,12 @@ class BasePlayer extends BaseCharacter {
     };
     
     this.hasHitEnemy = false;
+
+    // conectar el inventario con el jugador
+    this.inventory.setPlayer(this);
+    
+    // agregar el efectecto de ataque
+    this.currentVisualEffect = null;
   }
 
   useCard(index){
@@ -345,58 +444,125 @@ class BasePlayer extends BaseCharacter {
         this.attackDuration = 0;
         this.hasHitEnemy = false;
         
+        // volver al sprite del basecharacter depsues de atacar
+        this.restoreSprites();
+        
         // Volver a animacion de idle
         this.switchBackToIdleState();
       }
     }
 
     //actualizar timer si esta tranformado
-    if(this.isTransformed && this.transformationTimer>0){
+    if(this.isTransformed && this.transformationTimer > 0){
       this.transformationTimer -= deltaTime;
 
       if(this.transformationTimer<= 0){
-        this.revertTrasformation();
+        this.revertTransformation();
       }
     }
   }
 
   equipWeapon(weaponType){
+    console.log(`Intentando equipar arma: ${weaponType}`);
+    
+    // Verificar que el tipo de arma sea valido
+    if (!this.weaponSprites[weaponType]) {
+      console.warn(`Tipo de arma no encontrado: ${weaponType}, usando default`);
+      weaponType = "default";
+    }
+    
     this.activeWeaponType = weaponType;
 
     if(!this.isTransformed){
       this.updateCurrentSprites();
     }
 
-    console.log('weapon equipped: ${weaponType}');
+    console.log(`Arma equipada: ${weaponType}`);
   }
 
   //metodo para tranformarse
   applyTransformation(transformationType, duration){
+    console.log(`Aplicando transformación: ${transformationType} por ${duration} segundos`);
+    
+    // Verificar que la tranformacion sea valida
+    if (!this.transformationSprites[transformationType]) {
+      console.warn(`Tipo de transformación no encontrado: ${transformationType}, usando default`);
+      transformationType = "default";
+    }
+    
     this.isTransformed = true;
     this.transformationType = transformationType;
     this.transformationTimer = duration * 1000; //convertir segundos a milisegundos
 
     this.updateCurrentSprites();
      
-    console.log('Tranformation applied: ${tranformationType} for ${duration} seconds ');
+    console.log('Transformation applied:', transformationType, 'for', duration, 'seconds');
   }
 
   revertTransformation() {
+    console.log("Revirtiendo transformación a estado normal");
     this.isTransformed = false;
     this.transformationType = "default";
     
-    // Actualizar sprites - volver a los del arma activa si hay alguna
+    // asingar los sprite de tranformacion a nulos, para "borrarlos"
+    this.savedNormalSprite = null;
+    this.savedCurrentSprite = null;
+    
+    // Actualizar sprites -> volver a los del arma activa si hay alguna
     this.updateCurrentSprites();
     
-    // Restaurar estadísticas base
+    // Restaurar estadisticas base
     this.health = this.baseHealth;
     this.stamina = this.baseStamina;
     this.damage = this.baseDamage;
     
     console.log("Transformation reverted to normal");
   }
+
+  updateCurrentSprites() {
+  // Determinar que sprites usar segu el estado actual
+  if (this.isTransformed) {
+    // Si el jugador está transformado, usar sprites de transformacion
+    const transformSprites = this.transformationSprites[this.transformationType];
+    if (transformSprites) {
+      this.currentSprite = new Image();
+      this.currentSprite.src = transformSprites.main;
+      
+      this.currentAttackingSprite = new Image();
+      this.currentAttackingSprite.src = transformSprites.attacking || transformSprites.main;
+    }
+  } else {
+    // Si el jugador esta en estado normal, usar sprites de arma
+    const weaponSprites = this.weaponSprites[this.activeWeaponType];
+    if (weaponSprites) {
+      this.currentSprite = new Image();
+      this.currentSprite.src = weaponSprites.main;
+      
+      this.currentAttackingSprite = new Image();
+      this.currentAttackingSprite.src = weaponSprites.attacking || weaponSprites.main;
+    } else {
+      // Usar sprites predeterminados si no hay arma
+      this.currentSprite = this.normalSprite;
+      this.currentAttackingSprite = this.normalAttackingSprite;
+    }
+  }
+  
+  // Actualizar también el sprite del arma si es necesario
+  if (this.activeWeaponType !== "default" && this.weaponSprites[this.activeWeaponType]) {
+    this.weaponSprite = new Image();
+    this.weaponSprite.src = this.weaponSprites[this.activeWeaponType].attacking || 
+                         "../assets/Prueba_SpritePeleando.png";
+  }
+  
+  console.log(`Sprites actualizados: ${this.isTransformed ? 'transformado-' + this.transformationType : 'arma-' + this.activeWeaponType}`);
+}
   
   switchBackToIdleState() {
+    if (this.attacking) {
+      console.log("Finalizando ataque, volviendo a estado idle");
+      this.attacking = false;
+    }
+    
     switch (this.lastDirection) {
       case 'right':
         this.setAnimation(...this.movement.right.idleFrames, true, 100);
@@ -412,7 +578,7 @@ class BasePlayer extends BaseCharacter {
         break;
     }
   }
-  
+
   startAttack() {
     if (this.attackCooldown > 0 || this.attacking) return;
     
@@ -422,6 +588,11 @@ class BasePlayer extends BaseCharacter {
     this.attackCooldown = 300; // 300ms de cooldown
     this.hasHitEnemy = false;
     
+    // guardar el sprite antes de realizar el ataque 
+    this.savedNormalSprite = this.spriteImage;
+    this.savedCurrentSprite = this.currentSprite;
+    console.log(`Saved current sprite before attack: ${this.savedNormalSprite.src}`);
+    
     // Establecer frames de ataque basada en direccion
     const attackFrameRange = this.attackFrames[this.lastDirection];
     this.setAnimation(attackFrameRange[0], attackFrameRange[1], false, 100);
@@ -429,7 +600,7 @@ class BasePlayer extends BaseCharacter {
     // Crear efecto de ataque
     this.createAttackEffect();  
   }
-  
+
   createAttackEffect() {
     const direction = this.lastDirection;
     
@@ -473,15 +644,19 @@ class BasePlayer extends BaseCharacter {
   }
   
   draw(ctx, scale) {
+    // Continue with normal drawing
     if (this.attacking) {
-      
       this.drawAttackingPlayer(ctx, scale);
       this.drawWeapon(ctx, scale);
       this.drawAttackHitbox(ctx, scale); //Dibujar hitbox 
-
     } else {
       // Dibujar jugador normal
       super.draw(ctx, scale);
+    }
+    
+    // Reset context if effect was applied
+    if (this.currentVisualEffect) {
+      ctx.restore();
     }
   }
   
@@ -500,7 +675,7 @@ class BasePlayer extends BaseCharacter {
     const scaledWidth = this.size.x * scale*1.8;
     const scaledHeight = this.size.y * scale*1.8;
     
-    // Configurar transformación para dirección
+    // Configurar transformacion para direccion
     ctx.save();
     if (direction === 'left') {
       ctx.translate(scaledX + scaledWidth, scaledY);
@@ -514,21 +689,28 @@ class BasePlayer extends BaseCharacter {
     const characterHeight = 128;
     const frameToUse = this.attackFrames[direction][0] + attackFrame;
     
-    // Dibujar el personaje
-    const spriteX = (frameToUse % this.sheetCols) * characterWidth;
-    const spriteY = Math.floor(frameToUse / this.sheetCols) * characterHeight;
-    
-    ctx.drawImage(
-      this.currentAttackingSprite,
-      spriteX, spriteY,
-      characterWidth, characterHeight,
-      0, 0,
-      scaledWidth, scaledHeight
-    );
+    try {
+      // Dibujar el personaje
+      const spriteX = (frameToUse % this.sheetCols) * characterWidth;
+      const spriteY = Math.floor(frameToUse / this.sheetCols) * characterHeight;
+      
+      ctx.drawImage(
+        this.currentAttackingSprite,
+        spriteX, spriteY,
+        characterWidth, characterHeight,
+        0, 0,
+        scaledWidth, scaledHeight
+      );
+    } catch (error) {
+      console.error("Error drawing attacking player:", error);
+      
+      ctx.fillStyle = this.color;
+      ctx.fillRect(0, 0, scaledWidth, scaledHeight);
+    }
     
     ctx.restore();
   }
-  
+
   drawWeapon(ctx, scale) {
     const direction = this.lastDirection;
     
@@ -536,7 +718,7 @@ class BasePlayer extends BaseCharacter {
     const attackProgress = this.attackDuration / this.attackMaxDuration;
     const attackFrame = Math.min(Math.floor(attackProgress * 6), 5);
     
-    // Posición y escala
+    // Posicion y escala
     const scaledX = this.position.x * scale;
     const scaledY = this.position.y * scale;
     const scaledWidth = this.size.x * scale;
@@ -592,7 +774,7 @@ class BasePlayer extends BaseCharacter {
     
     ctx.restore();
   }
-  
+
   drawAttackHitbox(ctx, scale) {
     // Obtener hitbox para la direccion actual
     const hitbox = this.attackBoxes[this.lastDirection];
@@ -608,4 +790,29 @@ class BasePlayer extends BaseCharacter {
     ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
   }
 
+
+
+  // metodopara usar cartas desde el inventario
+  useCard(index) {
+    if (index >= 0 && index < this.inventory.items.length) {
+      const card = this.inventory.items[index];
+      console.log(`Usando carta: ${card.constructor.name} en posición ${index}`);
+      
+      // Intentar activar la carta
+      const activated = this.inventory.activateCard(index);
+      
+      if (activated) {
+        console.log("Carta activada exitosamente");
+        // quitar la carta del inventario si es de un solo uso
+        if (card.maxUses === 1) {
+          this.inventory.items.splice(index, 1);
+          console.log("Carta de un solo uso removida del inventario");
+        }
+      } else {
+        console.log("No se pudo activar la carta");
+      }
+    } else {
+      console.log("No hay carta en esa posición del inventario");
+    }
+  }
 }

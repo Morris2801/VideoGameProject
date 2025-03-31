@@ -95,6 +95,12 @@ function setEventListeners() {
             game.player.startAttack();
             console.log("ataque realizado");
         }
+        
+        // Mostrar inventario
+        if(event.key == "i" || event.key == "I"){
+            game.player.showInventory();
+            console.log("Mostrando inventario");
+        }
     });
 
     window.addEventListener("keyup", event => {
