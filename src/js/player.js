@@ -54,30 +54,30 @@ class Inventory {
 
       console.log(`Activating card: ${card.cardType || card.type}, weapon type: ${card.weaponType}, transformation type: ${card.transformationType}`);
 
-      // Check cardType instead of type
+      
       if(card.cardType === "weaponCard"){
         this.activeWeapon = card;
-        // Connect to player equipment system
+        // conectar con el sistema de equipar 
         if(this.player) {
           this.player.equipWeapon(card.weaponType || "default");
         }
       }
       
-      else if(card.type === "transformationCard"){
+      else if(card.cardType === "transformationCard"){ 
         this.activeTransformation = card;
-        // Connect to player transformation system
+        // conectar con al tranformacion del personaje
         if(this.player) {
-          const duration = card.duration || 30; // Default 30 seconds
+          const duration = card.duration || 30; // Default 30 sec
           this.player.applyTransformation(card.transformationType || "default", duration);
         }
       }
       
-      else if(card.type === "powerCard"){
-        // Handle power/buff cards
+      else if(card.cardType === "powerCard"){ //card.cardType
+        
         this.activeBuff = this.activeBuff || [];
         this.activeBuff.push(card);
         
-        // Apply buff effects
+        //effecto de buff
         if(this.player) {
           this.applyBuffEffects(card);
         }
@@ -90,7 +90,7 @@ class Inventory {
         }
       }
       
-      // Return true if successfully activated
+      // return true si fue activado bien 
       return true;
     }
 
@@ -373,21 +373,39 @@ class BasePlayer extends BaseCharacter {
     this.currentVisualEffect = null;
   }
 
-  useCard(index){
-    if(index >=0 && index < this.inventory.size()){
-      let card = this.inventory.items[index];
-      card.applyEffect(this);
+  
+  useCard(index) {
+    if (index >= 0 && index < this.inventory.items.length) {
+      const card = this.inventory.items[index];
+      console.log(`Usando carta: ${card.constructor.name} en posición ${index}`);
+      
+      
       this.cardsUsed++;
-
-      if(card.maxUses > 0){
-        card.maxUses--;
-        console.log(`Card ${card.type} uses: ${card.maxUses}`);
-        if(card.maxUses == 0){
-          this.inventory.items.splice(index, 1);
+      
+      // Intentar activar la carta
+      const activated = this.inventory.activateCard(index);
+      
+      if (activated) {
+        console.log("Carta activada exitosamente");
+        
+        
+        if (card.maxUses > 0) {
+          card.maxUses--;
+          console.log(`Card ${card.cardType} uses left: ${card.maxUses}`);
+          
+          
+          if (card.maxUses === 0) {
+            this.inventory.items.splice(index, 1);
+            console.log("Carta sin usos removida del inventario");
+          }
         }
-       
+      } else {
+        console.log("No se pudo activar la carta");
+        
+        this.cardsUsed--;
       }
-      console.log(`Card used: ${card.cardType}`);
+    } else {
+      console.log("No hay carta en esa posición del inventario");
     }
   }
   
@@ -481,8 +499,9 @@ class BasePlayer extends BaseCharacter {
   }
 
   //metodo para tranformarse
-  applyTransformation(transformationType, duration){
+  applyTransformation(transformationType, duration) {
     console.log(`Aplicando transformación: ${transformationType} por ${duration} segundos`);
+console.log("Current sprite before transformation:", this.spriteImage?.src);
     
     // Verificar que la tranformacion sea valida
     if (!this.transformationSprites[transformationType]) {
@@ -495,6 +514,7 @@ class BasePlayer extends BaseCharacter {
     this.transformationTimer = duration * 1000; //convertir segundos a milisegundos
 
     this.updateCurrentSprites();
+console.log("Sprite after transformation:", this.spriteImage?.src);
      
     console.log('Transformation applied:', transformationType, 'for', duration, 'seconds');
   }
@@ -527,6 +547,8 @@ class BasePlayer extends BaseCharacter {
     if (transformSprites) {
       this.currentSprite = new Image();
       this.currentSprite.src = transformSprites.main;
+      //update el sprite que debe ser dibujado
+      this.spriteImage = this.currentSprite;
       
       this.currentAttackingSprite = new Image();
       this.currentAttackingSprite.src = transformSprites.attacking || transformSprites.main;
@@ -537,12 +559,16 @@ class BasePlayer extends BaseCharacter {
     if (weaponSprites) {
       this.currentSprite = new Image();
       this.currentSprite.src = weaponSprites.main;
+      //update el sprite que sera dibujado
+      this.spriteImage = this.currentSprite;
       
       this.currentAttackingSprite = new Image();
       this.currentAttackingSprite.src = weaponSprites.attacking || weaponSprites.main;
     } else {
       // Usar sprites predeterminados si no hay arma
       this.currentSprite = this.normalSprite;
+      //update el sprite que sera dibujado
+      this.spriteImage = this.normalSprite;
       this.currentAttackingSprite = this.normalAttackingSprite;
     }
   }
@@ -556,7 +582,7 @@ class BasePlayer extends BaseCharacter {
   
   console.log(`Sprites actualizados: ${this.isTransformed ? 'transformado-' + this.transformationType : 'arma-' + this.activeWeaponType}`);
 }
-  
+
   switchBackToIdleState() {
     if (this.attacking) {
       console.log("Finalizando ataque, volviendo a estado idle");
@@ -644,7 +670,7 @@ class BasePlayer extends BaseCharacter {
   }
   
   draw(ctx, scale) {
-    // Continue with normal drawing
+    // Dibujado normal
     if (this.attacking) {
       this.drawAttackingPlayer(ctx, scale);
       this.drawWeapon(ctx, scale);
@@ -654,7 +680,7 @@ class BasePlayer extends BaseCharacter {
       super.draw(ctx, scale);
     }
     
-    // Reset context if effect was applied
+    
     if (this.currentVisualEffect) {
       ctx.restore();
     }
@@ -790,29 +816,10 @@ class BasePlayer extends BaseCharacter {
     ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
   }
 
-
-
-  // metodopara usar cartas desde el inventario
-  useCard(index) {
-    if (index >= 0 && index < this.inventory.items.length) {
-      const card = this.inventory.items[index];
-      console.log(`Usando carta: ${card.constructor.name} en posición ${index}`);
-      
-      // Intentar activar la carta
-      const activated = this.inventory.activateCard(index);
-      
-      if (activated) {
-        console.log("Carta activada exitosamente");
-        // quitar la carta del inventario si es de un solo uso
-        if (card.maxUses === 1) {
-          this.inventory.items.splice(index, 1);
-          console.log("Carta de un solo uso removida del inventario");
-        }
-      } else {
-        console.log("No se pudo activar la carta");
-      }
-    } else {
-      console.log("No hay carta en esa posición del inventario");
-    }
+  restoreSprites() {
+    
+    this.spriteImage = this.currentSprite;
   }
+
+  
 }

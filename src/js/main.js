@@ -125,6 +125,8 @@ function setEventListeners() {
 const cardText = new TextLabel(uiCanvasWidth/2, uiCanvasHeight/2, "20px Times New Roman", "white");
 const HPText = new TextLabel(60, uiCanvasHeight/4, "20px Times New Roman", "white");
 const staminaText = new TextLabel(80, uiCanvasHeight/2, "20px Times New Roman", "white");
+const transformText = new TextLabel(80, uiCanvasHeight/4 + 30, "20px Times New Roman", "yellow");
+
 function drawUI(){
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
     let inventory = game.player.inventory.items; 
@@ -136,16 +138,13 @@ function drawUI(){
     uiCtx.textAlign = "left";
     HPText.draw(uiCtx, `HP: ${game.player.health}`);
     staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
-    //console.log("UI Ctx test");
-    //console.log(inventory);
-    uiCtx.fillStyle = "rgba(55, 34, 9, 0.886)";
-    uiCtx.font = "16px Times New Roman";
-    /*
-    if (inventory.length == 0){
-        uiCtx.textAlign = "center";
-        cardText.draw(uiCtx, "Press 1-6 to use cards");
+    
+    // Add transformation timer display
+    if (game.player.isTransformed && game.player.transformationTimer > 0) {
+        const secondsLeft = Math.ceil(game.player.transformationTimer / 1000);
+        transformText.draw(uiCtx, `Transformation: ${game.player.transformationType} (${secondsLeft}s)`);
     }
-        */
+    
     for(let i=0; i<inventory.length; i++){
         let card = inventory[i];
         const x = xOrigin + i * (cardWidth + cardSpacing); // Calculate x position for each card
@@ -165,7 +164,7 @@ function drawUI(){
                 cardHeight
             );
         } else {
-            // If no sprite is available, draw a placeholder rectangle
+            //si no hay sprite poner un cuadro gris
             uiCtx.fillStyle = "gray";
             uiCtx.fillRect(x, y, cardWidth, cardHeight);
             console.warn(`Drawing placeholder for card at index ${i}`);

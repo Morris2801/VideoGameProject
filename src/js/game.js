@@ -82,7 +82,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentMusic = audioFiles.levelMusic1;
     currentMusic.loop = true;
-    currentMusic.play();
+    
+    // Add user interaction requirement for audio playback to comply with browser policies
+    document.addEventListener('click', () => {
+        if (currentMusic.paused) {
+            currentMusic.play().catch(error => {
+                console.log("Audio playback failed: ", error);
+            });
+        }
+    }, { once: true });
 
     function switchMusic(newMusic) {
         if (currentMusic !== newMusic) {
@@ -90,7 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
             currentMusic.currentTime = 0;
             currentMusic = newMusic;
             currentMusic.loop = true;
-            currentMusic.play();
+            currentMusic.play().catch(error => {
+                console.log("Audio playback failed: ", error);
+            });
         }
     }
 });

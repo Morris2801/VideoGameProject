@@ -143,11 +143,8 @@ class BaseEnemy extends BaseCharacter {
         console.log(this.health);
         if (this.health <= 0) {
             this.alive = false;
-<<<<<<< HEAD
             game.player.killCount += 1;
             console.log("KillCount ", game.player.killCount);
-=======
->>>>>>> HectorSprint2_Ataque
         }
     }
 }

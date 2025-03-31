@@ -11,8 +11,6 @@ class BaseCard extends GameObject {
         this.damageBuff = 0;
 
         this.cardType = '';
-
-        this.cardType = '';
         // Aseguramos compatibilidad con el inventario
         this.type = "card";  
     }
@@ -75,116 +73,101 @@ class BaseCard extends GameObject {
         console.log(`Daño: ${target.damage}`);
         console.log(`Tiempo restante: ${timeLeft} segundos`);
     }
-
-    
 }
 
 class MacahuitlCard extends BaseCard{
     constructor(color, width, height, x, y, type){
         super(color, width, height, x, y, type);
-        super(color, width, height, x, y, type);
         this.damageBuff = 5;
         this.maxUses = 10;
         this.cardType = "weaponCard";
-        this.cardType = "weaponCard";
-        this.type = "card";
         this.weaponType = "macahuitl";
     }
 }
+
 class ObsidianKnifeCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, type);
         super(color, width, height, x, y, type);
         this.damageBuff = 4;
         this.maxUses = 10;
         this.cardType = "weaponCard";
-        this.cardType = "weaponCard";
-        this.type = "card";
         this.weaponType = "obsidianKnife";
     }
 }
+
 class MacheteCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, type);
         super(color, width, height, x, y, type);
         this.damageBuff = 6;
         this.maxUses = 5;
         this.cardType = "weaponCard";
-        this.cardType = "weaponCard";
     }
 }
+
 class MariachiCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, type);
         super(color, width, height, x, y, type);
         this.damageBuff = 4;
         this.healthBuff = 3;
         this.duration = 10;
-        this.cardType = "transformationCard";
-        this.cardType = "transformationCard";
-        this.type = "card";
-        this.transformationType = "mariachi";
+        this.maxUses = 1;
+        this.cardType = "transformationCard"; 
+        this.transformationType = "mariachi"; 
     }
 }
+
 class DiabloCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, type);
         super(color, width, height, x, y, type);
         this.damageBuff = 3;
         this.duration = 10;
         this.healthRegenBuff = 6;
         this.cardType = "transformationCard";
-        this.cardType = "transformationCard";
     }
 }
+
 class MayanWarriorCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, type);
         super(color, width, height, x, y, type);
         this.duration = 10;
         this.staminaBuff = 2;
         this.staminaRegenBuff = 1;
         this.cardType = "transformationCard";
-        this.cardType = "transformationCard";
     }
 }
+
 class CorazonCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, type);
         super(color, width, height, x, y, type);
         this.healthBuff = 10;
         this.maxUses = 1;
         this.cardType = "powerCard";
-        this.cardType = "powerCard";
     }
 }
+
 class ValienteCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, type);
         super(color, width, height, x, y, type);
         //poner cosas de inmunidad que idk
         this.duration = 10;
         this.cardType = "powerCard";
-        this.cardType = "powerCard";
     }
 }
+
 class TacoCard extends BaseCard{
     constructor(color, width, height, x, y, type){
-        super(color, width, height, x, y, type);
         super(color, width, height, x, y, type);
         //bloqueo de stamina por 10 s
         this.duration = 10;
         this.cardType = "powerCard";
-        this.cardType = "powerCard";
     }
 }
+
 class CalaveraCard extends BaseCard{
     constructor(color, width, height, x, y, type){
         super(color, width, height, x, y, type);
-        super(color, width, height, x, y, type);
         this.duration = 10;
         this.damageBuff = 10;
-        this.cardType = "powerCard";
         this.cardType = "powerCard";
     }
 }

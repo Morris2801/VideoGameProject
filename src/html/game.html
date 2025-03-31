@@ -47,9 +47,6 @@
             <img id="footerImage" src="../assets/controls.png" alt="Controls" style="display: none;" width="40%">
         </footer>
     </div>
-<<<<<<< HEAD
-    <script>
-=======
     <audio id="levelMusic1" src="Nivel1.mp3" loop></audio>
     <audio id="levelMusic2" src="Nivel2.mp3" loop></audio>
     <audio id="bossMusic1" src="Boss1.mp3" loop></audio>
@@ -61,7 +58,7 @@
         let bossMusic2 = document.getElementById("bossMusic2");
 
         let currentMusic = levelMusic1;
-        currentMusic.play();
+        
 
         function SwitchtoBoss1() {
             currentMusic.pause();
@@ -89,7 +86,6 @@
             }
         }
 
->>>>>>> HectorSprint2_Ataque
         document.querySelector('footer').addEventListener('mouseover', () => {
             document.getElementById('footerImage').style.display = 'block';
         });
