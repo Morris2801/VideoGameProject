@@ -80,7 +80,6 @@ const GameMusic = (() => {
     };
 
 
-    
     let currentMusic = audioFiles.levelMusic1;
     currentMusic.loop = true;
     
@@ -93,13 +92,10 @@ const GameMusic = (() => {
         }
     }, { once: true });
 
-
     function switchMusic(newMusic) {
         if (currentMusic !== newMusic) {
-            if (currentMusic) {
-                currentMusic.pause();
-                currentMusic.currentTime = 0;
-            }
+            currentMusic.pause();
+            currentMusic.currentTime = 0;
             currentMusic = newMusic;
             currentMusic.loop = true;
             currentMusic.play().catch(error => {
@@ -107,30 +103,7 @@ const GameMusic = (() => {
             });
         }
     }
-// fucntions to change musics
-    function startMusic() {
-        switchMusic(audioFiles.levelMusic1);
-    }
-
-    function changeToLevel2() {
-        switchMusic(audioFiles.levelMusic2);
-    }
-
-    function changeToBoss1() {
-        switchMusic(audioFiles.bossMusic1);
-    }
-
-    function changeToBoss2() {
-        switchMusic(audioFiles.bossMusic2);
-    }
-
-    return {
-        startMusic,
-        changeToLevel2,
-        changeToBoss1,
-        changeToBoss2,
-    };
-})();
+});
 // setTimeout(() => switchMusic(audioFiles.levelMusic2), 10000); USE THIS FOR SIMULATION
 
 
