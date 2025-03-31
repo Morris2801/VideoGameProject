@@ -20,6 +20,8 @@ class Game {
             }
         }
 
+        
+
         for(let i = this.attackEffects.length-1; i >= 0; i--){
             const effect = this.attackEffects[i];
             effect.update(this.level, deltaTime);
@@ -77,7 +79,20 @@ const GameMusic = (() => {
         bossMusic2: new Audio("Boss2.mp3"),
     };
 
-    let currentMusic = null;
+
+    
+    let currentMusic = audioFiles.levelMusic1;
+    currentMusic.loop = true;
+    
+    // Add user interaction requirement for audio playback to comply with browser policies
+    document.addEventListener('click', () => {
+        if (currentMusic.paused) {
+            currentMusic.play().catch(error => {
+                console.log("Audio playback failed: ", error);
+            });
+        }
+    }, { once: true });
+
 
     function switchMusic(newMusic) {
         if (currentMusic !== newMusic) {
@@ -87,7 +102,9 @@ const GameMusic = (() => {
             }
             currentMusic = newMusic;
             currentMusic.loop = true;
-            currentMusic.play();
+            currentMusic.play().catch(error => {
+                console.log("Audio playback failed: ", error);
+            });
         }
     }
 // fucntions to change musics

@@ -9,8 +9,7 @@ class BaseInteractable extends GameObject{
 //clase para animar el ataque circular del personaje
 
 // Factores de escala globales para ajustar facilmente
-
-const ATTACK_EFFECT_SCALE = 1;  // Escala para el efecto de ataque
+// ATTACK_EFFECT_SCALE is already defined in player.js - removing duplicate declaration
 
 // Modificar el constructor de AttackAnimation para usar la escala global
 class AttackAnimation extends AnimatedObject {
