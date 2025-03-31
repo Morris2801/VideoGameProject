@@ -54,30 +54,31 @@ class Inventory {
 
       console.log(`Activating card: ${card.cardType || card.type}, weapon type: ${card.weaponType}, transformation type: ${card.transformationType}`);
 
-      
+      // 
       if(card.cardType === "weaponCard"){
         this.activeWeapon = card;
-        // conectar con el sistema de equipar 
+        // Connect to player equipment system
         if(this.player) {
           this.player.equipWeapon(card.weaponType || "default");
         }
+        return true;
       }
       
-      else if(card.cardType === "transformationCard"){ 
+      else if(card.cardType === "transformationCard"){
         this.activeTransformation = card;
-        // conectar con al tranformacion del personaje
+        // Connect to player transformation system
         if(this.player) {
-          const duration = card.duration || 30; // Default 30 sec
+          const duration = card.duration || 30; // Default 30 seconds
           this.player.applyTransformation(card.transformationType || "default", duration);
         }
+        return true;
       }
       
-      else if(card.cardType === "powerCard"){ //card.cardType
-        
+      else if(card.cardType === "powerCard"){ 
         this.activeBuff = this.activeBuff || [];
         this.activeBuff.push(card);
         
-        //effecto de buff
+        // Apply buff effects
         if(this.player) {
           this.applyBuffEffects(card);
         }
@@ -88,10 +89,11 @@ class Inventory {
             this.removeBuff(card);
           }, card.duration * 1000);
         }
+        return true;
       }
       
-      // return true si fue activado bien 
-      return true;
+      console.log(`Card type not recognized: ${card.cardType || card.type}`);
+      return false;
     }
 
     applyBuffEffects(card) {
@@ -373,39 +375,32 @@ class BasePlayer extends BaseCharacter {
     this.currentVisualEffect = null;
   }
 
-  
-  useCard(index) {
-    if (index >= 0 && index < this.inventory.items.length) {
-      const card = this.inventory.items[index];
-      console.log(`Usando carta: ${card.constructor.name} en posición ${index}`);
+  useCard(index){
+    if(index >=0 && index < this.inventory.size()){
+      let card = this.inventory.items[index];
+      console.log(`Using card at index ${index}: ${card.cardType || card.type}`);
       
-      
-      this.cardsUsed++;
-      
-      // Intentar activar la carta
-      const activated = this.inventory.activateCard(index);
-      
-      if (activated) {
-        console.log("Carta activada exitosamente");
-        
-        
-        if (card.maxUses > 0) {
-          card.maxUses--;
-          console.log(`Card ${card.cardType} uses left: ${card.maxUses}`);
-          
-          
-          if (card.maxUses === 0) {
-            this.inventory.items.splice(index, 1);
-            console.log("Carta sin usos removida del inventario");
-          }
-        }
-      } else {
-        console.log("No se pudo activar la carta");
-        
-        this.cardsUsed--;
+      // aplicar el efecto de la carta
+      if (typeof card.applyEffect === 'function') {
+        card.applyEffect(this);
       }
-    } else {
-      console.log("No hay carta en esa posición del inventario");
+      
+      // activar carta del inventario
+      const activated = this.inventory.activateCard(index);
+      console.log(`Card activation result: ${activated ? "successful" : "failed"}`);
+      
+      // 
+      this.cardsUsed++;
+
+      //
+      if(card.maxUses > 0){
+        card.maxUses--;
+        console.log(`Card ${card.type} uses remaining: ${card.maxUses}`);
+        if(card.maxUses <= 0){
+          this.inventory.items.splice(index, 1);
+          console.log("Card removed from inventory (max uses reached)");
+        }
+      }
     }
   }
   
@@ -499,9 +494,8 @@ class BasePlayer extends BaseCharacter {
   }
 
   //metodo para tranformarse
-  applyTransformation(transformationType, duration) {
+  applyTransformation(transformationType, duration){
     console.log(`Aplicando transformación: ${transformationType} por ${duration} segundos`);
-console.log("Current sprite before transformation:", this.spriteImage?.src);
     
     // Verificar que la tranformacion sea valida
     if (!this.transformationSprites[transformationType]) {
@@ -514,7 +508,6 @@ console.log("Current sprite before transformation:", this.spriteImage?.src);
     this.transformationTimer = duration * 1000; //convertir segundos a milisegundos
 
     this.updateCurrentSprites();
-console.log("Sprite after transformation:", this.spriteImage?.src);
      
     console.log('Transformation applied:', transformationType, 'for', duration, 'seconds');
   }
@@ -540,49 +533,80 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
   }
 
   updateCurrentSprites() {
-  // Determinar que sprites usar segu el estado actual
-  if (this.isTransformed) {
-    // Si el jugador está transformado, usar sprites de transformacion
-    const transformSprites = this.transformationSprites[this.transformationType];
-    if (transformSprites) {
-      this.currentSprite = new Image();
-      this.currentSprite.src = transformSprites.main;
-      //update el sprite que debe ser dibujado
-      this.spriteImage = this.currentSprite;
-      
-      this.currentAttackingSprite = new Image();
-      this.currentAttackingSprite.src = transformSprites.attacking || transformSprites.main;
-    }
-  } else {
-    // Si el jugador esta en estado normal, usar sprites de arma
-    const weaponSprites = this.weaponSprites[this.activeWeaponType];
-    if (weaponSprites) {
-      this.currentSprite = new Image();
-      this.currentSprite.src = weaponSprites.main;
-      //update el sprite que sera dibujado
-      this.spriteImage = this.currentSprite;
-      
-      this.currentAttackingSprite = new Image();
-      this.currentAttackingSprite.src = weaponSprites.attacking || weaponSprites.main;
+    // Determinar que sprites usar segun el estado actual
+    if (this.isTransformed) {
+      // Si el jugador está transformado, usar sprites de transformacion
+      const transformSprites = this.transformationSprites[this.transformationType];
+      if (transformSprites) {
+        this.currentSprite = new Image();
+        this.currentSprite.src = transformSprites.main;
+        
+        // actualizar el sprite image para que funcione
+        this.spriteImage = this.currentSprite;
+        
+        // Save for restoration after attacks
+        this.savedNormalSprite = this.currentSprite;
+        this.savedCurrentSprite = this.currentSprite;
+        
+        this.currentAttackingSprite = new Image();
+        this.currentAttackingSprite.src = transformSprites.attacking || transformSprites.main;
+        
+        console.log(`Transformation sprites loaded: ${this.currentSprite.src}`);
+      }
     } else {
-      // Usar sprites predeterminados si no hay arma
-      this.currentSprite = this.normalSprite;
-      //update el sprite que sera dibujado
-      this.spriteImage = this.normalSprite;
-      this.currentAttackingSprite = this.normalAttackingSprite;
+      // Si el jugador esta en estado normal, usar sprites de arma
+      const weaponSprites = this.weaponSprites[this.activeWeaponType];
+      if (weaponSprites) {
+        this.currentSprite = new Image();
+        this.currentSprite.src = weaponSprites.main;
+        
+        // actuzlizar el sprite image para que funcione
+        this.spriteImage = this.currentSprite;
+        
+        // Save for restoration after attacks
+        this.savedNormalSprite = this.currentSprite;
+        this.savedCurrentSprite = this.currentSprite;
+        
+        this.currentAttackingSprite = new Image();
+        this.currentAttackingSprite.src = weaponSprites.attacking || weaponSprites.main;
+      } else {
+        // Usar sprites predeterminados si no hay arma
+        this.currentSprite = this.normalSprite;
+        this.currentAttackingSprite = this.normalAttackingSprite;
+        
+        // Update spriteImage to match currentSprite
+        this.spriteImage = this.normalSprite;
+        
+        // Save for restoration after attacks
+        this.savedNormalSprite = this.normalSprite;
+        this.savedCurrentSprite = this.normalSprite;
+      }
+    }
+    
+    // Actualizar también el sprite del arma si es necesario
+    if (this.activeWeaponType !== "default" && this.weaponSprites[this.activeWeaponType]) {
+      this.weaponSprite = new Image();
+      this.weaponSprite.src = this.weaponSprites[this.activeWeaponType].attacking || 
+                         "../assets/Prueba_SpritePeleando.png";
+    }
+    
+    console.log(`Sprites actualizados: ${this.isTransformed ? 'transformado-' + this.transformationType : 'arma-' + this.activeWeaponType}`);
+    console.log(`Sprite actual: ${this.spriteImage.src}`);
+  }
+
+  // Add method to restore sprites after attacks
+  restoreSprites() {
+    if (this.savedNormalSprite) {
+      this.spriteImage = this.savedNormalSprite;
+      
+      if (this.savedCurrentSprite) {
+        this.currentSprite = this.savedCurrentSprite;
+      }
+      
+      console.log(`Restored sprites after attack: ${this.spriteImage.src}`);
     }
   }
   
-  // Actualizar también el sprite del arma si es necesario
-  if (this.activeWeaponType !== "default" && this.weaponSprites[this.activeWeaponType]) {
-    this.weaponSprite = new Image();
-    this.weaponSprite.src = this.weaponSprites[this.activeWeaponType].attacking || 
-                         "../assets/Prueba_SpritePeleando.png";
-  }
-  
-  console.log(`Sprites actualizados: ${this.isTransformed ? 'transformado-' + this.transformationType : 'arma-' + this.activeWeaponType}`);
-}
-
   switchBackToIdleState() {
     if (this.attacking) {
       console.log("Finalizando ataque, volviendo a estado idle");
@@ -670,7 +694,7 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
   }
   
   draw(ctx, scale) {
-    // Dibujado normal
+    // Continue with normal drawing
     if (this.attacking) {
       this.drawAttackingPlayer(ctx, scale);
       this.drawWeapon(ctx, scale);
@@ -680,7 +704,7 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
       super.draw(ctx, scale);
     }
     
-    
+    // Reset context if effect was applied
     if (this.currentVisualEffect) {
       ctx.restore();
     }
@@ -815,11 +839,4 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
     ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
     ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
   }
-
-  restoreSprites() {
-    
-    this.spriteImage = this.currentSprite;
-  }
-
-  
 }
