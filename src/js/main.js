@@ -120,7 +120,11 @@ function setEventListeners() {
     
     });
 }
-
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Juego iniciado");
+    
+    // Iniciar la música del nivel 1
+    GameMusic.startMusic();
 
 const cardText = new TextLabel(uiCanvasWidth/2, uiCanvasHeight/2, "20px Times New Roman", "white");
 const HPText = new TextLabel(60, uiCanvasHeight/4, "20px Times New Roman", "white");

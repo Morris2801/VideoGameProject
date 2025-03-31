@@ -71,8 +71,7 @@ class Game {
 // Algo iba aquí
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Cargar los archivos de audio
+const GameMusic = (() => {
     const audioFiles = {
         levelMusic1: new Audio("Nivel1.mp3"),
         levelMusic2: new Audio("Nivel2.mp3"),
@@ -80,6 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
         bossMusic2: new Audio("Boss2.mp3"),
     };
 
+
+    
     let currentMusic = audioFiles.levelMusic1;
     currentMusic.loop = true;
     
@@ -92,10 +93,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, { once: true });
 
+
     function switchMusic(newMusic) {
         if (currentMusic !== newMusic) {
-            currentMusic.pause();
-            currentMusic.currentTime = 0;
+            if (currentMusic) {
+                currentMusic.pause();
+                currentMusic.currentTime = 0;
+            }
             currentMusic = newMusic;
             currentMusic.loop = true;
             currentMusic.play().catch(error => {
@@ -103,7 +107,30 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
-});
+// fucntions to change musics
+    function startMusic() {
+        switchMusic(audioFiles.levelMusic1);
+    }
+
+    function changeToLevel2() {
+        switchMusic(audioFiles.levelMusic2);
+    }
+
+    function changeToBoss1() {
+        switchMusic(audioFiles.bossMusic1);
+    }
+
+    function changeToBoss2() {
+        switchMusic(audioFiles.bossMusic2);
+    }
+
+    return {
+        startMusic,
+        changeToLevel2,
+        changeToBoss1,
+        changeToBoss2,
+    };
+})();
 // setTimeout(() => switchMusic(audioFiles.levelMusic2), 10000); USE THIS FOR SIMULATION
 
 
