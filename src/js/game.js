@@ -76,7 +76,7 @@ class Game {
 
 // Algo iba aquí
 
-
+// music
 const GameMusic = (() => {
     const audioFiles = {
         levelMusic1: new Audio("Nivel1.mp3"),
@@ -85,10 +85,9 @@ const GameMusic = (() => {
         bossMusic2: new Audio("Boss2.mp3"),
     };
 
-
     let currentMusic = audioFiles.levelMusic1;
     currentMusic.loop = true;
-    
+
     // Add user interaction requirement for audio playback to comply with browser policies
     document.addEventListener('click', () => {
         if (currentMusic.paused) {
@@ -98,18 +97,32 @@ const GameMusic = (() => {
         }
     }, { once: true });
 
-    function switchMusic(newMusic) {
-        if (currentMusic !== newMusic) {
+    return {
+        startMusic: function () {
+            if (currentMusic.paused) {
+                currentMusic.play().catch(error => {
+                    console.log("Error al iniciar la música:", error);
+                });
+            }
+        },
+        stopMusic: function () {
             currentMusic.pause();
             currentMusic.currentTime = 0;
-            currentMusic = newMusic;
-            currentMusic.loop = true;
-            currentMusic.play().catch(error => {
-                console.log("Audio playback failed: ", error);
-            });
+        },
+        changeMusic: function (track) {
+            if (audioFiles[track]) {
+                currentMusic.pause();
+                currentMusic = audioFiles[track];
+                currentMusic.loop = true;
+                currentMusic.play().catch(error => {
+                    console.log("Error al cambiar la música:", error);
+                });
+            } else {
+                console.log("Track no encontrado:", track);
+            }
         }
-    }
-});
+    };
+})();
 // setTimeout(() => switchMusic(audioFiles.levelMusic2), 10000); USE THIS FOR SIMULATION
 
 
@@ -119,7 +132,7 @@ const GameMusic = (() => {
 // Functions
 
 
-// Overlap cUadrados
+// Overlap cuadrados
 function boxOverlap(obj1, obj2){
     return obj1.position.x + obj1.size.x > obj2.position.x &&
     obj1.position.x < obj2.position.x + obj2.size.x &&

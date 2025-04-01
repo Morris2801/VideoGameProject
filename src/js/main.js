@@ -40,10 +40,26 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const canvas = document.getElementById("canvas");
     const uiCanvas = document.getElementById("uiCanvas");
-    
-    GameMusic.startMusic(); // musica
 
     let isPaused = false; 
+
+    startGameButton.addEventListener("click", () => {
+        console.log("Botón 'Start Game' presionado.");
+        
+        if (typeof GameMusic !== "undefined") {
+            console.log("Iniciando música...");
+            GameMusic.startMusic();  
+        } else {
+            console.error("GameMusic no está definido.");
+        }
+    
+        canvas.style.display = "flex";
+        uiCanvas.style.display = "flex";
+        
+        init();
+        gameStart();
+    });
+
     canvas.style.display = "none";
     uiCanvas.style.display = "none";
     startMenu.style.display = "flex";
@@ -196,9 +212,6 @@ function init(){
     canvas.style.display = "flex"; 
     uiCanvas.style.display = "flex"; 
 
-
-    gameStart(); //esto va a ir aadentro de menu
-
 }
 
 function gameStart() {
@@ -266,7 +279,6 @@ function setEventListeners() {
         }
     });
 }
-
 
 const usernameText = new TextLabel(60, uiCanvasHeight/4, "20px Times New Roman", "white");
 const HPText = new TextLabel(65, uiCanvasHeight/4 + 25, "20px Times New Roman", "white");
