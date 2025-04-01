@@ -64,7 +64,7 @@ Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Ma
 
 
 ### **Gameplay**
-The player's character exists in a 2D pixel world, contextualized in an ancient underground pyramid, with 2 distinct levels that seek to make two runs as different as possible. Each level will consist of randomly generated room layouts with enemies and reward chests, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the allowed time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
+The player's character exists in a 2D pixel world, contextualized in an ancient underground pyramid, with 2 distinct levels that seek to make two runs as different as possible. Each level will consist of randomly generated room layouts with enemies and reward vases, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the allowed time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
 
 #### Game Objective
 _Background_
@@ -100,7 +100,7 @@ In **MayAztec**, the player must balance **close-range-combat**, **inventory man
 ##### 1.3 Boss Fights Tactics
 - **Boss Phase Recognition**: Watch for animation or HP threshold cues that signal a shift in behavior.
 - **Positioning**: Move diagonally to avoid linear bullet-hell attacks or area-of-effect strikes.
-- **Card Management**: Ensure at least one slot is free to pick up an on-the-fly power-up if you find a chest in the boss arena.
+- **Card Management**: Ensure at least one slot is free to pick up an on-the-fly power-up if you find a vase in the boss arena.
 
 ##### 1.4 Inventory & Time Management
 - **Card Slots**: You have up to 5 Lotería card slots. Decide which effects to keep and which to discard.
@@ -150,7 +150,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Move Down**              | S / Down Arrow                   | Moves player character south.                                                            |
 | **Move Right**             | D / Right Arrow                  | Moves player character east.                                                             |
 | **Attack (BaseCard)**      | X                         | Performs a melee attack with the base weapon/card.                                       |
-| **Interact (Chest)**       | F                                | Opens chests, picks up items if available.                                               |
+| **Interact (vase)**       | F                                | Opens vases, picks up items if available.                                               |
 | **Use Card 1–5**           | Number Keys 1–5                  | Activates the assigned Lotería card.                                                     |
 | **Dash**                   | Shift                            | Brief invulnerability and burst movement. Consumes stamina.                              |
 | **Pause Menu**             | ESC                              | Opens pause menu with in-game options.                                                   |
@@ -192,7 +192,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 #### Lotería Cards
 
-Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, power-up), a **damage** (if applicable), and an optional **duration** in seconds. Cards can be found in chests or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
+Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a **type** (weapon, transformation, power-up), a **damage** (if applicable), and an optional **duration** in seconds. Cards can be found in vases or dropped by enemies based on a probability system (e.g., 10–30% chance depending on the enemy).
 
 ##### Weapon Cards
 
@@ -223,7 +223,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 - **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons or buff cards.  
 - **Medium Enemy (Guerrero Maya)**: ~20% chance for mid-tier weapons or transformation.  
 - **Heavy Enemy (El Diablo)**: ~10–15% chance for high-tier gear or powerful buffs.  
-- **Chests**: Weighted random from the full set, guaranteed at least 1 card.  
+- **vases**: Weighted random from the full set, guaranteed at least 1 card.  
 - **Boss Fights**: 5–10% chance for transformations plus guaranteed resources.
 
 
@@ -306,7 +306,7 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 |---|----------|------------|
 | **Rooms** | 12 Possible choices: <ul><li>You enter a starting room</li><li>You have multiple paths</li><li>Some doors are closed and you can't pass through them</li><li>All accessible paths lead to the boss.</li></ul> | 15 Possible choices: <ul><li>More possibilities to explore and try to reach the boss</li><li>All accessible paths lead to the boss.</li></ul> |
 | **Enemies** | 3-5 enemies in each dungeon room: <ul><li>Can do 3, 4, 5 enemies in each room</li></ul> | From 4 to 7 enemies in each room: <ul><li>Higher possibility of high-category enemies</li></ul> |
-| **Chests** | A chest has a 20% chance in every room of the dungeon at this level. | A chest has a 15% chance in every room of the dungeon at this level. |
+| **Vases** (max 5 per room) | A vase has a 15% chance in every room of the dungeon at this level. | A vase has a 20% chance in every room of the dungeon at this level. |
 
 | **Enemy Probabilities**   | **Level 1**                  | **Level 2**                  |
 |---------------------------|------------------------------|------------------------------|
@@ -318,7 +318,7 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 | **Boss Ah Puch**          | 0% in normal rooms         | Only in the final boss room (100% chance if it's the last room in Level 2) |
 
 
-### Chest 
+### Vase 
 **Card Probabilities**
 You have a secured card:
 - 10% of a rare card (Calavera, machete, obsidian, macuahuilt)
@@ -349,7 +349,7 @@ Basic Room Mockup:
             4. Stone tile variants
             5. Pyramid wall tiles
         2. _Interactive_
-            1. Chests
+            1. vases
             2. Cards
             3. Mayan Warrior
             4. Mariachis
@@ -366,7 +366,7 @@ Basic Room Mockup:
             5. Stone tile variants
             6. Underground wall tiles
         2. _Interactive_
-            1. Chests
+            1. vases
             2. Cards
             3. Tlaxcaltecas
             4. Demons
@@ -380,9 +380,9 @@ Basic Room Mockup:
 3. Player spawns in a room with doors to their sides.
 4. Player leaves initial room with Base Weapon
 5. Player must explore and complete 2 levels without dying. 
-    1. The Player explores and finds different rooms/enemies/chests/cards
+    1. The Player explores and finds different rooms/enemies/vases/cards
         1. If the player finds an enemy, they can choose to avoid or to attack by going near with melee attacks or by activating power-up cards
-        2. If the player finds a chest, they open it by pressing F
+        2. If the player finds a vase, they open it by pressing F
         3. If player finds a room with a doorway, by travelling to it they can enter more rooms
         4. If player encounters a card, they can pick it up by going near it
     2. The player continuously collects and uses different cards while travelling through rooms until the boss room is reached. 
@@ -436,7 +436,7 @@ Basic Room Mockup:
         I. `TacoCard`
         J. `CalaveraCard`
     3. `BaseInteractable`
-        1. `ObjectChest`
+        1. `Vase`
 2. `Level`
     1. `Level1`
     2. `Level2`
@@ -457,7 +457,7 @@ Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), a
 
 For interactive elements, visual feedback should feel intuitive and fit naturally within the pixel-art style and color philosophy:
 - Subtle Motion and Animation: Gentle bobbing for collectibles (cards) will be incorporated.
-- Color and Lighting Variations: Slight hue shifts to distinguish interactable objects, soft lighting pulses or glows, as will be the case for chests
+- Color and Lighting Variations: Slight hue shifts to distinguish interactable objects, soft lighting pulses or glows, as will be the case for vases
 
 ### User Interface
 The idea is to have in the center of the canvas, the actual game window, with each room taking the entirety of the allotted screen with the characters inside. Outside of said room, the player will be able to see their cards, their health, stamina, timer and buffs as the following image suggests: 
@@ -521,7 +521,7 @@ The idea is for the interface to be as simple as possible, also in a pixel-like 
 
 
 4. Other
-    1. Chest
+    1. vase
     2. Door (matching Wall block and Underground Wall block)
     3. Card (10 miniatures for map appearance, 10 detailed screenings for player UI)
     4. Base weapon
@@ -538,7 +538,7 @@ The idea is for the interface to be as simple as possible, also in a pixel-like 
 
 For the style attributes, the game’s music and sound should have a consistent and immersive feel. The instrumentation will primarily consist of chiptune-style synths mixed with orchestral elements to create an atmospheric and adventurous sound. The tempo will vary based on intensity, with moderate pacing for exploration and faster tempos for action-heavy moments, particularly boss fights. Most tracks will be in minor keys to evoke mystery and tension, while major keys will be used sparingly for uplifting moments like victory themes. Influences include classic roguelikes, Dark Souls, Castlevania, and Legend of Zelda, aiming for a dark, mysterious, and adventurous tone. Sound effects will be subtle but distinct, ensuring clear feedback for player actions without overwhelming the music. The overall approach will balance realism with stylized elements, ensuring that auditory cues stand out without clashing with the environment.
 
-The game will need various sound effects to enhance immersion and provide auditory feedback for player actions. Footsteps will sound sharper against stone surfaces. Other environmental sounds include a chests opening, power-ups being used, and melee attacks landing, all designed to feel responsive and natural. Feedback sounds will be crucial for player experience, such as a relieved sigh when gaining health, a surprised grunt when taking damage, and a sad, descending chime upon death.
+The game will need various sound effects to enhance immersion and provide auditory feedback for player actions. Footsteps will sound sharper against stone surfaces. Other environmental sounds include a vases opening, power-ups being used, and melee attacks landing, all designed to feel responsive and natural. Feedback sounds will be crucial for player experience, such as a relieved sigh when gaining health, a surprised grunt when taking damage, and a sad, descending chime upon death.
 
 The music will be structured to loop per level, maintaining an immersive experience throughout gameplay. Unsettling undertones will build tension, and the music will likely be slow paced. For triumphant moments, a short, victorious fanfare will play upon completing significant challenges, and a melancholic, fading theme will accompany game-over screens to emphasize the weight of failure. [Source](https://felgo.com/game-resources/free-music-for-games)
 
@@ -546,7 +546,7 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 1. Effects
     1. Sharp Footsteps (stone floor) [Source](https://opengameart.org/content/step-sound-walking)
-    2. Chest Opening [Source]()
+    2. vase Opening [Source]()
     3. Card picked up [Source]()
     4. Card used [Source]()
 2. Feedback
@@ -627,10 +627,7 @@ The music will be structured to loop per level, maintaining an immersive experie
 4. Set up `Card classes` with sprites
 5. Set up `Boss classes` with sprites
 6. Have background music running for each of the levels and bosses
-<<<<<<< HEAD
 7. Have a function where the background music in a function where its called to switch musics depending on the level
-=======
->>>>>>> HectorSprint2_Ataque
 
 ### Sprint 4: 
 1. Work on level generation

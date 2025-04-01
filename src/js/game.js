@@ -5,6 +5,8 @@ class Game {
         this.player = this.level.player;
         this.actors = level.actors;
         this.attackEffects = []; // lista de efectos de ataque 
+        
+        this.isActive = true;  
     }
 
     addAttackEffect(effect)
@@ -12,42 +14,43 @@ class Game {
         this.attackEffects.push(effect);
     }    
     update(deltaTime) {     
-        this.player.update(this.level, deltaTime);
-        
-        for (let actor of this.actors) {
-            if(typeof actor.update === "function"){
-                actor.update(this.level, deltaTime);
+        if(this.isActive == false) return; // Si el juego no está activo, no actualiza nada
+        else {
+            this.player.update(this.level, deltaTime);
+            for (let actor of this.actors) {
+                if(typeof actor.update === "function"){
+                    actor.update(this.level, deltaTime);
+                }
             }
-        }
 
+            for(let i = this.attackEffects.length-1; i >= 0; i--){
+                const effect = this.attackEffects[i];
+                effect.update(this.level, deltaTime);
         
-
-        for(let i = this.attackEffects.length-1; i >= 0; i--){
-            const effect = this.attackEffects[i];
-            effect.update(this.level, deltaTime);
-    
-            //eliminar animacion inactivas
-            if(effect.shouldRemove){
-                this.attackEffects.splice(i,1);
+                //eliminar animacion inactivas
+                if(effect.shouldRemove){
+                    this.attackEffects.splice(i,1);
+                }
             }
-        }
-        this.actors = this.actors.filter(actor => actor.alive !== false);
-        let currentActors = this.actors;
-        // Detect collisions
-        for (let actor of currentActors) {
-            if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
-                //console.log(`Collision of ${this.player.type} with ${actor.type}`);
-                if (actor.type == 'wall') {
-                    console.log("Hit a wall");
-                } 
-                else if (actor.type == 'card') {
-                    if(this.player.inventory.items.length != this.player.inventory.max){
-                        this.player.inventory.push(actor);
-                        this.player.cardPickupCount++;
-                        this.actors = this.actors.filter(item => item !== actor);
-                        // console.log("Picked up a card");
+            this.actors = this.actors.filter(actor => actor.alive !== false);
+            this.actors = this.actors.filter(actor => actor.isOpened !== true);
+            let currentActors = this.actors;
+            // Detect collisions
+            for (let actor of currentActors) {
+                if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
+                    //console.log(`Collision of ${this.player.type} with ${actor.type}`);
+                    if (actor.type == 'wall') {
+                        console.log("Hit a wall");
+                    } 
+                    else if (actor.type == 'card') {
+                        if(this.player.inventory.items.length != this.player.inventory.max){
+                            this.player.inventory.push(actor);
+                            this.player.cardPickupCount++;
+                            this.actors = this.actors.filter(item => item !== actor);
+                            // console.log("Picked up a card");
+                        }
+                        // console.log(this.player);
                     }
-                    // console.log(this.player);
                 }
             }
         }
@@ -56,6 +59,9 @@ class Game {
     draw(ctx, scale) {
         for (let actor of this.actors) {
             actor.draw(ctx, scale);
+            if(actor.type == "card"){
+                console.log("Card found to be drawn");
+            }
         }
     /*for (let effect of this.attackEffects) {
     console.log("Dibujando efecto en:", effect.position.x, effect.position.y);

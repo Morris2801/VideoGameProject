@@ -12,6 +12,9 @@ const statsCanvasWidth = 365;
 const statsCanvasHeight = 215;
 const uiCanvasWidth = canvasWidth
 const uiCanvasHeight = canvasHeight / 3 + 10;
+
+let username = '', password, email;  // para base de datos chavos
+
 let ctx, uiCtx, statsCtx;
 let game;
 let oldTime, deltaTime;
@@ -23,12 +26,149 @@ let totalElapsedTime = 0; // Variable to track total elapsed time
 // Functions
 
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+    const startMenu = document.getElementById("startMenu");
+    const pauseMenu = document.getElementById("pauseMenu");
+    const startGameButton = document.getElementById("startButton");
+    const optionsButton = document.getElementById("optionsButton");
+    const loginButton = document.getElementById("loginButton");
+    const resumeButton = document.getElementById("resumeButton");
+    const exitButton = document.getElementById("exitButton");
+    const loginSection = document.getElementById("loginSection");
+    const cancelButton = document.getElementById("cancelButton");
+    const loginForm = document.getElementById("loginForm");
+    
+    const canvas = document.getElementById("canvas");
+    const uiCanvas = document.getElementById("uiCanvas");
+    
+    GameMusic.startMusic(); // musica
+
+    let isPaused = false; 
+    canvas.style.display = "none";
+    uiCanvas.style.display = "none";
+    startMenu.style.display = "flex";
+
+    startGameButton.addEventListener("click", () => {
+        startMenu.style.display = "none"; 
+        canvas.style.display = "flex";
+        uiCanvas.style.display = "flex";
+        init();
+    });
+
+    optionsButton.addEventListener("click", () => {
+    
+    });
+
+    loginButton.addEventListener('click', () => {
+        startMenu.style.display = "none"; 
+        loginSection.style.display = "flex";
+        canvas.style.display = "none";
+        uiCanvas.style.display = "none";
+    });
+    loginForm.addEventListener('submit', (event) =>{
+        loginSection.style.display = "flex";
+        event.preventDefault();
+        username = document.getElementById("username").value;
+        password = document.getElementById("password").value;
+        console.log("Username: " + username);
+        console.log("password: " + password);
+
+        loginSection.style.display = "none"; 
+        startMenu.style.display = "flex";
+    });
+    cancelButton.addEventListener('click', () => {
+        loginSection.style.display = "none"; 
+        startMenu.style.display = "flex"; 
+    });
+    resumeButton.addEventListener('click', () => {
+        pauseMenu.style.display = 'none';
+        isPaused = false;
+        game.isActive = true;
+        canvas.style.display = "flex";
+        uiCanvas.style.display = "flex";
+        requestAnimationFrame(drawScene); // Resume the game loop
+    });
+
+    exitButton.addEventListener('click', () => {
+        pauseMenu.style.display = 'none';
+        location.reload(); 
+    });
 
 
-function startMenu(){
-    //aquí llamar a gameStart
-}
+    // Pause the game when Esc is pressed
+    window.addEventListener('keydown', (event) => {
+        if (event.key == 'Escape') {
+            if (!isPaused) {
+                pauseMenu.style.display = 'flex';
+                isPaused = true;
+                game.isActive = false; 
+                console.log("esc");
+                canvas.style.display = "none";
+                uiCanvas.style.display = "none";
+                
+            } 
+            else {
+                pauseMenu.style.display = 'none';
+                canvas.style.display = "flex";
+                uiCanvas.style.display = "flex";
+                isPaused = false;
+                game.isActive = true;
+                requestAnimationFrame(drawScene); // Resume the game loop
+            }
+        }
+    });
+
+    // Show the login section when the "Login" button is clicked
+    loginButton.addEventListener('click', () => {
+        startMenu.style.display = "none"; // Hide the start menu
+        loginSection.style.display = "flex"; // Show the login section
+    });
+
+    // Handle the login form submission
+    loginForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the form from refreshing the page
+        let counter = 0;
+        let username = document.getElementById('username').value;
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+
+        // Regex patterns
+        const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/; // Alphanumeric, underscores, 3-16 characters
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Minimum 8 characters, at least one letter and one number
+
+        // Validate username
+        if (!usernameRegex.test(username)) {
+            alert("Invalid username. It must be 3-16 characters long and can only contain letters, numbers, and underscores.");
+        }
+        else{
+            counter++;
+        }
+
+        // Validate email
+        if (!emailRegex.test(email)) {
+            alert("Invalid email address.");
+        }
+        else{
+            counter++;
+        }
+
+        // Validate password
+        if (!passwordRegex.test(password)) {
+            alert("Invalid password. It must be at least 8 characters long and contain at least one letter and one number.");
+        }
+        else{
+            counter++;
+        }
+        if(counter == 3){
+            console.log(`Email: ${email}, \nUsername: ${username}, \nEmail: ${email}, Password: ${password}`);
+            loginSection.style.display = "none";
+            startMenu.style.display = "flex";
+        }
+    });
+
+}); 
+
 
 
 function init(){
@@ -50,6 +190,11 @@ function init(){
     statsCtx = statsCanvas.getContext('2d');
 
     //Aquí poner función de menú
+    const startMenu = document.getElementById("startMenu");
+    
+    startMenu.style.display = "none"; 
+    canvas.style.display = "flex"; 
+    uiCanvas.style.display = "flex"; 
 
 
     gameStart(); //esto va a ir aadentro de menu
@@ -59,6 +204,7 @@ function init(){
 function gameStart() {
     // Register the game object, which creates all other objects
     game = new Game('playing', new Level(GAME_LEVELS[0]));
+    game.isActive = true; // Set the game to active
     console.log(game.level);
     console.log(game.player);
     
@@ -89,17 +235,19 @@ function setEventListeners() {
             game.player.useCard(index);
             console.log("Key pressed: " + event.key);
         }
-
+        //para vasija / chest
+        if(event.key == "f" || event.key == "F"){
+            for(const actor of game.level.actors){
+                if(actor instanceof Vase){
+                    actor.interact(game.player);
+                    // console.log("interactuar con vase");
+                }
+            }
+        }
         //ataque del player
         if(event.key == "x" || event.key == "X"){
             game.player.startAttack();
             console.log("ataque realizado");
-        }
-        
-        // Mostrar inventario
-        if(event.key == "i" || event.key == "I"){
-            game.player.showInventory();
-            console.log("Mostrando inventario");
         }
     });
 
@@ -116,20 +264,14 @@ function setEventListeners() {
         if (event.key == 'd' || event.key == "D" || event.code == "ArrowRight") {
             game.player.stopMovement("right");
         }
-
-    
     });
 }
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Juego iniciado");
-    
-    // Iniciar la música del nivel 1
-    GameMusic.startMusic();
-});
-const cardText = new TextLabel(uiCanvasWidth/2, uiCanvasHeight/2, "20px Times New Roman", "white");
-const HPText = new TextLabel(60, uiCanvasHeight/4, "20px Times New Roman", "white");
-const staminaText = new TextLabel(80, uiCanvasHeight/2, "20px Times New Roman", "white");
-const transformText = new TextLabel(80, uiCanvasHeight/4 + 30, "20px Times New Roman", "yellow");
+
+
+const usernameText = new TextLabel(60, uiCanvasHeight/4, "20px Times New Roman", "white");
+const HPText = new TextLabel(65, uiCanvasHeight/4 + 25, "20px Times New Roman", "white");
+const staminaText = new TextLabel(80, uiCanvasHeight/2 + 15, "20px Times New Roman", "white");
+const transformText = new TextLabel(80, 3 * uiCanvasHeight/4 + 25, "20px Times New Roman", "yellow"); 
 
 function drawUI(){
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
@@ -140,6 +282,7 @@ function drawUI(){
     const xOrigin = uiCanvasWidth/3 + 10;
     const y = uiCanvasHeight/2 - cardHeight/2;
     uiCtx.textAlign = "left";
+    usernameText.draw(uiCtx, `Name: ${username}`);
     HPText.draw(uiCtx, `HP: ${game.player.health}`);
     staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
     
@@ -203,8 +346,10 @@ function drawScene(newTime){
     }
     deltaTime = newTime - oldTime;
 
-    // Increment total elapsed time
-    totalElapsedTime += deltaTime;
+    if(game.isActive){
+        totalElapsedTime += deltaTime;
+    }
+    
 
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -213,7 +358,6 @@ function drawScene(newTime){
     
     drawUI();
     drawStats();
-
 
     oldTime = newTime;
     requestAnimationFrame(drawScene);
