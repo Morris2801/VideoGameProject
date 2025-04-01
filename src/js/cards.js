@@ -122,6 +122,7 @@ class DiabloCard extends BaseCard{
         this.damageBuff = 3;
         this.duration = 10;
         this.healthRegenBuff = 6;
+        this.maxUses = 1;
         this.cardType = "transformationCard";
     }
 }
@@ -132,6 +133,7 @@ class MayanWarriorCard extends BaseCard{
         this.duration = 10;
         this.staminaBuff = 2;
         this.staminaRegenBuff = 1;
+        this.maxUses = 1;
         this.cardType = "transformationCard";
     }
 }
@@ -150,6 +152,7 @@ class ValienteCard extends BaseCard{
         super(color, width, height, x, y, type);
         //poner cosas de inmunidad que idk
         this.duration = 10;
+        this.maxUses = 1;
         this.cardType = "powerCard";
     }
 }
@@ -159,6 +162,7 @@ class TacoCard extends BaseCard{
         super(color, width, height, x, y, type);
         //bloqueo de stamina por 10 s
         this.duration = 10;
+        this.maxUses = 1;
         this.cardType = "powerCard";
     }
 }
@@ -168,6 +172,7 @@ class CalaveraCard extends BaseCard{
         super(color, width, height, x, y, type);
         this.duration = 10;
         this.damageBuff = 10;
+        this.maxUses = 1;
         this.cardType = "powerCard";
     }
 }
