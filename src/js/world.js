@@ -72,6 +72,11 @@ const levelChars = {
         label: "card",
         sprite: '../assets/cardCalavera.png',
         rect: new Rect(0, 0 , 80, 150)},
+
+    "j": {objClass: Vase,   // <- j de jarrón 
+        label: "vase", 
+        sprite: '../assets/vase.png', 
+        rect: new Rect(0,0,64,64)},
     
     
     // Personajes
@@ -80,38 +85,6 @@ const levelChars = {
         sprite: '../assets/testSpriteSheet.png',
         rect: new Rect(0, 0, 65, 76),
         sheetCols: 6,
-        startFrame: [0, 0]},
-
-    //Enemystest
-    "e": {objClass: BaseEnemy,
-        label: "enemy",
-        sprite: '../assets/skelMariachi_SpriteSheet.png',
-        rect: new Rect(0, 0,96,74),
-        sheetCols: 6,
-        startFrame: [0, 0]},
-    "M": {objClass: Mariachi,
-        label: "enemy",
-        sprite: '../assets/skelMariachi_SpriteSheet.png',
-        rect: new Rect(0, 0,96,74),
-        sheetCols: 6,
-        startFrame: [0, 0]},
-    "T": {objClass: Tlaxcalteca,
-        label: "enemy",
-        sprite: '',
-        rect: new Rect(0, 0,96,74),
-        sheetCols: 6,
-        startFrame: [0, 0]},
-    "W": {objClass: MayanWarrior,
-        label: "enemy",
-        sprite: '',
-        rect: new Rect(0, 0,96,74),
-        sheetCols: 6,
-        startFrame: [0, 0]},
-    "D": {objClass: Devil,
-        label: "enemy",
-        sprite: '../assets/devilWalk.png',
-        rect: new Rect(0, 0,64,64),
-        sheetCols: 4,
         startFrame: [0, 0]},
 
     //Enemystest
@@ -204,7 +177,6 @@ class Level {
                     cellType = "empty";
                 }
                 else if(actor.type == "card"){
-                    this.addBackgroundFloor(x, y);
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "empty";
@@ -215,20 +187,13 @@ class Level {
                     this.actors.push(actor);
                     cellType = "empty";
                 }
-
-
-                else if(actor.type == "enemy"){
-                    this.addBackgroundFloor(x, y);
-                    actor.setSprite(item.sprite, item.rect);
-                    actor.sheetCols = item.sheetCols;
-                    actor.setAnimation(...item.startFrame, true, 100);
+                else if(actor.type == "vase"){
+                    actor.setSprite(item.sprite, item.rect); 
                     this.actors.push(actor);
                     cellType = "empty";
+                    console.log("Vase found");
                 }
-
-
                 else if(actor.type == "enemy"){
-                    this.addBackgroundFloor(x, y);
                     actor.setSprite(item.sprite, item.rect);
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);

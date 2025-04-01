@@ -144,6 +144,7 @@ class BaseEnemy extends BaseCharacter {
         if (this.health <= 0) {
             this.alive = false;
             game.player.killCount += 1;
+            this.dropCard(this.position);
             console.log("KillCount ", game.player.killCount);
         }
     }

@@ -110,7 +110,48 @@ class GameObject{
     update() {
 
     }
+
+
+    dropCard(position){
+        const lootTable = [
+            { type: null, chance: 0.35, spritePath: null }, //35% de que no salga nada
+            { type: CalaveraCard, chance: 0.07 * 0.65, spritePath: '../assets/cardCalavera.png'}, 
+            { type: MacheteCard, chance: 0.07 * 0.65, spritePath: '../assets/cardMachete.png'},
+            { type: ObsidianKnifeCard, chance: 0.07 * 0.65, spritePath: "../assets/cardObsidianKnife.png"},
+            { type: CorazonCard, chance: 0.16 * 0.65, spritePath: "../assets/cardHeart.jpeg"},
+            { type: ValienteCard, chance: 0.16 * 0.65, spritePath: "../assets/cardValiente.png"},
+            { type: TacoCard, chance: 0.16 * 0.65, spritePath: "../assets/cardTaco.png"},
+            { type: MariachiCard, chance: 0.15 * 0.65, spritePath: "../assets/cardMariachi.jpeg"},
+            { type: MayanWarriorCard, chance: 0.15 * 0.65, spritePath: "../assets/cardGuerrero.png"},
+        ];
+        const rand = Math.random(); 
+        let chance = 0; 
+        let cardClass = null; 
+        for (const item of lootTable) {
+            chance += item.chance;
+            if (rand <= chance) {
+                cardClass = item.type;
+                if (cardClass === null) {
+                    console.log("No card dropped this time");
+                    return;
+                }
+                cardClass.spritePath = item.spritePath;
+                break;
+            }
+        }
+        if(cardClass){
+            const card = new cardClass("white", 1, 1, position.x, position.y, "card"); 
+            card.setSprite(cardClass.spritePath, new Rect(0, 0, 80, 150));
+            // sí está agregando le path console.log(card.spriteImage.src);
+            game.actors.push(card);
+            // Agregar a fuerza bruta la carta a invnetario game.player.inventory.items.push(card);
+            //card.draw(ctx, scale, 1);
+            console.log(card);
+            console.log(`Dropped ${cardClass.name} @ ${position.x}, ${position.y}`);
+        }
+    }    
 }
+
 
 class AnimatedObject extends GameObject{
     constructor(color, width, height, x, y, type) {

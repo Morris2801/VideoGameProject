@@ -4,7 +4,9 @@ let maxRows = 10;
 let minRows = 8;
 let cols = Math.floor(Math.random() * (maxCols - minCols) + maxCols);
 let rows = Math.floor(Math.random() * (maxRows - minRows) + minRows); 
+let maxVases = 5;
 
+// P(x_enemyspawn)
 const enemyProbabilitiesLvl1 = [
     {type: "M", prob : 0.4},
     {type: "T", prob : 0.4},
@@ -27,14 +29,14 @@ function getRandEnemy(prob){
             return enemy.type; 
         }
     }
-    // Este no sirve para nada console.log(prob[prob.length -1].type);
+    // Este no sirve para nada: console.log(prob[prob.length -1].type);
     return prob[prob.length -1].type;
 }
 
 function levGen(width, height, levelNum, numCards){
     let level = [];
     let cells = width * height; 
-    let perim = 2*width + 2*height;
+    let perim = 2*width + 2*height; //por si acaso?
     let maxEnemiesLvl1 = 5;
     let minEnemiesLvl1 = 3; 
     let maxEnemiesLvl2 = 7; 
@@ -127,7 +129,7 @@ function levGen(width, height, levelNum, numCards){
         // Para poner BaseCard
         // placeX("$");
     }
-    */
+    
     placeX("0");
     placeX("1");
     placeX("2");
@@ -138,8 +140,17 @@ function levGen(width, height, levelNum, numCards){
     placeX("7");
     placeX("8");
     placeX("9");
+    */
 
-
+    //Vase test (j: jarrón porque la v ya está ocupada)
+    let vaseProb = levelNum == 1 ? 0.4 : 0.6;
+    for (let i = 0; i < maxVases; i++){
+        let rand = Math.random(); 
+        if(rand < vaseProb){
+            placeX("j");
+            console.log("Vase placed");
+        }
+    }
 
     //Forzar que junto a # haya . (floortile)
     level[2* width + Math.floor(width/2)] = "."; //Arriba

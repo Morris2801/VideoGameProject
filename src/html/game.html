@@ -41,6 +41,34 @@
         <div id="grid-item-G-4">
             <canvas id="canvas"></canvas>
             <canvas id="uiCanvas"></canvas>
+            <div id = "startMenu" class= "menu">
+                <h1>Welcome, to MayAztec</h1>
+                <button id="startButton">Start Game</button>
+                <button id="loginButton">Login</button>  
+                <button id="optionsButton">Options</button>
+            </div>
+            <div id="pauseMenu" class= "menu">
+                <h1>Pause Menu</h1>
+                <button id="resumeButton">Resume Game</button>
+                <button id="optionsButton">Options</button>
+                <button id="exitButton">Exit to Main Menu</button>
+            </div>
+            <div id="loginSection" class = "menu">
+                <h1>Login</h1>
+                <form id = "loginForm">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <br><br>    
+                    <label for = "username">Username:</label>
+                    <input type = "text" id = "username" name = "username" required>
+                    <br><br>
+                    <label for = "password">Password:</label>
+                    <input type = "password" id = "password" name = "password" required = "Requerido">
+                    <br><br>
+                    <button type = "button" id = "cancelButton">Cancel</button>
+                    <button type = "submit">Login</button>
+                </form>
+            </div>
         </div>
         <footer id="grid-item-G-5">
             <p>Need a hint? Hover for controls!</p>
