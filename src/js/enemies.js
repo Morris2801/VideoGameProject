@@ -82,7 +82,7 @@ class BaseEnemy extends BaseCharacter {
                 this.size.x - 2 * this.charMargin, 
                 this.size.y - 2 * this.charMargin
             );
-            if (!level.contact(newPos, this.size, 'wall')) {
+            if (!level.contact(this.innerHitbox, this.size, 'wall')) {
                 this.position = newPos;
                 this.startMovement(dir);
             }
