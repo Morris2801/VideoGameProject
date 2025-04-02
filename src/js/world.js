@@ -5,7 +5,7 @@ const levelChars = {
     ".": {objClass: GameObject,
         label: "floor",
         sprite: '../assets/FloorTiles.jpg',
-        rect: new Rect(0, 0, 47, 47)},
+        rect: new Rect(0, 0, 193, 394)},
     "#": {objClass: GameObject ,
         label: "wall",
         sprite: '../assets/brickYellow.png',
@@ -108,8 +108,8 @@ const levelChars = {
         startFrame: [0, 0]},
     "W": {objClass: MayanWarrior,
         label: "enemy",
-        sprite: '',
-        rect: new Rect(0, 0,96,74),
+        sprite: '../assets/warriorWalkSpriteSheet.png',
+        rect: new Rect(0, 0,60,63),
         sheetCols: 6,
         startFrame: [0, 0]},
     "D": {objClass: Devil,
@@ -157,7 +157,7 @@ class Level {
                     this.actors.push(actor);
                     cellType = "wall";
                 } else if (actor.type == "floor") {
-                    // Randomize sprites for each wall tile
+                    this.addBackgroundFloor(x,y);
                     item.rect = this.randomTile(0, 47, 0);
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
@@ -188,12 +188,14 @@ class Level {
                     cellType = "empty";
                 }
                 else if(actor.type == "vase"){
+                    this.addBackgroundFloor(x, y);
                     actor.setSprite(item.sprite, item.rect); 
                     this.actors.push(actor);
                     cellType = "empty";
                     console.log("Vase found");
                 }
                 else if(actor.type == "enemy"){
+                    this.addBackgroundFloor(x, y);
                     actor.setSprite(item.sprite, item.rect);
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
@@ -205,11 +207,10 @@ class Level {
         });
     }
     addBackgroundFloor(x, y) {
-        let floor = levelChars['.'];
-        let floorActor = new GameObject("grey", 1, 1, x, y, floor.label);
-        floor.rect = this.randomTile(0, 47, 0);
-        floorActor.setSprite(floor.sprite, floor.rect);
-        this.actors.push(floorActor);
+        let floor = levelChars['.']; // Get the floor tile definition
+        let floorActor = new GameObject("white", 1, 1, x, y, floor.label);
+        floorActor.setSprite(floor.sprite, this.randomTile(0, 6, 0, 12)); 
+        this.actors.push(floorActor); 
     }
     // Randomize sprites for each wall tile
     randomTile(xStart, xRange, y) {
@@ -217,21 +218,18 @@ class Level {
         return new Rect(tile, y, 32, 32);
     }
     // Detect when the player touches a wall
-    contact(playerPos, playerSize, type) {
+    contact(hitbox, size, type) {
         // Determine which cells the player is occupying
-        let xStart = Math.floor(playerPos.x);
-        let xEnd = Math.ceil(playerPos.x + playerSize.x);
-        let yStart = Math.floor(playerPos.y);
-        let yEnd = Math.ceil(playerPos.y + playerSize.y);
+        let xStart = Math.floor(hitbox.x);
+        let xEnd = Math.ceil(hitbox.x + hitbox.width);
+        let yStart = Math.floor(hitbox.y);
+        let yEnd = Math.ceil(hitbox.y + hitbox.height);
         // Check each of those cells
         for (let y=yStart; y<yEnd; y++) {
             for (let x=xStart; x<xEnd; x++) {
-                // Anything outside of the bounds of the canvas is considered
-                // to be a wall, so it blocks the player's movement
                 let isOutside = x < 0 || x >= this.width ||
                                 y < 0 || y >= this.height;
                 let here = isOutside ? 'wall' : this.rows[y][x];
-                // Detect if an object of type specified is being touched
                 if (here == type) return true;
             }
         }
@@ -248,5 +246,3 @@ class BaseLevel{
     }
 
 }
-
-

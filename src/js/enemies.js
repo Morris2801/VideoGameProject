@@ -2,7 +2,7 @@
 class BaseEnemy extends BaseCharacter {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
-        this.speed = 0.00009;
+        this.speed = 0.0001;
         this.attackSpeed = 0.5;
         this.detectionDistance = 4;
         this.attackRange = 0.5;
@@ -61,11 +61,12 @@ class BaseEnemy extends BaseCharacter {
     }
 
     update(level, deltaTime) {
-        let distanceToPlayer = this.position.distanceTo(game.player.position);
+        super.update(level, deltaTime);
+        let distanceToPlayer = this.position.distanceTo(game.player.innerHitbox);
         if (distanceToPlayer > this.detectionDistance) {
             this.state = "wander";
             this.wander(level, deltaTime);
-        } else if (distanceToPlayer < this.attackRange) {
+        } else if (distanceToPlayer <= this.attackRange) {
             this.state = "attack";
             this.stopMovement(this.lastDirection);
             // Implement attack logic here
@@ -75,7 +76,13 @@ class BaseEnemy extends BaseCharacter {
             let dir = game.player.position.minus(this.position).direction();
             this.velocity = dir.times(this.speed * deltaTime);
             let newPos = this.position.plus(this.velocity.times(deltaTime));
-            if (!level.contact(newPos, this.size, 'wall')) {
+            this.innerHitbox = new Rect(
+                newPos.x + this.charMargin, 
+                newPos.y + this.charMargin, 
+                this.size.x - 2 * this.charMargin, 
+                this.size.y - 2 * this.charMargin
+            );
+            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, 'door')) {
                 this.position = newPos;
                 this.startMovement(dir);
             }
@@ -86,25 +93,34 @@ class BaseEnemy extends BaseCharacter {
 
     wander(level, deltaTime) {
         let bias = 0.7; 
-        let randomDir = new Vec(
-            (Math.random() * 2 - 1) * (1 - bias) + this.velocity.x * bias,
-            (Math.random() * 2 - 1) * (1 - bias) + this.velocity.y * bias
-        ).direction();
+        let randomDir;
         if (this.wanderTime <= 0) {
-            this.velocity = randomDir.times(this.speed * deltaTime);
-            this.wanderTime = 1000* Math.random() * 2 + 1; //1 to 3 seconds
-        } else {
-            this.wanderTime -= deltaTime;
-            let newPos = this.position.plus(this.velocity.times(deltaTime));
-            if (!level.contact(newPos, this.size, 'wall') && !level.contact(newPos, this.size, 'door')) {
-                this.position = newPos;
-                this.stopMovement(this.lastDirection);
-                this.lastDirection = randomDir.x > randomDir.y ? (randomDir.x > 0 ? "right" : "left") : (randomDir.y > 0 ? "down" : "up");
-                this.startMovement(this.lastDirection);
+            randomDir = new Vec(
+                (Math.random() * 2 - 1) * (1 - bias) + this.velocity.x * bias,
+                (Math.random() * 2 - 1) * (1 - bias) + this.velocity.y * bias
+            ).direction();
 
-            } else {
-                this.wanderTime = 0; // Reset wander time if hitting a wall
-            }
+            this.velocity = randomDir.times(this.speed);
+            this.wanderTime = 1000 * Math.random() * 2 + 1000; // 1 to 3 sec
+        }
+        else {
+            this.wanderTime -= deltaTime;
+        }
+        let newPos = this.position.plus(this.velocity.times(deltaTime));
+        this.innerHitbox = new Rect(
+            newPos.x + this.charMargin,
+            newPos.y + this.charMargin,
+            this.size.x - 2 * this.charMargin,
+            this.size.y - 2 * this.charMargin
+        );
+        if (!level.contact(this.innerHitbox, this.size, "wall") && !level.contact(this.innerHitbox, this.size, "door")) {
+            this.position = newPos;
+            this.lastDirection = this.normDir(this.velocity);
+            this.startMovement(this.lastDirection);
+        } 
+        else {
+            this.wanderTime = 0;
+            this.velocity = new Vec(0, 0);
         }
     }
 
@@ -171,6 +187,10 @@ class MayanWarrior extends BaseEnemy {
         super(_color, width, height, x, y, _type);
         this.health = 20;
         this.damage = 3;
+        this.setMovementFrames('right', [12, 13, 14, 15, 16,17], [12,12]);
+        this.setMovementFrames('left', [6,7,8,9,10,11], [6,6]);
+        this.setMovementFrames('up', [0,1,2], [0,0]);
+        this.setMovementFrames('down', [0,1,2], [0,0]);
     }
 }
 

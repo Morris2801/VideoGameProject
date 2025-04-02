@@ -33,6 +33,17 @@ function getRandEnemy(prob){
     return prob[prob.length -1].type;
 }
 
+function floorCross(level,w, h){
+    for (let y = 2; y < h-2; y++){
+        let posY = y * w + Math.floor(w/2);
+        level[posY] = ".";
+    }
+    for(let x = 2; x < w-2; x++){
+        let posX = Math.floor(h/2)*w+x;
+        level[posX] = ".";
+    } 
+}
+
 function levGen(width, height, levelNum, numCards){
     let level = [];
     let cells = width * height; 
@@ -67,9 +78,12 @@ function levGen(width, height, levelNum, numCards){
 
     // Puertas
     level[width + Math.floor(width/2)] = "*"; //Arriba
-    level[width * (height - 2) + 1 + Math.floor(width / 2)] = "*"; //Abajo
+    level[width * (height - 2)  + Math.floor(width / 2)] = "*"; //Abajo
     level[width * Math.floor(height / 2) + 1] = "*"; //Izquierda
     level[width * Math.floor(height / 2) + (width - 2)] = "*"; //Derecha
+
+    //mid cross check
+    
 
     // Poner cosas revisando que esté en bounds
     function placeX(cosa){
@@ -84,18 +98,18 @@ function levGen(width, height, levelNum, numCards){
     // Poner cosas (jugador, columnas, ....)
     //placeX("@"); //Jugador <- ya no va aquí, mejor que sea lo último que se pone
     //Columnas
-    for (let i = 0; i < Math.floor(cells/7); i++){  // Jugar con la división cells/n para mantener ratio
+    for (let i = 0; i < Math.floor(cells/6); i++){  // Jugar con la división cells/n para mantener ratio
         placeX("#");
     }
-    //Torces
-    for (let i = 0; i < Math.floor(cells / 76); i++){// Jugar con la división cells/n para mantener ratio
+    floorCross(level, width, height);
+    //Torches
+    for (let i = 0; i < Math.floor(cells / 65); i++){// Jugar con la división cells/n para mantener ratio
         placeX("t");
     }
     //Vines
-    for (let i = 0; i < Math.floor(cells / 25); i++){// Jugar con la división cells/n para mantener ratio
+    for (let i = 0; i < Math.floor(cells / 27); i++){// Jugar con la división cells/n para mantener ratio
         placeX("v");
     }
- 
 
     //EnemySpanw
     /*
@@ -105,7 +119,6 @@ function levGen(width, height, levelNum, numCards){
         "W": {objClass: MayanWarrior, t2 
         "D": {objClass: Devil, t2
     */
-    
     if (levelNum == 1){
         console.log("NumEnemiesLvl1: " + numEnemiesLvl1);
         for(let i = 0; i < numEnemiesLvl1; i++){

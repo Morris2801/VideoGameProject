@@ -269,6 +269,11 @@ footer {
   transform: translateY(-3px);
 }
 
+.linkContainer a.active {
+  background-color: #e8c766;
+  color: #000;
+}
+
 /* ------------------ Game Page ------------------ */
 
 #gameBody{
@@ -329,7 +334,7 @@ footer {
   padding: 35px;
   grid-template-areas:
       "header header nav"
-      "lat canvas canvas"
+      "canvas canvas canvas"
       "footer footer footer";
 }
 #grid-item-G-1 {
@@ -350,6 +355,8 @@ footer {
   display: flex;
   flex-direction: row;
 }
+
+
 #grid-item-G-3{
   grid-area: lat;
   background-color: rgba(55, 34, 9, 0.886);
@@ -361,9 +368,55 @@ footer {
   align-items: center;  
   height: auto;
 }
+
+#statsSidebar{
+  position: fixed; 
+  top: 0; 
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: rgba(55, 34, 9, 0.886);
+  border-left: 3px solid rgb(58, 25, 2);
+  box-shadow: -5px 0 10px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease; 
+  transform: translateX(0);
+  z-index: 1000;
+}
+#statsContent{
+  padding: 20px; 
+  height: 100%;
+  display: flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+#statsTrigger{
+  position:absolute;
+  top:0;
+  left:-20px;
+  width:20px;
+  height:100%;
+  background-color: rgba(75,59,36,0.8);
+  cursor:pointer;
+  z-index: 1001;
+  transition: background-color 0.2s ease;
+}
+#statsTrigger:hover{
+  background-color: #e8c766;
+}
+#statsSidebar.open{
+  transform:translateX(-300px);
+}
+
 #grid-item-G-4{
   grid-area: canvas;
   background-color:  transparent;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
 }
 #canvas {
   border: 10px solid rgb(145, 145, 145);
@@ -405,7 +458,7 @@ footer img {
   padding: 30px;
   border: rgb(62, 62, 62) 3px solid;
   border-radius: 30px;
-  
+  height: auto;
 }
 
 
@@ -444,7 +497,56 @@ footer img {
   display: flex;
   justify-content: center; 
   align-items: center; 
+  overflow: hidden;
 }
+.grid-containerCredits{  
+  display: grid;
+  grid-template-columns: 0.7fr 1.2fr 1.2fr;
+  grid-template-rows: 15% 670px 5%;
+  gap: 20px;
+  height: 100%;
+  padding: 35px;
+  grid-template-areas:
+      "header header nav"
+      "canvas canvas canvas"
+      "footer footer footer";
+}
+#grid-item-C-1 {
+  grid-area: header;
+  background-color: rgba(7, 16, 9, 0.8);
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  border-bottom-left-radius: 50px;
+}
+#grid-item-C-2 {
+  grid-area: nav;
+  background-color:  rgba(22, 18, 14, 0.8);
+  border-bottom-right-radius: 50px;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+#grid-item-C-4{
+  grid-area: canvas;
+  background-color:  rgb(0,0,0,0.75);
+  
+}
+#grid-item-C-5 {
+  grid-area: footer;
+  font-size: 17px;
+  background-color: rgb(21, 54, 27, 0.3);
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  position: absolute;
+}
+
 .credits-content{
   display: grid; 
   grid-template-columns: 1fr 1fr; 
