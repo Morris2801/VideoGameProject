@@ -152,7 +152,6 @@ class GameObject{
     }    
 }
 
-
 class AnimatedObject extends GameObject{
     constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
@@ -164,7 +163,7 @@ class AnimatedObject extends GameObject{
 
         this.repeat = true;
 
-        // Delay between frames (in milliseconds)
+        // Delay ms
         this.frameDuration = 100;
         this.totalTime = 0;
     }
@@ -181,23 +180,18 @@ class AnimatedObject extends GameObject{
     updateFrame(deltaTime) {
         this.totalTime += deltaTime;
         if (this.totalTime > this.frameDuration) {
-            // Loop around the animation frames if the animation is set to repeat
-            // Otherwise stay on the last frame
             let restartFrame = (this.repeat ? this.minFrame : this.frame);
-            
-            // Verificar si la animación esta por terminar
             let wasLastFrame = (this.frame === this.maxFrame);
             
             this.frame = this.frame < this.maxFrame ? this.frame + 1 : restartFrame;
             this.spriteRect.x = this.frame % this.sheetCols;
             this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
             this.totalTime = 0;
-            
-            // Señalar cuando la animacion ha completado un ciclo
             this.animationComplete = wasLastFrame && !this.repeat;
         }
     }
 }
+
 
 class BaseCharacter extends AnimatedObject{
     constructor(_color, width, height, x, y, _type) {
@@ -205,6 +199,7 @@ class BaseCharacter extends AnimatedObject{
         this.velocity = new Vec(0.0, 0.0);
         this.health = 0;
         this.damage = 0;
+        this.charMargin = 0.2; // Margen de colisión para personajes
 
         // Default mov. vars.
         this.movement = {
@@ -245,6 +240,12 @@ class BaseCharacter extends AnimatedObject{
                 idleFrames: [0, 0] 
             },
         };
+        this.innerHitbox = new Rect(
+            this.position.x + this.charMargin, 
+            this.position.y + this.charMargin, 
+            this.size.x - 2 * this.charMargin, 
+            this.size.y - 2 * this.charMargin
+        );
     }
     setMovementFrames(direction, moveFrames, idleFrames) {
         if (this.movement[direction]) {
@@ -254,10 +255,15 @@ class BaseCharacter extends AnimatedObject{
     }
 
     update(level, deltaTime) {
-        // Find out where the player should end if it moves
         let newPosition = this.position.plus(this.velocity.times(deltaTime));
-        // Move only if the player does not move inside a wall
-        if (!level.contact(newPosition, this.size, 'wall') && !level.contact(newPosition, this.size, 'door')) {
+        // Move only if the player does not move inside a wall || door
+        this.innerHitbox = new Rect(
+            newPosition.x + this.charMargin, 
+            newPosition.y + this.charMargin, 
+            this.size.x - 2 * this.charMargin, 
+            this.size.y - 2 * this.charMargin
+        );
+        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, 'door')) {
             this.position = newPosition;
         }
         this.updateFrame(deltaTime);

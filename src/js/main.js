@@ -9,7 +9,7 @@ const canvasWidth = 950;
 const canvasHeight = 440;
 
 const statsCanvasWidth = 365;
-const statsCanvasHeight = 215;
+const statsCanvasHeight = 300;
 const uiCanvasWidth = canvasWidth
 const uiCanvasHeight = canvasHeight / 3 + 10;
 
@@ -38,10 +38,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelButton = document.getElementById("cancelButton");
     const loginForm = document.getElementById("loginForm");
     
+    const statsSidebar = document.getElementById("statsSidebar");
+    const statsTrigger = document.getElementById("statsTrigger");
+
     const canvas = document.getElementById("canvas");
     const uiCanvas = document.getElementById("uiCanvas");
-    
-    GameMusic.startMusic(); // musica
+
+    statsTrigger.addEventListener('mouseover', () => {
+        statsSidebar.classList.add('open');
+    });
+    statsSidebar.addEventListener('mouseout', (event)=>{
+        if(!statsSidebar.contains(event.relatedTarget)){
+            statsSidebar.classList.remove('open');
+        }
+    })
+
+    //GameMusic.startMusic(); // musica
 
     let isPaused = false; 
     canvas.style.display = "none";
@@ -86,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         game.isActive = true;
         canvas.style.display = "flex";
         uiCanvas.style.display = "flex";
-        requestAnimationFrame(drawScene); // Resume the game loop
+        requestAnimationFrame(drawScene);
     });
 
     exitButton.addEventListener('click', () => {
@@ -95,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // Pause the game when Esc is pressed
     window.addEventListener('keydown', (event) => {
         if (event.key == 'Escape') {
             if (!isPaused) {
@@ -105,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("esc");
                 canvas.style.display = "none";
                 uiCanvas.style.display = "none";
-                
             } 
             else {
                 pauseMenu.style.display = 'none';
@@ -113,31 +123,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 uiCanvas.style.display = "flex";
                 isPaused = false;
                 game.isActive = true;
-                requestAnimationFrame(drawScene); // Resume the game loop
+                requestAnimationFrame(drawScene); 
             }
         }
     });
 
-    // Show the login section when the "Login" button is clicked
     loginButton.addEventListener('click', () => {
-        startMenu.style.display = "none"; // Hide the start menu
-        loginSection.style.display = "flex"; // Show the login section
+        startMenu.style.display = "none"; 
+        loginSection.style.display = "flex";
     });
 
-    // Handle the login form submission
     loginForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent the form from refreshing the page
-        let counter = 0;
+        event.preventDefault(); 
         let username = document.getElementById('username').value;
         let email = document.getElementById('email').value;
         let password = document.getElementById('password').value;
 
-        // Regex patterns
-        const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/; // Alphanumeric, underscores, 3-16 characters
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Minimum 8 characters, at least one letter and one number
+        // regex 
+        const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/; 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
 
-        // Validate username
         if (!usernameRegex.test(username)) {
             alert("Invalid username. It must be 3-16 characters long and can only contain letters, numbers, and underscores.");
         }
@@ -153,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
             counter++;
         }
 
-        // Validate password
         if (!passwordRegex.test(password)) {
             alert("Invalid password. It must be at least 8 characters long and contain at least one letter and one number.");
         }
@@ -169,14 +174,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 }); 
 
-
-
 function init(){
     const canvas = document.getElementById('canvas');
     const uiCanvas = document.getElementById('uiCanvas');
     const statsCanvas = document.getElementById('statsCanvas');
-    
-    // Resize the element
+
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     uiCanvas.width = canvasWidth;
@@ -184,7 +186,6 @@ function init(){
     statsCanvas.height = statsCanvasHeight;
     statsCanvas.width = statsCanvasWidth;
 
-    // Get the context for drawing in 2D
     ctx = canvas.getContext('2d');
     uiCtx = uiCanvas.getContext('2d');
     statsCtx = statsCanvas.getContext('2d');
@@ -197,21 +198,19 @@ function init(){
     uiCanvas.style.display = "flex"; 
 
 
-    gameStart(); //esto va a ir aadentro de menu
+    gameStart();
 
 }
 
 function gameStart() {
     // Register the game object, which creates all other objects
     game = new Game('playing', new Level(GAME_LEVELS[0]));
-    game.isActive = true; // Set the game to active
+    game.isActive = true;
     console.log(game.level);
     console.log(game.player);
     
-    
     setEventListeners();
 
-    // Call the first frame with the current time
     drawScene(document.timeline.currentTime);
 }
 
@@ -233,7 +232,7 @@ function setEventListeners() {
         if (event.key >= '1' && event.key <= '6') {
             let index = parseInt(event.key) - 1;
             game.player.useCard(index);
-            console.log("Key pressed: " + event.key);
+            console.log("Inv.Key pressed: " + event.key);
         }
         //para vasija / chest
         if(event.key == "f" || event.key == "F"){
@@ -267,7 +266,6 @@ function setEventListeners() {
     });
 }
 
-
 const usernameText = new TextLabel(60, uiCanvasHeight/4, "20px Times New Roman", "white");
 const HPText = new TextLabel(65, uiCanvasHeight/4 + 25, "20px Times New Roman", "white");
 const staminaText = new TextLabel(80, uiCanvasHeight/2 + 15, "20px Times New Roman", "white");
@@ -294,14 +292,13 @@ function drawUI(){
     
     for(let i=0; i<inventory.length; i++){
         let card = inventory[i];
-        const x = xOrigin + i * (cardWidth + cardSpacing); // Calculate x position for each card
+        const x = xOrigin + i * (cardWidth + cardSpacing); 
 
         // Debugg
         if (!card.spriteImage) {
             console.error(`Card at index ${i} is missing a sprite.`);
         }
 
-        // Draw the card sprite
         if (card.spriteImage && card.spriteImage.complete) {
             uiCtx.drawImage(
                 card.spriteImage,
@@ -314,9 +311,7 @@ function drawUI(){
             //si no hay sprite poner un cuadro gris
             uiCtx.fillStyle = "gray";
             uiCtx.fillRect(x, y, cardWidth, cardHeight);
-            console.warn(`Drawing placeholder for card at index ${i}`);
         }
-        
         uiCtx.fillText(i+1,xOrigin+cardWidth/2, y+ cardHeight + 20);
     }
 
@@ -326,6 +321,8 @@ const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 
 const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 30, "20px Times New Roman", "white");
 const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 60, "20px Times New Roman", "white");
 const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 90, "20px Times New Roman", "white");
+const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 120, "20px Times New Roman", "white");
+
 function drawStats(){
     statsCtx.clearRect(0,0, statsCanvasWidth, statsCanvasHeight);
     killCount.draw(statsCtx, `Kill Count: ${game.player.killCount}`);
@@ -336,8 +333,8 @@ function drawStats(){
     elapsedTime.draw(statsCtx, `Elapsed Time: ${time}`);
     cardsPickedUp.draw(statsCtx, `Cards Picked Up: ${game.player.cardPickupCount}`);
     cardsUsed.draw(statsCtx, `Cards Used: ${game.player.cardsUsed}`);
+    vasesBroken.draw(statsCtx, `Vases Broken: ${game.player.vasesBroken}`);
 }
-
 
 // Function to draw the scene
 function drawScene(newTime){
@@ -350,7 +347,6 @@ function drawScene(newTime){
         totalElapsedTime += deltaTime;
     }
     
-
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     game.update(deltaTime);

@@ -254,9 +254,12 @@ class BasePlayer extends BaseCharacter {
     this.inventory = new Inventory();
 
     //stats?
+    this.name = username; 
     this.killCount = 0; 
     this.cardPickupCount = 0;
     this.cardsUsed = 0; 
+    this.vasesBroken = 0; 
+    this.timePlayed = 0; 
 
 
     //Arma base stadisticas
@@ -377,7 +380,17 @@ class BasePlayer extends BaseCharacter {
 
   useCard(index){
     if(index >=0 && index < this.inventory.size()){
+
       let card = this.inventory.items[index];
+      //Cehcar primero si no se han acabado usos para descartar
+      if(card.maxUses > 0){
+        card.maxUses--;
+        console.log(`Card ${card.type} uses remaining: ${card.maxUses}`);
+        if(card.maxUses <= 0){
+          this.inventory.items.splice(index, 1);
+          console.log("Card removed from inventory (max uses reached)");
+        }
+      }
       console.log(`Using card at index ${index}: ${card.cardType || card.type}`);
       
       // aplicar el efecto de la carta
@@ -393,14 +406,7 @@ class BasePlayer extends BaseCharacter {
       this.cardsUsed++;
 
       //
-      if(card.maxUses > 0){
-        card.maxUses--;
-        console.log(`Card ${card.type} uses remaining: ${card.maxUses}`);
-        if(card.maxUses <= 0){
-          this.inventory.items.splice(index, 1);
-          console.log("Card removed from inventory (max uses reached)");
-        }
-      }
+      
     }
   }
   

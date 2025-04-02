@@ -2,7 +2,7 @@
 class BaseEnemy extends BaseCharacter {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
-        this.speed = 0.00009;
+        this.speed = 0.00006;
         this.attackSpeed = 0.5;
         this.detectionDistance = 4;
         this.attackRange = 0.5;
@@ -61,11 +61,12 @@ class BaseEnemy extends BaseCharacter {
     }
 
     update(level, deltaTime) {
+        super.update(level, deltaTime);
         let distanceToPlayer = this.position.distanceTo(game.player.position);
         if (distanceToPlayer > this.detectionDistance) {
             this.state = "wander";
             this.wander(level, deltaTime);
-        } else if (distanceToPlayer < this.attackRange) {
+        } else if (distanceToPlayer <= this.attackRange) {
             this.state = "attack";
             this.stopMovement(this.lastDirection);
             // Implement attack logic here
@@ -75,6 +76,12 @@ class BaseEnemy extends BaseCharacter {
             let dir = game.player.position.minus(this.position).direction();
             this.velocity = dir.times(this.speed * deltaTime);
             let newPos = this.position.plus(this.velocity.times(deltaTime));
+            this.innerHitbox = new Rect(
+                newPos.x + this.charMargin, 
+                newPos.y + this.charMargin, 
+                this.size.x - 2 * this.charMargin, 
+                this.size.y - 2 * this.charMargin
+            );
             if (!level.contact(newPos, this.size, 'wall')) {
                 this.position = newPos;
                 this.startMovement(dir);
@@ -96,7 +103,7 @@ class BaseEnemy extends BaseCharacter {
         } else {
             this.wanderTime -= deltaTime;
             let newPos = this.position.plus(this.velocity.times(deltaTime));
-            if (!level.contact(newPos, this.size, 'wall') && !level.contact(newPos, this.size, 'door')) {
+            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, 'door')) {
                 this.position = newPos;
                 this.stopMovement(this.lastDirection);
                 this.lastDirection = randomDir.x > randomDir.y ? (randomDir.x > 0 ? "right" : "left") : (randomDir.y > 0 ? "down" : "up");
@@ -171,6 +178,10 @@ class MayanWarrior extends BaseEnemy {
         super(_color, width, height, x, y, _type);
         this.health = 20;
         this.damage = 3;
+        this.setMovementFrames('right', [12, 13, 14, 15, 16,17], [12,12]);
+        this.setMovementFrames('left', [6,7,8,9,10,11], [6,6]);
+        this.setMovementFrames('up', [0,1,2], [0,0]);
+        this.setMovementFrames('down', [0,1,2], [0,0]);
     }
 }
 

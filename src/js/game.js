@@ -7,21 +7,30 @@ class Game {
         this.attackEffects = []; // lista de efectos de ataque 
         
         this.isActive = true;  
+        
+        this.torchDamageTimer = 0;
+        this.torchDamageInterval = 4000;
+        this.torchContact = false; 
+    
     }
+
+
 
     addAttackEffect(effect)
     {
         this.attackEffects.push(effect);
     }    
     update(deltaTime) {     
-        if(this.isActive == false) return; // Si el juego no está activo, no actualiza nada
+        if(this.isActive == false) return; // No aactualizar si pasusado
         else {
-            this.player.update(this.level, deltaTime);
+
+            
             for (let actor of this.actors) {
                 if(typeof actor.update === "function"){
                     actor.update(this.level, deltaTime);
                 }
             }
+            this.player.update(this.level, deltaTime);
 
             for(let i = this.attackEffects.length-1; i >= 0; i--){
                 const effect = this.attackEffects[i];
@@ -51,22 +60,41 @@ class Game {
                         }
                         // console.log(this.player);
                     }
+                    else if(actor.type == 'torch'){
+                        if(!this.torchContact){
+                            this.player.health -= 1; 
+                            console.log ("Fireburns start", this.player.health);
+                            this.torchDamageTimer = 0; 
+                        }
+                        this.torchContact = true;
+                        this.torchDamageTimer += deltaTime;
+                        if(this.torchDamageTimer >= this.torchDamageInterval){
+                            this.player.health -= 1; 
+                            this.torchDamageTimer = 0; 
+                            console.log ("Fireburns", this.player.health);
+                        }
+                    }
                 }
             }
+        }
+        if(!this.torchContact){
+            this.torchDamageTimer = 0;
         }
     }
     
     draw(ctx, scale) {
-        for (let actor of this.actors) {
-            actor.draw(ctx, scale);
-            if(actor.type == "card"){
-                console.log("Card found to be drawn");
+        // forzar que primero se actualice el fondo y luego lo demás pero es recorrer todo actors x2
+        // (!) checar con el profe a ver si no hay otra cosa que hacer
+        for(let actor of this.actors){
+            if(actor.type == 'floor' || actor.type == 'door' || actor.type == "wall"){
+                actor.draw(ctx, scale);
             }
         }
-    /*for (let effect of this.attackEffects) {
-    console.log("Dibujando efecto en:", effect.position.x, effect.position.y);
-        effect.draw(ctx, scale);
-    }*/
+        for(let actor of this.actors){
+            if(actor.type != 'floor'){
+                actor.draw(ctx, scale);
+            }
+        }
         this.player.draw(ctx, scale);
     }
 }
@@ -123,6 +151,6 @@ const GameMusic = (() => {
 function boxOverlap(obj1, obj2){
     return obj1.position.x + obj1.size.x > obj2.position.x &&
     obj1.position.x < obj2.position.x + obj2.size.x &&
-    obj1.position.y + obj1.size.y > obj2.position.y &&
+    obj1.position.y + obj2.size.y > obj2.position.y &&
     obj1.position.y < obj2.position.y + obj2.size.y;
 }
