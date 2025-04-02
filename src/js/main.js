@@ -4,6 +4,7 @@ Main Script for MayAztec
 
 "use strict";
 
+
 // Global variables
 const canvasWidth = 950;
 const canvasHeight = 440;

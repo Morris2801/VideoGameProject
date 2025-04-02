@@ -103,7 +103,7 @@ function levGen(width, height, levelNum, numCards){
     }
     floorCross(level, width, height);
     //Torches
-    for (let i = 0; i < Math.floor(cells / 74); i++){// Jugar con la división cells/n para mantener ratio
+    for (let i = 0; i < Math.floor(cells / 65); i++){// Jugar con la división cells/n para mantener ratio
         placeX("t");
     }
     //Vines

@@ -22,9 +22,7 @@ class Game {
     }    
     update(deltaTime) {     
         if(this.isActive == false) return; // No aactualizar si pasusado
-        else {
-
-            
+        else {            
             for (let actor of this.actors) {
                 if(typeof actor.update === "function"){
                     actor.update(this.level, deltaTime);
