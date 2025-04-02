@@ -56,6 +56,24 @@ document.addEventListener('DOMContentLoaded', () => {
     //GameMusic.startMusic(); // musica
 
     let isPaused = false; 
+
+    startGameButton.addEventListener("click", () => {
+        console.log("Botón 'Start Game' presionado.");
+        
+        if (typeof GameMusic !== "undefined") {
+            console.log("Iniciando música...");
+            GameMusic.startMusic();  
+        } else {
+            console.error("GameMusic no está definido.");
+        }
+    
+        canvas.style.display = "flex";
+        uiCanvas.style.display = "flex";
+        
+        init();
+        gameStart();
+    });
+
     canvas.style.display = "none";
     uiCanvas.style.display = "none";
     startMenu.style.display = "flex";
