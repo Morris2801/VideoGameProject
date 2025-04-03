@@ -6,27 +6,38 @@ Main Script for MayAztec
 
 
 // Global variables
-const canvasWidth = 950;
-const canvasHeight = 440;
+const canvasWidth = 1200;
+const canvasHeight = 550;
 
 const statsCanvasWidth = 365;
 const statsCanvasHeight = 300;
-const uiCanvasWidth = canvasWidth
-const uiCanvasHeight = canvasHeight / 3 + 10;
+const uiCanvasWidth = canvasWidth ;
+const uiCanvasHeight = canvasHeight / 3 - 25;
 
 let username = '', password, email;  // para base de datos chavos
 
 let ctx, uiCtx, statsCtx;
 let game;
 let oldTime, deltaTime;
-let totalElapsedTime = 0; // Variable to track total elapsed time
+let totalElapsedTime = 0; // totaltime 
 
+
+
+// testRoomLevel idfk --------------------------------------------------------------------
+const numRoomsLvl1 = 5; 
+const numRoomsLvl2 = 7;
+
+let treeLevel1 = new Tree(1,numRoomsLvl1);
+treeLevel1.treeGen();
+treeLevel1.bossLoc();
+let treeLevel2 = new Tree(2,numRoomsLvl2);
+treeLevel2.treeGen();
+treeLevel2.bossLoc();
+let initialLevel = new Level(treeLevel1.root.levelStringValue);
 
 
 // ------------------------------------------------------
-// Functions
-
-
+// Functions y eventlistenersDOM
 document.addEventListener('DOMContentLoaded', () => {
     const startMenu = document.getElementById("startMenu");
     const pauseMenu = document.getElementById("pauseMenu");
@@ -54,10 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-    //GameMusic.startMusic(); // musica
-
     let isPaused = false; 
-
     startGameButton.addEventListener("click", () => {
         console.log("Botón 'Start Game' presionado.");
         
@@ -67,12 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             console.error("GameMusic no está definido.");
         }
-    
         canvas.style.display = "flex";
         uiCanvas.style.display = "flex";
-        
-        init();
-        gameStart();
     });
 
     canvas.style.display = "none";
@@ -158,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let email = document.getElementById('email').value;
         let password = document.getElementById('password').value;
 
-        // regex 
+        // regex, sirve?
         const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/; 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
@@ -170,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             counter++;
         }
 
-        // Validate email
+        // 
         if (!emailRegex.test(email)) {
             alert("Invalid email address.");
         }
@@ -190,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
             startMenu.style.display = "flex";
         }
     });
-
 }); 
 
 function init(){
@@ -222,12 +225,26 @@ function init(){
 }
 
 function gameStart() {
-    // Register the game object, which creates all other objects
-    game = new Game('playing', new Level(GAME_LEVELS[0]));
+    game = new Game('playing', initialLevel, [treeLevel1, treeLevel2]);
     game.isActive = true;
+
     console.log(game.level);
     console.log(game.player);
-    
+    let paths = []; 
+    if(game.currentRoom.children.up != null){
+        paths.push("up", game.currentRoom.children.up.roomNum);
+    }
+    if(game.currentRoom.children.left != null){
+        paths.push("left", game.currentRoom.children.left.roomNum);
+    }
+    if(game.currentRoom.children.right != null){
+        paths.push("right", game.currentRoom.children.right.roomNum);
+    }
+    if(game.currentRoom.downParent != null){
+        paths.push("down");
+    }
+    console.log(`treeInd ${game.currentTreeIndex} R ${game.currentRoom.roomNum} Paths: ${paths}`);
+
     setEventListeners();
 
     drawScene(document.timeline.currentTime);
@@ -285,10 +302,11 @@ function setEventListeners() {
     });
 }
 
-const usernameText = new TextLabel(60, uiCanvasHeight/4, "20px Times New Roman", "white");
-const HPText = new TextLabel(65, uiCanvasHeight/4 + 25, "20px Times New Roman", "white");
-const staminaText = new TextLabel(80, uiCanvasHeight/2 + 15, "20px Times New Roman", "white");
-const transformText = new TextLabel(80, 3 * uiCanvasHeight/4 + 25, "20px Times New Roman", "yellow"); 
+const usernameText = new TextLabel(60, uiCanvasHeight/4-10, "20px Times New Roman", "white");
+const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px Times New Roman", "white");
+const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px Times New Roman", "white");
+const locationText = new TextLabel(60, uiCanvasHeight/4 + 80, "20px Times New Roman", "white");
+const transformText = new TextLabel(60, 3 * uiCanvasHeight/2 + 110, "20px Times New Roman", "yellow"); 
 
 function drawUI(){
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
@@ -302,6 +320,14 @@ function drawUI(){
     usernameText.draw(uiCtx, `Name: ${username}`);
     HPText.draw(uiCtx, `HP: ${game.player.health}`);
     staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
+    let loctext;
+    if (game.currentRoom.isBossRoom){
+        loctext = "Boss Room"; 
+    }
+    else{
+        loctext = `Room ${game.currentRoom.roomNum}`;
+    }
+    locationText.draw(uiCtx, `Lvl ${game.currentTreeIndex + 1} - ${loctext}`);
     
     // Add transformation timer display
     if (game.player.isTransformed && game.player.transformationTimer > 0) {

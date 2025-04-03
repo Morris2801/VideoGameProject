@@ -9,7 +9,7 @@ Game Classes Development for MayAztec
 const playerSpeed = 0.005;
 let level;
 let player;
-const scale = 40;
+const scale = 57;
 
 // -------------------------------------------------
 
@@ -263,7 +263,7 @@ class BaseCharacter extends AnimatedObject{
             this.size.x - 2 * this.charMargin, 
             this.size.y - 2 * this.charMargin
         );
-        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, 'door')) {
+        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor')) {
             this.position = newPosition;
         }
         this.updateFrame(deltaTime);

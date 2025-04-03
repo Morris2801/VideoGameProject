@@ -328,10 +328,10 @@ footer {
 .grid-containerGame{  
   display: grid;
   grid-template-columns: 0.7fr 1.2fr 1.2fr;
-  grid-template-rows: 15% 670px 5%;
+  grid-template-rows: 7% 80% 7%;
   gap: 20px;
   height: 100%;
-  padding: 35px;
+  padding: 10px;
   grid-template-areas:
       "header header nav"
       "canvas canvas canvas"
@@ -412,7 +412,6 @@ footer {
   grid-area: canvas;
   background-color:  transparent;
   width: 100%;
-  justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -423,7 +422,7 @@ footer {
   background-color: #414b4e;
   border-radius: 100px;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: flex-start;
   align-content: center;
 }
 #grid-item-G-5 {
@@ -435,6 +434,8 @@ footer {
   text-align: center;
   align-content: center;
   position: relative;
+  font-size: 17px;
+  font-family: 'Press Start 2P';
 }
 footer img {
   position: absolute;
@@ -451,7 +452,6 @@ footer img {
   justify-content: space-evenly;
   align-items: center;
   align-content: center;
-  clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
 }
 #statsCanvas {
   background-color: rgba(55, 34, 9, 0.886);

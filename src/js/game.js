@@ -1,13 +1,22 @@
 class Game {
-    constructor(state, level) {
+    constructor(state, level, trees) {
         this.state = state;
         this.level = level;
+
+        //room->level->tree test
+        this.trees = trees;
+        this.currentTreeIndex = 0; 
+        this.currentTree = this.trees[this.currentTreeIndex];
+        this.currentRoom = this.currentTree.root;
+        //wasd
+
         this.player = this.level.player;
         this.actors = level.actors;
         this.attackEffects = []; // lista de efectos de ataque 
         
         this.isActive = true;  
         
+        //cosas para lo de daño de antoracha
         this.torchDamageTimer = 0;
         this.torchDamageInterval = 4000;
         this.torchContact = false; 
@@ -47,7 +56,7 @@ class Game {
                 if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
                     //console.log(`Collision of ${this.player.type} with ${actor.type}`);
                     if (actor.type == 'wall') {
-                        console.log("Hit a wall");
+                        //console.log("Hit a wall");
                     } 
                     else if (actor.type == 'card') {
                         if(this.player.inventory.items.length != this.player.inventory.max){
@@ -73,6 +82,57 @@ class Game {
                         }
                     }
                 }
+                /* !!!!!!!!!!!!!!!!!!!!!!!! esto medio funcionaba cuando actor.type dependia de '*', no lo borren por si lo necesito
+                if(actor.type == "door" && this.level.contact(this.player.innerHitbox, this.player.size, "door")){
+                    console.log("Doorpos:", actor.position.x, actor.position.y, "\nPlayerpos:", this.player.position.x, this.player.position.y);
+                    console.log("\nFloored\nDoorpos:", Math.floor(actor.position.x), Math.floor(actor.position.y), "\nPlayerpos:", Math.floor(this.player.position.x), Math.floor(this.player.position.y));
+                    
+                    if(actor.position.x < this.player.position.x && Math.floor(this.player.position.y) == Math.floor(actor.position.y)){
+                        this.changeRoom("left");
+                        console.log("leftctive");
+                    }
+                    else if(actor.position.x > this.player.position.x && Math.floor(this.player.position.y) == Math.floor(actor.position.y)){
+                        this.changeRoom("right");
+                        console.log("irghtactive");
+                    }
+                    else if(actor.position.y < this.player.position.y && Math.floor(this.player.position.x) == Math.floor(actor.position.x)){
+                        this.changeRoom("up");
+                        console.log("upactive");
+                    }
+                    else if(actor.position.y > this.player.position.y && Math.floor(this.player.position.x) == Math.floor(actor.position.x)){
+                        this.changeRoom("downParent");
+                        console.log("donwactive");
+                    }
+                    
+                    
+                }
+                */
+                if(actor.type == "updoor" && this.level.contact(this.player.innerHitbox, this.player.size, "updoor")){
+                    this.changeRoom("up");
+                    console.log("upactive");
+                }
+                
+                if(actor.type == "downdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "downdoor")){
+                    this.changeRoom("down");
+                    console.log("donwactive");
+                }
+                
+                if(actor.type == "leftdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "leftdoor")){
+                    this.changeRoom("left");
+                    console.log("leftctive");
+                }
+                
+                if(actor.type == "rightdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "rightdoor")){
+                    this.changeRoom("right");
+                    console.log("irghtactive");
+                }
+                if(actor.type == "exit" && this.level.contact(this.player.innerHitbox, this.player.size, "exit")){
+                    console.log("Exit active");
+                    this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol, pero no se si es lo que queremos
+                }
+
+
+
             }
         }
         if(!this.torchContact){
@@ -94,6 +154,61 @@ class Game {
             }
         }
         this.player.draw(ctx, scale);
+    }
+
+    // testTransit.
+    changeRoom(direction){
+        let nextRoom;
+        if(direction === "down"){
+            nextRoom = this.currentRoom.downParent;
+            if (!nextRoom) {
+                console.log("Cannot move to parent: This is the root room.");
+                return;
+            }
+            console.log("going to paretn");
+        }
+        else{
+            nextRoom= this.currentRoom.children[direction];
+        }
+        if(nextRoom){
+            console.log("NextRoom:", nextRoom.roomNum);
+            const oldPlayer = this.player;
+            this.currentRoom= nextRoom;
+            this.level = new Level(nextRoom.levelStringValue);
+            this.player= oldPlayer;
+            this.actors = this.level.actors;
+            let paths = []; 
+            if(this.currentRoom.children.up != null){
+                paths.push("up", this.currentRoom.children.up.roomNum);
+            }
+            if(this.currentRoom.children.left != null){
+                paths.push("left", this.currentRoom.children.left.roomNum);
+            }
+            if(this.currentRoom.children.right != null){
+                paths.push("right", this.currentRoom.children.right.roomNum);
+            }
+            if(this.currentRoom.downParent != null){
+                paths.push("down");
+            }
+            console.log(`treeInd ${this.currentTreeIndex} R ${this.currentRoom.roomNum} Paths: ${paths}`);
+        }
+        else{
+            console.log("Sike");
+        }
+    }
+    changeLevel(treeIndex){
+        if(treeIndex >= 0 && treeIndex < this.trees.length){ // Aquí poner condición de que se haya eliminado el boss del nivel !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            console.log("Siwtch arbol");
+            this.currentTreeIndex= treeIndex;
+            this.currentTree = this.trees[treeIndex];
+            this.currentRoom = this.currentTree.root;
+            this.level = new Level(this.currentRoom.levelStringValue);
+            this.player = this.level.player;
+            this.actors = this.level.actors;
+        }
+        else{
+            console.log("No hay siguiente arbol");
+        }
     }
 }
 
