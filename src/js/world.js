@@ -174,13 +174,14 @@ class Level {
                     this.player = actor;
                     cellType = "empty";
 
-                } else if (actor.type == "wall") {
-                    // Randomize sprites for each wall tile
+                } 
+                else if (actor.type == "wall") {
                     item.rect = this.randomTile(31, 10, 17);
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "wall";
-                } else if (actor.type == "floor") {
+                } 
+                else if (actor.type == "floor") {
                     this.addBackgroundFloor(x,y);
                     item.rect = this.randomTile(0, 47, 0);
                     actor.setSprite(item.sprite, item.rect);
@@ -191,18 +192,26 @@ class Level {
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "updoor";
-                } else if (actor.type == "downdoor") {
+                } 
+                else if (actor.type == "downdoor") {
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "downdoor";
-                } else if (actor.type == "leftdoor") {
+                } 
+                else if (actor.type == "leftdoor") {
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "leftdoor";
-                } else if (actor.type == "rightdoor") {
+                } 
+                else if (actor.type == "rightdoor") {
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "rightdoor";
+                }
+                else if(actor.type == "exit"){
+                    actor.setSprite(item.sprite, item.rect);
+                    this.actors.push(actor);
+                    cellType = "exit";
                 }
                 else if(actor.type == "torch"){
                     this.addBackgroundFloor(x, y);

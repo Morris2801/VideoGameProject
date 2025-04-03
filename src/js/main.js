@@ -29,10 +29,10 @@ const numRoomsLvl2 = 7;
 
 let treeLevel1 = new Tree(1,numRoomsLvl1);
 treeLevel1.treeGen();
-treeLevel1.bossLoc();
+//treeLevel1.bossLoc();
 let treeLevel2 = new Tree(2,numRoomsLvl2);
 treeLevel2.treeGen();
-treeLevel2.bossLoc();
+//treeLevel2.bossLoc();
 let initialLevel = new Level(treeLevel1.root.levelStringValue);
 
 

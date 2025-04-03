@@ -237,6 +237,7 @@ class Tree{
     }
     treeGen(node =this.root){
         if(this.currentRoomCount >= this.numRooms){
+            this.bossLoc();
             return; 
         }
         const maxPossibleChildren = this.numRooms - this.currentRoomCount;
@@ -252,7 +253,8 @@ class Tree{
             const childRoomNum = this.currentRoomCount;
             
             //console.log(`Vhild #${i+1}/${numChildren} dir: ${dir}, Rnum: ${childRoomNum}`);
-            const childNode = new TreeNode(childRoomNum, levGen(cols, rows, this.levNum), node);
+            const isBossRoom = this.currentRoomCount === this.numRooms;
+            const childNode = new TreeNode(childRoomNum, levGen(cols, rows, this.levNum, isBossRoom), node);
             node.children[dir] = childNode;
         }
         for(let dir of ["up", "left", "right"]){
