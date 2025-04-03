@@ -10,8 +10,25 @@ const levelChars = {
         label: "wall",
         sprite: '../assets/brickYellow.png',
         rect: new Rect(0, 0, 64, 32)},
-    "*": {objClass: GameObject,
-        label: "door",
+        //acabé haciendo puertitas únicas porque se confunde esta ___ cosa
+    "u": {objClass: GameObject, // -------------------upDoor
+        label: "updoor",
+        sprite: '../assets/door.png',
+        rect: new Rect(0, 0, 52, 52)},
+    "s": {objClass: GameObject, //-------------------downDoor /south
+        label: "downdoor",
+        sprite: '../assets/door.png',
+        rect: new Rect(0, 0, 52, 52)},
+    "l": {objClass: GameObject, //-------------------leftDoor
+        label: "leftdoor",
+        sprite: '../assets/door.png',
+        rect: new Rect(0, 0, 52, 52)},
+    "r": {objClass: GameObject, //-------------------rightDoor
+        label: "rightdoor",
+        sprite: '../assets/door.png',
+        rect: new Rect(0, 0, 52, 52)},
+    "E": {objClass: GameObject, // -------------------exitDoor
+        label: "exit",
         sprite: '../assets/door.png',
         rect: new Rect(0, 0, 52, 52)},
     "t": {objClass: Torch,
@@ -163,10 +180,22 @@ class Level {
                     this.actors.push(actor);
                     cellType = "floor";
                 }
-                else if(actor.type == "door"){
+                else if (actor.type == "updoor") {
                     actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
-                    cellType = "door";
+                    cellType = "updoor";
+                } else if (actor.type == "downdoor") {
+                    actor.setSprite(item.sprite, item.rect);
+                    this.actors.push(actor);
+                    cellType = "downdoor";
+                } else if (actor.type == "leftdoor") {
+                    actor.setSprite(item.sprite, item.rect);
+                    this.actors.push(actor);
+                    cellType = "leftdoor";
+                } else if (actor.type == "rightdoor") {
+                    actor.setSprite(item.sprite, item.rect);
+                    this.actors.push(actor);
+                    cellType = "rightdoor";
                 }
                 else if(actor.type == "torch"){
                     this.addBackgroundFloor(x, y);
@@ -192,7 +221,7 @@ class Level {
                     actor.setSprite(item.sprite, item.rect); 
                     this.actors.push(actor);
                     cellType = "empty";
-                    console.log("Vase found");
+                    //console.log("Vase found");
                 }
                 else if(actor.type == "enemy"){
                     this.addBackgroundFloor(x, y);
@@ -235,14 +264,4 @@ class Level {
         }
         return false;
     }
-}
-
-// Para qué era esto?
-class BaseLevel{
-    constructor(levelName, levelNumber){
-        this.levelName = levelName;
-        this.levelNumber = levelNumber;
-        this.rooms = [];
-    }
-
 }

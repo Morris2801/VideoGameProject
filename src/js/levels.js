@@ -1,9 +1,9 @@
-let maxCols = 21;
-let minCols = 18;
-let maxRows = 10;
-let minRows = 8;
-let cols = Math.floor(Math.random() * (maxCols - minCols) + maxCols);
-let rows = Math.floor(Math.random() * (maxRows - minRows) + minRows); 
+let maxCols = 18;
+let minCols = 16;
+let maxRows = 9;
+let minRows = 7;
+const cols = Math.floor(Math.random() * (maxCols - minCols) + maxCols);
+const rows = Math.floor(Math.random() * (maxRows - minRows) + minRows); 
 let maxVases = 5;
 
 // P(x_enemyspawn)
@@ -44,7 +44,7 @@ function floorCross(level,w, h){
     } 
 }
 
-function levGen(width, height, levelNum, numCards){
+function levGen(width, height, levelNum, isBossRoom = false){
     let level = [];
     let cells = width * height; 
     let perim = 2*width + 2*height; //por si acaso?
@@ -77,10 +77,10 @@ function levGen(width, height, levelNum, numCards){
     }
 
     // Puertas
-    level[width + Math.floor(width/2)] = "*"; //Arriba
-    level[width * (height - 2)  + Math.floor(width / 2)] = "*"; //Abajo
-    level[width * Math.floor(height / 2) + 1] = "*"; //Izquierda
-    level[width * Math.floor(height / 2) + (width - 2)] = "*"; //Derecha
+    level[width + Math.floor(width/2)] = "u"; //up
+    level[width * (height - 2)  + Math.floor(width / 2)] = "s"; //south
+    level[width * Math.floor(height / 2) + 1] = "l"; //left
+    level[width * Math.floor(height / 2) + (width - 2)] = "r"; //right
 
     //mid cross check
     
@@ -91,7 +91,13 @@ function levGen(width, height, levelNum, numCards){
         do{
             pos = [Math.floor(Math.random() * (width - 4) + 2), Math.floor(Math.random() * (height - 4) + 2)];
         }
-        while(level[pos[0] + pos[1] * width] != '.' && level[pos[0] + pos[1] * width] != '*' && level[pos[0] + pos[1] * width] != '#');
+        while(level[pos[0] + pos[1] * width] != '.' && 
+            level[pos[0] + pos[1] * width] != 'l'&& 
+            level[pos[0] + pos[1] * width] != 'r'&& 
+            level[pos[0] + pos[1] * width] != 's'&& 
+            level[pos[0] + pos[1] * width] != 'u' && 
+            level[pos[0] + pos[1] * width] != '#'
+        );
         level[pos[0] + pos[1] *width] = cosa;
     }
     
@@ -161,16 +167,24 @@ function levGen(width, height, levelNum, numCards){
         let rand = Math.random(); 
         if(rand < vaseProb){
             placeX("j");
-            console.log("Vase placed");
+            //console.log("Vase placed");
         }
     }
 
-    //Forzar que junto a # haya . (floortile)
-    level[2* width + Math.floor(width/2)] = "."; //Arriba
-    level[width * (height - 3)  + Math.floor(width / 2) +1] = "."; //Abajo 
-    level[width * Math.floor(height / 2) + 2] = "."; //Izquierda
-    level[width * Math.floor(height / 2) + (width - 3)] = "."; //Derecha
-    
+    if(isBossRoom){
+        //puerta de arriba que sea exit de Level/currTree
+        level[width + Math.floor(width/2)] = "E";
+        /*
+        if(levelnum == 1){
+            placeboss1
+        } 
+        else{
+        placeboss2
+        }
+        */
+    }
+
+
     //Ahora sí poner jugador (llevo unac antidad ridicula de tiempo checando el error y era que a veces no había jugador xd)
     placeX("@");
     
@@ -217,7 +231,7 @@ let GAME_LEVELS = [`
 */
 
 //Test random lev
-let stringLev = levGen(cols, rows, 1, 2);
+let stringLev = levGen(cols, rows, 1);
 let GAME_LEVELS = [stringLev];
 
 
