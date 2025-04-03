@@ -192,10 +192,11 @@ function levGen(width, height, levelNum, isBossRoom = false){
     if(isBossRoom){
         //puerta de arriba que sea exit de Level/currTree
         level[width + Math.floor(width/2)] = "E";
-        /*
-        if(levelnum == 1){
-            placeboss1
+        
+        if(levelNum == 1){
+            placeX("P"); //Boss
         } 
+        /*
         else{
         placeboss2
         }

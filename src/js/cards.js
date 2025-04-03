@@ -2,7 +2,7 @@
 class BaseCard extends GameObject {
     constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
-        this.maxUses = -1;
+        this.maxUses = 1;
         this.duration = undefined;
         this.healthBuff = 0;
         this.healthRegenBuff = 0;
@@ -12,7 +12,7 @@ class BaseCard extends GameObject {
 
         this.cardType = '';
         // Aseguramos compatibilidad con el inventario
-        this.type = "card";  
+        this.type = "card"; 
     }
 
     applyEffect(target) {

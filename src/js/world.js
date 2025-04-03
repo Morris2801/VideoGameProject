@@ -135,6 +135,13 @@ const levelChars = {
         rect: new Rect(0, 0,64,64),
         sheetCols: 4,
         startFrame: [0, 0]},
+
+    "P": {objClass: Quetzalcoatl,
+        label: "boss",
+        sprite: "../assets/SpriteSheetBossQIDLE.png",
+        rect: new Rect(0, 0, 64, 80),
+        sheetCols:3,
+        startFrame: [0, 0]}
 };
 
 
@@ -240,6 +247,14 @@ class Level {
                     this.actors.push(actor);
                     cellType = "empty";
                 }
+                else if(actor.type == "boss"){
+                    this.addBackgroundFloor(x, y);
+                    actor.setSprite(item.sprite, item.rect);
+                    actor.sheetCols = item.sheetCols;
+                    actor.setAnimation(...item.startFrame, true, 100);
+                    this.actors.push(actor);
+                    cellType = "empty";
+                }                
                 return cellType;
             });
         });
