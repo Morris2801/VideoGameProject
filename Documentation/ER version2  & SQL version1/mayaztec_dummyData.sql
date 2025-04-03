@@ -339,3 +339,30 @@ INSERT INTO boss_enemy (id_boss, bendition_reward) VALUES
 
 
 select * from player;
+
+-- 1. Obtener los jugadores con su informacion de personaje (concatenacion)
+SELECT 
+    CONCAT('Jugador: ', p.username, ' (ID: ', p.player_id, ')') AS 'Informacion del Jugador',
+    CONCAT('HP: ', cs.current_hp, '/', cs.max_hp, ' - Stamina: ', cs.current_stamina, '/', cs.max_stamina) AS 'Estadisticas de Salud'
+FROM 
+    player p
+JOIN 
+    characterStatus cs ON p.player_id = cs.player_id
+LIMIT 10;
+
+
+-- 2. Encontrar las cartas mas utilizadas en partidas (agrupacion y conteo)
+SELECT 
+    c.card_name,
+    c.card_type,
+    COUNT(rs.most_used_card) AS 'Veces Utilizada',
+    CONCAT(ROUND((COUNT(rs.most_used_card) / (SELECT COUNT(*) FROM player_runstats)) * 100, 2), '%') AS 'Porcentaje de Uso'
+FROM 
+    card c
+JOIN 
+    player_runstats AS rs ON c.card_id = rs.most_used_card
+GROUP BY 
+    c.card_id
+ORDER BY 
+    COUNT(rs.most_used_card) DESC
+LIMIT 5;
