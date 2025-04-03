@@ -82,7 +82,7 @@ class BaseEnemy extends BaseCharacter {
                 this.size.x - 2 * this.charMargin, 
                 this.size.y - 2 * this.charMargin
             );
-            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, 'door')) {
+            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor')) {
                 this.position = newPos;
                 this.startMovement(dir);
             }
@@ -113,7 +113,7 @@ class BaseEnemy extends BaseCharacter {
             this.size.x - 2 * this.charMargin,
             this.size.y - 2 * this.charMargin
         );
-        if (!level.contact(this.innerHitbox, this.size, "wall") && !level.contact(this.innerHitbox, this.size, "door")) {
+        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor')) {
             this.position = newPos;
             this.lastDirection = this.normDir(this.velocity);
             this.startMovement(this.lastDirection);

@@ -175,7 +175,11 @@ class Game {
             const oldPlayer = this.player;
             this.currentRoom= nextRoom;
             this.level = new Level(nextRoom.levelStringValue);
+            //actualizar pos según levGen, no la anterior
+            let newPlayer = this.level.player;
             this.player= oldPlayer;
+            this.player.position = newPlayer.position;
+
             this.actors = this.level.actors;
             let paths = []; 
             if(this.currentRoom.children.up != null){
