@@ -11,15 +11,13 @@ const enemyProbabilitiesLvl1 = [
     {type: "M", prob : 0.4},
     {type: "T", prob : 0.4},
     {type: "W", prob : 0.15},
-    {type: "D", prob : 0.05},
-    {type: "P", prob : 0.9}
+    {type: "D", prob : 0.05}
 ]
 const enemyProbabilitiesLvl2 = [
     {type: "M", prob: 0.2}, 
     {type: "T", prob: 0.2},
     {type: "W", prob: 0.4},
-    {type: "D", prob: 0.2},
-    {type: "P", prob: 0.9}
+    {type: "D", prob: 0.2}
 ]
 
 function getRandEnemy(prob){
@@ -176,10 +174,11 @@ function levGen(width, height, levelNum, isBossRoom = false){
     if(isBossRoom){
         //puerta de arriba que sea exit de Level/currTree
         level[width + Math.floor(width/2)] = "E";
-        /*
+        
         if(levelnum == 1){
-            placeboss1
+            placeX("P"); //Boss
         } 
+        /*
         else{
         placeboss2
         }
