@@ -100,6 +100,24 @@ function levGen(width, height, levelNum, isBossRoom = false){
         );
         level[pos[0] + pos[1] *width] = cosa;
     }
+    function placePlayer(cosa){
+        let pos, cellIndex;
+        do {
+            pos = [
+                Math.floor(Math.random() * (width - 4) + 3), 
+                Math.floor(Math.random() * (height - 4) + 3) 
+            ];
+            cellIndex = pos[1] * width + pos[0]; 
+        } while (
+            level[cellIndex] != '.' || 
+            level[cellIndex - 1] != '.' || 
+            level[cellIndex + 1] != '.' || 
+            level[cellIndex - width] != '.' ||
+            level[cellIndex + width] != '.' 
+       );
+
+        level[cellIndex] = cosa;
+    }
     
     // Poner cosas (jugador, columnas, ....)
     //placeX("@"); //Jugador <- ya no va aquí, mejor que sea lo último que se pone
@@ -187,7 +205,7 @@ function levGen(width, height, levelNum, isBossRoom = false){
 
 
     //Ahora sí poner jugador (llevo unac antidad ridicula de tiempo checando el error y era que a veces no había jugador xd)
-    placeX("@");
+    placePlayer("@");
     
     let levelString = "";
     for (let i = 0; i<height; i++){

@@ -131,7 +131,13 @@ class BaseEnemy extends BaseCharacter {
             let dir = game.player.position.minus(this.position).direction();
             this.velocity = dir.times(this.speed * deltaTime);
             let newPos = this.position.plus(this.velocity.times(deltaTime));
-            if (!level.contact(newPos, this.size, 'wall')) {
+            this.innerHitbox = new Rect(
+                newPos.x + this.charMargin, 
+                newPos.y + this.charMargin, 
+                this.size.x - 2 * this.charMargin, 
+                this.size.y - 2 * this.charMargin
+            );
+            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor')) {
                 this.position = newPos;
                 this.startMovement(dir);
             }
@@ -151,16 +157,22 @@ class BaseEnemy extends BaseCharacter {
             this.wanderTime = 1000* Math.random() * 2 + 1; //1 to 3 seconds
         } else {
             this.wanderTime -= deltaTime;
-            let newPos = this.position.plus(this.velocity.times(deltaTime));
-            if (!level.contact(newPos, this.size, 'wall') && !level.contact(newPos, this.size, 'door')) {
-                this.position = newPos;
-                this.stopMovement(this.lastDirection);
-                this.lastDirection = randomDir.x > randomDir.y ? (randomDir.x > 0 ? "right" : "left") : (randomDir.y > 0 ? "down" : "up");
-                this.startMovement(this.lastDirection);
-
-            } else {
-                this.wanderTime = 0; // Reset wander time if hitting a wall
-            }
+        }
+        let newPos = this.position.plus(this.velocity.times(deltaTime));
+        this.innerHitbox = new Rect(
+            newPos.x + this.charMargin,
+            newPos.y + this.charMargin,
+            this.size.x - 2 * this.charMargin,
+            this.size.y - 2 * this.charMargin
+        );
+        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor')) {
+            this.position = newPos;
+            this.lastDirection = this.normDir(this.velocity);
+            this.startMovement(this.lastDirection);
+        } 
+        else {
+            this.wanderTime = 0;
+            this.velocity = new Vec(0, 0);
         }
     }
 

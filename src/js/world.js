@@ -29,7 +29,7 @@ const levelChars = {
         rect: new Rect(0, 0, 52, 52)},
     "E": {objClass: GameObject, // -------------------exitDoor
         label: "exit",
-        sprite: '../assets/door.png',
+        sprite: '../assets/bossdoor.png',
         rect: new Rect(0, 0, 52, 52)},
     "t": {objClass: Torch,
         label: "torch", 
