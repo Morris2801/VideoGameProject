@@ -118,6 +118,13 @@ const levelChars = {
         rect: new Rect(0, 0,64,64),
         sheetCols: 4,
         startFrame: [0, 0]},
+
+    "P": {objClass: BaseBoss,
+        label: "boss",
+        sprite: "../assets/SpriteSheetBossIDLE.png",
+        rect: new Rect(0, 0, 80, 64),
+        sheetCols:3,
+        startFrame: [0, 0]}
 };
 
 

@@ -11,13 +11,15 @@ const enemyProbabilitiesLvl1 = [
     {type: "M", prob : 0.4},
     {type: "T", prob : 0.4},
     {type: "W", prob : 0.15},
-    {type: "D", prob : 0.05}
+    {type: "D", prob : 0.05},
+    {type: "P", prob : 0.9}
 ]
 const enemyProbabilitiesLvl2 = [
     {type: "M", prob: 0.2}, 
     {type: "T", prob: 0.2},
     {type: "W", prob: 0.4},
-    {type: "D", prob: 0.2}
+    {type: "D", prob: 0.2},
+    {type: "P", prob: 0.9}
 ]
 
 function getRandEnemy(prob){
