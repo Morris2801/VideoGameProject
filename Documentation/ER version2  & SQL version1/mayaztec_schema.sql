@@ -57,7 +57,7 @@ CREATE TABLE card (
 
 CREATE TABLE enemy (
 	enemy_id INT PRIMARY KEY NOT NULL auto_increment, 
-    enemy_name VARCHAR(20) NOT NULL, 
+    enemy_name VARCHAR(30) NOT NULL, 
     enemy_type INT, 
     base_hp FLOAT, 
     base_damage FLOAT, 
