@@ -139,7 +139,7 @@ const levelChars = {
     "P": {objClass: Quetzalcoatl,
         label: "boss",
         sprite: "../assets/SpriteSheetBossQIDLE.png",
-        rect: new Rect(0, 0, 80, 64),
+        rect: new Rect(0, 0, 64, 80),
         sheetCols:3,
         startFrame: [0, 0]}
 };
