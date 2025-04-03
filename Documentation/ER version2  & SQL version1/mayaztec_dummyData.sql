@@ -253,7 +253,6 @@ INSERT INTO player_runstats (player_id, run_duration, run_date, enemies_killed, 
 (30, 175.5, NOW(), 8, 4, 30, 4, 1);
 
 -- Insertar drops de cartas por enemigos
--- Insertar drops de cartas por enemigos (sin valores duplicados)
 INSERT INTO enemy_card_drop (drop_id, enemy_id, card_id) VALUES
 (1, 3, 10),
 (2, 4, 12),
