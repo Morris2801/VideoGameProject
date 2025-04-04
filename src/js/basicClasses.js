@@ -263,7 +263,7 @@ class BaseCharacter extends AnimatedObject{
             this.size.x - 2 * this.charMargin, 
             this.size.y - 2 * this.charMargin
         );
-        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor')) {
+        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit')) {
             this.position = newPosition;
         }
         this.updateFrame(deltaTime);

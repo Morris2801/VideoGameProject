@@ -274,29 +274,29 @@ class BasePlayer extends BaseCharacter {
     // Cajas de colision de ataque (para detectar golpes)
     this.attackBoxes = {
       right: {
-        xOffset: this.size.x, 
-        yOffset: 3+this.size.y / 2 - (5 * PLAYER_SCALE) / 2,
-        width: PLAYER_SCALE,
-        height: PLAYER_SCALE+0.5
+        xOffset: this.size.x * (2 / 3),
+        yOffset: this.size.y * (1 / 7),
+        width: PLAYER_SCALE * 0.5,
+        height: PLAYER_SCALE * 0.7,
       },
       left: {
-        xOffset: -this.size.x-0.5 , 
-        yOffset: 3+this.size.y / 2 - (5 * PLAYER_SCALE) / 2, 
-        width: PLAYER_SCALE, 
-        height: PLAYER_SCALE+0.5  
+        xOffset: -this.size.x * (1 / 5), // Mirror the xOffset of right
+        yOffset: this.size.y * (1 / 7), // Same yOffset as right
+        width: PLAYER_SCALE * 0.5, // Same width as right
+        height: PLAYER_SCALE * 0.7, // Same height as right
       },
       up: {
-        xOffset: -this.size.x+0.5,
-        yOffset: -2*this.size.y - 0.1, 
-        width: PLAYER_SCALE+0.5, 
-        height: PLAYER_SCALE 
+        xOffset: this.size.x * (1 / 7),
+        yOffset: -this.size.y * (1 / 3),
+        width: PLAYER_SCALE * 0.7,
+        height: PLAYER_SCALE * 0.5,
       },
       down: {
-        xOffset: -this.size.x+0.5,
-        yOffset: this.size.y - 0.1,
-        width: PLAYER_SCALE+0.5, 
-        height: PLAYER_SCALE 
-      }
+        xOffset: this.size.x * (1 / 7),
+        yOffset: this.size.y * (2 / 3),
+        width: PLAYER_SCALE * 0.7,
+        height: PLAYER_SCALE * 0.5,
+      },
     };
     
     // Personaje
@@ -330,7 +330,7 @@ class BasePlayer extends BaseCharacter {
         main:  "../assets/SpriteSheet_Mariachi.png",
         attacking: "../assets/SpriteSheetMariachiTranformacionAtacando.png"
       }
-      // agregar para cada sprite de tranformacion
+      
     }
     this.weaponSprites ={
       "default":{
@@ -373,10 +373,8 @@ class BasePlayer extends BaseCharacter {
     
     this.hasHitEnemy = false;
 
-    // conectar el inventario con el jugador
     this.inventory.setPlayer(this);
     
-    // agregar el efectecto de ataque
     this.currentVisualEffect = null;
   }
 

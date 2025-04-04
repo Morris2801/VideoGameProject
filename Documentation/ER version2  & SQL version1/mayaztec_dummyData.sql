@@ -1,9 +1,8 @@
-use mayaztec;
-
+USE mayaztec;
 
 SET AUTOCOMMIT = 0;
 
--- Insertar jugadores
+-- Insert Players
 INSERT INTO player (username, password, date_create, email) VALUES
 ('Jugador1', 'pass123', NOW(), 'jugador1@mail.com'),
 ('Jugador2', 'clave456', NOW(), 'jugador2@mail.com'),
@@ -36,14 +35,7 @@ INSERT INTO player (username, password, date_create, email) VALUES
 ('Jugador29', 'pass382', NOW(), 'jugador29@mail.com'),
 ('Jugador30', 'clave392', NOW(), 'jugador30@mail.com');
 
-
-INSERT INTO players (player_id) VALUES
-(1), (2), (3), (4), (5), (6), (7), (8), (9), (10),
-(11), (12), (13), (14), (15), (16), (17), (18), (19), (20),
-(21), (22), (23), (24), (25), (26), (27), (28), (29), (30);
-
-
--- Insertar niveles
+-- Insert Levels
 INSERT INTO level (name, time_limit_sec, total_rooms) VALUES
 ('Nivel 1', 300, 5),
 ('Nivel 2', 450, 7),
@@ -76,7 +68,7 @@ INSERT INTO level (name, time_limit_sec, total_rooms) VALUES
 ('Nivel 29', 900, 20),
 ('Nivel 30', 1000, 25);
 
--- Insertar habitaciones
+-- Insert Rooms
 INSERT INTO room (level_id, room_type) VALUES
 (1, 'Tesoro'), (1, 'Enemigos'), (1, 'Senda'), (1, 'Boss Room'), (1, 'Puzle'),
 (2, 'Enemigos'), (2, 'Senda'), (2, 'Tesoro'), (2, 'Boss Room'), (2, 'Puzle'),
@@ -85,8 +77,7 @@ INSERT INTO room (level_id, room_type) VALUES
 (5, 'Senda'), (5, 'Boss Room'), (5, 'Tesoro'), (5, 'Puzle'), (5, 'Enemigos'),
 (6, 'Tesoro'), (6, 'Enemigos'), (6, 'Boss Room'), (6, 'Puzle'), (6, 'Senda');
 
-
--- Insertar efectos de cartas-- Insertar efectos de cartas con nombres significativos
+-- Insert Card Effects (Note: Attribute names like Health, Damage should match the schema's needs)
 INSERT INTO card_effect (effect_attribute, effect_value, duration_sec) VALUES
 ('Health Boost', 300, 5),
 ('Damage Increase', 450, 7),
@@ -119,7 +110,7 @@ INSERT INTO card_effect (effect_attribute, effect_value, duration_sec) VALUES
 ('Life Drain', 970, 22),
 ('Ultimate Power Surge', 1070, 27);
 
--- Insertar cartas
+-- Insert Cards (Ensure effect_id corresponds to valid effects)
 INSERT INTO card (card_name, description, rarity, cooldown_sec, img_url, card_type, effect_id) VALUES
 ('Macuahuitl', 'Arma azteca de obsidiana', 0.6, 3, 'macuahuitl.png', 'Arma', 3),
 ('Cuchillo', 'Ligero y rápido', 0.4, 1.5, 'cuchillo.png', 'Arma', 4),
@@ -132,191 +123,13 @@ INSERT INTO card (card_name, description, rarity, cooldown_sec, img_url, card_ty
 ('La Calavera', 'Poder letal', 0.9, 8, 'calavera.png', 'Buff', 11),
 ('Escudo Maya', 'Defensa ancestral', 0.5, 4, 'escudo_maya.png', 'Defensa', 12),
 ('Fuego Sagrado', 'Daño en área', 0.7, 6, 'fuego.png', 'Ataque', 13),
-('Jaguar', 'Velocidad felina', 0.6, 10, 'jaguar.png', 'Transformación', 14),
-('La Serpiente', 'Veneno dañino', 0.6, 5, 'serpiente.png', 'Buff', 15),
-('La Pirámide', 'Invoca protección', 0.7, 12, 'piramide.png', 'Defensa', 16),
-('El Sol', 'Regeneración vital', 0.8, 15, 'sol.png', 'Buff', 17),
-('La Luna', 'Invisibilidad nocturna', 0.7, 8, 'luna.png', 'Buff', 18),
-('El Nopal', 'Resistencia a daño', 0.5, 10, 'nopal.png', 'Defensa', 19),
-('La Campana', 'Aturde enemigos', 0.6, 6, 'campana.png', 'Ataque', 20),
-('El Venado', 'Agilidad en combate', 0.5, 8, 'venado.png', 'Buff', 21),
-('La Corona', 'Poder supremo', 0.9, 25, 'corona.png', 'Buff', 22),
-('Lanza Azteca', 'Ataque a distancia', 0.6, 5, 'lanza.png', 'Arma', 23),
-('El Árbol', 'Restauración gradual', 0.7, 12, 'arbol.png', 'Buff', 24),
-('La Muerte', 'Invencibilidad breve', 0.9, 5, 'muerte.png', 'Buff', 25),
-('El Águila', 'Vista mejorada', 0.6, 15, 'aguila.png', 'Buff', 26),
-('El Pescado', 'Resistencia acuática', 0.5, 10, 'pescado.png', 'Buff', 27),
-('El Alacrán', 'Veneno potente', 0.7, 8, 'alacran.png', 'Ataque', 28),
-('La Bota', 'Velocidad aumentada', 0.5, 12, 'bota.png', 'Buff', 29),
-('El Mundo', 'Poder universal', 0.9, 30, 'mundo.png', 'Buff', 30);
+('Jaguar', 'Velocidad felina', 0.8, 10, 'jaguar.png', 'Movilidad', 14),
+('Serpiente', 'Veneno mortal', 0.6, 12, 'serpiente.png', 'Ataque', 15),
+('Murciélago', 'Sigilo nocturno', 0.4, 20, 'murcielago.png', 'Movilidad', 16);
 
+-- Commit the transaction
+COMMIT;
 
--- Insertar enemigos
-INSERT INTO enemy (enemy_name, enemy_type, base_hp, base_damage, detection_range, attack_cooldown) VALUES
-('Tlaxcalteca', 1, 15.0, 1.0, 5.0, 1.0),
-('Guerrero Maya', 2, 20.0, 2.0, 7.0, 1.2),
-('Diablo Réplica', 3, 35.0, 3.0, 10.0, 1.5),
-('Quetzalcóatl', 4, 85.0, 4.0, 12.0, 2.0),
-('Ah Puch', 4, 110.0, 6.0, 15.0, 2.5),
-('Mariachi Elite', 1, 13.0, 1.5, 6.0, 1.2),
-('Tlaxcalteca Capitán', 1, 17.0, 2.0, 6.0, 1.0),
-('Guerrero Maya Elite', 2, 25.0, 2.5, 8.0, 1.1),
-('Diablo Maestro', 3, 40.0, 4.0, 11.0, 1.4),
-('Jaguar Guerrero', 2, 22.0, 2.5, 9.0, 1.0),
-('Sacerdote Maya', 2, 18.0, 3.0, 6.0, 1.5),
-('Espectro Azteca', 3, 30.0, 3.5, 8.0, 1.3),
-('Serpiente Menor', 1, 12.0, 1.0, 4.0, 0.8),
-('Águila Guerrera', 2, 20.0, 2.5, 10.0, 1.2),
-('Guardián', 3, 45.0, 4.5, 9.0, 2.0),
-('Sacerdote Sacrificial', 2, 25.0, 3.0, 7.0, 1.4),
-('Espíritu ', 3, 30.0, 3.5, 8.0, 1.5),
-('Cazador', 1, 15.0, 2.0, 6.0, 1.0),
-('Chamán Maya', 2, 22.0, 2.5, 7.0, 1.3),
-('Caballero', 3, 38.0, 4.0, 9.0, 1.6),
-('Caballero Jaguar', 3, 40.0, 4.2, 9.0, 1.7),
-('Arquero Azteca', 1, 14.0, 2.0, 8.0, 1.5),
-('Esclavo Poseído', 1, 12.0, 1.0, 5.0, 0.9),
-('Guardián Esqueleto', 2, 25.0, 2.5, 6.0, 1.2),
-('Espíritu', 3, 35.0, 3.8, 7.0, 1.5),
-('Guardián', 3, 42.0, 4.5, 8.0, 1.8),
-('Serpiente Divina', 3, 38.0, 4.0, 7.0, 1.6),
-('Chacal Maya', 2, 20.0, 2.2, 6.0, 1.1);
--- Insertar personajes
-INSERT INTO characterStatus (player_id, max_hp, current_hp, max_stamina, current_stamina, base_weapon_id) VALUES
-(3, 110, 110, 55, 55, 1),
-(4, 105, 105, 52, 52, 1),
-(5, 115, 115, 58, 58, 1),
-(6, 120, 120, 60, 60, 1),
-(7, 95, 95, 48, 48, 1),
-(8, 100, 100, 50, 50, 1),
-(9, 105, 105, 52, 52, 1),
-(10, 110, 110, 55, 55, 1),
-(11, 115, 115, 58, 58, 1),
-(12, 120, 120, 60, 60, 1),
-(13, 95, 95, 48, 48, 1),
-(14, 100, 100, 50, 50, 1),
-(15, 105, 105, 52, 52, 1),
-(16, 110, 110, 55, 55, 1),
-(17, 115, 115, 58, 58, 1),
-(18, 120, 120, 60, 60, 1),
-(19, 95, 95, 48, 48, 1),
-(20, 100, 100, 50, 50, 1),
-(21, 105, 105, 52, 52, 1),
-(22, 110, 110, 55, 55, 1),
-(23, 115, 115, 58, 58, 1),
-(24, 120, 120, 60, 60, 1),
-(25, 95, 95, 48, 48, 1),
-(26, 100, 100, 50, 50, 1),
-(27, 105, 105, 52, 52, 1),
-(28, 110, 110, 55, 55, 1),
-(29, 115, 115, 58, 58, 1),
-(30, 120, 120, 60, 60, 1);
-
-INSERT INTO inventory (character_id, card_id) VALUES
-(1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
-(2, 6), (2, 7), (2, 8), (2, 9), (2, 10),
-(3, 11), (3, 12), (3, 13), (3, 14), (3, 15),
-(4, 16), (4, 17), (4, 18), (4, 19), (4, 20),
-(5, 21), (5, 22), (5, 23), (5, 24), (5, 25),
-(6, 26), (6, 27), (6, 28), (6, 29), (6, 30);
-
-
--- Insertar estadísticas de partidas
-INSERT INTO player_runstats (player_id, run_duration, run_date, enemies_killed, cards_collected, most_used_card, eliminated_by, last_level) VALUES
-(3, 250.5, NOW(), 10, 5, 3, 3, 2),
-(4, 180.3, NOW(), 7, 4, 4, 4, 1),
-(5, 320.7, NOW(), 15, 8, 5, 5, 2),
-(6, 155.2, NOW(), 6, 3, 6, 6, 1),
-(7, 275.8, NOW(), 12, 6, 7, 7, 2),
-(8, 198.4, NOW(), 8, 4, 8, 8, 1),
-(9, 305.6, NOW(), 14, 7, 9, 9, 2),
-(10, 165.9, NOW(), 7, 3, 10, 10, 1),
-(11, 285.3, NOW(), 13, 6, 11, 11, 2),
-(12, 210.1, NOW(), 9, 5, 12, 12, 1),
-(13, 350.5, NOW(), 16, 8, 13, 13, 2),
-(14, 175.8, NOW(), 7, 4, 14, 14, 1),
-(15, 290.4, NOW(), 13, 7, 15, 15, 2),
-(16, 205.2, NOW(), 8, 5, 16, 16, 1),
-(17, 330.7, NOW(), 15, 8, 17, 17, 2),
-(18, 185.9, NOW(), 7, 4, 18, 18, 1),
-(19, 295.3, NOW(), 13, 7, 19, 19, 2),
-(20, 215.6, NOW(), 9, 5, 20, 20, 1),
-(21, 345.2, NOW(), 16, 8, 21, 21, 2),
-(22, 170.8, NOW(), 7, 4, 22, 22, 1),
-(23, 300.9, NOW(), 14, 7, 23, 23, 2),
-(24, 220.3, NOW(), 10, 5, 24, 24, 1),
-(25, 355.7, NOW(), 17, 9, 25, 25, 2),
-(26, 195.4, NOW(), 8, 4, 26, 26, 1),
-(27, 310.6, NOW(), 14, 7, 27, 27, 2),
-(28, 230.8, NOW(), 10, 6, 28, 28, 1),
-(29, 360.2, NOW(), 18, 9, 29, 3, 2),
-(30, 175.5, NOW(), 8, 4, 30, 4, 1);
-
--- Insertar drops de cartas por enemigos
-INSERT INTO enemy_card_drop (drop_id, enemy_id, card_id) VALUES
-(1, 3, 10),
-(2, 4, 12),
-(3, 5, 14),
-(4, 6, 16),
-(5, 7, 18),
-(6, 8, 20),
-(7, 9, 22),
-(8, 10, 24),
-(9, 11, 26),
-(10, 12, 28),
-(11, 13, 30),
-(12, 14, 32),
-(13, 15, 34),
-(14, 16, 36),
-(15, 17, 38),
-(16, 18, 40),
-(17, 19, 42),
-(18, 20, 44),
-(19, 21, 46),
-(20, 22, 48),
-(21, 23, 50),
-(22, 24, 52),
-(23, 25, 54),
-(24, 26, 56),
-(25, 27, 58),
-(26, 28, 60),
-(27, 29, 62),
-(28, 30, 64),
-(29, 31, 66),
-(30, 32, 68);
-
-
--- Insertar jefes
-INSERT INTO boss_enemy (id_boss, bendition_reward) VALUES
-(1, 3),
-(2, 4),
-(3, 5),
-(4, 6),
-(5, 7),
-(6, 8),
-(7, 9),
-(8, 10),
-(9, 11),
-(10, 12),
-(11, 13),
-(12, 14),
-(13, 15),
-(14, 16),
-(15, 17),
-(16, 18),
-(17, 19),
-(18, 20),
-(19, 21),
-(20, 22),
-(21, 23),
-(22,24),
-(23, 25),
-(24, 26),
-(25, 27),
-(27, 28),
-(28, 29),
-(29, 30),
-(30,31);
 
 
 select * from player;
@@ -347,3 +160,6 @@ GROUP BY
 ORDER BY 
     COUNT(rs.most_used_card) DESC
 LIMIT 5;
+
+
+SELECT * FROM card;

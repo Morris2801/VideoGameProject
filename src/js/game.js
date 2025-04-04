@@ -1,25 +1,26 @@
 class Game {
     constructor(state, level, trees) {
         this.state = state;
-        this.level = level;
+        this.level =   level;
 
         //room->level->tree test
         this.trees = trees;
         this.currentTreeIndex = 0; 
-        this.currentTree = this.trees[this.currentTreeIndex];
-        this.currentRoom = this.currentTree.root;
+        this.currentTree =this.trees[this.currentTreeIndex];
+        this.currentRoom= this.currentTree.root;
         //wasd
 
-        this.player = this.level.player;
-        this.actors = level.actors;
+        this.player=this.level.player;
+        this.actors= level.actors;
         this.attackEffects = []; // lista de efectos de ataque 
         
         this.isActive = true;  
+        this.bossDefeated=false;
         
         //cosas para lo de daño de antoracha
         this.torchDamageTimer = 0;
         this.torchDamageInterval = 4000;
-        this.torchContact = false; 
+        this.torchContact  =   false; 
     
     }
 
@@ -130,6 +131,10 @@ class Game {
                     console.log("Exit active");
                     this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol, pero no se si es lo que queremos
                 }
+                if(actor.type == "boss" && actor.alive == false){
+                    this.bossDefeated = true;
+                    console.log("Bossbeat");
+                }
 
 
 
@@ -202,6 +207,9 @@ class Game {
     }
     changeLevel(treeIndex){
         if(treeIndex >= 0 && treeIndex < this.trees.length){ // Aquí poner condición de que se haya eliminado el boss del nivel !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if(!this.bossDefeated){
+                return;
+            }
             console.log("Siwtch arbol");
             this.currentTreeIndex= treeIndex;
             this.currentTree = this.trees[treeIndex];
@@ -209,6 +217,7 @@ class Game {
             this.level = new Level(this.currentRoom.levelStringValue);
             this.player = this.level.player;
             this.actors = this.level.actors;
+            this.bossDefeated = false; 
         }
         else{
             console.log("No hay siguiente arbol");

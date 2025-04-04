@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const canvas = document.getElementById("canvas");
     const uiCanvas = document.getElementById("uiCanvas");
+    const contextScreen = document.getElementById("contextScreen");
+    let isContextScreenActive = false;
 
     statsTrigger.addEventListener('mouseover', () => {
         statsSidebar.classList.add('open');
@@ -67,7 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isPaused = false; 
     startGameButton.addEventListener("click", () => {
-        console.log("Botón 'Start Game' presionado.");
+        //console.log("'Start Game'press");
+        startMenu.style.display = "none"; 
+        contextScreen.style.display = "flex"; 
+        isContextScreenActive = true;
         
         if (typeof GameMusic !== "undefined") {
             console.log("Iniciando música...");
@@ -75,20 +80,21 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             console.error("GameMusic no está definido.");
         }
-        canvas.style.display = "flex";
-        uiCanvas.style.display = "flex";
     });
 
     canvas.style.display = "none";
     uiCanvas.style.display = "none";
     startMenu.style.display = "flex";
 
-    startGameButton.addEventListener("click", () => {
-        startMenu.style.display = "none"; 
-        canvas.style.display = "flex";
-        uiCanvas.style.display = "flex";
-        init();
-    });
+    window.addEventListener("keydown", (event) =>{
+        if(isContextScreenActive && (event.key == "Enter" || event.code == "Space")){
+            contextScreen.style.display = "none"; 
+            canvas.style.display = "flex"; 
+            uiCanvas.style.display = "flex"; 
+            isContextScreenActive = false; 
+            init(); 
+        }
+    })
 
     optionsButton.addEventListener("click", () => {
     

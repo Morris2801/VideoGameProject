@@ -425,6 +425,41 @@ footer {
   align-items: flex-start;
   align-content: center;
 }
+#contextScreen {
+  display: none; 
+  position: fixed; 
+  top : 0; 
+  left:0;
+  width: 100%; 
+  height : 100%;
+  background-color: rgba(0,0,0,0.9);
+  color: white; 
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2em; 
+  text-align: center;
+  padding: 2em; 
+  box-sizing: border-box; 
+  overflow-y: auto; 
+}
+#contextScreen p{
+  margin: 1em auto; 
+  max-width: 800px;
+  line-height: 1.5em;
+}
+#contextScreen .prompt {
+  font-size: 1em;
+  color: #e8c766;
+  margin-top: 2em;
+  animation: blink 1s step-start ininite;
+}
+
+@keyframes blink {
+  50%{
+    opacity: 0;
+  }
+}
+  
+
 #grid-item-G-5 {
   grid-area: footer;
   background-color: rgb(21, 54, 27, 0.3);
@@ -586,3 +621,125 @@ footer img {
   text-decoration: underline;
 }
 
+
+
+
+
+
+
+/* -------------------- Statistics ------------------ */
+#leaderboardBody{
+  background-image: url('../assets/mainBackground.jpeg');
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  color: white; 
+  font-family: "Press Start 2P", cursive;
+  height: 100vh; 
+  margin : 0; 
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  overflow: auto;
+}
+.leaderboardContainer {
+  display: grid;
+  grid-template-columns: 0.7fr 1.2fr 1.2fr;
+  grid-template-rows: 14% 79% 7%;
+  gap: 20px;
+  height: 100%;
+  padding: 10px;
+  grid-template-areas:
+      "header header nav"
+      "stats stats stats"
+      "footer footer footer";
+}
+#grid-item-L-1 {
+  grid-area: header;
+  background-color: rgba(11, 30, 15, 0.832);
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  border-bottom-left-radius: 50px;
+}
+#grid-item-L-2 {
+  grid-area: nav;
+  background-color:  rgba(40, 27, 16, 0.823);
+  border-bottom-right-radius: 50px;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+#grid-item-L{
+  grid-area: stats;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.leaderboard-section {
+  margin: 1em; 
+  padding: 1em; 
+  border: 1px solid black; 
+  display: flex; 
+  flex-direction : column; 
+  background-color: rgba(34,34,34,0.9);
+  color: white; 
+  border-radius: 10px;
+}
+
+.leaderboard-section .formInput, .leaderboard-section .resultDisplay{
+  flex: 1; 
+  margin: 1em 0; 
+}
+.leaderboard-section form {
+  padding: 1em;
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.5em;
+}
+.leaderboard-section form input{
+  margin: 0.2em; 
+  max-width: 90%;
+  padding: 0.5em; 
+  border: 1px solid #DDD;
+  border-radius: 5px;
+  background-color: #222;
+  color: white;
+}
+.leaderboard-section .resultDisplay p{
+  margin: 1em; 
+  font-size: 1em;
+  color: #e8c766;
+}
+
+.leaderboard-section table, .leaderboard-section th, .leaderboard-section td{
+  border: solid 1px #DDD;
+    border-collapse: collapse;
+    padding: 5px 10px;
+    text-align: center;
+    background-color: rgba(55, 34, 9, 0.95);
+    color: white;
+}
+
+.leaderboard-section th {
+    font-weight: bold;
+    background-color: rgba(75, 59, 36, 0.9);
+    color: #e8c766;
+}
+
+.leaderboard-section td {
+    background-color: rgba(55, 34, 9, 0.8);
+}
+
+.leaderboard-section h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5em;
+    color: #e8c766;
+    margin-bottom: 1em;
+    text-align: center;
+}

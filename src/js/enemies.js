@@ -251,7 +251,7 @@ class BaseEnemy extends BaseCharacter {
                 this.size.x - 2 * this.charMargin, 
                 this.size.y - 2 * this.charMargin
             );
-            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor')) {
+            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit')) {
                 this.position = newPos;
                 this.startMovement(dir);
             }
@@ -279,7 +279,7 @@ class BaseEnemy extends BaseCharacter {
             this.size.x - 2 * this.charMargin,
             this.size.y - 2 * this.charMargin
         );
-        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor')) {
+        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit')) {
             this.position = newPos;
             this.lastDirection = this.normDir(this.velocity);
             this.startMovement(this.lastDirection);
@@ -522,7 +522,6 @@ class Devil extends BaseEnemy {
 
 // Bosses
 class BaseBoss extends BaseCharacter {
-
         constructor(_color, width, height, x, y, _type) {
             super(_color, width, height, x, y, _type);
             this.health = 10;
@@ -584,7 +583,10 @@ class BaseBoss extends BaseCharacter {
         
         update(level, deltaTime) {
             const currentTime = Date.now();
-            
+            if(this.health <= 0){
+                this.alive=false;
+            }
+
             // Handle recovery period after attack
             if (this.isRecovering && currentTime - this.lastAttackEndTime > this.recoveryTime) {
                 this.isRecovering = false;
