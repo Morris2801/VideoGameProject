@@ -145,7 +145,7 @@ class BaseEnemy extends BaseCharacter {
         };
         
         // Use provided path or default
-        this.attackingSpriteSheet.src = spritePath || "../assets/defaultAttackSprite.png";
+        this.attackingSpriteSheet.src = spritePath || "../assets/charSpritesheets/defaultAttackSprite.png";
         
         // Store reference to normal sprite
         this.normalSpriteSheet = this.spriteImage;
@@ -478,7 +478,6 @@ class Mariachi extends BaseEnemy {
         this.usesAttackSprite = true; 
         this.attackMaxDuration = 1500;
         
-        // Override attack frames
         this.attackFrames = {
             right: [0, 5], 
             left: [6, 11], 
@@ -487,7 +486,7 @@ class Mariachi extends BaseEnemy {
         };
         
         // Inicializa la hoja de sprites de ataque
-        this.initAttackSpriteSheet("../assets/SpriteSheetPeleandoMariachiEsqueloEnemy.png");
+        this.initAttackSpriteSheet("../assets/charSpritesheets/SpriteSheetPeleandoMariachiEsqueloEnemy.png");
     }
 }
 
@@ -496,6 +495,16 @@ class Tlaxcalteca extends BaseEnemy {
         super(_color, width, height, x, y, _type);
         this.health = 15;
         this.damage = 2;
+        this.setMovementFrames('right', [27,26,25,24,23,22,21], [21, 21]);
+        this.setMovementFrames('left', [0,1,2,3,4,5,6],[0,0]);
+        this.setMovementFrames('up', [27,26,25,24,23,22,21], [21, 21]);
+        this.setMovementFrames('down', [0,1,2,3,4,5,6],[0,0]);
+        this.attackFrames = {
+            right: [7,13], 
+            left: [14,20], 
+            up: [7,13], 
+            down: [14,20] 
+        };
     }
 }
 
@@ -517,6 +526,14 @@ class Devil extends BaseEnemy {
         this.setMovementFrames('left', [12,13,14,15], [13, 13]);
         this.setMovementFrames('up', [4,5,6,7], [4,4]);
         this.setMovementFrames('down', [0,1,2,3], [0,0]);
+        this.initAttackSpriteSheet("../assets/charSpritesheets/devilAttack.png");
+    
+        this.attackFrames = {
+            right: [8,11], 
+            left: [12,15], 
+            up: [4,7], 
+            down: [0,3] 
+        };
     }
 }
 
@@ -556,7 +573,7 @@ class BaseBoss extends BaseCharacter {
                 this.spriteSheetLoaded = true;
             };
             
-            this.attackingSpriteSheet.src = "../assets/SpriteSheetPeleandoMariachiEsqueloEnemy.png";
+            this.attackingSpriteSheet.src = "../assets/charSpritesheets/SpriteSheetPeleandoMariachiEsqueloEnemy.png";
             
             // Store reference to normal sprite sheet (important to keep!)
             this.normalSpriteSheet = this.spriteImage; 
@@ -828,7 +845,7 @@ class Quetzalcoatl extends BaseEnemy {
         this.sheetCols = 3;
         
         // Inicializa la hoja de sprites de ataque
-        this.initAttackSpriteSheet("../assets/QuetzalcoatlAttack.png");
+        this.initAttackSpriteSheet("../assets/charSpritesheets/QuetzalcoatlAttack.png");
     }
 }
 

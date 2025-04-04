@@ -115,14 +115,14 @@ class GameObject{
     dropCard(position){
         const lootTable = [
             { type: null, chance: 0.35, spritePath: null }, //35% de que no salga nada
-            { type: CalaveraCard, chance: 0.07 * 0.65, spritePath: '../assets/cardCalavera.png'}, 
-            { type: MacheteCard, chance: 0.07 * 0.65, spritePath: '../assets/cardMachete.png'},
-            { type: ObsidianKnifeCard, chance: 0.07 * 0.65, spritePath: "../assets/cardObsidianKnife.png"},
-            { type: CorazonCard, chance: 0.16 * 0.65, spritePath: "../assets/cardHeart.jpeg"},
-            { type: ValienteCard, chance: 0.16 * 0.65, spritePath: "../assets/cardValiente.png"},
-            { type: TacoCard, chance: 0.16 * 0.65, spritePath: "../assets/cardTaco.png"},
-            { type: MariachiCard, chance: 0.15 * 0.65, spritePath: "../assets/cardMariachi.jpeg"},
-            { type: MayanWarriorCard, chance: 0.15 * 0.65, spritePath: "../assets/cardGuerrero.png"},
+            { type: CalaveraCard, chance: 0.07 * 0.65, spritePath: '../assets/cards/cardCalavera.png'}, 
+            { type: MacheteCard, chance: 0.07 * 0.65, spritePath: '../assets/cards/cardMachete.png'},
+            { type: ObsidianKnifeCard, chance: 0.07 * 0.65, spritePath: "../cards/assets/cardObsidianKnife.png"},
+            { type: CorazonCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardHeart.jpeg"},
+            { type: ValienteCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardValiente.png"},
+            { type: TacoCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardTaco.png"},
+            { type: MariachiCard, chance: 0.15 * 0.65, spritePath: "../assets/cards/cardMariachi.jpeg"},
+            { type: MayanWarriorCard, chance: 0.15 * 0.65, spritePath: "../assets/cards/cardGuerrero.png"},
         ];
         const rand = Math.random(); 
         let chance = 0; 

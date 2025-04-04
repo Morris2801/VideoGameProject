@@ -252,9 +252,12 @@ class BasePlayer extends BaseCharacter {
     this.inventory = new Inventory();
 
     //stats?
-    this.killCount = 0; 
+    this.scoreTotal = 0;
+    this.killCount = 0;
     this.cardPickupCount = 0;
-    this.cardsUsed = 0; 
+    this.cardsUsed = 0;
+    this.vasesBroken = 0;
+        
 
 
     //Arma base stadisticas
@@ -301,11 +304,11 @@ class BasePlayer extends BaseCharacter {
     
     // Personaje
     this.normalSprite = new Image();
-    this.normalSprite.src = "../assets/testSpriteSheet.png";
+    this.normalSprite.src = "../assets/charSpritesheets/testSpriteSheet.png";
     this.normalSprite.onload = () => console.log("Normal sprite loaded");
   
     this.normalAttackingSprite = new Image();
-    this.normalAttackingSprite.src = "../assets/SpriteSheetPeleandoBase.png";
+    this.normalAttackingSprite.src = "../assets/charSpritesheets/SpriteSheetPeleandoBase.png";
     this.normalAttackingSprite.onload = () => console.log("Attack sprite loaded");
     
     // Dimensiones para los frames de ataque
@@ -317,33 +320,33 @@ class BasePlayer extends BaseCharacter {
   
   // Sprites para armas
     this.weaponSprite = new Image();
-    this.weaponSprite.src = "../assets/Prueba_SpritePeleando.png";
+    this.weaponSprite.src = "../assets/charSpritesheets/Prueba_SpritePeleando.png";
     this.weaponSprite.onload = () => console.log("Weapon loaded");
 
     //sprites de todas las tranformaciones & weapon 
     this.transformationSprites = {
       "default":{
-        main: "../assets/testSpriteSheet.png",
-        attacking: "../assets/SpriteSheetPeleandoBase.png"
+        main: "../assets/charSpritesheets/testSpriteSheet.png",
+        attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
       },
       "mariachi":{
-        main:  "../assets/SpriteSheet_Mariachi.png",
-        attacking: "../assets/SpriteSheetMariachiTranformacionAtacando.png"
+        main:  "../assets/charSpritesheets/SpriteSheet_Mariachi.png",
+        attacking: "../assets/charSpritesheets/SpriteSheetMariachiTranformacionAtacando.png"
       }
       
     }
     this.weaponSprites ={
       "default":{
-        main: "../assets/testSpriteSheet.png",
-        attacking: "../assets/SpriteSheetPeleandoBase.png"
+        main: "../assets/charSpritesheets/testSpriteSheet.png",
+        attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
       },
       "macahuitl": {
-        main: "../assets/Prueba_SpritePeleando.png",
-        attacking: "../assets/Prueba_SpritePeleando.png"
+        main: "../assets/charSpritesheets/Prueba_SpritePeleando.png",
+        attacking: "../assets/charSpritesheets/Prueba_SpritePeleando.png"
       },
       "obsidianKnife": {
-        main: "../assets/Prueba_SpritePeleando.png",
-        attacking: "../assets/Prueba_SpritePeleando.png"
+        main: "../assets/charSpritesheets/Prueba_SpritePeleando.png",
+        attacking: "../assets/charSpritesheets/Prueba_SpritePeleando.png"
       }
     }
 
@@ -582,7 +585,7 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
   if (this.activeWeaponType !== "default" && this.weaponSprites[this.activeWeaponType]) {
     this.weaponSprite = new Image();
     this.weaponSprite.src = this.weaponSprites[this.activeWeaponType].attacking || 
-                         "../assets/Prueba_SpritePeleando.png";
+                         "../assets/charSpritesheets/Prueba_SpritePeleando.png";
   }
   
   console.log(`Sprites actualizados: ${this.isTransformed ? 'transformado-' + this.transformationType : 'arma-' + this.activeWeaponType}`);

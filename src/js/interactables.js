@@ -22,10 +22,10 @@ class Vase extends BaseInteractable {
     interact(player){
         if(!this.isOpened && this.isNear(player)){
             this.isOpened = true; 
-            player.vasesBroken +=1;  
+            player.vasesBroken +=1;
             console.log("Vase opened");
             this.dropCard(this.position);
-            this.status = "opened"; 
+            this.status = "opened";
         }
         else{
             return;
