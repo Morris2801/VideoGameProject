@@ -223,6 +223,56 @@ class Game {
             console.log("No hay siguiente arbol");
         }
     }
+
+    gameOver(){
+        console.log("Game Over");
+    
+    // Stop game activity
+    this.isActive = false;
+    
+    
+    document.getElementById("canvas").style.display = "none";
+    document.getElementById("uiCanvas").style.display = "none";
+    
+    // show the game over menu
+    document.getElementById("gameOverMenu").style.display = "flex";
+}
+
+    exitToMainMenu(){
+        document.getElementById("gameOverMenu").style.display = "none";
+        document.getElementById("startMenu").style.display = "block";
+        this.restartGame();
+    }
+
+
+    restartGame() {
+        console.log("Restarting game...");
+        
+        // Reset core game state
+        this.currentTreeIndex = 0;
+        this.currentTree = this.trees[this.currentTreeIndex];
+        this.currentRoom = this.currentTree.root;
+        this.level = new Level(this.currentRoom.levelStringValue);
+        
+        // Reset player 
+        this.player = this.level.player; // Get anew player
+        this.player.health = this.player.basehealth;
+        this.player.stamina = this.player.baseStamina;
+        this.player.isDead = false;
+        
+        // Reset game mechanics 
+        this.actors = this.level.actors;
+        this.attackEffects = [];
+        this.isActive = true;
+        this.bossDefeated = false;
+        this.torchDamageTimer = 0;
+        this.torchContact = false;
+        
+        // Reset UI
+        document.getElementById("gameOverMenu").style.display = "none";
+        document.getElementById("canvas").style.display = "flex";
+        document.getElementById("uiCanvas").style.display = "flex";
+    }
 }
 
 

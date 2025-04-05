@@ -416,6 +416,16 @@ class BasePlayer extends BaseCharacter {
   update(level, deltaTime) {
     // Llamar al metodo update para el movimiento y direcicon
     super.update(level, deltaTime);
+
+
+    if(this.health<= 0){ // Si la vida del player es 0 gameOVERRRRR
+      this.health = 0;
+
+      if(game && !this.isDead){
+        this.isDead = true;
+        game.gameOver();
+      } return;
+    }
     
     // Actualizar direccion segun la velocidad
     if (this.velocity.x > 0) this.lastDirection = "right";
@@ -482,6 +492,8 @@ class BasePlayer extends BaseCharacter {
         this.revertTransformation();
       }
     }
+
+
   }
 
   equipWeapon(weaponType){
