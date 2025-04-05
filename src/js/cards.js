@@ -108,7 +108,7 @@ class MariachiCard extends BaseCard{
     constructor(color, width, height, x, y, type){
         super(color, width, height, x, y, type);
         this.damageBuff = 4;
-        this.healthBuff = 3;
+        this.healthBuff = 10;
         this.duration = 10;
         this.maxUses = 1;
         this.cardType = "transformationCard"; 

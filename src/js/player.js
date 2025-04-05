@@ -97,14 +97,14 @@ class Inventory {
     applyBuffEffects(card) {
       if(!this.player) return;
       
-      // Apply stat bonuses if defined
-      if(card.healthBonus) {
-        this.player.health += card.healthBonus;
+      
+      if(card.healthBuff) {
+        this.player.health += card.healthBuff;
       }
-      if(card.staminaBonus) {
-        this.player.stamina += card.staminaBonus;
+      if(card.staminaBuff) {
+        this.player.stamina += card.staminaBuff;
       }
-      if(card.damageBonus) {
+      if(card.damageBuff) {
         // Damage bonus handled in getDamageBonus()
       }
       
@@ -129,19 +129,15 @@ class Inventory {
     revertBuffEffects(card) {
       if(!this.player) return;
       
-      // Revert stat changes
-      if(card.healthBonus) {
-        this.player.health = Math.max(1, this.player.health - card.healthBonus);
+      // Revert stat changes with validation
+      if(card.healthBuff && typeof this.player.health === 'number') {
+        this.player.health = Math.max(1, this.player.health - card.healthBuff);
       }
-      if(card.staminaBonus) {
-        this.player.stamina = Math.max(0, this.player.stamina - card.staminaBonus);
+      if(card.staminaBuff && typeof this.player.stamina === 'number') {
+        this.player.stamina = Math.max(0, this.player.stamina - card.staminaBuff);
       }
-      // No need to revert damage as it's calculated dynamically
+      // dame calcaulated with the function getDamageBonus()
       
-      // Remove visual effect if applicable
-      if(card.visualEffect && this.player.removeVisualEffect) {
-        this.player.removeVisualEffect();
-      }
     }
 
     getDamageBonus(){
@@ -220,7 +216,7 @@ class AttackAnimation extends AnimatedObject {
     
     // Manejar colisiones con enemigos
     if (this.active && game) {
-      for (const enemy of game.actors.filter(actor => actor.type === "enemy")) {
+      for (const enemy of game.actors.filter(actor => actor.type === "enemy" || actor.type === "boss")) {
         if (boxOverlap(this, enemy) && !this.hitEnemies.includes(enemy)) {
           enemy.takeDamage(this.damage);
           this.hitEnemies.push(enemy);
@@ -453,7 +449,7 @@ class BasePlayer extends BaseCharacter {
         };
         
         for (const actor of game.actors) {
-          if (actor.type === "enemy" && boxOverlap(attackBox, actor)) {
+          if (actor.type === "enemy" || actor.type === "boss" && boxOverlap(attackBox, actor)) {
             // Aplicar daño al enemigo
             if (actor.takeDamage) {
               const damageBonus = this.inventory.getDamageBonus() || 0;
@@ -532,17 +528,13 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
     this.isTransformed = false;
     this.transformationType = "default";
     
-    // asingar los sprite de tranformacion a nulos, para "borrarlos"
+    // asingar los sprite de tranformacion a nulos para evitar errores
     this.savedNormalSprite = null;
     this.savedCurrentSprite = null;
     
-    // Actualizar sprites -> volver a los del arma activa si hay alguna
+    // Actualizar sprites 
     this.updateCurrentSprites();
     
-    // Restaurar estadisticas base
-    this.health = this.baseHealth;
-    this.stamina = this.baseStamina;
-    this.damage = this.baseDamage;
     
     console.log("Transformation reverted to normal");
   }
