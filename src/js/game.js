@@ -242,7 +242,6 @@ const GameMusic = (() => {
     let currentMusic = audioFiles.levelMusic1;
     currentMusic.loop = true;
 
-    // Add user interaction requirement for audio playback to comply with browser policies
     document.addEventListener('click', () => {
         if (currentMusic.paused) {
             currentMusic.play().catch(error => {
@@ -277,7 +276,7 @@ const GameMusic = (() => {
         }
     };
 })();
-// setTimeout(() => switchMusic(audioFiles.levelMusic2), 10000); USE THIS FOR SIMULATION
+// setTimeout(() => switchMusic(audioFiles.levelMusic2), 10000); 
 
 
 
