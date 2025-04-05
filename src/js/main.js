@@ -39,6 +39,9 @@ let initialLevel = new Level(treeLevel1.root.levelStringValue);
 // ------------------------------------------------------
 // Functions y eventlistenersDOM
 document.addEventListener('DOMContentLoaded', () => {
+    const restartButton = document.getElementById("restartButton");
+    const exitToMainButton = document.getElementById("exitToMainButton");
+
     const startMenu = document.getElementById("startMenu");
     const pauseMenu = document.getElementById("pauseMenu");
     const startGameButton = document.getElementById("startButton");
@@ -157,6 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
+
     loginButton.addEventListener('click', () => {
         startMenu.style.display = "none"; 
         loginSection.style.display = "flex";
@@ -199,6 +204,28 @@ document.addEventListener('DOMContentLoaded', () => {
             loginSection.style.display = "none";
             startMenu.style.display = "flex";
         }
+    });
+
+    restartButton.addEventListener('click', () => {
+        document.getElementById("gameOverMenu").style.display = "none";
+        document.getElementById("contextScreen").style.display = "flex";
+        
+        // Reset
+        totalElapsedTime = 0;
+        
+        // Create new tree levels
+        treeLevel1 = new Tree(1, numRoomsLvl1);
+        treeLevel1.treeGen();
+        treeLevel2 = new Tree(2, numRoomsLvl2);
+        treeLevel2.treeGen();
+        initialLevel = new Level(treeLevel1.root.levelStringValue);
+        
+    
+        isContextScreenActive = true;
+    });
+    
+    exitToMainButton.addEventListener('click', () => {
+        location.reload();
     });
 }); 
 
