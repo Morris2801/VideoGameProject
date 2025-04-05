@@ -82,7 +82,7 @@ function levGen(width, height, levelNum, isBossRoom = false){
     level[width * Math.floor(height / 2) + 1] = "l"; //left
     level[width * Math.floor(height / 2) + (width - 2)] = "r"; //right
 
-    //mid cross check
+    //mid cross check estaba aquí
     
 
     // Poner cosas revisando que esté en bounds

@@ -154,7 +154,7 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Use Card 1–5**           | Number Keys 1–5                  | Activates the assigned Lotería card.                                                     |
 | **Dash**                   | Shift                            | Brief invulnerability and burst movement. Consumes stamina.                              |
 | **Pause Menu**             | ESC                              | Opens pause menu with in-game options.                                                   |
-| **Menu Navigation**        | Arrow Keys / W, A, S, D + Enter  | Navigate in menus, confirm selections.                                                   |
+| **Menu Navigation**        | Arrow Mouse + Enter  | Navigate in menus, confirm selections.                                                   |
 
 
 ### **Mechanics**
