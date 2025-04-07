@@ -1,8 +1,24 @@
+/*
+Script Name
+- player.js
+
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Defines BasePlayer class
+- Implements inventory system (for card usage) through a stacklike datastruct 
+- Handles player movement, attack mechanics and transformations
+- Tracks player stats 
+*/
+
 const PLAYER_SCALE = 1.5;  // Escala para el personaje
 const WEAPON_SCALE = 2.5;  // Escala para el arma
 const ATTACK_EFFECT_SCALE = 1.5;
-// Stack DataStruct pero con otro nombre
 
+// Stack DataStruct pero con otro nombre
 class Inventory {
     constructor() {
       this.items = []; 
@@ -10,8 +26,9 @@ class Inventory {
       this.activeWeapon = null;
       this.activeTransformation = null;
       this.activeBuff = null;
-      this.player = null; // Reference to the player
+      this.player = null; // Reference to player (?)
     }
+    //add card to end
     push(element) {
       if (this.items.length < this.max ){
         this.items.push(element);
@@ -20,17 +37,11 @@ class Inventory {
       console.log("Inventory is full");
       return false;
     }
-    pop() {
+    pop(){ //Remove last added element (to be used in death and restart)
       if (this.isEmpty()) {
         return "Stack is empty"; 
       }
       return this.items.pop();
-    }
-    peek() {
-      if (this.isEmpty()) {
-        return "Stack is empty"; 
-      }
-      return this.items[this.items.length - 1];
     }
     isEmpty() {
       return this.items.length === 0;
@@ -43,7 +54,6 @@ class Inventory {
             console.log(items[i]);
         }
     }
-
     setPlayer(player) {
       this.player = player;
     }
@@ -51,37 +61,31 @@ class Inventory {
     activateCard(cardIndex){ //saber que tipo de carta esta activa en el inventario
       const card = this.items[cardIndex];
       if(!card) return false;
-
       console.log(`Activating card: ${card.cardType || card.type}, weapon type: ${card.weaponType}, transformation type: ${card.transformationType}`);
-
-      
+      //Change weapon
       if(card.cardType === "weaponCard"){
         this.activeWeapon = card;
-        // conectar con el sistema de equipar 
+        // equip weapon
         if(this.player) {
           this.player.equipWeapon(card.weaponType || "default");
         }
       }
-      
+      // transform player
       else if(card.cardType === "transformationCard"){ 
-        this.activeTransformation = card;
-        // conectar con al tranformacion del personaje
+        this.activeTransformation = card;  
         if(this.player) {
           const duration = card.duration || 30; // Default 30 sec
           this.player.applyTransformation(card.transformationType || "default", duration);
         }
       }
-      
+      //buff card
       else if(card.cardType === "powerCard"){ //card.cardType
-        
         this.activeBuff = this.activeBuff || [];
         this.activeBuff.push(card);
-        
         //effecto de buff
         if(this.player) {
           this.applyBuffEffects(card);
         }
-        
         // Set expiration timer
         if(card.duration) {
           setTimeout(() => {
@@ -89,15 +93,12 @@ class Inventory {
           }, card.duration * 1000);
         }
       }
-      
       // return true si fue activado bien 
       return true;
     }
 
     applyBuffEffects(card) {
       if(!this.player) return;
-      
-      
       if(card.healthBuff) {
         this.player.health += card.healthBuff;
       }
@@ -113,7 +114,6 @@ class Inventory {
         this.player.applyVisualEffect(card.visualEffect);
       }
     }
-    
     removeBuff(cardToRemove) {
       if(!this.activeBuff) return;
       
@@ -125,7 +125,6 @@ class Inventory {
         this.revertBuffEffects(cardToRemove);
       }
     }
-    
     revertBuffEffects(card) {
       if(!this.player) return;
       
@@ -135,14 +134,11 @@ class Inventory {
       }
       if(card.staminaBuff && typeof this.player.stamina === 'number') {
         this.player.stamina = Math.max(0, this.player.stamina - card.staminaBuff);
-      }
-      // dame calcaulated with the function getDamageBonus()
-      
+      }  
     }
 
     getDamageBonus(){
       let bonus = 0;
-
       if(this.activeWeapon){
         bonus += this.activeWeapon.damageBuff;
       }
@@ -153,13 +149,12 @@ class Inventory {
       }
       return bonus;
     }
-
     getAttackSprite(){
       return this.activeWeapon ? this.activeWeapon.spriteEffect : null;
     }
 }
 
-
+// Class to extend attack animation particularities
 class AttackAnimation extends AnimatedObject {
   constructor(x, y, damage, sprite) {
     // Tamaño base con ATTACK_EFFECT_SCALE
@@ -233,12 +228,11 @@ class AttackAnimation extends AnimatedObject {
 }
 
 
-
-
+// ------------------
 // Jugador
 
 
-let rescale = 0.9;
+let rescale = 0.9; // <-- tbd
 class BasePlayer extends BaseCharacter {
   constructor(_color, width, height, x, y, _type) {
     super(_color, width*rescale, height*rescale, x, y, _type);
@@ -247,15 +241,13 @@ class BasePlayer extends BaseCharacter {
     this.damage = 3;
     this.inventory = new Inventory();
 
-    //stats?
+    //stats? (inc9mplete)
     this.scoreTotal = 0;
     this.killCount = 0;
     this.cardPickupCount = 0;
     this.cardsUsed = 0;
     this.vasesBroken = 0;
         
-
-
     //Arma base stadisticas
     this.basehealth = 10;
     this.baseStamina = 5;
@@ -266,11 +258,11 @@ class BasePlayer extends BaseCharacter {
     this.attackTimer = 0;
     this.attackCooldown = 100;
     this.attackDuration = 0;
-    this.attackMaxDuration = 700; // 500ms para completar el ataque
+    this.attackMaxDuration = 700; // 700ms para completar el ataque
     this.lastDirection = "right"; //  por defecto
     this.hasHitEnemy = false;
 
-    // Cajas de colision de ataque (para detectar golpes)
+    // Cajas de colision de ataque (para detectar golpes) <- tbd
     this.attackBoxes = {
       right: {
         xOffset: this.size.x * (2 / 3),
@@ -280,9 +272,9 @@ class BasePlayer extends BaseCharacter {
       },
       left: {
         xOffset: -this.size.x * (1 / 5), // Mirror the xOffset of right
-        yOffset: this.size.y * (1 / 7), // Same yOffset as right
-        width: PLAYER_SCALE * 0.5, // Same width as right
-        height: PLAYER_SCALE * 0.7, // Same height as right
+        yOffset: this.size.y * (1 / 7), 
+        width: PLAYER_SCALE * 0.5, 
+        height: PLAYER_SCALE * 0.7, 
       },
       up: {
         xOffset: this.size.x * (1 / 7),
@@ -298,7 +290,7 @@ class BasePlayer extends BaseCharacter {
       },
     };
     
-    // Personaje
+    // Sprites Personaje
     this.normalSprite = new Image();
     this.normalSprite.src = "../assets/charSpritesheets/testSpriteSheet.png";
     this.normalSprite.onload = () => console.log("Normal sprite loaded");
@@ -377,38 +369,35 @@ class BasePlayer extends BaseCharacter {
     this.currentVisualEffect = null;
   }
 
-  
+  //USe card at position specified by player's input (num)
   useCard(index) {
     if (index >= 0 && index < this.inventory.items.length) {
       const card = this.inventory.items[index];
       console.log(`Usando carta: ${card.constructor.name} en posición ${index}`);
       
-      
       this.cardsUsed++;
       
       // Intentar activar la carta
       const activated = this.inventory.activateCard(index);
-      
       if (activated) {
         console.log("Carta activada exitosamente");
-        
-        
         if (card.maxUses > 0) {
+          // Update counter tracker
           card.maxUses--;
           console.log(`Card ${card.cardType} uses left: ${card.maxUses}`);
-          
-          
           if (card.maxUses === 0) {
             this.inventory.items.splice(index, 1);
             console.log("Carta sin usos removida del inventario");
           }
         }
-      } else {
+      } 
+      else {
         console.log("No se pudo activar la carta");
         
         this.cardsUsed--;
       }
-    } else {
+    } 
+    else {
       console.log("No hay carta en esa posición del inventario");
     }
   }
@@ -428,7 +417,6 @@ class BasePlayer extends BaseCharacter {
       this.attackCooldown -= deltaTime;
       if (this.attackCooldown < 0) this.attackCooldown = 0;
     }
-    
     
     if (this.attacking) {
       this.attackDuration += deltaTime;

@@ -1,7 +1,22 @@
-// BaseCard
+/*
+Script Name
+- cards.js
+
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Centralized file for managing card-based mechanics in the game.
+- Defines BaseCard class and specialized card types for power-ups, transformations, and weapons.
+*/
+
+// Basic class from which all card instances will inherit properties and methods
 class BaseCard extends GameObject {
     constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        // Basic common properties to be overwritten
         this.maxUses = 1;
         this.duration = undefined;
         this.healthBuff = 0;
@@ -9,15 +24,14 @@ class BaseCard extends GameObject {
         this.staminaBuff = 0;
         this.staminaRegenBuff = 0;
         this.damageBuff = 0;
-
+        // powerCard, transformationCard, weaponCard
         this.cardType = '';
-        // Aseguramos compatibilidad con el inventario
         this.type = "card"; 
     }
-
+    // function to apply the effect of the card to player
     applyEffect(target) {
         if (!target) {
-            console.log("No hay un objetivo válido para aplicar el efecto.");
+            console.log("Error");
             return;
         }
         console.log(`Aplicando efectos de ${this.type} a ${target.type}`);
@@ -28,10 +42,10 @@ class BaseCard extends GameObject {
         target.staminaRegen += this.staminaRegenBuff;
         target.damage += this.damageBuff;
 
-        // Print the buffs and remaining time
+        // Debug effect behavior in console
         this.printStatus(target, this.duration);
 
-        // Handle duration-based effects
+        // Duration-based effect mechanics
         if (this.duration !== undefined && this.duration > 0) {
             let remainingTime = this.duration;
             let interval = setInterval(() => {
@@ -63,7 +77,7 @@ class BaseCard extends GameObject {
             }, this.duration * 1000);
         }
     }
-
+    //debug function 
     printStatus(target, timeLeft) {
         console.log(`Estado de ${target.type}:`);
         console.log(`Vida: ${target.health}`);
@@ -74,6 +88,8 @@ class BaseCard extends GameObject {
         console.log(`Tiempo restante: ${timeLeft} segundos`);
     }
 }
+
+// Specific card classes inheriting from BaseCard with particularities defined 
 
 class MacahuitlCard extends BaseCard{
     constructor(color, width, height, x, y, type){

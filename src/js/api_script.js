@@ -1,3 +1,18 @@
+/*
+Script Name
+- api_script.js
+
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Handles frontend interactions with a backend API for a video game database.
+- Imagined to allow CRUD operations by sending HTTP requests and updating webpage based on responses. 
+*/
+
+
 function main()
 {
     document.getElementById('formSelectUser').onsubmit = async (e) =>

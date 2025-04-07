@@ -1,3 +1,19 @@
+/*
+Script Name
+- game.js
+
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Handles game logic, including player movement, collision detection, and level transitions.
+- Manages game state and interactions between player and game objects.
+- Implements game mechanics like torch damage, and handles current actors to be shown based on their state.
+- Music management 
+*/
+
 class Game {
     constructor(state, level, trees) {
         this.state = state;
@@ -16,24 +32,20 @@ class Game {
         
         this.isActive = true;  
         this.bossDefeated=false;
-        
-        //cosas para lo de daño de antoracha
+        // torch damage things
         this.torchDamageTimer = 0;
         this.torchDamageInterval = 4000;
         this.torchContact  =   false; 
-    
     }
-
-
-
-    addAttackEffect(effect)
-    {
+    // handles effects in list
+    addAttackEffect(effect){
         this.attackEffects.push(effect);
     }    
     update(deltaTime) {     
-        if(this.isActive == false) return; // No aactualizar si pasusado
+        if(!this.isActive) return; // No aactualizar si pasusado
         else {            
             for (let actor of this.actors) {
+                // update functions
                 if(typeof actor.update === "function"){
                     actor.update(this.level, deltaTime);
                 }
@@ -49,18 +61,22 @@ class Game {
                     this.attackEffects.splice(i,1);
                 }
             }
+            // Eliminates defeated enemies
             this.actors = this.actors.filter(actor => actor.alive !== false);
+            // Eliminates "opened" vases
             this.actors = this.actors.filter(actor => actor.isOpened !== true);
             let currentActors = this.actors;
             // Detect collisions
             for (let actor of currentActors) {
                 if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
                     //console.log(`Collision of ${this.player.type} with ${actor.type}`);
-                    if (actor.type == 'wall') {
-                        //console.log("Hit a wall");
+                    /*if (actor.type == 'wall') {
+                        console.log("Hit a wall");
                     } 
-                    else if (actor.type == 'card') {
+                        */
+                    if (actor.type == 'card') {
                         if(this.player.inventory.items.length != this.player.inventory.max){
+                            // player picks up card
                             this.player.inventory.push(actor);
                             this.player.cardPickupCount++;
                             this.actors = this.actors.filter(item => item !== actor);
@@ -69,6 +85,7 @@ class Game {
                         // console.log(this.player);
                     }
                     else if(actor.type == 'torch'){
+                        // player receives damage from torch
                         if(!this.torchContact){
                             this.player.health -= 1; 
                             console.log ("Fireburns start", this.player.health);
@@ -108,36 +125,31 @@ class Game {
                     
                 }
                 */
+                // individual door handles
                 if(actor.type == "updoor" && this.level.contact(this.player.innerHitbox, this.player.size, "updoor")){
                     this.changeRoom("up");
                     console.log("upactive");
                 }
-                
                 if(actor.type == "downdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "downdoor")){
                     this.changeRoom("down");
                     console.log("donwactive");
                 }
-                
                 if(actor.type == "leftdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "leftdoor")){
                     this.changeRoom("left");
                     console.log("leftctive");
                 }
-                
                 if(actor.type == "rightdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "rightdoor")){
                     this.changeRoom("right");
                     console.log("irghtactive");
                 }
                 if(actor.type == "exit" && this.level.contact(this.player.innerHitbox, this.player.size, "exit")){
                     console.log("Exit active");
-                    this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol, pero no se si es lo que queremos
+                    this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol/nivel
                 }
                 if(actor.type == "boss" && actor.alive == false){
                     this.bossDefeated = true;
                     console.log("Bossbeat");
                 }
-
-
-
             }
         }
         if(!this.torchContact){
@@ -167,10 +179,10 @@ class Game {
         if(direction === "down"){
             nextRoom = this.currentRoom.downParent;
             if (!nextRoom) {
-                console.log("Cannot move to parent: This is the root room.");
+                console.log("Cannot move to parent: root room.");
                 return;
             }
-            console.log("going to paretn");
+            console.log("going to parent");
         }
         else{
             nextRoom= this.currentRoom.children[direction];
@@ -206,7 +218,7 @@ class Game {
         }
     }
     changeLevel(treeIndex){
-        if(treeIndex >= 0 && treeIndex < this.trees.length){ // Aquí poner condición de que se haya eliminado el boss del nivel !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(treeIndex >= 0 && treeIndex < this.trees.length){ 
             if(!this.bossDefeated){
                 return;
             }

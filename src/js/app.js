@@ -1,3 +1,18 @@
+/*
+Script Name
+- app.js
+
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Backend server for videogame project.
+- Based on REST API architecture to interact with MySQL database.
+- Communicates with HTML frontend based on requests and responses from events triggered.
+*/
+
 "use strict"
 
 // Importing modules
