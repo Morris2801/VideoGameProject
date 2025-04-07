@@ -1,6 +1,26 @@
 /*
-Game Classes Development for MayAztec
+Script Name
+- basicClasses.js
+
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Structure the basic classes for the game.
+- Provides common reusable and extensible components (through inheritance) for other game objects
+
+Classes
+- TextLabel: Class to manage text labels on the screen.
+- Rect: Class to manage rectangles for collision detection and bounding boxes.
+- Vec: Class to manage directions and positions.
+- GameObject: Class to manage game objects, including their position, size, color, and sprite properties.
+- AnimatedObject: Class to manage animated objects, including their animation properties and frame updates.
+- BaseCharacter: Class to manage characters, including their movement, health, and collision detection.
 */
+
+// ------------------------------------
 
 
 "use strict";
@@ -11,7 +31,6 @@ let level;
 let player;
 const scale = 57;
 
-// -------------------------------------------------
 
 // Text
 class TextLabel{
@@ -64,6 +83,7 @@ class Vec {
     }
 }
 
+// Class to manage game objects
 class GameObject{
     constructor(color, width, height, x, y, type) {
         this.position = new Vec(x, y);
@@ -106,15 +126,14 @@ class GameObject{
                      scaledWidth, scaledHeight);
         }
     }
-
+    // Overridable update method
     update() {
 
     }
-
-
+    // Method to enable card drop mechanic through inheritance and loot table 
     dropCard(position){
         const lootTable = [
-            { type: null, chance: 0.35, spritePath: null }, //35% de que no salga nada
+            { type: null, chance: 0.35, spritePath: null }, //35% chance to drop nothing
             { type: CalaveraCard, chance: 0.07 * 0.65, spritePath: '../assets/cards/cardCalavera.png'}, 
             { type: MacheteCard, chance: 0.07 * 0.65, spritePath: '../assets/cards/cardMachete.png'},
             { type: ObsidianKnifeCard, chance: 0.07 * 0.65, spritePath: "../assets/cards/cardObsidianKnife.png"},
@@ -132,7 +151,7 @@ class GameObject{
             if (rand <= chance) {
                 cardClass = item.type;
                 if (cardClass === null) {
-                    console.log("No card dropped this time");
+                    console.log("No card dropped");
                     return;
                 }
                 cardClass.spritePath = item.spritePath;
@@ -142,7 +161,6 @@ class GameObject{
         if(cardClass){
             const card = new cardClass("white", 1, 1, position.x, position.y, "card"); 
             card.setSprite(cardClass.spritePath, new Rect(0, 0, 80, 150));
-            // sí está agregando le path console.log(card.spriteImage.src);
             game.actors.push(card);
             // Agregar a fuerza bruta la carta a invnetario game.player.inventory.items.push(card);
             //card.draw(ctx, scale, 1);
@@ -152,6 +170,7 @@ class GameObject{
     }    
 }
 
+// Class to manage animated objects
 class AnimatedObject extends GameObject{
     constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
@@ -160,9 +179,7 @@ class AnimatedObject extends GameObject{
         this.minFrame = 0;
         this.maxFrame = 0;
         this.sheetCols = 0;
-
         this.repeat = true;
-
         // Delay ms
         this.frameDuration = 100;
         this.totalTime = 0;
@@ -192,7 +209,7 @@ class AnimatedObject extends GameObject{
     }
 }
 
-
+// Class to manage characters
 class BaseCharacter extends AnimatedObject{
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
@@ -256,7 +273,7 @@ class BaseCharacter extends AnimatedObject{
 
     update(level, deltaTime) {
         let newPosition = this.position.plus(this.velocity.times(deltaTime));
-        // Move only if the player does not move inside a wall || door
+        // Move only if the player's inner hitbox does not move inside a wall || door
         this.innerHitbox = new Rect(
             newPosition.x + this.charMargin, 
             newPosition.y + this.charMargin, 

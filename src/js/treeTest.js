@@ -1,6 +1,148 @@
-"use strict"
+/*
+Script Name
+- treeTest.js
 
-//https://www.30secondsofcode.org/js/s/data-structures-tree/
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Implements a tree data structure (randomly, max 3 child nodes / node) to represent the hierarchical layout of rooms within a level
+- Identifies and marks the boss room as the deepest room in the tree
+- Provides utility methods for traversing, printing, and managing the tree structure
+
+Classes
+- TreeNode: Represents a single room in the tree, storing its room number, level data (layout), parent, children, and whether it is the boss room
+- Tree: Manages the overall tree structure, including room generation, traversal, and boss room identification
+*/
+
+
+class TreeNode {
+    constructor(roomNum, levelStringValue = "", downParent = null){ 
+        // key info  
+        this.roomNum = roomNum;
+        this.levelStringValue = levelStringValue; // stores level data
+        //pointers
+        this.downParent = downParent;
+        this.children = {
+            up: null, 
+            left: null, 
+            right: null
+        }    
+        this.isBossRoom = false;
+    }
+    isLeaf(){
+        return this.children.up === null && this.children.left === null && this.children.right === null;
+    }
+    hasChildren(){
+        return !this.isLeaf();
+    }
+    returnRels(){
+        let parRoom = this.downParent ? this.downParent.roomNum : "null";
+        let upRoom = this.children.up ? this.children.up.roomNum : "null";
+        let leftRoom = this.children.left ? this.children.left.roomNum : "null"; 
+        let rightRoom = this.children.right ? this.children.right.roomNum : "null"; 
+        return `Room ${this.roomNum}, padre: ${parRoom} -> [U: ${upRoom}, L: ${leftRoom}, R: ${rightRoom}]`;
+    }
+}
+
+class Tree{ // level tree
+    constructor(levNum, numRooms){
+        //important info 
+        this.levNum = levNum;
+        this.numRooms = numRooms; // <- how many rooms per level
+        this.currentRoomCount = 1; 
+        this.root = new TreeNode(1, levGen(cols, rows,1)); // sets root
+    }
+    treeGen(node =this.root){
+        if(this.currentRoomCount >= this.numRooms){
+            this.bossLoc(); // when finished generating #Rooms, sets boss room 
+            return; 
+        }
+        const maxPossibleChildren = this.numRooms - this.currentRoomCount;
+        const numChildren = Math.min(Math.floor(Math.random()*3)+1, maxPossibleChildren);
+        
+        console.log(`levNum ${this.levNum} room ${node.roomNum}, NumChildren: ${numChildren}`);
+        let availableDirs = ["up", "left", "right"];
+        for(let i = 0; i < numChildren && availableDirs.length > 0; i++){
+            const dirIndex = Math.floor(Math.random() * availableDirs.length); // random between 1-3
+            const dir = availableDirs[dirIndex]; // removes direction to avoid duplicates
+            availableDirs.splice(dirIndex, 1);
+            this.currentRoomCount++;
+            const childRoomNum = this.currentRoomCount;
+            
+            //console.log(`Vhild #${i+1}/${numChildren} dir: ${dir}, Rnum: ${childRoomNum}`);
+            const isBossRoom = this.currentRoomCount === this.numRooms;
+            const childNode = new TreeNode(childRoomNum, levGen(cols, rows, this.levNum, isBossRoom), node);
+            node.children[dir] = childNode;
+        }
+        for(let dir of ["up", "left", "right"]){
+            if(node.children[dir]){
+                this.treeGen(node.children[dir]); // Recursion per room child
+            }
+        }
+    }
+    *posOrden(node = this.root){
+        if(node.hasChildren()){
+            for(let dir of ["up", "left", "right"]){
+                if(node.children[dir]){
+                    yield* this.posOrden(node.children[dir]); //yield : kind of like a return, según entendí
+                }
+            }
+        }
+        yield node;
+    }   
+    //debug
+    printTree(nodo = this.root, profundidad = 0){
+        console.log(" ".repeat(profundidad) + nodo.returnRels());
+        for(let dir of ["up", "left", "right"]){
+            if(nodo.children[dir]){
+                this.printTree(nodo.children[dir], profundidad + 1);
+            }
+        }
+
+    }
+    //find deepest node
+    traverse(node, depth, maxDepthFound) {
+        if (!node) return;
+        if (depth > maxDepthFound.maxDepth) {
+            maxDepthFound.maxDepth = depth;
+            maxDepthFound.bossRoom = node;
+        }
+        for (let dir of ["up", "left", "right"]) {
+            this.traverse(node.children[dir], depth + 1, maxDepthFound);
+        }
+    }
+    //sets boss room "boss location"
+    bossLoc(){
+        let maxDepthFound = {
+            maxDepth: -1, 
+            bossRoom: null
+        }
+        this.traverse(this.root, 0, maxDepthFound);
+        if(maxDepthFound.bossRoom){
+            maxDepthFound.bossRoom.isBossRoom = true;
+            console.log(`Boss room: ${maxDepthFound.bossRoom.roomNum}, depth: ${maxDepthFound.maxDepth}`);
+        }
+    }
+}
+
+//testing
+/*
+const numRooms = 13; 
+const testTree = new Tree(1, numRooms);
+testTree.treeGen();
+
+for(let node of testTree.posOrden()){
+    console.log(`ROom ${node.roomNum} \n ${node.levelStringValue}`);   
+    console.log(`Room ${node.roomNum}`);
+}
+*/
+//console.log("ArbolTest");
+//testTree.printTree();
+
+
 
 
 
@@ -199,120 +341,3 @@ int main(){
 
 */
 
-class TreeNode {
-    constructor(roomNum, levelStringValue = "", downParent = null){ 
-        //levNum + roomNum = levNum.roomnum para intuitivo
-        this.roomNum = roomNum;
-        this.levelStringValue = levelStringValue;
-        //pointers
-        this.downParent = downParent;
-        this.children = {
-            up: null, 
-            left: null, 
-            right: null
-        }    
-        this.isBossRoom = false;
-    }
-    isLeaf(){
-        return this.children.up === null && this.children.left === null && this.children.right === null;
-    }
-    hasChildren(){
-        return !this.isLeaf();
-    }
-    returnRels(){
-        let parRoom = this.downParent ? this.downParent.roomNum : "null";
-        let upRoom = this.children.up ? this.children.up.roomNum : "null";
-        let leftRoom = this.children.left ? this.children.left.roomNum : "null"; 
-        let rightRoom = this.children.right ? this.children.right.roomNum : "null"; 
-        return `Room ${this.roomNum}, padre: ${parRoom} -> [U: ${upRoom}, L: ${leftRoom}, R: ${rightRoom}]`;
-    }
-}
-
-class Tree{
-    constructor(levNum, numRooms){
-        this.numRooms = numRooms;
-        this.currentRoomCount = 1; 
-        this.levNum = levNum;
-        this.root = new TreeNode(1, levGen(cols, rows,1));
-    }
-    treeGen(node =this.root){
-        if(this.currentRoomCount >= this.numRooms){
-            this.bossLoc();
-            return; 
-        }
-        const maxPossibleChildren = this.numRooms - this.currentRoomCount;
-        const numChildren = Math.min(Math.floor(Math.random()*3)+1, maxPossibleChildren);
-        
-        console.log(`levNum ${this.levNum} room ${node.roomNum}, NumChildren: ${numChildren}`);
-        let availableDirs = ["up", "left", "right"];
-        for(let i = 0; i < numChildren && availableDirs.length > 0; i++){
-            const dirIndex = Math.floor(Math.random() * availableDirs.length);
-            const dir = availableDirs[dirIndex];
-            availableDirs.splice(dirIndex, 1);
-            this.currentRoomCount++;
-            const childRoomNum = this.currentRoomCount;
-            
-            //console.log(`Vhild #${i+1}/${numChildren} dir: ${dir}, Rnum: ${childRoomNum}`);
-            const isBossRoom = this.currentRoomCount === this.numRooms;
-            const childNode = new TreeNode(childRoomNum, levGen(cols, rows, this.levNum, isBossRoom), node);
-            node.children[dir] = childNode;
-        }
-        for(let dir of ["up", "left", "right"]){
-            if(node.children[dir]){
-                this.treeGen(node.children[dir]);
-            }
-        }
-    }
-    *posOrden(node = this.root){
-        if(node.hasChildren()){
-            for(let dir of ["up", "left", "right"]){
-                if(node.children[dir]){
-                    yield* this.posOrden(node.children[dir]);
-                }
-            }
-        }
-        yield node;
-    }   
-    printTree(nodo = this.root, profundidad = 0){
-        console.log(" ".repeat(profundidad) + nodo.returnRels());
-        for(let dir of ["up", "left", "right"]){
-            if(nodo.children[dir]){
-                this.printTree(nodo.children[dir], profundidad + 1);
-            }
-        }
-
-    }
-    traverse(node, depth, maxDepthFound) {
-        if (!node) return;
-        if (depth > maxDepthFound.maxDepth) {
-            maxDepthFound.maxDepth = depth;
-            maxDepthFound.bossRoom = node;
-        }
-        for (let dir of ["up", "left", "right"]) {
-            this.traverse(node.children[dir], depth + 1, maxDepthFound);
-        }
-    }
-    bossLoc(){
-        let maxDepthFound = {
-            maxDepth: -1, 
-            bossRoom: null
-        }
-        this.traverse(this.root, 0, maxDepthFound);
-        if(maxDepthFound.bossRoom){
-            maxDepthFound.bossRoom.isBossRoom = true;
-            console.log(`Boss room: ${maxDepthFound.bossRoom.roomNum}, depth: ${maxDepthFound.maxDepth}`);
-        }
-    }
-}
-
-const numRooms = 13; 
-const testTree = new Tree(1, numRooms);
-testTree.treeGen();
-/*
-for(let node of testTree.posOrden()){
-    console.log(`ROom ${node.roomNum} \n ${node.levelStringValue}`);   
-    console.log(`Room ${node.roomNum}`);
-}
-*/
-//console.log("ArbolTest");
-//testTree.printTree();

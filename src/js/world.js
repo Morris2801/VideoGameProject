@@ -1,7 +1,29 @@
+/*
+Script Name
+- world.js
+
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Defines the Level class to manage the structure and behavior of individual game levels
+- Maps chars in the level layout string (".", "#", "@", ...) to corresponding game objects, such as floors, walls, doors, enemies, and the player
+- Dynamically generates and initializes game objects based on the level layout
+- Handles the placement and rendering of environmental elements (torches, vases, vines) and interactive objects (e.g., cards, doors)
+- Provides methods for:
+  - Adding background floor tiles.
+  - Randomizing wall and floor tile sprites for visual variety
+  - Detecting collisions between the player and specific objects (e.g., walls, doors)
+- Integrates with the game's sprite system to assign animations and sprites to objects
+- Supports the creation of boss rooms and special elements like room/level exit doors
+*/
+
 // Lectura de chars para armar nivel
 const levelChars = {
     // Rect defined as offset from the first tile, and size of the tiles
-    // Cosas para el mapa
+    // Map elements
     ".": {objClass: GameObject,
         label: "floor",
         sprite: '../assets/mapElements/FloorTiles.jpg',
@@ -10,7 +32,7 @@ const levelChars = {
         label: "wall",
         sprite: '../assets/mapElements/brickYellow.png',
         rect: new Rect(0, 0, 64, 32)},
-        //acabé haciendo puertitas únicas porque se confunde esta ___ cosa
+    //acabé haciendo puertitas únicas porque se confunde
     "u": {objClass: GameObject, // -------------------upDoor
         label: "updoor",
         sprite: '../assets/mapElements/door.png',
@@ -41,10 +63,9 @@ const levelChars = {
         label: "vine", 
         sprite : '../assets/mapElements/Vines.png',
         rect : new Rect(0,0,32,32)},
-    
-    
-    
+
     // Cartas ($->testing)
+    /*
     "$": {objClass : BaseCard, 
         label: "card",
         sprite: '../assets/cards/cardHeart.jpeg',
@@ -89,14 +110,13 @@ const levelChars = {
         label: "card",
         sprite: '../assets/cards/cardCalavera.png',
         rect: new Rect(0, 0 , 80, 150)},
-
+    */
     "j": {objClass: Vase,   // <- j de jarrón 
         label: "vase", 
         sprite: '../assets/mapElements/vase.png', 
         rect: new Rect(0,0,64,64)},
     
-    
-    // Personajes
+    // Characters
     "@": {objClass: BasePlayer,
         label: "player",
         sprite: '../assets/charSpritesheets/testSpriteSheet.png',
@@ -142,12 +162,9 @@ const levelChars = {
         rect: new Rect(0, 0, 64, 80),
         sheetCols:3,
         startFrame: [0, 0]}
+    // Missing boss 2 here
 };
 
-
-
-
-// Room Test
 class Level {
     constructor(plan) {
         // Matriz de strs
@@ -175,6 +192,8 @@ class Level {
                     cellType = "empty";
 
                 } 
+
+                // Resumir todo lo que se pueda en los else ifs cuando terminemos
                 else if (actor.type == "wall") {
                     item.rect = this.randomTile(31, 10, 17);
                     actor.setSprite(item.sprite, item.rect);
@@ -259,8 +278,9 @@ class Level {
             });
         });
     }
-    addBackgroundFloor(x, y) {
-        let floor = levelChars['.']; // Get the floor tile definition
+    // Force sprite into floor tiles
+    addBackgroundFloor(x, y){
+        let floor = levelChars['.']; 
         let floorActor = new GameObject("white", 1, 1, x, y, floor.label);
         floorActor.setSprite(floor.sprite, this.randomTile(0, 6, 0, 12)); 
         this.actors.push(floorActor); 

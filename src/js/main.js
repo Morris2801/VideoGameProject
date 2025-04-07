@@ -1,44 +1,56 @@
 /*
-Main Script for MayAztec
+Script Name
+- main.js
+
+Team members 
+- Mauricio Monroy 
+- Hector Lugo
+- Nicolás Quintana
+
+Purpose
+- Initializes and manages main game loop
+- Handles most of global variables, canvases and event listeners
+- Sets up menus and interaction results
+- Initializes game world, trees (levels), and player
+- Update calls
+- Displays (prototype) UI and stats
 */
 
 "use strict";
 
 
-// Global variables
+// Global variables for canvas dimensions
 const canvasWidth = 1200;
 const canvasHeight = 550;
-
 const statsCanvasWidth = 365;
 const statsCanvasHeight = 300;
 const uiCanvasWidth = canvasWidth ;
 const uiCanvasHeight = canvasHeight / 3 - 25;
+let ctx, uiCtx, statsCtx;
 
 let username = '', password, email;  // para base de datos chavos
 
-let ctx, uiCtx, statsCtx;
+//Game variables
 let game;
 let oldTime, deltaTime;
 let totalElapsedTime = 0; // totaltime 
 
 
 
-// testRoomLevel idfk --------------------------------------------------------------------
-const numRoomsLvl1 = 5; 
-const numRoomsLvl2 = 7;
-
+// Level Gens
+const numRoomsLvl1 = 5; // <- modify
+const numRoomsLvl2 = 7; // <- modify
 let treeLevel1 = new Tree(1,numRoomsLvl1);
 treeLevel1.treeGen();
-//treeLevel1.bossLoc();
 let treeLevel2 = new Tree(2,numRoomsLvl2);
 treeLevel2.treeGen();
-//treeLevel2.bossLoc();
 let initialLevel = new Level(treeLevel1.root.levelStringValue);
 
 
 // ------------------------------------------------------
 // Functions y eventlistenersDOM
 document.addEventListener('DOMContentLoaded', () => {
+    // HTML element extraction
     const restartButton = document.getElementById("restartButton");
     const exitToMainButton = document.getElementById("exitToMainButton");
 
@@ -52,15 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginSection = document.getElementById("loginSection");
     const cancelButton = document.getElementById("cancelButton");
     const loginForm = document.getElementById("loginForm");
-    
     const statsSidebar = document.getElementById("statsSidebar");
     const statsTrigger = document.getElementById("statsTrigger");
-
     const canvas = document.getElementById("canvas");
     const uiCanvas = document.getElementById("uiCanvas");
     const contextScreen = document.getElementById("contextScreen");
     let isContextScreenActive = false;
 
+    //Open and close sidebar
     statsTrigger.addEventListener('mouseover', () => {
         statsSidebar.classList.add('open');
     });
@@ -69,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statsSidebar.classList.remove('open');
         }
     })
-
+    //Start menu appearance
     let isPaused = false; 
     startGameButton.addEventListener("click", () => {
         //console.log("'Start Game'press");
@@ -88,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.style.display = "none";
     uiCanvas.style.display = "none";
     startMenu.style.display = "flex";
-
+    // Context screen behavior, and game start with init() function
     window.addEventListener("keydown", (event) =>{
         if(isContextScreenActive && (event.key == "Enter" || event.code == "Space")){
             contextScreen.style.display = "none"; 
@@ -98,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             init(); 
         }
     })
-
+    // Options menu (music) and maybe room # control?
     optionsButton.addEventListener("click", () => {
     
     });
@@ -141,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('keydown', (event) => {
         if (event.key == 'Escape') {
+            // pause game
             if (!isPaused) {
                 pauseMenu.style.display = 'flex';
                 isPaused = true;
@@ -150,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 uiCanvas.style.display = "none";
             } 
             else {
+                // Resume game
                 pauseMenu.style.display = 'none';
                 canvas.style.display = "flex";
                 uiCanvas.style.display = "flex";
@@ -205,22 +218,19 @@ document.addEventListener('DOMContentLoaded', () => {
             startMenu.style.display = "flex";
         }
     });
-
+    
     restartButton.addEventListener('click', () => {
         document.getElementById("gameOverMenu").style.display = "none";
         document.getElementById("contextScreen").style.display = "flex";
         
         // Reset
         totalElapsedTime = 0;
-        
         // Create new tree levels
         treeLevel1 = new Tree(1, numRoomsLvl1);
         treeLevel1.treeGen();
         treeLevel2 = new Tree(2, numRoomsLvl2);
         treeLevel2.treeGen();
         initialLevel = new Level(treeLevel1.root.levelStringValue);
-        
-    
         isContextScreenActive = true;
     });
     
@@ -229,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 }); 
 
+//Game pre-start function
 function init(){
     const canvas = document.getElementById('canvas');
     const uiCanvas = document.getElementById('uiCanvas');
@@ -257,8 +268,9 @@ function init(){
 
 }
 
+// Game creation
 function gameStart() {
-    game = new Game('playing', initialLevel, [treeLevel1, treeLevel2]);
+    game = new Game('playing', initialLevel, [treeLevel1, treeLevel2]); // if needed, add more trees
     game.isActive = true;
 
     console.log(game.level);
@@ -276,14 +288,14 @@ function gameStart() {
     if(game.currentRoom.downParent != null){
         paths.push("down");
     }
+    // debug
     console.log(`treeInd ${game.currentTreeIndex} R ${game.currentRoom.roomNum} Paths: ${paths}`);
 
     setEventListeners();
-
     drawScene(document.timeline.currentTime);
 }
 
-
+//player-character interaction
 function setEventListeners() {
     window.addEventListener("keydown", event => {
         if (event.key == 'w' || event.key == "W" || event.code == "ArrowUp") {
@@ -334,13 +346,13 @@ function setEventListeners() {
         }
     });
 }
-
+//Stats drawing (tbd)
 const usernameText = new TextLabel(60, uiCanvasHeight/4-10, "20px Times New Roman", "white");
 const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px Times New Roman", "white");
 const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px Times New Roman", "white");
 const locationText = new TextLabel(60, uiCanvasHeight/4 + 80, "20px Times New Roman", "white");
 const transformText = new TextLabel(60, 3 * uiCanvasHeight/2 + 110, "20px Times New Roman", "yellow"); 
-
+//display inventory, HP, stamina, ... (tbd)
 function drawUI(){
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
     let inventory = game.player.inventory.items; 
@@ -394,7 +406,7 @@ function drawUI(){
     }
 
 }
-
+//Stats canvas text (tbd)
 const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 , "20px Times New Roman", "white");
 const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 30, "20px Times New Roman", "white");
 const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 60, "20px Times New Roman", "white");
@@ -419,13 +431,14 @@ function drawScene(newTime){
     if (oldTime == undefined) {
         oldTime = newTime;
     }
+    //update time tracking
     deltaTime = newTime - oldTime;
 
     if(game.isActive){
         totalElapsedTime += deltaTime;
     }
     
-    // Clean the canvas so we can draw everything again
+    // Clean the canvas
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     game.update(deltaTime);
     game.draw(ctx,scale);
