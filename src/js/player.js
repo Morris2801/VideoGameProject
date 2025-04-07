@@ -220,7 +220,7 @@ class AttackAnimation extends AnimatedObject {
     }
     
     // Marcar para eliminación cuando se completa la animación
-    if (this.frame >= this.maxFrame) {
+    if (this.attackDuration >= this.attackMaxDuration) {
       this.active = false;
       this.shouldRemove = true;
     }
