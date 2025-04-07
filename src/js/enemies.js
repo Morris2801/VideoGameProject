@@ -178,7 +178,7 @@ class BaseEnemy extends BaseCharacter {
             this.state = "wander";
             this.wander(level, deltaTime);
         } 
-        else if (distanceToPlayer < this.attackRange) {
+        else if (distanceToPlayer <= this.attackRange) {
             // Advanced attack logic for enemies with attack sprites
             if (this.usesAttackSprite) {
                 if (!this.isRecovering && currentTime - this.lastAttackTime > this.attackCooldown && this.consecutiveAttacks < 2) {
@@ -798,7 +798,7 @@ class BaseBoss extends BaseCharacter {
 
 class Quetzalcoatl extends BaseEnemy {
     constructor(_color, width, height, x, y, _type) {
-        super(_color, width*1.5, height*1.5, x, y, _type);
+        super(_color, width*1, height*1, x, y, _type);
         this.health = 50; // Initial health for Quetzalcoatl
         this.damage = 5;
         this.frameWidth = 120;

@@ -317,6 +317,11 @@ class BasePlayer extends BaseCharacter {
         main: "../assets/charSpritesheets/testSpriteSheet.png",
         attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
       },
+      "mayanWarrior":{
+        main:  "../assets/charSpritesheets/testSpriteSheet.png",
+        attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
+      },
+
       "mariachi":{
         main:  "../assets/charSpritesheets/SpriteSheet_Mariachi.png",
         attacking: "../assets/charSpritesheets/SpriteSheetMariachiTranformacionAtacando.png"
@@ -332,10 +337,7 @@ class BasePlayer extends BaseCharacter {
         main: "../assets/charSpritesheets/Prueba_SpritePeleando.png",
         attacking: "../assets/charSpritesheets/Prueba_SpritePeleando.png"
       },
-      "obsidianKnife": {
-        main: "../assets/charSpritesheets/Prueba_SpritePeleando.png",
-        attacking: "../assets/charSpritesheets/Prueba_SpritePeleando.png"
-      }
+      
     }
 
     //sprite activos

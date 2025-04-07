@@ -65,7 +65,7 @@ const levelChars = {
         rect : new Rect(0,0,32,32)},
 
     // Cartas ($->testing)
-    /*
+    
     "$": {objClass : BaseCard, 
         label: "card",
         sprite: '../assets/cards/cardHeart.jpeg',
@@ -110,7 +110,7 @@ const levelChars = {
         label: "card",
         sprite: '../assets/cards/cardCalavera.png',
         rect: new Rect(0, 0 , 80, 150)},
-    */
+    
     "j": {objClass: Vase,   // <- j de jarrón 
         label: "vase", 
         sprite: '../assets/mapElements/vase.png', 

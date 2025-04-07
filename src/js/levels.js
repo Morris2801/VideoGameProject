@@ -220,6 +220,9 @@ function levGen(width, height, levelNum, isBossRoom = false){
         if(levelNum == 1){
             placeX("P"); //Boss
         } 
+        if(levelNum == 2){
+            placeX("P"); //Boss
+        }
         /*
         else{
             placeboss2

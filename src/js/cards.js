@@ -115,7 +115,8 @@ class MacheteCard extends BaseCard{
     constructor(color, width, height, x, y, type){
         super(color, width, height, x, y, type);
         this.damageBuff = 6;
-        this.maxUses = 5;
+        this.maxUses = 1;
+        this.duration = 10;
         this.cardType = "weaponCard";
     }
 }
@@ -123,9 +124,9 @@ class MacheteCard extends BaseCard{
 class MariachiCard extends BaseCard{
     constructor(color, width, height, x, y, type){
         super(color, width, height, x, y, type);
-        this.damageBuff = 4;
-        this.healthBuff = 10;
-        this.duration = 10;
+        this.damageBuff = 5;
+        this.healthBuff = 15;
+        this.duration = 12;
         this.maxUses = 1;
         this.cardType = "transformationCard"; 
         this.transformationType = "mariachi"; 
@@ -151,6 +152,7 @@ class MayanWarriorCard extends BaseCard{
         this.staminaRegenBuff = 1;
         this.maxUses = 1;
         this.cardType = "transformationCard";
+        this.transformationType = "mayanWarrior";
     }
 }
 
@@ -169,6 +171,8 @@ class ValienteCard extends BaseCard{
         //poner cosas de inmunidad que idk
         this.duration = 10;
         this.maxUses = 1;
+        this.duration = 10;
+        this.healthBuff = 10;
         this.cardType = "powerCard";
     }
 }
@@ -178,6 +182,7 @@ class TacoCard extends BaseCard{
         super(color, width, height, x, y, type);
         //bloqueo de stamina por 10 s
         this.duration = 10;
+        this.healthBuff = 10;
         this.maxUses = 1;
         this.cardType = "powerCard";
     }
