@@ -17,6 +17,11 @@
     <script src="../js/game.js"></script>
     <script src="../js/main.js"></script>
 
+    <audio src="../js/Nivel1.mp3" autoplay></audio>
+    <audio src="../js/Nivel2.mp3"></audio>
+    <audio src="../js/Boss1.mp3" ></audio>
+    <audio src="../js/Boss2.mp3"></audio>
+
 </head>
 <body id="gameBody">
     <div class="grid-containerGame">
@@ -65,7 +70,13 @@
                 <button id="restartButton">Restart Game</button>
                 <button id="exitToMainButton">Exit to Main Menu</button>
             </div>
-
+            <div id="victoryScreen" class = "menu">
+                <h1>Victory!</h1>
+                <p>Congratulations on completing MayAztec</p>
+                <p>You have completed the God's trials...</p>
+                <p>Thank you for playing</p>
+                <button id="exitButton">Exit to Main Menu</button>
+            </div>
             <div id="loginSection" class = "menu">
                 <h1>Login</h1>
                 <form id = "loginForm">
@@ -85,9 +96,12 @@
         </div>
         <div id= "contextScreen" class = "menu">
             <p>
-                Legend speaks of a time where gods were not as pleased with prehispanic civilizations as history has led us to believe. The gods had gifted them with their knowledge, abundance, and power, but began to feel disrespected. They watched as mortals grew complacent, failing to honor the sacred balance between humanity, nature, and the divine. Temples were left unmaintained, rituals dwindled, and acts of greed marred the harmony the gods once sought to protect. Together, the civilizations turned to a sacred prophecy that spoke of a chosen warrior, one who would represent the best of whatever good was left in them. Together, they tasked that warrior to venture into the Lost Pyramid, the original point of contact with the gods, in hopes of making them change their mind before the world as they know it collapses.
+                Legend speaks of a time where gods were not as pleased with prehispanic civilizations as history has led us to believe. The gods had gifted them with their knowledge, abundance, and power, but began to feel disrespected. They watched as mortals grew complacent. Temples were left unmaintained, rituals dwindled. Civilizations turned to a sacred prophecy that spoke of a chosen warrior, one who would represent the best of whatever good was left in them. Together, they tasked that warrior to venture into the Lost Pyramid, the original point of contact with the gods, in hopes of making them change their mind before the world as they know it collapses.
                 <br><br>
                 That warrior is you. What everyone did not know, is that once you enter the Pyramid, the only outcomes are your eternal deaths or emerging victorious.
+                <br><br>
+                Explore the pyramid. Try going through all doors in different orders to find the boss. 
+                Defeat all bosses and head to the special doors to win.
             </p>
             <p class = "prompt">Press [Enter] / [Spacebar] to continue.</p>
 

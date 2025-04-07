@@ -149,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         location.reload(); 
     });
 
-
     window.addEventListener('keydown', (event) => {
         if (event.key == 'Escape') {
             // pause game

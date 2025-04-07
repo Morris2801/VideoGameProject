@@ -61,13 +61,14 @@ class Game {
                     this.attackEffects.splice(i,1);
                 }
             }
-            // Eliminates defeated enemies
-            this.actors = this.actors.filter(actor => actor.alive !== false);
-            // Eliminates "opened" vases
-            this.actors = this.actors.filter(actor => actor.isOpened !== true);
             let currentActors = this.actors;
             // Detect collisions
             for (let actor of currentActors) {
+                if(actor.type == "boss" && actor.alive == false){
+                    this.bossDefeated = true;
+                    console.log("Bossbeat");
+                }
+
                 if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
                     //console.log(`Collision of ${this.player.type} with ${actor.type}`);
                     /*if (actor.type == 'wall') {
@@ -146,15 +147,18 @@ class Game {
                     console.log("Exit active");
                     this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol/nivel
                 }
-                if(actor.type == "boss" && actor.alive == false){
-                    this.bossDefeated = true;
-                    console.log("Bossbeat");
-                }
             }
+            // Eliminates defeated enemies
+            this.actors = this.actors.filter(actor => actor.alive !== false);
+            // Eliminates "opened" vases
+            this.actors = this.actors.filter(actor => actor.isOpened !== true);
+            
+            
         }
         if(!this.torchContact){
             this.torchDamageTimer = 0;
         }
+        
     }
     
     draw(ctx, scale) {
@@ -219,7 +223,7 @@ class Game {
     }
     changeLevel(treeIndex){
         if(treeIndex >= 0 && treeIndex < this.trees.length){ 
-            if(!this.bossDefeated){
+            if(this.bossDefeated == false){
                 return;
             }
             console.log("Siwtch arbol");
@@ -233,23 +237,27 @@ class Game {
         }
         else{
             console.log("No hay siguiente arbol");
+            this.showVictoryScreen();
         }
     }
 
     gameOver(){
         console.log("Game Over");
     
-    // Stop game activity
-    this.isActive = false;
-    
-    
-    document.getElementById("canvas").style.display = "none";
-    document.getElementById("uiCanvas").style.display = "none";
-    
-    // show the game over menu
-    document.getElementById("gameOverMenu").style.display = "flex";
-}
-
+        // Stop game activity
+        this.isActive = false;
+        
+        document.getElementById("canvas").style.display = "none";
+        document.getElementById("uiCanvas").style.display = "none";
+        // show the game over menu
+        document.getElementById("gameOverMenu").style.display = "flex";
+    }
+    showVictoryScreen(){
+        this.isActive = false; 
+        document.getElementById("canvas").style.display = "none";
+        document.getElementById("uiCanvas").style.display = "none";
+        document.getElementById("victoryScreen").style.display = "flex";
+    }
     exitToMainMenu(){
         document.getElementById("gameOverMenu").style.display = "none";
         document.getElementById("startMenu").style.display = "block";
@@ -295,10 +303,10 @@ class Game {
 // music
 const GameMusic = (() => {
     const audioFiles = {
-        levelMusic1: new Audio("Nivel1.mp3"),
-        levelMusic2: new Audio("Nivel2.mp3"),
-        bossMusic1: new Audio("Boss1.mp3"),
-        bossMusic2: new Audio("Boss2.mp3"),
+        levelMusic1: new Audio("../js/Nivel1.mp3"),
+        levelMusic2: new Audio("../js/Nivel2.mp3"),
+        bossMusic1: new Audio("../js/Boss1.mp3"),
+        bossMusic2: new Audio("../js/Boss2.mp3"),
     };
 
     let currentMusic = audioFiles.levelMusic1;

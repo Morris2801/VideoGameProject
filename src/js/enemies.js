@@ -810,15 +810,17 @@ class Quetzalcoatl extends BaseEnemy {
         this.attackSheetHeight = 800;
         this.attackSheetCols = 4;  
         this.usesAttackSprite = true;
+        this.type = "boss";
         
         // Custom sprite dimensions
         this.frameWidth = 80;
         this.frameHeight = 64;
         this.sheetCols = 3;
         
+        
         this.initAttackSpriteSheet("../assets/charSpritesheets/SpriteSheetQuetzacoaltPeleando.png");
+    
     }
-
     
 }
 
@@ -827,5 +829,6 @@ class AhPuch extends BaseBoss {
         super(_color, width, height, x, y, _type);
         this.health = 110;
         this.damage = Math.floor(Math.random() * (7 - 5)) + 5;
+        this.type = "boss";
     }
 }
