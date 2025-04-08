@@ -223,6 +223,7 @@ class AttackAnimation extends AnimatedObject {
     if (this.attackDuration >= this.attackMaxDuration) {
       this.active = false;
       this.shouldRemove = true;
+      this.hitEnemies.pop(enemy); // Limpiar enemigos golpeados
     }
   }
 }
@@ -318,8 +319,8 @@ class BasePlayer extends BaseCharacter {
         attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
       },
       "mayanWarrior":{
-        main:  "../assets/charSpritesheets/testSpriteSheet.png",
-        attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
+        main:  "../assets/charSpritesheets/MayanSpriteSheetChar.png",
+        attacking: "../assets/charSpritesheets/MayanPeleandoSpriteSheet.png"
       },
 
       "mariachi":{
@@ -449,7 +450,7 @@ class BasePlayer extends BaseCharacter {
         };
         
         for (const actor of game.actors) {
-          if (actor.type === "enemy" || actor.type === "boss" && boxOverlap(attackBox, actor)) {
+          if ((actor.type === "enemy" || actor.type === "boss") && boxOverlap(attackBox, actor)) {
             // Aplicar daño al enemigo
             if (actor.takeDamage) {
               const damageBonus = this.inventory.getDamageBonus() || 0;
@@ -625,51 +626,12 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
     const attackFrameRange = this.attackFrames[this.lastDirection];
     this.setAnimation(attackFrameRange[0], attackFrameRange[1], false, 100);
     
-    // Crear efecto de ataque
-    this.createAttackEffect();  
+      
   }
 
-  createAttackEffect() {
-    const direction = this.lastDirection;
+  
     
-    // Calcular posicion del efecto basado en direccion y posicion del jugador
-    let effectX = this.position.x*2;
-    let effectY = this.position.y*2;
-    const effectSize = 5 * ATTACK_EFFECT_SCALE;
-    
-    switch(direction) {
-      case "right":
-        effectX = this.position.x + this.size.x;
-        effectY = this.position.y + (this.size.y / 2) - (effectSize / 2);
-        break;
-      case 'left':
-        effectX = this.position.x - effectSize;
-        effectY = this.position.y + (this.size.y / 2) - (effectSize / 2);
-        break;
-      case 'up':
-        effectX = this.position.x + (this.size.x / 2) - (effectSize / 2);
-        effectY = this.position.y - effectSize;
-        break;
-      case 'down':
-        effectX = this.position.x + (this.size.x / 2) - (effectSize / 2);
-        effectY = this.position.y + this.size.y;
-        break;
-    }
-    
-    // Obtener sprite de arma y daño del inventario
-    let weaponSprite = this.inventory.getAttackSprite();
-    let damageBonus = this.inventory.getDamageBonus() || 0;
-    let totalDamage = this.damage + damageBonus;
-    
-    // Crear efecto de ataque
-    const attackEffect = new AttackAnimation(
-      effectX, effectY, totalDamage, weaponSprite || this.weaponSprite.src
-    );
-    
-    if(game) {
-      game.addAttackEffect(attackEffect);
-    }
-  }
+  
   
   draw(ctx, scale) {
     // Dibujado normal
@@ -837,6 +799,14 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
   restoreSprites() {
     
     this.spriteImage = this.currentSprite;
+  }
+
+  dash(){
+    if(this.stamina > 0 && !this.attacking && this.velocity.x === 0 && this.velocity.y === 0){
+      this.stamina -= 1;
+      this.velocity.x = this.lastDirection.x * 2;
+      this.velocity.y = this.lastDirection.y * 2;
+    }
   }
 
   

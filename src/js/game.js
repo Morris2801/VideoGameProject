@@ -38,9 +38,7 @@ class Game {
         this.torchContact  =   false; 
     }
     // handles effects in list
-    addAttackEffect(effect){
-        this.attackEffects.push(effect);
-    }    
+       
     update(deltaTime) {     
         if(!this.isActive) return; // No aactualizar si pasusado
         else {            
@@ -162,6 +160,9 @@ class Game {
     }
     
     draw(ctx, scale) {
+
+        ctx.save();
+
         // forzar que primero se actualice el fondo y luego lo demás pero es recorrer todo actors x2
         // (!) checar con el profe a ver si no hay otra cosa que hacer
         for(let actor of this.actors){
