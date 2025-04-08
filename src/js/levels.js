@@ -64,7 +64,7 @@ function floorCross(level,w, h){
     } 
 }
 //function to generate level string from parameters
-function levGen(width, height, levelNum, isBossRoom = false){
+function levGen(width, height, levelNum, isBossRoom = true){
     let level = [];
     //Basic geometry
     let cells = width * height; 
@@ -169,7 +169,7 @@ function levGen(width, height, levelNum, isBossRoom = false){
     // Use specific spawn tables per level
     if (levelNum == 1){
         console.log("NumEnemiesLvl1: " + numEnemiesLvl1);
-        for(let i = 0; i < numEnemiesLvl1; i++){
+        for(let i = 0; i < numEnemiesLvl2; i++){
             //Choose random enemy with function above
             let enemy = getRandEnemy(enemyProbabilitiesLvl1);
             console.log(enemy);
@@ -218,7 +218,7 @@ function levGen(width, height, levelNum, isBossRoom = false){
         level[width + Math.floor(width/2)] = "E";
         //Place specific bosses per level
         if(levelNum == 1){
-            placeX("P"); //Boss
+            placeX("A"); //Boss
         } 
         if(levelNum == 2){
             placeX("P"); //Boss

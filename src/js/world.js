@@ -161,6 +161,12 @@ const levelChars = {
         sprite: "../assets/charSpritesheets/SpriteSheetBossQIDLE.png",
         rect: new Rect(0, 0, 64, 80),
         sheetCols:3,
+        startFrame: [0, 0]},
+    "A": {objClass: AhPuch,
+        label: "boss",
+        sprite: "../assets/charSpritesheets/BossIdleAhPunch.png",
+        rect: new Rect(0, 0, 65, 88.5),
+        sheetCols:4,
         startFrame: [0, 0]}
     // Missing boss 2 here
 };

@@ -529,271 +529,6 @@ class Devil extends BaseEnemy {
 }
 
 // Bosses
-class BaseBoss extends BaseCharacter {
-        constructor(_color, width, height, x, y, _type) {
-            super(_color, width, height, x, y, _type);
-            this.health = 10;
-            this.damage = 1;
-            
-            // Sprite dimensions
-            this.frameWidth = 112;
-            this.frameHeight = 64;
-            this.sheetCols = 6; // 6 frames per row
-            
-            // Attack sprite sheet dimensions
-            this.attackSpriteWidth = 112;
-            this.attackSpriteHeight = 64;
-            this.attackSheetWidth = 672;  // 112 * 6 frames
-            this.attackSheetHeight = 128;
-            this.attackSheetCols = 6;     // 6 frames per row
-            
-            this.attackCooldown = 6000; // 7 seconds between attacks
-            this.minAttackInterval = 8000; // Minimum time between attacks
-            this.recoveryTime = 3000; // Time needed to recover after attack before state change
-            
-            this.attackingSpriteSheet = new Image();
-            this.attackingSpriteSheet.onerror = () => {
-                console.error("Failed to load Mariachi attack sprite sheet");
-                this.attackingSpriteSheet = this.spriteImage; // Use normal sprite
-                this.spriteSheetLoaded = true;
-            };
-            this.attackingSpriteSheet.onload = () => {
-                console.log("Mariachi enemy attack sprite sheet loaded successfully");
-                this.spriteSheetLoaded = true;
-            };
-            
-            this.attackingSpriteSheet.src = "../assets/charSpritesheets/SpriteSheetPeleandoMariachiEsqueloEnemy.png"; //testing
-            
-            this.normalSpriteSheet = this.spriteImage; 
-            this.spriteSheetLoaded = false;
-            this.attackFrames = {
-                right: [0, 5], 
-                left: [6, 11], 
-                up: [0, 5], 
-                down: [0, 5] 
-            };
-            
-            this.attackMaxDuration = 1500; 
-            this.consecutiveAttacks = 0;
-            this.lastStateChange = Date.now();
-            this.forcedWanderTime = 0;
-            this.lastAttackEndTime = 0;
-            this.isRecovering = false;
-        }
-        
-        update(level, deltaTime) {
-            const currentTime = Date.now();
-            if(this.health <= 0){
-                this.alive=false;
-            }
-
-            // Handle recovery period after attack
-            if (this.isRecovering && currentTime - this.lastAttackEndTime > this.recoveryTime) {
-                this.isRecovering = false;
-                console.log("BossTest finished recovery period");
-            }
-            
-            // Force wandering after multiple attacks
-            if (this.forcedWanderTime > 0) {
-                this.forcedWanderTime -= deltaTime;
-                this.state = "wander";
-                this.wander(level, deltaTime);
-                return;
-            }
-            
-            // Get distance to player
-            let distanceToPlayer = this.position.distanceTo(game.player.position);
-            
-            // Reset attack counter after enough time
-            if (currentTime - this.lastStateChange > 15000) {
-                this.consecutiveAttacks = 0;
-            }
-            
-            // Clear states if player is far away and not in recovery
-            if (distanceToPlayer > this.attackRange * 1.5 && !this.attacking && !this.isRecovering) {
-                if (this.state === "attack") {
-                    console.log("Player moved away - exiting attack state");
-                    this.state = distanceToPlayer > this.detectionDistance ? "wander" : "chase";
-                    this.lastStateChange = currentTime;
-                }
-            }
-            
-            // State machine logic
-            if (this.attacking) {
-                // Continue current attack until its finished
-                this.updateAttack(deltaTime);
-            } 
-            else if (distanceToPlayer > this.detectionDistance) {
-                if (this.state !== "wander") {
-                    this.lastStateChange = currentTime;
-                    this.state = "wander";
-                    console.log("Bosstest switching to wander state");
-                }
-                this.wander(level, deltaTime);
-            } 
-            else if (distanceToPlayer < this.attackRange && 
-                    !this.isRecovering &&
-                    currentTime - this.lastAttackTime > this.attackCooldown && 
-                    this.consecutiveAttacks < 2) {
-                
-                if (this.state !== "attack") {
-                    this.lastStateChange = currentTime;
-                    this.state = "attack";
-                    console.log("Mariachi switching to attack state");
-                }
-                this.stopMovement(this.lastDirection);
-                
-                if (!this.attacking && currentTime - this.lastAttackTime > this.minAttackInterval) {
-                    this.startAttack();
-                    this.lastAttackTime = currentTime;
-                    this.consecutiveAttacks++;
-                    
-                    if (this.consecutiveAttacks >= 2) {
-                        this.forcedWanderTime = 10000; // 10 seconds forced wandering
-                        console.log("bosstest reached attack limit - forcing wander");
-                    }
-                }
-            } 
-            else if (!this.isRecovering) {
-                if (this.state !== "chase" && distanceToPlayer <= this.detectionDistance) {
-                    this.lastStateChange = currentTime;
-                    this.state = "chase";
-                    console.log("baseboss switching to chase state");
-                }
-                if (this.state === "chase") {
-                    this.speed = 0.00025;
-                    let dir = game.player.position.minus(this.position).direction();
-                    this.velocity = dir.times(this.speed * deltaTime);
-                    let newPos = this.position.plus(this.velocity.times(deltaTime));
-                    
-                    if (!level.contact(newPos, this.size, 'wall')) {
-                        this.position = newPos;
-                        this.startMovement(dir);
-                    }
-                }
-            }
-            this.updateFrame(deltaTime);
-        }
-        
-        startAttack() {
-            if (this.attacking) return;
-            console.log("bosstest attacking - consecutive attacks:", this.consecutiveAttacks);
-            this.attacking = true;
-            this.attackDuration = 0;
-            this.hasHitPlayer = false;
-            
-            if (!this.normalSpriteSheetBackup) {
-                this.normalSpriteSheetBackup = this.spriteImage;
-            }
-            
-            if (this.spriteSheetLoaded) {
-                this.spriteImage = this.attackingSpriteSheet;
-                console.log("Using bosstest attack sprite sheet");
-            } else {
-                console.warn("Attack sprite sheet not loaded yet");
-            }
-            let dir = game.player.position.minus(this.position);
-            this.lastDirection = this.normDir(dir);
-            
-            const attackFrameRange = this.attackFrames[this.lastDirection];
-            this.setAnimation(attackFrameRange[0], attackFrameRange[1], false, 600);
-        }
-        
-        updateAttack(deltaTime) {
-            this.attackDuration += deltaTime;
-            
-            if (!this.hasHitPlayer && this.attackDuration > this.attackMaxDuration / 2) {
-                const attackBox = {
-                    position: {
-                        x: this.position.x + this.attackBoxes[this.lastDirection].xOffset,
-                        y: this.position.y + this.attackBoxes[this.lastDirection].yOffset
-                    },
-                    size: {
-                        x: this.attackBoxes[this.lastDirection].width,
-                        y: this.attackBoxes[this.lastDirection].height
-                    },
-                    type: "enemyAttackBox"
-                };
-                
-                if (boxOverlap(attackBox, game.player)) {
-                    // Deal damage to player
-                    game.player.health -= this.damage;
-                    console.log(`Player hit, Health: ${game.player.health}`);
-                    this.hasHitPlayer = true;
-                }
-            }
-            
-            // End attack animation
-            if (this.attackDuration >= this.attackMaxDuration) {
-                this.attacking = false;
-                this.attackDuration = 0;
-                this.hasHitPlayer = false;
-                this.lastAttackEndTime = Date.now();
-                this.isRecovering = true; // Start recovery period
-                this.switchBackToIdleState();
-                console.log("bsostest attack finished, entering recovery");
-            }
-        }
-    
-        switchBackToIdleState() {
-            if (this.attacking) {
-                this.attacking = false;
-            }
-            
-            // Restore the original sprite sheet
-            if (this.normalSpriteSheetBackup) {
-                this.spriteImage = this.normalSpriteSheetBackup;
-                console.log("Switched back to normal Mariachi sprite sheet");
-            } else if (this.normalSpriteSheet) {
-                this.spriteImage = this.normalSpriteSheet;
-                console.log("Switched back to stored normal Mariachi sprite sheet");
-            }
-            
-            // Go back to appropriate idle frames
-            switch (this.lastDirection) {
-                case 'right':
-                    this.setAnimation(...this.movement.right.idleFrames, true, 100);
-                    break;
-                case 'left':
-                    this.setAnimation(...this.movement.left.idleFrames, true, 100);
-                    break;
-                case 'up':
-                    this.setAnimation(...this.movement.up.idleFrames, true, 100);
-                    break;
-                case 'down':
-                    this.setAnimation(...this.movement.down.idleFrames, true, 100);
-                    break;
-            }
-        }
-    
-        draw(ctx, scale) {
-            if (this.attacking && this.spriteSheetLoaded) {
-                const attackProgress = this.attackDuration / this.attackMaxDuration;
-                const attackFrameCount = this.attackFrames[this.lastDirection][1] - this.attackFrames[this.lastDirection][0] + 1;
-                const currentFrame = Math.min(Math.floor(attackProgress * attackFrameCount), attackFrameCount - 1);
-                
-                const frameToUse = this.attackFrames[this.lastDirection][0] + currentFrame;
-                const spriteX = (frameToUse % this.attackSheetCols) * this.attackSpriteWidth;
-                const spriteY = Math.floor(frameToUse / this.attackSheetCols) * this.attackSpriteHeight;
-                
-                // Draw at the proper scale
-                const scaledX = this.position.x * scale;
-                const scaledY = this.position.y * scale;
-                const scaledWidth = this.size.x * scale;
-                const scaledHeight = this.size.y * scale;
-                
-                ctx.drawImage(
-                    this.spriteImage,
-                    spriteX, spriteY,
-                    this.attackSpriteWidth, this.attackSpriteHeight,
-                    scaledX, scaledY,
-                    scaledWidth, scaledHeight
-                );
-            } else {
-                super.draw(ctx, scale);
-            }
-        }
-}
 
 
 class Quetzalcoatl extends BaseEnemy {
@@ -824,11 +559,35 @@ class Quetzalcoatl extends BaseEnemy {
     
 }
 
-class AhPuch extends BaseBoss {
+class AhPuch extends BaseEnemy{
     constructor(_color, width, height, x, y, _type) {
-        super(_color, width, height, x, y, _type);
-        this.health = 110;
-        this.damage = Math.floor(Math.random() * (7 - 5)) + 5;
+        super(_color, width*1, height*1, x, y, _type);
+        this.health = 50; // Initial health for Quetzalcoatl
+        this.damage = 5;
+        this.frameWidth = 64;
+        this.frameHeight = 112;
+        this.sheetCols = 4; 
+        this.attackSpriteWidth = 64;
+        this.attackSpriteHeight = 812;
+        this.attackSheetWidth = 256;
+        this.attackSheetHeight = 177;
+        this.attackSheetCols = 4;  
+        this.usesAttackSprite = true;
         this.type = "boss";
+        
+        // Custom sprite dimensions
+        this.frameWidth = 64;
+        this.frameHeight = 124;
+        this.sheetCols = 8;
+        
+        this.attackFrames = {
+            right: [0,7], 
+            left: [15,8], 
+            up: [0,7], 
+            down: [15,8] 
+        };
+        
+        this.initAttackSpriteSheet("../assets/charSpritesheets/AttackBossAhPunch.png");
+    
     }
 }
