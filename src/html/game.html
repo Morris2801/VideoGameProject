@@ -17,6 +17,8 @@
     <script src="../js/game.js"></script>
     <script src="../js/main.js"></script>
 
+    
+
     <audio src="../js/Nivel1.mp3" autoplay></audio>
     <audio src="../js/Nivel2.mp3"></audio>
     <audio src="../js/Boss1.mp3" ></audio>
@@ -30,13 +32,13 @@
         </header>
         <nav id="grid-item-G-2">
             <div class="linkContainer">
-                <a href="home.html">Home</a>
+                <a href="../html/home.html">Home</a>
             </div>
             <div class="linkContainer">
-                <a href="credits.html">Credits</a>
+                <a href="../html/credits.html">Credits</a>
             </div>
             <div class="linkContainer">
-                <a href="tutorial.html">Tutorial</a>
+                <a href="../html/tutorial.html">Tutorial</a>
             </div>
         </nav>
         <aside id="statsSidebar">
@@ -87,11 +89,13 @@
                     <input type = "text" id = "username" name = "username" required>
                     <br><br>
                     <label for = "password">Password:</label>
-                    <input type = "password" id = "password" name = "password" required = "Requerido">
+                    <input type = "text" id = "password" name = "password" required>
                     <br><br>
                     <button type = "button" id = "cancelButton">Cancel</button>
-                    <button type = "submit">Login</button>
+                    <button type = "submit" id = "">Login</button>
                 </form>
+                <button type = "submit" id = "registerButton">Register</button>
+                <div id="loginResults"></div>
             </div>
         </div>
         <div id= "contextScreen" class = "menu">

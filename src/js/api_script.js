@@ -13,10 +13,9 @@ Purpose
 */
 
 
-function main()
-{
-    document.getElementById('formSelectUser').onsubmit = async (e) =>
-    {
+function main() {
+    // cosas para Player
+    document.getElementById('formSelectUser').onsubmit = async (e) => {
         e.preventDefault()
 
         const data = new FormData(formSelectUser)
@@ -24,128 +23,213 @@ function main()
         const dataObj = Object.fromEntries(data.entries())
         console.log(dataObj)
 
-        let response = await fetch(`http://localhost:5000/api/player/${dataObj['player_id']}`,{
+        let response = await fetch(`http://localhost:5000/api/player/${dataObj['player_id']}`, {
             method: 'GET'
         })
-        
-        if(response.ok)
-        {
+
+        if (response.ok) {
             let results = await response.json()
-        
-            if(results.length > 0)
-            {
+            if (results.length > 0) {
                 const headers = Object.keys(results[0])
                 const values = Object.values(results)
-    
                 let table = document.createElement("table")
-    
-                let tr = table.insertRow(-1)                  
-    
-                for(const header of headers)
-                {
-                    let th = document.createElement("th")     
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
                     th.innerHTML = header
                     tr.appendChild(th)
                 }
-    
-                for(const row of values)
-                {
+                for (const row of values) {
                     let tr = table.insertRow(-1)
-    
-                    for(const key of Object.keys(row))
-                    {
+                    for (const key of Object.keys(row)) {
                         let tabCell = tr.insertCell(-1)
                         tabCell.innerHTML = row[key]
                     }
                 }
-    
                 const container = document.getElementById('getResultsID')
                 container.innerHTML = ''
                 container.appendChild(table)
             }
-            else
-            {
+            else {
                 const container = document.getElementById('getResultsID')
                 container.innerHTML = 'No results to show.'
             }
         }
-        else{
+        else {
             getResults.innerHTML = response.status
         }
     }
+    /*
+        document.getElementById('formInsert').onsubmit = async(e)=>
+        {
+            e.preventDefault()
+    
+            const data = new FormData(formInsert)
+            const dataObj = Object.fromEntries(data.entries())
+    
+            let response = await fetch('http://localhost:5000/api/player',{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(dataObj)
+            })
+            
+            if(response.ok)
+            {
+                let results = await response.json()
+            
+                console.log(results)
+                postResults.innerHTML = results.message + ' player_id: ' + results.player_id
+            }
+            else{
+                postResults.innerHTML = response.status
+            }
+        }
+    
+        document.getElementById('formUpdate').onsubmit = async(e)=>
+        {
+            e.preventDefault()
+    
+            const data = new FormData(formUpdate)
+            const dataObj = Object.fromEntries(data.entries())
+            console.log(dataObj)
+            let response = await fetch('http://localhost:5000/api/player',{
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(dataObj)
+            })
+            
+            if(response.ok)
+            {
+                let results = await response.json()
+            
+                console.log(results)
+                putResults.innerHTML = results.message
+            }
+            else{
+                putResults.innerHTML = response.status
+            }
+        }
+    
+        document.getElementById('formDelete').onsubmit = async(e)=>
+        {
+            e.preventDefault()
+    
+            const data = new FormData(formDelete)
+            
+            const dataObj = Object.fromEntries(data.entries())
+    
+            console.log(data, dataObj);
+            let response = await fetch(`http://localhost:5000/api/player/${dataObj['player_id']}`,{
+                method: 'DELETE'
+            })
+            
+            if(response.ok)
+            {
+                let results = await response.json()
+            
+                deleteResults.innerHTML = results.message
+            }
+            else
+            {
+                deleteResults.innerHTML = `Error!\nStatus: ${response.status}`
+            }
+        }
+    */
 
-    document.getElementById('formInsert').onsubmit = async(e)=>
-    {
+    // cosas para player_runstats
+    document.getElementById('formSelectRunStats').onsubmit = async (e) => {
         e.preventDefault()
 
-        const data = new FormData(formInsert)
+        const data = new FormData(formSelectRunStats)
+        console.log(data)
         const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
 
-        let response = await fetch('http://localhost:5000/api/player',{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(dataObj)
+        let response = await fetch(`http://localhost:5000/api/player_runstats/${dataObj['run_id']}`, {
+            method: 'GET'
         })
-        
-        if(response.ok)
-        {
+
+        if (response.ok) {
             let results = await response.json()
-        
-            console.log(results)
-            postResults.innerHTML = results.message + ' id: ' + results.id
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsRun')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsRun')
+                container.innerHTML = 'No results to show.'
+            }
         }
-        else{
-            postResults.innerHTML = response.status
+        else {
+            getResults.innerHTML = response.status
         }
     }
-
-    document.getElementById('formUpdate').onsubmit = async(e)=>
-    {
+    // cosas para level stats
+    /*
+    document.getElementById('formSelectLevelStats').onsubmit = async (e) => {
         e.preventDefault()
 
-        const data = new FormData(formUpdate)
+        const data = new FormData(formSelectLevelStats)
+        console.log(data)
         const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
 
-        let response = await fetch('http://localhost:5000/api/player',{
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(dataObj)
+        let response = await fetch(`http://localhost:5000/api/level_layout/${dataObj['level_id']}`, {
+            method: 'GET'
         })
-        
-        if(response.ok)
-        {
+
+        if (response.ok) {
             let results = await response.json()
-        
-            console.log(results)
-            putResults.innerHTML = results.message
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsLevel')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsLevel')
+                container.innerHTML = 'No results to show.'
+            }
         }
-        else{
-            putResults.innerHTML = response.status
+        else {
+            getResultsLevel.innerHTML = response.status
         }
     }
+    */
 
-    document.getElementById('formDelete').onsubmit = async(e)=>
-    {
-        e.preventDefault()
 
-        const data = new FormData(formDelete)
-        const dataObj = Object.fromEntries(data.entries())
-
-        let response = await fetch(`http://localhost:5000/api/player/${dataObj['player_id']}`,{
-            method: 'DELETE'
-        })
-        
-        if(response.ok)
-        {
-            let results = await response.json()
-        
-            deleteResults.innerHTML = results.message
-        }
-        else
-        {
-            deleteResults.innerHTML = `Error!\nStatus: ${response.status} Message: ${results.message}`
-        }
-    }
 }
 
 main()

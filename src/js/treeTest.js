@@ -101,7 +101,6 @@ class Tree{ // level tree
                 this.printTree(nodo.children[dir], profundidad + 1);
             }
         }
-
     }
     //find deepest node
     traverse(node, depth, maxDepthFound) {
@@ -125,6 +124,19 @@ class Tree{ // level tree
             maxDepthFound.bossRoom.isBossRoom = true;
             console.log(`Boss room: ${maxDepthFound.bossRoom.roomNum}, depth: ${maxDepthFound.maxDepth}`);
         }
+    }
+    serializeTree(node=this.root){
+        if(!node) return null; 
+        return {
+            roomNum: node.roomNum, 
+            levelStringValue : node.levelStringValue,
+            isBossRoom: node.isBossRoom,
+            children: {
+                up: this.serializeTree(node.children.up),
+                left: this.serializeTree(node.children.left),
+                right: this.serializeTree(node.children.right)
+            }
+        };
     }
 }
 
