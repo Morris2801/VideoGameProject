@@ -175,6 +175,9 @@ class Game {
                 actor.draw(ctx, scale);
             }
         }
+         // Draw player HUD on game canvas
+        this.drawPlayerHUD(ctx);
+
         this.player.draw(ctx, scale);
     }
 
@@ -294,6 +297,62 @@ class Game {
         document.getElementById("canvas").style.display = "flex";
         document.getElementById("uiCanvas").style.display = "flex";
     }
+
+    
+    drawPlayerHUD(ctx) {
+        if (!this.player) return;
+        
+        //Valores de las medidadas
+        const barWidth = 200;
+        const barHeight = 15;
+        const barSpacing = 5;
+        const barX = 30;
+        const barY = 30;
+        
+        // barra de vida fondo
+        // dibuja un rectangulo gris base
+        ctx.fillStyle = "#333333";
+        ctx.fillRect(barX, barY, barWidth, barHeight);
+        
+        // barra de vida relleno rojo
+        // Calcula la proporcion de vida actual del jugador (valor entre 0 y 1)
+        // healthPercent = vidaActual / vidaMaxima
+        const healthPercent = this.player.health / this.player.basehealth;
+        const healthBarFillWidth = barWidth * healthPercent; //se calcula la proporcion de relleno
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(barX, barY, healthBarFillWidth, barHeight);
+        
+        // texto de vida
+        ctx.font = "15px Arial";
+        ctx.fillStyle = "white";
+        ctx.fillText(`HP: ${this.player.health}/${this.player.basehealth}`, barX + 10, barY + barHeight/2 + 3);
+        
+        //posicion d ela barra de stamina
+        const staminaY = barY + barHeight + barSpacing;
+        
+        // color de fondo de la barra destamina
+        ctx.fillStyle = "#333333";
+        ctx.fillRect(barX, staminaY, barWidth, barHeight);
+        
+        // relleno de la brra de estamina
+        const staminaPercent = this.player.stamina / this.player.baseStamina;
+        const staminaBarFillWidth = barWidth * staminaPercent;
+        ctx.fillStyle = "#0066ff";
+        ctx.fillRect(barX, staminaY, staminaBarFillWidth, barHeight);
+        
+        // Stexto de estamina
+        ctx.fillStyle = "white";
+        ctx.fillText(`SP: ${this.player.stamina}/${this.player.baseStamina}`, barX + 10, staminaY + barHeight/2 + 3);
+        
+        // Times de tranformacion en el hud del player
+        if (this.player.isTransformed && this.player.transformationTimer > 0) {
+          const transformY = staminaY + barHeight + barSpacing + 5;
+          const secondsLeft = Math.ceil(this.player.transformationTimer / 1000);
+          ctx.fillStyle = "white";
+          ctx.fonto = "50px Arial"
+          ctx.fillText(`${this.player.transformationType}: ${secondsLeft}s`, barX, transformY + 10);
+        }
+      }
 }
 
 

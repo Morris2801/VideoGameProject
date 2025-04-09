@@ -434,7 +434,7 @@ class BaseEnemy extends BaseCharacter {
             super.draw(ctx, scale);
         }
 
-        
+        this.drawHealthBar(ctx, scale);
     }
     takeDamage(damage) {
         this.health -= damage;
@@ -445,6 +445,44 @@ class BaseEnemy extends BaseCharacter {
             console.log("KillCount ", game.player.killCount);
         }
     } 
+
+    drawHealthBar(ctx, scale) {
+        // No dibujar barra de salud si el enemigo esta muerto
+        if (!this.alive) return;
+        
+        // Configuracion de la barra de salud
+        const barHeight = 5;  
+        const barWidth = this.size.x * scale * 0.8;  
+        const barMargin = 10;  // Espacio entre el enemigo y la barra
+        
+        // Posicion de la barra centrada
+        const barX = this.position.x * scale + (this.size.x * scale - barWidth) / 2;
+        const barY = this.position.y * scale - barHeight - barMargin;
+        
+        // Fondo de la barra (gris)
+        ctx.fillStyle = "#333333";
+        ctx.fillRect(barX, barY, barWidth, barHeight);
+        
+        // Calculo del porcentaje de vida para determinar el ancho de la barra de salud
+        let maxHealth = 10; 
+        if (this.type === "boss") {
+            maxHealth = 50;  // Vida maxima para jefes
+        } else if (this instanceof MayanWarrior) { //instanceof permite verificar si un objeto es una instancia de una clase espcifica deuvle true si es o false si no
+            maxHealth = 20;  // Vida para guerrero maya
+        } else if (this instanceof Tlaxcalteca) {
+            maxHealth = 15;  // Vida para tlaxcalteca
+        } else if (this instanceof Devil) {
+            maxHealth = 35;  // Vida para diablo
+        }
+        
+        // Calcular porcentaje de vida actual
+        const healthPercent = this.health / maxHealth;
+        const healthBarWidth = barWidth * healthPercent;
+        
+        // Relleno de la barra roja
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(barX, barY, healthBarWidth, barHeight);
+    }
 }
 
 // Mariachi enemy class
@@ -464,6 +502,7 @@ class Mariachi extends BaseEnemy {
         };
         this.initAttackSpriteSheet("../assets/charSpritesheets/SpriteSheetPeleandoMariachiEsqueloEnemy.png");
     }
+
 }
 
 // Tlaxcalteca enemy class
@@ -562,23 +601,23 @@ class Quetzalcoatl extends BaseEnemy {
 class AhPuch extends BaseEnemy{
     constructor(_color, width, height, x, y, _type) {
         super(_color, width*1, height*1, x, y, _type);
-        this.health = 50; // Initial health for Quetzalcoatl
+        this.health = 50; // Initial health for Ah Puch
         this.damage = 5;
         this.frameWidth = 64;
         this.frameHeight = 112;
-        this.sheetCols = 4; 
+        this.sheetCols = 8; 
         this.attackSpriteWidth = 64;
-        this.attackSpriteHeight = 812;
+        this.attackSpriteHeight = 112;
         this.attackSheetWidth = 256;
         this.attackSheetHeight = 177;
-        this.attackSheetCols = 4;  
+        this.attackSheetCols = 8;  
         this.usesAttackSprite = true;
         this.type = "boss";
         
         // Custom sprite dimensions
-        this.frameWidth = 64;
-        this.frameHeight = 124;
-        this.sheetCols = 8;
+        this.frameWidth = 66;
+        this.frameHeight = 88.5;
+        this.sheetCols = 4;
         
         this.attackFrames = {
             right: [0,7], 
