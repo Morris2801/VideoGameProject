@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //console.log("'Start Game'press");
         startMenu.style.display = "none"; 
         contextScreen.style.display = "flex"; 
+        console.log("shoudl appear", contextScreen.style.display);
         isContextScreenActive = true;
         
         if (typeof GameMusic !== "undefined") {

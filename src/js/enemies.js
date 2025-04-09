@@ -27,7 +27,7 @@ class BaseEnemy extends BaseCharacter {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
         // Basic attributes 
-        this.speed = 0.00009; //TBD
+        this.speed = 0.00005; //TBD
         this.attackSpeed = 0.5; //TBD
         this.detectionDistance = 4; //TBD
         this.attackRange = 0.5; //TBD
@@ -219,7 +219,7 @@ class BaseEnemy extends BaseCharacter {
         else {
             // Chase state
             this.state = "chase";
-            this.speed = 0.00025;
+            this.speed = 0.00005;
             let dir = game.player.position.minus(this.position).direction();
             this.velocity = dir.times(this.speed * deltaTime);
             let newPos = this.position.plus(this.velocity.times(deltaTime));
@@ -671,7 +671,7 @@ class BaseBoss extends BaseCharacter {
                     console.log("baseboss switching to chase state");
                 }
                 if (this.state === "chase") {
-                    this.speed = 0.00025;
+                    this.speed = 0.00005;
                     let dir = game.player.position.minus(this.position).direction();
                     this.velocity = dir.times(this.speed * deltaTime);
                     let newPos = this.position.plus(this.velocity.times(deltaTime));
