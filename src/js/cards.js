@@ -91,9 +91,10 @@ class BaseCard extends GameObject {
 
 // Specific card classes inheriting from BaseCard with particularities defined 
 
-class MacahuitlCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class MacahuitlCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        this.cardId = 1; // Unique card ID
         this.damageBuff = 5;
         this.maxUses = 10;
         this.cardType = "weaponCard";
@@ -101,9 +102,10 @@ class MacahuitlCard extends BaseCard{
     }
 }
 
-class ObsidianKnifeCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class ObsidianKnifeCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        this.cardId = 2; // Unique card ID
         this.damageBuff = 4;
         this.maxUses = 10;
         this.cardType = "weaponCard";
@@ -111,9 +113,10 @@ class ObsidianKnifeCard extends BaseCard{
     }
 }
 
-class MacheteCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class MacheteCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        this.cardId = 3; // Unique card ID
         this.damageBuff = 6;
         this.maxUses = 1;
         this.duration = 10;
@@ -121,21 +124,23 @@ class MacheteCard extends BaseCard{
     }
 }
 
-class MariachiCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class MariachiCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        this.cardId = 4; // Unique card ID
         this.damageBuff = 5;
         this.healthBuff = 15;
         this.duration = 12;
         this.maxUses = 1;
-        this.cardType = "transformationCard"; 
-        this.transformationType = "mariachi"; 
+        this.cardType = "transformationCard";
+        this.transformationType = "mariachi";
     }
 }
 
-class DiabloCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class DiabloCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        this.cardId = 5; // Unique card ID
         this.damageBuff = 3;
         this.duration = 10;
         this.healthRegenBuff = 6;
@@ -144,9 +149,10 @@ class DiabloCard extends BaseCard{
     }
 }
 
-class MayanWarriorCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class MayanWarriorCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        this.cardId = 6; // Unique card ID
         this.duration = 10;
         this.staminaBuff = 2;
         this.staminaRegenBuff = 1;
@@ -156,31 +162,31 @@ class MayanWarriorCard extends BaseCard{
     }
 }
 
-class CorazonCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class CorazonCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        this.cardId = 7; // Unique card ID
         this.healthBuff = 10;
         this.maxUses = 1;
         this.cardType = "powerCard";
     }
 }
 
-class ValienteCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class ValienteCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
-        //poner cosas de inmunidad que idk
+        this.cardId = 8; // Unique card ID
         this.duration = 10;
         this.maxUses = 1;
-        this.duration = 10;
         this.healthBuff = 10;
         this.cardType = "powerCard";
     }
 }
 
-class TacoCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class TacoCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
-        //bloqueo de stamina por 10 s
+        this.cardId = 9; // Unique card ID
         this.duration = 10;
         this.healthBuff = 10;
         this.maxUses = 1;
@@ -188,9 +194,10 @@ class TacoCard extends BaseCard{
     }
 }
 
-class CalaveraCard extends BaseCard{
-    constructor(color, width, height, x, y, type){
+class CalaveraCard extends BaseCard {
+    constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
+        this.cardId = 10; // Unique card ID
         this.duration = 10;
         this.damageBuff = 10;
         this.maxUses = 1;

@@ -27,100 +27,111 @@ const levelChars = {
     ".": {objClass: GameObject,
         label: "floor",
         sprite: '../assets/mapElements/FloorTiles.jpg',
-        rect: new Rect(0, 0, 193, 394)},
+        rectParams: [0, 0, 193, 394]},
     "#": {objClass: GameObject ,
         label: "wall",
         sprite: '../assets/mapElements/brickYellow.png',
-        rect: new Rect(0, 0, 64, 32)},
+        rectParams: [0, 0, 64, 32]},
     //acabé haciendo puertitas únicas porque se confunde
     "u": {objClass: GameObject, // -------------------upDoor
         label: "updoor",
         sprite: '../assets/mapElements/door.png',
-        rect: new Rect(0, 0, 52, 52)},
+        rectParams: [0, 0, 52, 52]},
     "s": {objClass: GameObject, //-------------------downDoor /south
         label: "downdoor",
         sprite: '../assets/mapElements/door.png',
-        rect: new Rect(0, 0, 52, 52)},
+        rectParams: [0, 0, 52, 52]},
     "l": {objClass: GameObject, //-------------------leftDoor
         label: "leftdoor",
         sprite: '../assets/mapElements/door.png',
-        rect: new Rect(0, 0, 52, 52)},
+        rectParams: [0, 0, 52, 52]},
     "r": {objClass: GameObject, //-------------------rightDoor
         label: "rightdoor",
         sprite: '../assets/mapElements/door.png',
-        rect: new Rect(0, 0, 52, 52)},
+        rectParams: [0, 0, 52, 52]},
     "E": {objClass: GameObject, // -------------------exitDoor
         label: "exit",
         sprite: '../assets/mapElements/bossdoor.png',
-        rect: new Rect(0, 0, 52, 52)},
+        rectParams: [0, 0, 52, 52]},
     "t": {objClass: Torch,
         label: "torch", 
         sprite: '../assets/mapElements/torch_anim.png',
-        rect: new Rect(0,0, 16, 16),
+        rectParams: [0, 0, 16, 16],
         sheetCols: 3,
         startFrame: [0,3]},
     "v": {objClass : GameObject,
         label: "vine", 
         sprite : '../assets/mapElements/Vines.png',
-        rect : new Rect(0,0,32,32)},
+        rectParams : [0,0,32,32]},
 
     // Cartas ($->testing)
     
     "$": {objClass : BaseCard, 
         label: "card",
+        cardID: 0,
         sprite: '../assets/cards/cardHeart.jpeg',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "0": {objClass: MacahuitlCard,
         label: "card",
+        cardId: 0,
         sprite: '../assets/cards/cardBaseweapon.jpeg',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "1": {objClass: ObsidianKnifeCard,
         label: "card",
+        cardId: 1,
         sprite: '../assets/cards/cardObsidianKnife.png',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "2": {objClass: MacheteCard,
         label: "card",
+        cardId: 2,
         sprite: '../assets/cards/cardMachete.png',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "3": {objClass: MariachiCard,
         label: "card",
+        cardId: 3,
         sprite: '../assets/cards/cardMariachi.jpeg',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "4": {objClass: DiabloCard,
         label: "card",
+        cardId: 4,
         sprite: '../assets/cards/cardDiablo.png',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "5": {objClass: MayanWarriorCard,
         label: "card",
+        cardId: 5,
         sprite: '../assets/cards/cardGuerrero.png',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "6": {objClass: CorazonCard,
         label: "card",
+        cardId: 6,
         sprite: '../assets/cards/cardHeart.jpeg',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "7": {objClass: ValienteCard,
-        label: "card", 
+        label: "card",
+        cardId: 7,
         sprite: '../assets/cards/cardValiente.png',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "8": {objClass: TacoCard,
         label: "card",
+        cardId: 8,
         sprite: '../assets/cards/cardTaco.png',
-        rect: new Rect(0, 0, 80, 150)},
+        rectParams: [0, 0, 80, 150]},
     "9": {objClass: CalaveraCard,
         label: "card",
+        cardId: 9,
         sprite: '../assets/cards/cardCalavera.png',
-        rect: new Rect(0, 0 , 80, 150)},
+        rectParams: [0, 0 , 80, 150]},
     
     "j": {objClass: Vase,   // <- j de jarrón 
         label: "vase", 
         sprite: '../assets/mapElements/vase.png', 
-        rect: new Rect(0,0,64,64)},
+        rectParams: [0,0,64,64]},
     
     // Characters
     "@": {objClass: BasePlayer,
         label: "player",
         sprite: '../assets/charSpritesheets/testSpriteSheet.png',
-        rect: new Rect(0, 0, 65, 76),
+        rectParams: [0, 0, 65, 76],
         sheetCols: 6,
         startFrame: [0, 0]},
 
@@ -128,41 +139,41 @@ const levelChars = {
     "e": {objClass: BaseEnemy,
         label: "enemy",
         sprite: '../assets/charSpritesheets/skelMariachi_SpriteSheet.png',
-        rect: new Rect(0, 0,96,74),
+        rectParams: [0, 0,96,74],
         sheetCols: 6,
         startFrame: [0, 0]},
-    "M": {objClass: Mariachi,
+    "M": {objClass: Mariachi, // enemy id 1
         label: "enemy",
         sprite: '../assets/charSpritesheets/skelMariachi_SpriteSheet.png',
-        rect: new Rect(0, 0,96,74),
+        rectParams: [0, 0,96,74],
         sheetCols: 6,
         startFrame: [0, 0]},
-    "T": {objClass: Tlaxcalteca,
+    "T": {objClass: Tlaxcalteca,// enemy id 2
         label: "enemy",
         sprite: '../assets/charSpritesheets/SpriteSheetTlaxcalteca.png',
-        rect: new Rect(0, 0,97,65),
+        rectParams: [0, 0,97,65],
         sheetCols: 7,
         startFrame: [0, 0]},
-    "W": {objClass: MayanWarrior,
+    "W": {objClass: MayanWarrior, // enemy id 3
         label: "enemy",
         sprite: '../assets/charSpritesheets/warriorWalkSpriteSheet.png',
-        rect: new Rect(0, 0,60,63),
+        rectParams: [0, 0,60,63],
         sheetCols: 6,
         startFrame: [0, 0]},
-    "D": {objClass: Devil,
+    "D": {objClass: Devil, // enemy id 4
         label: "enemy",
         sprite: '../assets/charSpritesheets/devilWalk.png',
-        rect: new Rect(0, 0,64,64),
+        rectParams: [0, 0,64,64],
         sheetCols: 4,
         startFrame: [0, 0]},
 
-    "P": {objClass: Quetzalcoatl,
+    "P": {objClass: Quetzalcoatl, // enemy id 5
         label: "boss",
         sprite: "../assets/charSpritesheets/SpriteSheetBossQIDLE.png",
-        rect: new Rect(0, 0, 64, 80),
+        rectParams: [0, 0, 64, 80],
         sheetCols:3,
         startFrame: [0, 0]}
-    // Missing boss 2 here
+    // Missing boss 2 here // enemy id 6
 };
 
 class Level {
@@ -185,7 +196,7 @@ class Level {
                 if (actor.type == "player") {
                     // Also instantiate a floor tile below the player
                     this.addBackgroundFloor(x, y);
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.player = actor;
@@ -195,72 +206,72 @@ class Level {
 
                 // Resumir todo lo que se pueda en los else ifs cuando terminemos
                 else if (actor.type == "wall") {
-                    item.rect = this.randomTile(31, 10, 17);
-                    actor.setSprite(item.sprite, item.rect);
+                    item.rectParams = this.randomTile(31, 10, 17);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "wall";
                 } 
                 else if (actor.type == "floor") {
                     this.addBackgroundFloor(x,y);
-                    item.rect = this.randomTile(0, 47, 0);
-                    actor.setSprite(item.sprite, item.rect);
+                    item.rectParams = this.randomTile(0, 47, 0);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "floor";
                 }
                 else if (actor.type == "updoor") {
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "updoor";
                 } 
                 else if (actor.type == "downdoor") {
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "downdoor";
                 } 
                 else if (actor.type == "leftdoor") {
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "leftdoor";
                 } 
                 else if (actor.type == "rightdoor") {
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "rightdoor";
                 }
                 else if(actor.type == "exit"){
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "exit";
                 }
                 else if(actor.type == "torch"){
                     this.addBackgroundFloor(x, y);
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.actors.push(actor);
                     cellType = "empty";
                 }
                 else if(actor.type == "card"){
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "empty";
                 }
                 else if (actor.type == "vine"){
                     this.addBackgroundFloor(x, y);
-                    actor.setSprite(item.sprite, item.rect); 
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams)); 
                     this.actors.push(actor);
                     cellType = "empty";
                 }
                 else if(actor.type == "vase"){
                     this.addBackgroundFloor(x, y);
-                    actor.setSprite(item.sprite, item.rect); 
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams)); 
                     this.actors.push(actor);
                     cellType = "empty";
                     //console.log("Vase found");
                 }
                 else if(actor.type == "enemy"){
                     this.addBackgroundFloor(x, y);
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.actors.push(actor);
@@ -268,7 +279,7 @@ class Level {
                 }
                 else if(actor.type == "boss"){
                     this.addBackgroundFloor(x, y);
-                    actor.setSprite(item.sprite, item.rect);
+                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.actors.push(actor);
@@ -282,13 +293,14 @@ class Level {
     addBackgroundFloor(x, y){
         let floor = levelChars['.']; 
         let floorActor = new GameObject("white", 1, 1, x, y, floor.label);
-        floorActor.setSprite(floor.sprite, this.randomTile(0, 6, 0, 12)); 
+        let rectParams = this.randomTile(0, 6, 0); // Corrected arguments
+        floorActor.setSprite(floor.sprite, new Rect(...rectParams)); 
         this.actors.push(floorActor); 
     }
     // Randomize sprites for each wall tile
     randomTile(xStart, xRange, y) {
         let tile = Math.floor(Math.random() * xRange + xStart);
-        return new Rect(tile, y, 32, 32);
+        return [tile, y, 32, 32];
     }
     // Detect when the player touches a wall
     contact(hitbox, size, type) {
