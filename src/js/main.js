@@ -328,6 +328,10 @@ function setEventListeners() {
             game.player.startAttack();
             console.log("ataque realizado");
         }
+
+        if(event.key == " "){
+            game.player.Dash();
+        }
     });
 
     window.addEventListener("keyup", event => {
@@ -343,6 +347,8 @@ function setEventListeners() {
         if (event.key == 'd' || event.key == "D" || event.code == "ArrowRight") {
             game.player.stopMovement("right");
         }
+
+        
     });
 }
 //Stats drawing (tbd)
@@ -362,8 +368,6 @@ function drawUI(){
     const y = uiCanvasHeight/2 - cardHeight/2;
     uiCtx.textAlign = "left";
     usernameText.draw(uiCtx, `Name: ${username}`);
-    HPText.draw(uiCtx, `HP: ${game.player.health}`);
-    staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
     let loctext;
     if (game.currentRoom.isBossRoom){
         loctext = "Boss Room"; 

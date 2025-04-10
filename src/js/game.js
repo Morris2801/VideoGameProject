@@ -29,6 +29,11 @@ class Game {
         this.player=this.level.player;
         this.actors= level.actors;
         this.attackEffects = []; // lista de efectos de ataque 
+
+        //camara
+        this.camera = new Camera(this.player.position.x, this.player.position.y);
+        this.camera.x = this.player.position.x;
+        this.camera.y = this.player.position.y;
         
         this.isActive = true;  
         this.bossDefeated=false;
@@ -49,6 +54,7 @@ class Game {
                 }
             }
             this.player.update(this.level, deltaTime);
+            this.camera.follow(this.player.position.x, this.player.position.y);
 
             for(let i = this.attackEffects.length-1; i >= 0; i--){
                 const effect = this.attackEffects[i];
@@ -160,28 +166,58 @@ class Game {
     }
     
     draw(ctx, scale) {
-
         ctx.save();
-
-        // forzar que primero se actualice el fondo y luego lo demás pero es recorrer todo actors x2
-        // (!) checar con el profe a ver si no hay otra cosa que hacer
+    
+        // Apply camera transformation
+        const zoomScale = scale*this.camera.zoomLevel;
+        const canvasWidth = ctx.canvas.width;
+        const canvasHeight = ctx.canvas.height;
+        const cameraOffsetX = -this.camera.x * zoomScale + canvasWidth / 2;
+        const cameraOffsetY = -this.camera.y * zoomScale + canvasHeight / 2;
+        
+        ctx.translate(cameraOffsetX, cameraOffsetY);
+    
+        // Calculate visible area with some margin
+        const visibleLeft = this.camera.x - (canvasWidth / 2 / zoomScale) - 5;
+        const visibleRight = this.camera.x + (canvasWidth / 2 / zoomScale) + 5;
+        const visibleTop = this.camera.y - (canvasHeight / 2 / zoomScale) - 5;
+        const visibleBottom = this.camera.y + (canvasHeight / 2 / zoomScale) + 5;
+    
+        // Draw floors and backgrounds first
         for(let actor of this.actors){
             if(actor.type == 'floor' || actor.type == 'door' || actor.type == "wall"){
-                actor.draw(ctx, scale);
+                // Only draw if in visible area 
+                if(actor.position.x + actor.size.x >= visibleLeft && 
+                   actor.position.x <= visibleRight &&
+                   actor.position.y + actor.size.y >= visibleTop &&
+                   actor.position.y <= visibleBottom) {
+                    actor.draw(ctx, zoomScale);
+                }
             }
         }
+        
+        // Then draw other actors with culling
         for(let actor of this.actors){
             if(actor.type != 'floor'){
-                actor.draw(ctx, scale);
+                if(actor.position.x + actor.size.x >= visibleLeft && 
+                   actor.position.x <= visibleRight &&
+                   actor.position.y + actor.size.y >= visibleTop &&
+                   actor.position.y <= visibleBottom) {
+                    actor.draw(ctx, zoomScale);
+                }
             }
         }
-         // Draw player HUD on game canvas
+        
+        // Always draw player
+        this.player.draw(ctx, zoomScale);
+        
+        ctx.restore();
+        
+        // Draw HUD elements 
         this.drawPlayerHUD(ctx);
-
-        this.player.draw(ctx, scale);
     }
 
-    // testTransit.
+    // testTransit
     changeRoom(direction){
         let nextRoom;
         if(direction === "down"){
@@ -200,10 +236,13 @@ class Game {
             const oldPlayer = this.player;
             this.currentRoom= nextRoom;
             this.level = new Level(nextRoom.levelStringValue);
-            //actualizar pos según levGen, no la anterior
+            //actualizar pos segun levGen, no la anterior
             let newPlayer = this.level.player;
             this.player= oldPlayer;
             this.player.position = newPlayer.position;
+
+            this.camera.x = this.player.position.x;
+            this.camera.y = this.player.position.y
 
             this.actors = this.level.actors;
             let paths = []; 

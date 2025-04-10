@@ -447,10 +447,10 @@ class BaseEnemy extends BaseCharacter {
     } 
 
     drawHealthBar(ctx, scale) {
-        // No dibujar barra de salud si el enemigo esta muerto
+        // no dibujar barra de salud si el enemigo esta muerto
         if (!this.alive) return;
         
-        // Configuracion de la barra de salud
+        // Meedidas de la barra de salud 
         const barHeight = 5;  
         const barWidth = this.size.x * scale * 0.8;  
         const barMargin = 10;  // Espacio entre el enemigo y la barra
@@ -459,7 +459,7 @@ class BaseEnemy extends BaseCharacter {
         const barX = this.position.x * scale + (this.size.x * scale - barWidth) / 2;
         const barY = this.position.y * scale - barHeight - barMargin;
         
-        // Fondo de la barra (gris)
+        // Fondo de la barra gris
         ctx.fillStyle = "#333333";
         ctx.fillRect(barX, barY, barWidth, barHeight);
         

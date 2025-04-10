@@ -208,6 +208,8 @@ class AttackAnimation extends AnimatedObject {
   
   update(level, deltaTime) {
     super.update(level, deltaTime);
+
+
     
     // Manejar colisiones con enemigos
     if (this.active && game) {
@@ -262,6 +264,14 @@ class BasePlayer extends BaseCharacter {
     this.attackMaxDuration = 700; // 700ms para completar el ataque
     this.lastDirection = "right"; //  por defecto
     this.hasHitEnemy = false;
+
+    // Dash properties
+  this.dashSpeed = 0.04;       // Velocidad del dash
+  this.dashDuration = 200;     // Duración del dash en milisegundos
+  this.dashCooldown = 1000;    // Tiempo de espera entre dashes
+  this.isDashing = false;      // Estado de dash
+  this.dashTimer = 0;          // Contador de tiempo actual del dash
+  this.lastDashTime = 0;
 
     // Cajas de colision de ataque (para detectar golpes) <- tbd
     this.attackBoxes = {
@@ -409,6 +419,7 @@ class BasePlayer extends BaseCharacter {
     // Llamar al metodo update para el movimiento y direcicon
     super.update(level, deltaTime);
 
+    this.updateDash(deltaTime);
 
     if(this.health<= 0){ // Si la vida del player es 0 gameOVERRRRR
       this.health = 0;
@@ -802,10 +813,59 @@ console.log("Sprite after transformation:", this.spriteImage?.src);
   }
 
   dash(){
-    if(this.stamina > 0 && !this.attacking && this.velocity.x === 0 && this.velocity.y === 0){
+    
+    const currentTime = Date.now();
+
+    if(this.stamina > 0 && !this.attacking && !this.isDashing && currentTime - this.lastDashTime > this.dashCooldown){
       this.stamina -= 1;
-      this.velocity.x = this.lastDirection.x * 2;
-      this.velocity.y = this.lastDirection.y * 2;
+      this.isDashing = true;
+      this.dashTimer = 0;
+      this.lastDashTime = currentTime;
+
+      //guadar la velocidad normal para restaurar
+      this.velocityBeforeDash = {
+        x: this.velocity.x,
+        y: this.velocity.y
+      };
+      //Vector para el dash seguna donde miraste
+      let dashVec = new Vec(0,0);
+
+      switch (this.lastDirection) {
+        case "right": dashVec = new Vec(1, 0); break;
+        case "left": dashVec = new Vec(-1, 0); break;
+        case "up": dashVec = new Vec(0, -1); break;
+        case "down": dashVec = new Vec(0, 1); break;
+      }
+
+      //aplicar velcodiad para efectuar el dash
+      this.velocity.x = dashVec.x*this.dashSpeed;
+      this.velocity.y = dashVec.y*this.dashSpeed;
+    }
+  }
+
+  updateDash(deltaTime) {
+    if (this.isDashing) {
+      this.dashTimer += deltaTime;
+      
+      // Terminar el dash cuando se acabe el tiempo
+      if (this.dashTimer >= this.dashDuration) {
+        this.isDashing = false;
+        
+        // Restaurar velocidad normal si el jugador no está presionando teclas
+        if (!this.movement.left.status && 
+            !this.movement.right.status && 
+            !this.movement.up.status && 
+            !this.movement.down.status) {
+          this.velocity.x = 0;
+          this.velocity.y = 0;
+        } else {
+          // Restaurar velocidad de movimiento normal
+          if (this.preDashVelocity) {
+            this.velocity.x = this.preDashVelocity.x;
+            this.velocity.y = this.preDashVelocity.y;
+          }
+        }
+      }
     }
   }
 
