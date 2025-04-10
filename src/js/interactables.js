@@ -40,6 +40,7 @@ class Vase extends BaseInteractable {
         if(!this.isOpened && this.isNear(player)){
             this.isOpened = true; 
             player.vasesBroken +=1;
+            player.score += 50;
             console.log("Vase opened");
             this.dropCard(this.position);
             this.status = "opened";

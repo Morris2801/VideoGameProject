@@ -323,7 +323,28 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 You have a secured card:
 - 10% of a rare card (Calavera, machete, obsidian, macuahuilt)
 - 50% of a common card (Corazon, Valiente, Taco)
-- 30% of a medium card (Mariachi, Mayan Warriror)
+- 30% of a medium card (Mariachi, Mayan Warrior)
+
+
+### Score 
+**Value Assigned per Event/Element**
+Each action gets rewarded in-game, counting towards the total score per run. 
+
+| **Event**   | **Points Awarded**                  |
+|---------------------------|------------------------------|
+| _Vase Opened_  | + 50 |
+|  _Card pickup_ | + 70 |
+|  _Card used_ | + 50 |
+|  _Mariachi defeated_ | + 200 |
+|  _Tlaxcalteca defeated_ | + 250 |
+|  _Mayan Warrior defeated_ | + 300 |
+|  _Devil defeated_ | + 300 |
+|  _Quetzalcoatl boss defeated_ | + 600 |
+|  _Ah Puch boss defeated_ | + 800 |
+|  _Level 1 cleared_ | + 1000 |
+|  _Level 2 cleared_ | + 1250 |
+|  _Time bonus_ | + (Remaining level seconds * 15) |
+
 
 
 ---

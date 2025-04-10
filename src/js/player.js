@@ -248,7 +248,7 @@ class BasePlayer extends BaseCharacter {
 
     //stats? (inc9mplete)
     this.player_id = null; // tbd
-    this.scoreTotal = 0;
+    this.score = 0;
     this.killCount = 0;
     this.cardPickupCount = 0;
     this.cardsUsed = 0;
@@ -389,6 +389,7 @@ class BasePlayer extends BaseCharacter {
       const activated = this.inventory.activateCard(index);
       if (activated) {
         console.log("Carta activada exitosamente");
+        this.score += 50;
         if (card.maxUses > 0) {
           // Update counter tracker
           card.maxUses--;

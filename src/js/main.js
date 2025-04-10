@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         contextScreen.style.display = "flex"; 
         console.log("shoudl appear", contextScreen.style.display);
         isContextScreenActive = true;
-        
         if (typeof GameMusic !== "undefined") {
             console.log("Iniciando música...");
             GameMusic.startMusic();  
@@ -119,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startMenu.style.display = "none"; 
         loginSection.style.display = "flex";
         canvas.style.display = "none";
-        uiCanvas.style.display = "none";
+        uiCanvas.style.display = "none";        
     });
     loginForm.addEventListener('submit', async (event) => {
         event.preventDefault(); 
@@ -128,13 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let email = document.getElementById('email').value;
         let password = document.getElementById('password').value;
     
-    /* Esto estorba tantito con el API, ponerlo después
+        // Esto estorba tantito con el API, ponerlo después
         // Regex validation
         const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/; 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/; 
         let isValid = true;
     
+        console.log("Regex Testing");
         if (!usernameRegex.test(username)) {
             alert("Invalid username. It must be 3-16 characters long and can only contain letters, numbers, and underscores.");
             isValid = false;
@@ -146,14 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
         if (!passwordRegex.test(password)) {
-            alert("Invalid password. It must be at least 8 characters long and contain at least one letter and one number.");
+            alert("Invalid password. 5 characters long and at least one letter and one number.");
             isValid = false;
         }
     
         if (!isValid) {
             return; // Stop execution if validation fails
         }
-    */
+        console.log("RegexTests passed apparently");
         // Send the data to the backend using fetch
         try {
             const response = await fetch('http://localhost:5000/api/player/check', {
@@ -161,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password }),
             });
+            console.log(response);
             if (response.ok) {
                 const result = await response.json();
                 console.log('Login successful:', result);
@@ -228,23 +229,60 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-    document.getElementById('registerButton').addEventListener('click', async() => {
+    document.getElementById('registerButton').addEventListener('click', async (event) => {
         event.preventDefault();
+    
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+    
         if (!username || !email || !password) {
-            alert('All fields necessary.');
+            alert('All fields are necessary.');
             return;
         }
     
+        // Regex validation
+        const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
+    
+        let isValid = true;
+    
+        if (!usernameRegex.test(username)) {
+            alert("Invalid username. It must be 3-16 characters long and can only contain letters, numbers, and underscores.");
+            isValid = false;
+        }
+        if (!emailRegex.test(email)) {
+            alert("Invalid email address.");
+            isValid = false;
+        }
+        if (!passwordRegex.test(password)) {
+            alert("Invalid password. It must be at least 5 characters long and contain at least one letter and one number.");
+            isValid = false;
+        }
+        if (!isValid) {
+            return; // Stop execution if validation fails
+        }
+        console.log("Regex tests passed. Checking if username exists...");
         try {
+            // Check if the username already exists
+            const checkResponse = await fetch(`http://localhost:5000/api/player/check/${username}`);
+            const checkResult = await checkResponse.json();
+    
+            if (checkResult.exists) {
+                alert('Username already exists. Please choose a different username.');
+                return; // Stop execution if username exists
+            }
+    
+            console.log('Username is available. Proceeding with registration...');
+    
             // Send a POST request to register the user
             const response = await fetch('http://localhost:5000/api/player', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password }),
             });
+    
             if (response.ok) {
                 const result = await response.json();
                 console.log('Registration successful:', result);
@@ -253,20 +291,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Registration successful! You can now log in.');
                 loginSection.style.display = 'none';
                 startMenu.style.display = 'flex';
-            } 
-            else {
+            } else {
                 const error = await response.json();
                 console.error('Registration failed:', error);
                 alert(`Registration failed: ${error.message || 'Unknown error'}`);
             }
         } catch (err) {
-            console.error('Error during regs.', err);
+            console.error('Error during registration:', err);
             alert('Error during registration. Try again later.');
         }
     });
-
-
-
+    
     loginButton.addEventListener('click', () => {
         startMenu.style.display = "none"; 
         loginSection.style.display = "flex";
@@ -503,7 +538,8 @@ const usernameText = new TextLabel(60, uiCanvasHeight/4-10, "20px Times New Roma
 const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px Times New Roman", "white");
 const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px Times New Roman", "white");
 const locationText = new TextLabel(60, uiCanvasHeight/4 + 80, "20px Times New Roman", "white");
-const transformText = new TextLabel(60, 3 * uiCanvasHeight/2 + 110, "10px Times New Roman", "yellow"); 
+const transformText = new TextLabel(60, 3 * uiCanvasHeight/2 + 110, "10px Times New Roman", "yellow");
+const scoreTextUI = new TextLabel(60, uiCanvasHeight/4 + 110, "20px Times New Roman", "white"); 
 //display inventory, HP, stamina, ... (tbd)
 function drawUI(){
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
@@ -522,6 +558,7 @@ function drawUI(){
     const minutes = Math.floor(game.levelTimer / 60);
     const seconds = Math.floor(game.levelTimer % 60);
     timerText.draw(uiCtx, `Time Left\n: ${minutes}:${seconds.toString().padStart(2, '0')}`);
+    scoreTextUI.draw(uiCtx, `Score: ${game.player.score}`);
 
     let loctext;
     if (game.currentRoom.isBossRoom){
@@ -570,6 +607,7 @@ const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 
 const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 60, "20px Times New Roman", "white");
 const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 90, "20px Times New Roman", "white");
 const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 120, "20px Times New Roman", "white");
+const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 150, "20px Times New Roman", "white"); 
 
 function drawStats(){
     statsCtx.clearRect(0,0, statsCanvasWidth, statsCanvasHeight);
@@ -582,6 +620,7 @@ function drawStats(){
     cardsPickedUp.draw(statsCtx, `Cards Picked Up: ${game.player.cardPickupCount}`);
     cardsUsed.draw(statsCtx, `Cards Used: ${game.player.cardsUsed}`);
     vasesBroken.draw(statsCtx, `Vases Broken: ${game.player.vasesBroken}`);
+    scoreTextStats.draw(statsCtx, `Score: ${game.player.score}`);
 }
 
 // Function to draw the scene

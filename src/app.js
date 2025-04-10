@@ -413,6 +413,30 @@ app.post('/api/level_layout', async (request, response) => {
 });
 */
 
+// Check if a username already exists
+app.get('/api/player/check/:username', async (request, response) => {
+    let connection = null;
+
+    try {
+        connection = await connectToDB();
+
+        const [results, _] = await connection.query('SELECT * FROM player WHERE username = ?', [request.params.username]);
+
+        if (results.length > 0) {
+            response.status(200).json({ exists: true, message: 'Username already exists.' });
+        } else {
+            response.status(200).json({ exists: false, message: 'Username is available.' });
+        }
+    } catch (error) {
+        response.status(500).json({ error: 'Error checking username.' });
+        console.error(error);
+    } finally {
+        if (connection !== null) {
+            connection.end();
+            console.log('Connection closed successfully!');
+        }
+    }
+});
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
