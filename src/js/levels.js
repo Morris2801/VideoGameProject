@@ -221,7 +221,7 @@ function levGen(width, height, levelNum, isBossRoom = false){
             placeX("P"); //Boss
         } 
         if(levelNum == 2){
-            placeX("P"); //Boss
+            placeX("A"); //Boss
         }
         /*
         else{

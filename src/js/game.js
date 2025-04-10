@@ -40,12 +40,49 @@ class Game {
         this.levelTimeLimit2 = 400; // max timer lev2 sec <---------------------------------tbd
         this.levelTimer = this.levelTimeLimit;  // currentTimer
 
+        this.player=this.level.player;
+        this.actors= level.actors;
+        this.attackEffects = []; // lista de efectos de ataque 
+
+        //camara
+        this.camera = new Camera(this.player.position.x, this.player.position.y);
+        this.camera.x = this.player.position.x;
+        this.camera.y = this.player.position.y;
+        
+        this.isActive = true;  
+        this.bossDefeated=false;
+        // torch damage things
+
         // Torch damage properties
+
         this.torchDamageTimer = 0;
         this.torchDamageInterval = 2000; // 2 seconds
         this.torchContact = false;
     }
     // handles effects in list
+
+       
+    update(deltaTime) {     
+        if(!this.isActive) return; // No aactualizar si pasusado
+        else {            
+            for (let actor of this.actors) {
+                // update functions
+                if(typeof actor.update === "function"){
+                    actor.update(this.level, deltaTime);
+                }
+            }
+            this.player.update(this.level, deltaTime);
+            this.camera.follow(this.player.position.x, this.player.position.y);
+
+            for(let i = this.attackEffects.length-1; i >= 0; i--){
+                const effect = this.attackEffects[i];
+                effect.update(this.level, deltaTime);
+        
+                //eliminar animacion inactivas
+                if(effect.shouldRemove){
+                    this.attackEffects.splice(i,1);
+                }
+
     addAttackEffect(effect) {
         this.attackEffects.push(effect);
     }
@@ -73,6 +110,7 @@ class Game {
             //eliminar animacion inactivas
             if (effect.shouldRemove) {
                 this.attackEffects.splice(i, 1);
+
             }
         }
         let currentActors = this.actors;
@@ -171,20 +209,60 @@ class Game {
     }
 
     draw(ctx, scale) {
+
+        ctx.save();
+    
+        // Apply camera transformation
+        const zoomScale = scale*this.camera.zoomLevel;
+        const canvasWidth = ctx.canvas.width;
+        const canvasHeight = ctx.canvas.height;
+        const cameraOffsetX = -this.camera.x * zoomScale + canvasWidth / 2;
+        const cameraOffsetY = -this.camera.y * zoomScale + canvasHeight / 2;
+        
+        ctx.translate(cameraOffsetX, cameraOffsetY);
+    
+        // Calculate visible area with some margin
+        const visibleLeft = this.camera.x - (canvasWidth / 2 / zoomScale) - 5;
+        const visibleRight = this.camera.x + (canvasWidth / 2 / zoomScale) + 5;
+        const visibleTop = this.camera.y - (canvasHeight / 2 / zoomScale) - 5;
+        const visibleBottom = this.camera.y + (canvasHeight / 2 / zoomScale) + 5;
+    
+        // Draw floors and backgrounds first
+        for(let actor of this.actors){
+            if(actor.type == 'floor' || actor.type == 'door' || actor.type == "wall"){
+                // Only draw if in visible area 
+                if(actor.position.x + actor.size.x >= visibleLeft && 
+                   actor.position.x <= visibleRight &&
+                   actor.position.y + actor.size.y >= visibleTop &&
+                   actor.position.y <= visibleBottom) {
+                    actor.draw(ctx, zoomScale);
+                }
+            }
+        }
+        
+        // Then draw other actors with culling
+        for(let actor of this.actors){
+            if(actor.type != 'floor'){
+                if(actor.position.x + actor.size.x >= visibleLeft && 
+                   actor.position.x <= visibleRight &&
+                   actor.position.y + actor.size.y >= visibleTop &&
+                   actor.position.y <= visibleBottom) {
+                    actor.draw(ctx, zoomScale);
+                }
+
         // forzar que primero se actualice el fondo y luego lo demás pero es recorrer todo actors x2
         // (!) checar con el profe a ver si no hay otra cosa que hacer
-        for (let actor of this.actors) {
-            if (actor.type == 'floor' || actor.type == 'door' || actor.type == "wall") {
-                actor.draw(ctx, scale);
-            }
-        }
-        for (let actor of this.actors) {
-            if (actor.type != 'floor') {
-                actor.draw(ctx, scale);
-            }
-        }
-        this.player.draw(ctx, scale);
+   
+        
+        // Always draw player
+        this.player.draw(ctx, zoomScale);
+        
+        ctx.restore();
+        
+        // Draw HUD elements 
+        this.drawPlayerHUD(ctx);
     }
+
 
     // testTransit.
     changeRoom(direction) {
@@ -205,12 +283,19 @@ class Game {
             const oldPlayer = this.player;
             this.currentRoom = nextRoom;
             this.level = new Level(nextRoom.levelStringValue);
-            //actualizar pos según levGen, no la anterior
+            //actualizar pos segun levGen, no la anterior
             let newPlayer = this.level.player;
             this.player = oldPlayer;
             console.log("OldplayerInfo", oldPlayer);
             this.player.position = newPlayer.position;
+
+
+            this.camera.x = this.player.position.x;
+            this.camera.y = this.player.position.y
+
+
             console.log("NewPlayerInfo", this.player);
+
             this.actors = this.level.actors;
             let paths = [];
             if (this.currentRoom.children.up != null) {
@@ -356,7 +441,91 @@ class Game {
         document.getElementById("startMenu").style.display = "block";
     }
 
+    restartGame() {
+        console.log("Restarting game...");
+        
+        // Reset core game state
+        this.currentTreeIndex = 0;
+        this.currentTree = this.trees[this.currentTreeIndex];
+        this.currentRoom = this.currentTree.root;
+        this.level = new Level(this.currentRoom.levelStringValue);
+        
+        // Reset player 
+        this.player = this.level.player; // Get anew player
+        this.player.health = this.player.basehealth;
+        this.player.stamina = this.player.baseStamina;
+        this.player.isDead = false;
+        
+        // Reset game mechanics 
+        this.actors = this.level.actors;
+        this.attackEffects = [];
+        this.isActive = true;
+        this.bossDefeated = false;
+        this.torchDamageTimer = 0;
+        this.torchContact = false;
+        
+        // Reset UI
+        document.getElementById("gameOverMenu").style.display = "none";
+        document.getElementById("canvas").style.display = "flex";
+        document.getElementById("uiCanvas").style.display = "flex";
+    }
+
     
+    drawPlayerHUD(ctx) {
+        if (!this.player) return;
+        
+        //Valores de las medidadas
+        const barWidth = 200;
+        const barHeight = 15;
+        const barSpacing = 5;
+        const barX = 30;
+        const barY = 30;
+        
+        // barra de vida fondo
+        // dibuja un rectangulo gris base
+        ctx.fillStyle = "#333333";
+        ctx.fillRect(barX, barY, barWidth, barHeight);
+        
+        // barra de vida relleno rojo
+        // Calcula la proporcion de vida actual del jugador (valor entre 0 y 1)
+        // healthPercent = vidaActual / vidaMaxima
+        const healthPercent = this.player.health / this.player.basehealth;
+        const healthBarFillWidth = barWidth * healthPercent; //se calcula la proporcion de relleno
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(barX, barY, healthBarFillWidth, barHeight);
+        
+        // texto de vida
+        ctx.font = "15px Arial";
+        ctx.fillStyle = "white";
+        ctx.fillText(`HP: ${this.player.health}/${this.player.basehealth}`, barX + 10, barY + barHeight/2 + 3);
+        
+        //posicion d ela barra de stamina
+        const staminaY = barY + barHeight + barSpacing;
+        
+        // color de fondo de la barra destamina
+        ctx.fillStyle = "#333333";
+        ctx.fillRect(barX, staminaY, barWidth, barHeight);
+        
+        // relleno de la brra de estamina
+        const staminaPercent = this.player.stamina / this.player.baseStamina;
+        const staminaBarFillWidth = barWidth * staminaPercent;
+        ctx.fillStyle = "#0066ff";
+        ctx.fillRect(barX, staminaY, staminaBarFillWidth, barHeight);
+        
+        // Stexto de estamina
+        ctx.fillStyle = "white";
+        ctx.fillText(`SP: ${this.player.stamina}/${this.player.baseStamina}`, barX + 10, staminaY + barHeight/2 + 3);
+        
+        // Times de tranformacion en el hud del player
+        if (this.player.isTransformed && this.player.transformationTimer > 0) {
+          const transformY = staminaY + barHeight + barSpacing + 5;
+          const secondsLeft = Math.ceil(this.player.transformationTimer / 1000);
+          ctx.fillStyle = "white";
+          ctx.fonto = "50px Arial"
+          ctx.fillText(`${this.player.transformationType}: ${secondsLeft}s`, barX, transformY + 10);
+        }
+      }
+
 }
 
 
