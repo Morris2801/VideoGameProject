@@ -28,14 +28,14 @@ const uiCanvasWidth = canvasWidth ;
 const uiCanvasHeight = canvasHeight / 3 - 25;
 let ctx, uiCtx, statsCtx;
 
-let username = '', password, email;  // para base de datos chavos
+let globUsername = '', password, email, player_id;  // para base de datos chavos
 
 //Game variables
 let game;
 let oldTime, deltaTime;
 let totalElapsedTime = 0; // totaltime 
-
-
+let time; 
+let lastCardPickedUpGlobal = null;
 
 // Level Gens
 const numRoomsLvl1 = 5; // <- modify
@@ -45,7 +45,6 @@ treeLevel1.treeGen();
 let treeLevel2 = new Tree(2,numRoomsLvl2);
 treeLevel2.treeGen();
 let initialLevel = new Level(treeLevel1.root.levelStringValue);
-
 
 // ------------------------------------------------------
 // Functions y eventlistenersDOM
@@ -63,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const exitButton = document.getElementById("exitButton");
     const loginSection = document.getElementById("loginSection");
     const cancelButton = document.getElementById("cancelButton");
+    
     const loginForm = document.getElementById("loginForm");
     const statsSidebar = document.getElementById("statsSidebar");
     const statsTrigger = document.getElementById("statsTrigger");
@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //console.log("'Start Game'press");
         startMenu.style.display = "none"; 
         contextScreen.style.display = "flex"; 
+        console.log("shoudl appear", contextScreen.style.display);
         isContextScreenActive = true;
         
         if (typeof GameMusic !== "undefined") {
@@ -120,17 +121,73 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.style.display = "none";
         uiCanvas.style.display = "none";
     });
-    loginForm.addEventListener('submit', (event) =>{
-        loginSection.style.display = "flex";
-        event.preventDefault();
-        username = document.getElementById("username").value;
-        password = document.getElementById("password").value;
-        console.log("Username: " + username);
-        console.log("password: " + password);
-
-        loginSection.style.display = "none"; 
-        startMenu.style.display = "flex";
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); 
+    
+        let username = document.getElementById('username').value;
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+    
+    /* Esto estorba tantito con el API, ponerlo después
+        // Regex validation
+        const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/; 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
+        let isValid = true;
+    
+        if (!usernameRegex.test(username)) {
+            alert("Invalid username. It must be 3-16 characters long and can only contain letters, numbers, and underscores.");
+            isValid = false;
+        }
+    
+        if (!emailRegex.test(email)) {
+            alert("Invalid email address.");
+            isValid = false;
+        }
+    
+        if (!passwordRegex.test(password)) {
+            alert("Invalid password. It must be at least 8 characters long and contain at least one letter and one number.");
+            isValid = false;
+        }
+    
+        if (!isValid) {
+            return; // Stop execution if validation fails
+        }
+    */
+        // Send the data to the backend using fetch
+        try {
+            const response = await fetch('http://localhost:5000/api/player/check', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password }),
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Login successful:', result);
+                player_id = result.player_id;
+                globUsername = username;
+                console.log("Login Correct: ", player_id, globUsername);
+                alert(`Login successful ${username}`);
+                loginSection.style.display = "none"; 
+                startMenu.style.display = "flex";
+            }
+            else if(response.status == 401) {
+                alert(`Login failed 401`);
+            }
+            else if(response.status == 404){
+                alert(`Login failed 404`);
+            }
+            else{
+                const error = await response.json();
+                console.error('Login failed:', error);
+                alert('Login failed idk');
+            }
+        } catch (err) {
+            console.error('Error during login:', err);
+            alert('Error during log in. Try again.');
+        }
     });
+    
     cancelButton.addEventListener('click', () => {
         loginSection.style.display = "none"; 
         startMenu.style.display = "flex"; 
@@ -171,6 +228,42 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    document.getElementById('registerButton').addEventListener('click', async() => {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        if (!username || !email || !password) {
+            alert('All fields necessary.');
+            return;
+        }
+    
+        try {
+            // Send a POST request to register the user
+            const response = await fetch('http://localhost:5000/api/player', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password }),
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Registration successful:', result);
+                player_id = result.player_id;
+                globUsername = username;
+                alert('Registration successful! You can now log in.');
+                loginSection.style.display = 'none';
+                startMenu.style.display = 'flex';
+            } 
+            else {
+                const error = await response.json();
+                console.error('Registration failed:', error);
+                alert(`Registration failed: ${error.message || 'Unknown error'}`);
+            }
+        } catch (err) {
+            console.error('Error during regs.', err);
+            alert('Error during registration. Try again later.');
+        }
+    });
 
 
 
@@ -178,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startMenu.style.display = "none"; 
         loginSection.style.display = "flex";
     });
-
+/*
     loginForm.addEventListener('submit', (event) => {
         event.preventDefault(); 
         let username = document.getElementById('username').value;
@@ -189,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/; 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
-
+        let counter = 0;
         if (!usernameRegex.test(username)) {
             alert("Invalid username. It must be 3-16 characters long and can only contain letters, numbers, and underscores.");
         }
@@ -216,21 +309,53 @@ document.addEventListener('DOMContentLoaded', () => {
             loginSection.style.display = "none";
             startMenu.style.display = "flex";
         }
+        
     });
-    
+    */
     restartButton.addEventListener('click', () => {
         document.getElementById("gameOverMenu").style.display = "none";
-        document.getElementById("contextScreen").style.display = "flex";
-        
-        // Reset
+
+        console.log("Restarting game...");
+        // Reset total elapsed time
         totalElapsedTime = 0;
-        // Create new tree levels
-        treeLevel1 = new Tree(1, numRoomsLvl1);
+
+        // Save the old player's last card picked up to the global variable
+        lastCardPickedUpGlobal = game?.player?.lastCardPickedUp || null;
+        treeLevel1 = new Tree(1,numRoomsLvl1);
         treeLevel1.treeGen();
-        treeLevel2 = new Tree(2, numRoomsLvl2);
+        treeLevel2 = new Tree(2,numRoomsLvl2);
         treeLevel2.treeGen();
         initialLevel = new Level(treeLevel1.root.levelStringValue);
-        isContextScreenActive = true;
+        // Call gameStart directly to reset the game
+        game.isGameOver = false;
+        gameStart();
+
+        
+        const newPlayer = game.player;
+
+        // Initialize the inventory for the new player
+        if (!newPlayer.inventory) {
+            newPlayer.inventory = { items: [], max: 6 }; // Ensure inventory is properly initialized
+        }
+
+        // Reset player properties
+        newPlayer.health = newPlayer.basehealth;
+        newPlayer.stamina = newPlayer.baseStamina;
+        newPlayer.isDead = false;
+
+        // Restore the last card picked up, if any
+        if (lastCardPickedUpGlobal) {
+            newPlayer.inventory.items.push(lastCardPickedUpGlobal);
+            console.log("Respawned with card:", lastCardPickedUpGlobal.cardId);
+            console.log("New player inventory:", newPlayer.inventory.items);
+        }
+
+        // Reset UI
+        document.getElementById("canvas").style.display = "flex";
+        document.getElementById("uiCanvas").style.display = "flex";
+
+        console.log("Game restarted successfully.");
+        lastCardPickedUpGlobal = null;
     });
     
     exitToMainButton.addEventListener('click', () => {
@@ -262,18 +387,46 @@ function init(){
     canvas.style.display = "flex"; 
     uiCanvas.style.display = "flex"; 
 
-
     gameStart();
 
 }
 
 // Game creation
-function gameStart() {
-    game = new Game('playing', initialLevel, [treeLevel1, treeLevel2]); // if needed, add more trees
+async function gameStart() {
+    game = new Game('playing', initialLevel, [treeLevel1, treeLevel2]); 
     game.isActive = true;
+
+    // ----- API level test
+    /*
+    const serializedTree1 = JSON.stringify(treeLevel1.serializeTree());
+    const serializedTree2 = JSON.stringify(treeLevel2.serializeTree());
+    console.log("Serialized Tree 1:", serializedTree1);
+    console.log("Serialized Tree 2:", serializedTree2);
+    const levelData = {
+        layout1: serializedTree1,
+        layout2: serializedTree2
+    }
+    try {
+        const response = await fetch('http://localhost:5000/api/level_layout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(levelData),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Level layout sent bien:', result);
+        } else {
+            const error = await response.json();
+            console.error('Level sending failed:', error);
+        }
+    } catch (err) {
+        console.error('Error during level layout send:', err);
+    }
+    */
 
     console.log(game.level);
     console.log(game.player);
+    game.player.player_id = player_id;
     let paths = []; 
     if(game.currentRoom.children.up != null){
         paths.push("up", game.currentRoom.children.up.roomNum);
@@ -350,7 +503,7 @@ const usernameText = new TextLabel(60, uiCanvasHeight/4-10, "20px Times New Roma
 const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px Times New Roman", "white");
 const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px Times New Roman", "white");
 const locationText = new TextLabel(60, uiCanvasHeight/4 + 80, "20px Times New Roman", "white");
-const transformText = new TextLabel(60, 3 * uiCanvasHeight/2 + 110, "20px Times New Roman", "yellow"); 
+const transformText = new TextLabel(60, 3 * uiCanvasHeight/2 + 110, "10px Times New Roman", "yellow"); 
 //display inventory, HP, stamina, ... (tbd)
 function drawUI(){
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
@@ -361,9 +514,15 @@ function drawUI(){
     const xOrigin = uiCanvasWidth/3 + 10;
     const y = uiCanvasHeight/2 - cardHeight/2;
     uiCtx.textAlign = "left";
-    usernameText.draw(uiCtx, `Name: ${username}`);
+    usernameText.draw(uiCtx, `Name: ${globUsername}`);
     HPText.draw(uiCtx, `HP: ${game.player.health}`);
     staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
+
+    const timerText = new TextLabel(uiCanvasWidth - 200, 30, "20px Times New Roman", "red");
+    const minutes = Math.floor(game.levelTimer / 60);
+    const seconds = Math.floor(game.levelTimer % 60);
+    timerText.draw(uiCtx, `Time Left\n: ${minutes}:${seconds.toString().padStart(2, '0')}`);
+
     let loctext;
     if (game.currentRoom.isBossRoom){
         loctext = "Boss Room"; 
@@ -418,7 +577,7 @@ function drawStats(){
     let totalSeconds = Math.floor(totalElapsedTime/1000);
     let secs = totalSeconds % 60;
     let mins = Math.floor(totalSeconds / 60);
-    let time = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    time = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
     elapsedTime.draw(statsCtx, `Elapsed Time: ${time}`);
     cardsPickedUp.draw(statsCtx, `Cards Picked Up: ${game.player.cardPickupCount}`);
     cardsUsed.draw(statsCtx, `Cards Used: ${game.player.cardsUsed}`);
@@ -448,3 +607,16 @@ function drawScene(newTime){
     oldTime = newTime;
     requestAnimationFrame(drawScene);
 }
+
+let player_runstats; 
+/*{
+    player_id : , 
+	run_duration :  ,  
+    run_date : , 
+    enemies_killed : , 
+    cards_collected : , 
+    most_used_card : , 
+	eliminated_by : , 
+	last_level : ,
+};
+*/
