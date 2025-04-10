@@ -481,6 +481,10 @@ function setEventListeners() {
             game.player.startAttack();
             console.log("ataque realizado");
         }
+
+        if(event.key == " "){
+            game.player.Dash();
+        }
     });
 
     window.addEventListener("keyup", event => {
@@ -496,6 +500,8 @@ function setEventListeners() {
         if (event.key == 'd' || event.key == "D" || event.code == "ArrowRight") {
             game.player.stopMovement("right");
         }
+
+        
     });
 }
 //Stats drawing (tbd)
@@ -514,6 +520,7 @@ function drawUI(){
     const xOrigin = uiCanvasWidth/3 + 10;
     const y = uiCanvasHeight/2 - cardHeight/2;
     uiCtx.textAlign = "left";
+
     usernameText.draw(uiCtx, `Name: ${globUsername}`);
     HPText.draw(uiCtx, `HP: ${game.player.health}`);
     staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
@@ -522,7 +529,7 @@ function drawUI(){
     const minutes = Math.floor(game.levelTimer / 60);
     const seconds = Math.floor(game.levelTimer % 60);
     timerText.draw(uiCtx, `Time Left\n: ${minutes}:${seconds.toString().padStart(2, '0')}`);
-
+  
     let loctext;
     if (game.currentRoom.isBossRoom){
         loctext = "Boss Room"; 

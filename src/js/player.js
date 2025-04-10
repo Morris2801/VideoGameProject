@@ -224,9 +224,10 @@ class AttackAnimation extends AnimatedObject {
     }
 
     // Marcar para eliminación cuando se completa la animación
-    if (this.frame >= this.maxFrame) {
+    if (this.attackDuration >= this.attackMaxDuration) {
       this.active = false;
       this.shouldRemove = true;
+      this.hitEnemies.pop(enemy); // Limpiar enemigos golpeados
     }
   }
 }
@@ -269,6 +270,14 @@ class BasePlayer extends BaseCharacter {
     this.attackMaxDuration = 700; // 700ms para completar el ataque
     this.lastDirection = "right"; //  por defecto
     this.hasHitEnemy = false;
+
+    // Dash properties
+  this.dashSpeed = 0.04;       // Velocidad del dash
+  this.dashDuration = 200;     // Duración del dash en milisegundos
+  this.dashCooldown = 1000;    // Tiempo de espera entre dashes
+  this.isDashing = false;      // Estado de dash
+  this.dashTimer = 0;          // Contador de tiempo actual del dash
+  this.lastDashTime = 0;
 
     // Cajas de colision de ataque (para detectar golpes) <- tbd
     this.attackBoxes = {
@@ -325,9 +334,10 @@ class BasePlayer extends BaseCharacter {
         main: "../assets/charSpritesheets/testSpriteSheet.png",
         attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
       },
-      "mayanWarrior": {
-        main: "../assets/charSpritesheets/testSpriteSheet.png",
-        attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
+      "mayanWarrior":{
+        main:  "../assets/charSpritesheets/MayanSpriteSheetChar.png",
+        attacking: "../assets/charSpritesheets/MayanPeleandoSpriteSheet.png"
+
       },
 
       "mariachi": {
@@ -434,7 +444,11 @@ class BasePlayer extends BaseCharacter {
   update(level, deltaTime) {
     // Llamar al metodo update para el movimiento y direcicon
     super.update(level, deltaTime);
+
+    this.updateDash(deltaTime);
+
     if (this.health <= 0) { // Si la vida del player es 0 gameOVERRRRR
+
       this.health = 0;
       if (game && !this.isDead) {
         this.isDead = true;
@@ -649,53 +663,14 @@ class BasePlayer extends BaseCharacter {
     // Establecer frames de ataque basada en direccion
     const attackFrameRange = this.attackFrames[this.lastDirection];
     this.setAnimation(attackFrameRange[0], attackFrameRange[1], false, 100);
-
-    // Crear efecto de ataque
-    this.createAttackEffect();
+    
+      
   }
 
-  createAttackEffect() {
-    const direction = this.lastDirection;
-
-    // Calcular posicion del efecto basado en direccion y posicion del jugador
-    let effectX = this.position.x * 2;
-    let effectY = this.position.y * 2;
-    const effectSize = 5 * ATTACK_EFFECT_SCALE;
-
-    switch (direction) {
-      case "right":
-        effectX = this.position.x + this.size.x;
-        effectY = this.position.y + (this.size.y / 2) - (effectSize / 2);
-        break;
-      case 'left':
-        effectX = this.position.x - effectSize;
-        effectY = this.position.y + (this.size.y / 2) - (effectSize / 2);
-        break;
-      case 'up':
-        effectX = this.position.x + (this.size.x / 2) - (effectSize / 2);
-        effectY = this.position.y - effectSize;
-        break;
-      case 'down':
-        effectX = this.position.x + (this.size.x / 2) - (effectSize / 2);
-        effectY = this.position.y + this.size.y;
-        break;
-    }
-
-    // Obtener sprite de arma y daño del inventario
-    let weaponSprite = this.inventory.getAttackSprite();
-    let damageBonus = this.inventory.getDamageBonus() || 0;
-    let totalDamage = this.damage + damageBonus;
-
-    // Crear efecto de ataque
-    const attackEffect = new AttackAnimation(
-      effectX, effectY, totalDamage, weaponSprite || this.weaponSprite.src
-    );
-
-    if (game) {
-      game.addAttackEffect(attackEffect);
-    }
-  }
-
+  
+    
+  
+  
   draw(ctx, scale) {
     // Dibujado normal
     if (this.attacking) {
@@ -865,4 +840,62 @@ class BasePlayer extends BaseCharacter {
   }
 
 
+  dash(){
+    
+    const currentTime = Date.now();
+
+    if(this.stamina > 0 && !this.attacking && !this.isDashing && currentTime - this.lastDashTime > this.dashCooldown){
+      this.stamina -= 1;
+      this.isDashing = true;
+      this.dashTimer = 0;
+      this.lastDashTime = currentTime;
+
+      //guadar la velocidad normal para restaurar
+      this.velocityBeforeDash = {
+        x: this.velocity.x,
+        y: this.velocity.y
+      };
+      //Vector para el dash seguna donde miraste
+      let dashVec = new Vec(0,0);
+
+      switch (this.lastDirection) {
+        case "right": dashVec = new Vec(1, 0); break;
+        case "left": dashVec = new Vec(-1, 0); break;
+        case "up": dashVec = new Vec(0, -1); break;
+        case "down": dashVec = new Vec(0, 1); break;
+      }
+
+      //aplicar velcodiad para efectuar el dash
+      this.velocity.x = dashVec.x*this.dashSpeed;
+      this.velocity.y = dashVec.y*this.dashSpeed;
+    }
+  }
+
+  updateDash(deltaTime) {
+    if (this.isDashing) {
+      this.dashTimer += deltaTime;
+      
+      // Terminar el dash cuando se acabe el tiempo
+      if (this.dashTimer >= this.dashDuration) {
+        this.isDashing = false;
+        
+        // Restaurar velocidad normal si el jugador no está presionando teclas
+        if (!this.movement.left.status && 
+            !this.movement.right.status && 
+            !this.movement.up.status && 
+            !this.movement.down.status) {
+          this.velocity.x = 0;
+          this.velocity.y = 0;
+        } else {
+          // Restaurar velocidad de movimiento normal
+          if (this.preDashVelocity) {
+            this.velocity.x = this.preDashVelocity.x;
+            this.velocity.y = this.preDashVelocity.y;
+          }
+        }
+      }
+    }
+  }
+
+  
 }
