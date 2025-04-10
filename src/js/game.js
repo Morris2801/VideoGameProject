@@ -36,7 +36,7 @@ class Game {
         this.bossDefeated = false;
 
         // Timer properties
-        this.levelTimeLimit = 15;  // max timer lev1 sec <------------------------ tbd
+        this.levelTimeLimit = 300;  // max timer lev1 sec <------------------------ tbd
         this.levelTimeLimit2 = 400; // max timer lev2 sec <---------------------------------tbd
         this.levelTimer = this.levelTimeLimit;  // currentTimer
 
@@ -114,6 +114,7 @@ class Game {
                         this.player.inventory.push(actor);
                         this.player.lastCardPickedUp = actor;
                         this.player.cardPickupCount++;
+                        this.player.score += 70;
                         this.actors = this.actors.filter(item => item !== actor);
                         // console.log("Picked up a card");
                     }
@@ -300,9 +301,25 @@ class Game {
             this.currentTree = this.trees[treeIndex];
             this.currentRoom = this.currentTree.root;
             this.level = new Level(this.currentRoom.levelStringValue);
-            this.player = this.level.player;
+
+            const oldPlayer = this.player;
+            let newPlayer = this.level.player;
+            this.player = oldPlayer;
+            console.log("OldplayerInfo", oldPlayer);
+            this.player.position = newPlayer.position;
+            console.log("NewPlayerInfo", this.player);
+
             this.actors = this.level.actors;
-            this.bossDefeated = false; 
+            this.bossDefeated = false;
+            if(treeIndex == 0){
+                this.player.score += 1000; //bonus por pasar de nivel
+                this.levelTimeLImit = this.levelTimeLimit;
+            }
+            else if(treeIndex == 1){
+                this.player.score += 1250; //bonus por pasar de nivel
+                this.levelTimeLimit = this.levelTimeLimit2;
+            }
+            this.levelTimer = this.levelTimeLimit;
         }
         else{
             console.log("No hay siguiente arbol");
@@ -362,6 +379,7 @@ class Game {
         document.getElementById("gameOverMenu").style.display = "flex";
     }
     async showVictoryScreen() {
+        this.player.score += 15*(this.levelTimer); 
         this.isActive = false;
         document.getElementById("canvas").style.display = "none";
         document.getElementById("uiCanvas").style.display = "none";

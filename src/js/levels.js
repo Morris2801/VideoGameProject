@@ -168,20 +168,20 @@ function levGen(width, height, levelNum, isBossRoom = false){
     */
     // Use specific spawn tables per level
     if (levelNum == 1){
-        console.log("NumEnemiesLvl1: " + numEnemiesLvl1);
+        //console.log("NumEnemiesLvl1: " + numEnemiesLvl1);
         for(let i = 0; i < numEnemiesLvl1; i++){
             //Choose random enemy with function above
             let enemy = getRandEnemy(enemyProbabilitiesLvl1);
-            console.log(enemy);
+            //console.log(enemy);
             placeX(enemy);
         }
     }
     else if (levelNum == 2){
-        console.log("NumEnemiesLvl2: " + numEnemiesLvl2);
+        //console.log("NumEnemiesLvl2: " + numEnemiesLvl2);
         //Choose random enemy with function above
         for(let i = 0; i < numEnemiesLvl2; i++){
             let enemy = getRandEnemy(enemyProbabilitiesLvl2);
-            console.log(enemy);
+            //console.log(enemy);
             placeX(enemy);
         }
     }
@@ -235,7 +235,7 @@ function levGen(width, height, levelNum, isBossRoom = false){
     for (let i = 0; i<height; i++){
         levelString += level.slice(i*width, (i+1)*width).join("")+"\n";
     }
-    console.log(levelString)
+    //console.log(levelString)
     return levelString;
 }
 

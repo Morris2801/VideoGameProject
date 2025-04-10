@@ -38,6 +38,7 @@ class BaseEnemy extends BaseCharacter {
         this.health = 10;
         this.damage = 1;
         this.enemyID = 0;
+        this.scoreGiven = 0;
         // Frame animation properties
         this.frameTime = 0; 
         this.currentFrameIndex = 0; 
@@ -448,6 +449,7 @@ class BaseEnemy extends BaseCharacter {
         if (this.health <= 0) {
             this.alive = false;
             game.player.killCount += 1;
+            game.player.score += this.scoreGiven;
             console.log("KillCount ", game.player.killCount);
         }
     } 
@@ -500,6 +502,7 @@ class Mariachi extends BaseEnemy {
         this.usesAttackSprite = true; 
         this.attackMaxDuration = 1500;
         this.enemyID = 1;
+        this.scoreGiven = 200;
         
         this.attackFrames = {
             right: [0, 5], 
@@ -519,6 +522,7 @@ class Tlaxcalteca extends BaseEnemy {
         this.health = 15;
         this.damage = 2;
         this.enemyID = 2;
+        this.scoreGiven = 250;
         this.setMovementFrames('right', [27,26,25,24,23,22,21], [21, 21]);
         this.setMovementFrames('left', [0,1,2,3,4,5,6],[0,0]);
         this.setMovementFrames('up', [27,26,25,24,23,22,21], [21, 21]);
@@ -539,6 +543,7 @@ class MayanWarrior extends BaseEnemy {
         this.health = 20;
         this.damage = 3;
         this.enemyID = 3;
+        this.scoreGiven = 300;
         this.setMovementFrames('down', [0,1,2,3],[1,1]);
         this.setMovementFrames('up', [0,1,2,3], [1,1]);
         this.setMovementFrames('left', [6,7,8,9,10,11],[6,6]);
@@ -561,6 +566,8 @@ class Devil extends BaseEnemy {
         this.health = 35;
         this.damage = 4;
         this.enemyID = 4;
+        this.scoreGiven = 350;
+
         this.setMovementFrames('right', [8, 9,10, 11], [10, 10]);
         this.setMovementFrames('left', [12,13,14,15], [13, 13]);
         this.setMovementFrames('up', [4,5,6,7], [4,4]);
@@ -595,6 +602,7 @@ class Quetzalcoatl extends BaseEnemy {
         this.usesAttackSprite = true;
         this.type = "boss";
         this.enemyID = 5;
+        this.scoreGiven =600;
         
         // Custom sprite dimensions
         this.frameWidth = 80;
@@ -640,6 +648,6 @@ class AhPuch extends BaseEnemy{
         this.initAttackSpriteSheet("../assets/charSpritesheets/AttackBossAhPunch.png");
     
         this.enemyID = 6;
-
+        this.scoreGiven = 800;
     }
 }

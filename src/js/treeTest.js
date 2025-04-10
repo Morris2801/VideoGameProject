@@ -53,17 +53,18 @@ class Tree{ // level tree
         this.levNum = levNum;
         this.numRooms = numRooms; // <- how many rooms per level
         this.currentRoomCount = 1; 
-        this.root = new TreeNode(1, levGen(cols, rows,1)); // sets root
+        this.root = new TreeNode(1, levGen(cols, rows,1)); // sets root}
+        this.lastRoom = this.root;
     }
     treeGen(node =this.root){
         if(this.currentRoomCount >= this.numRooms){
-            this.bossLoc(); // when finished generating #Rooms, sets boss room 
+            this.bossLoc2(); // when finished generating #Rooms, sets boss room 
             return; 
         }
         const maxPossibleChildren = this.numRooms - this.currentRoomCount;
         const numChildren = Math.min(Math.floor(Math.random()*3)+1, maxPossibleChildren);
         
-        console.log(`levNum ${this.levNum} room ${node.roomNum}, NumChildren: ${numChildren}`);
+        //console.log(`levNum ${this.levNum} room ${node.roomNum}, NumChildren: ${numChildren}`);
         let availableDirs = ["up", "left", "right"];
         for(let i = 0; i < numChildren && availableDirs.length > 0; i++){
             const dirIndex = Math.floor(Math.random() * availableDirs.length); // random between 1-3
@@ -73,9 +74,11 @@ class Tree{ // level tree
             const childRoomNum = this.currentRoomCount;
             
             //console.log(`Vhild #${i+1}/${numChildren} dir: ${dir}, Rnum: ${childRoomNum}`);
-            const isBossRoom = this.currentRoomCount === this.numRooms;
+            //console.log("-----", this.currentRoomCount, "vs", this.numRooms);
+            const isBossRoom = this.currentRoomCount == this.numRooms;
             const childNode = new TreeNode(childRoomNum, levGen(cols, rows, this.levNum, isBossRoom), node);
             node.children[dir] = childNode;
+            this.lastRoom = childNode;
         }
         for(let dir of ["up", "left", "right"]){
             if(node.children[dir]){
@@ -110,11 +113,13 @@ class Tree{ // level tree
             maxDepthFound.bossRoom = node;
         }
         for (let dir of ["up", "left", "right"]) {
-            this.traverse(node.children[dir], depth + 1, maxDepthFound);
+            if(node.children[dir]){
+                this.traverse(node.children[dir], depth + 1, maxDepthFound);
+            }
         }
     }
     //sets boss room "boss location"
-    bossLoc(){
+    bossLoc1(){
         let maxDepthFound = {
             maxDepth: -1, 
             bossRoom: null
@@ -122,21 +127,17 @@ class Tree{ // level tree
         this.traverse(this.root, 0, maxDepthFound);
         if(maxDepthFound.bossRoom){
             maxDepthFound.bossRoom.isBossRoom = true;
-            console.log(`Boss room: ${maxDepthFound.bossRoom.roomNum}, depth: ${maxDepthFound.maxDepth}`);
+            console.log(`Llv ${this.levNum} Boss room: ${maxDepthFound.bossRoom.roomNum}, depth: ${maxDepthFound.maxDepth}`);
         }
     }
-    serializeTree(node=this.root){
-        if(!node) return null; 
-        return {
-            roomNum: node.roomNum, 
-            levelStringValue : node.levelStringValue,
-            isBossRoom: node.isBossRoom,
-            children: {
-                up: this.serializeTree(node.children.up),
-                left: this.serializeTree(node.children.left),
-                right: this.serializeTree(node.children.right)
-            }
-        };
+    bossLoc2(){
+        if(this.lastRoom){
+            this.lastRoom.isBossRoom = true;
+            console.log(`Llv ${this.levNum} Boss room: ${this.lastRoom.roomNum}`);
+        }
+        else{
+            console.log("Algo salio mal con bossLoc2");
+        }
     }
 }
 
