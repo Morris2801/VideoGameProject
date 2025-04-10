@@ -61,27 +61,6 @@ class Game {
     }
     // handles effects in list
 
-       
-    update(deltaTime) {     
-        if(!this.isActive) return; // No aactualizar si pasusado
-        else {            
-            for (let actor of this.actors) {
-                // update functions
-                if(typeof actor.update === "function"){
-                    actor.update(this.level, deltaTime);
-                }
-            }
-            this.player.update(this.level, deltaTime);
-            this.camera.follow(this.player.position.x, this.player.position.y);
-
-            for(let i = this.attackEffects.length-1; i >= 0; i--){
-                const effect = this.attackEffects[i];
-                effect.update(this.level, deltaTime);
-        
-                //eliminar animacion inactivas
-                if(effect.shouldRemove){
-                    this.attackEffects.splice(i,1);
-                }
 
     addAttackEffect(effect) {
         this.attackEffects.push(effect);
@@ -249,6 +228,8 @@ class Game {
                    actor.position.y <= visibleBottom) {
                     actor.draw(ctx, zoomScale);
                 }
+            
+        
 
         // forzar que primero se actualice el fondo y luego lo demás pero es recorrer todo actors x2
         // (!) checar con el profe a ver si no hay otra cosa que hacer
@@ -343,6 +324,7 @@ class Game {
         }
     }
 
+        
     async gameOver() {
         console.log("Game Over");
         if(this.isGameOver) return; 
@@ -527,6 +509,7 @@ class Game {
       }
 
 }
+    
 
 
 // -------------------------------------------------
