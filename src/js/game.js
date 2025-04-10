@@ -83,6 +83,9 @@ class Game {
             }
         }
         this.player.update(this.level, deltaTime);
+
+        this.camera.follow(this.player.position.x, this.player.position.y);
+        
         for (let i = this.attackEffects.length - 1; i >= 0; i--) {
             const effect = this.attackEffects[i];
             effect.update(this.level, deltaTime);
@@ -187,8 +190,8 @@ class Game {
         }
     }
 
+   
     draw(ctx, scale) {
-
         ctx.save();
     
         // Apply camera transformation
@@ -228,12 +231,8 @@ class Game {
                    actor.position.y <= visibleBottom) {
                     actor.draw(ctx, zoomScale);
                 }
-            
-        
-
-        // forzar que primero se actualice el fondo y luego lo demás pero es recorrer todo actors x2
-        // (!) checar con el profe a ver si no hay otra cosa que hacer
-   
+            }
+        }
         
         // Always draw player
         this.player.draw(ctx, zoomScale);
@@ -244,11 +243,10 @@ class Game {
         this.drawPlayerHUD(ctx);
     }
 
-
-    // testTransit.
-    changeRoom(direction) {
+    // testTransit
+    changeRoom(direction){
         let nextRoom;
-        if (direction === "down") {
+        if(direction === "down"){
             nextRoom = this.currentRoom.downParent;
             if (!nextRoom) {
                 console.log("Cannot move to parent: root room.");
@@ -256,69 +254,57 @@ class Game {
             }
             console.log("going to parent");
         }
-        else {
-            nextRoom = this.currentRoom.children[direction];
+        else{
+            nextRoom= this.currentRoom.children[direction];
         }
-        if (nextRoom) {
+        if(nextRoom){
             console.log("NextRoom:", nextRoom.roomNum);
             const oldPlayer = this.player;
-            this.currentRoom = nextRoom;
+            this.currentRoom= nextRoom;
             this.level = new Level(nextRoom.levelStringValue);
             //actualizar pos segun levGen, no la anterior
             let newPlayer = this.level.player;
-            this.player = oldPlayer;
-            console.log("OldplayerInfo", oldPlayer);
+            this.player= oldPlayer;
             this.player.position = newPlayer.position;
-
 
             this.camera.x = this.player.position.x;
             this.camera.y = this.player.position.y
 
-
-            console.log("NewPlayerInfo", this.player);
-
             this.actors = this.level.actors;
-            let paths = [];
-            if (this.currentRoom.children.up != null) {
+            let paths = []; 
+            if(this.currentRoom.children.up != null){
                 paths.push("up", this.currentRoom.children.up.roomNum);
             }
-            if (this.currentRoom.children.left != null) {
+            if(this.currentRoom.children.left != null){
                 paths.push("left", this.currentRoom.children.left.roomNum);
             }
-            if (this.currentRoom.children.right != null) {
+            if(this.currentRoom.children.right != null){
                 paths.push("right", this.currentRoom.children.right.roomNum);
             }
-            if (this.currentRoom.downParent != null) {
+            if(this.currentRoom.downParent != null){
                 paths.push("down");
             }
             console.log(`treeInd ${this.currentTreeIndex} R ${this.currentRoom.roomNum} Paths: ${paths}`);
         }
-        else {
+        else{
             console.log("Sike");
         }
     }
-    changeLevel(treeIndex) {
-        if (treeIndex >= 0 && treeIndex < this.trees.length) {
-            if (this.bossDefeated == false) {
+    changeLevel(treeIndex){
+        if(treeIndex >= 0 && treeIndex < this.trees.length){ 
+            if(this.bossDefeated == false){
                 return;
             }
             console.log("Siwtch arbol");
-            this.currentTreeIndex = treeIndex;
+            this.currentTreeIndex= treeIndex;
             this.currentTree = this.trees[treeIndex];
             this.currentRoom = this.currentTree.root;
             this.level = new Level(this.currentRoom.levelStringValue);
             this.player = this.level.player;
             this.actors = this.level.actors;
-            this.bossDefeated = false;
-            if(treeIndex == 0){
-                this.levelTimeLImit = this.levelTimeLimit;
-            }
-            else if(treeIndex == 1){
-                this.levelTimeLimit = this.levelTimeLimit2;
-            }
-            this.levelTimer = this.levelTimeLimit;
+            this.bossDefeated = false; 
         }
-        else {
+        else{
             console.log("No hay siguiente arbol");
             this.showVictoryScreen();
         }
