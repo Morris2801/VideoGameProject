@@ -1,6 +1,6 @@
 USE mayaztec;
 
-SET AUTOCOMMIT = 0;
+SET AUTOCOMMIT = 1;
 
 -- Insert Players
 INSERT INTO player (username, password, date_create, email) VALUES
@@ -163,3 +163,7 @@ LIMIT 5;
 
 
 SELECT * FROM card;
+
+SELECT * FROM player;
+
+select * FROM player_runstats;

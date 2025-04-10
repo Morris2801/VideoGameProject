@@ -27,7 +27,7 @@ class BaseEnemy extends BaseCharacter {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
         // Basic attributes 
-        this.speed = 0.00009; //TBD
+        this.speed = 0.00005; //TBD
         this.attackSpeed = 0.5; //TBD
         this.detectionDistance = 4; //TBD
         this.attackRange = 0.5; //TBD
@@ -37,6 +37,7 @@ class BaseEnemy extends BaseCharacter {
         this.alive = true; 
         this.health = 10;
         this.damage = 1;
+        this.enemyID = 0;
         // Frame animation properties
         this.frameTime = 0; 
         this.currentFrameIndex = 0; 
@@ -218,7 +219,7 @@ class BaseEnemy extends BaseCharacter {
         else {
             // Chase state
             this.state = "chase";
-            this.speed = 0.00025;
+            this.speed = 0.00005;
             let dir = game.player.position.minus(this.position).direction();
             this.velocity = dir.times(this.speed * deltaTime);
             let newPos = this.position.plus(this.velocity.times(deltaTime));
@@ -228,7 +229,7 @@ class BaseEnemy extends BaseCharacter {
                 this.size.x - 2 * this.charMargin, 
                 this.size.y - 2 * this.charMargin
             );
-            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit')) {
+            if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "player") && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit') && !level.contact(this.innerHitbox, this.size, 'enemy') && !level.contact(this.innerHitbox, this.size, 'boss')) {
                 this.position = newPos;
                 this.startMovement(dir);
             }
@@ -257,7 +258,11 @@ class BaseEnemy extends BaseCharacter {
             this.size.y - 2 * this.charMargin
         );
         // collision checking
-        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit')) {
+        if(level.contact(this.innerHitbox, this.size, "player")) {
+            this.velocity = new Vec(0, 0); // Stop movement
+            return;
+        }
+        if (!level.contact(this.innerHitbox, this.size, 'wall')&& !level.contact(this.innerHitbox, this.size, "player") && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit') && !level.contact(this.innerHitbox, this.size, 'enemy') && !level.contact(this.innerHitbox, this.size, 'boss')) {
             this.position = newPos;
             this.lastDirection = this.normDir(this.velocity);
             this.startMovement(this.lastDirection);
@@ -350,6 +355,7 @@ class BaseEnemy extends BaseCharacter {
             if (boxOverlap(attackBox, game.player)) {
                 // Deal damage to player
                 game.player.health -= this.damage;
+                game.player.lastHitBy = this.enemyID; 
                 console.log(`Player hit! Health: ${game.player.health}`);
                 this.hasHitPlayer = true;
             }
@@ -493,6 +499,7 @@ class Mariachi extends BaseEnemy {
         this.damage = 1;
         this.usesAttackSprite = true; 
         this.attackMaxDuration = 1500;
+        this.enemyID = 1;
         
         this.attackFrames = {
             right: [0, 5], 
@@ -511,6 +518,7 @@ class Tlaxcalteca extends BaseEnemy {
         super(_color, width, height, x, y, _type);
         this.health = 15;
         this.damage = 2;
+        this.enemyID = 2;
         this.setMovementFrames('right', [27,26,25,24,23,22,21], [21, 21]);
         this.setMovementFrames('left', [0,1,2,3,4,5,6],[0,0]);
         this.setMovementFrames('up', [27,26,25,24,23,22,21], [21, 21]);
@@ -530,6 +538,7 @@ class MayanWarrior extends BaseEnemy {
         super(_color, width, height, x, y, _type);
         this.health = 20;
         this.damage = 3;
+        this.enemyID = 3;
         this.setMovementFrames('down', [0,1,2,3],[1,1]);
         this.setMovementFrames('up', [0,1,2,3], [1,1]);
         this.setMovementFrames('left', [6,7,8,9,10,11],[6,6]);
@@ -551,7 +560,7 @@ class Devil extends BaseEnemy {
         super(_color, width, height, x, y, _type);
         this.health = 35;
         this.damage = 4;
-
+        this.enemyID = 4;
         this.setMovementFrames('right', [8, 9,10, 11], [10, 10]);
         this.setMovementFrames('left', [12,13,14,15], [13, 13]);
         this.setMovementFrames('up', [4,5,6,7], [4,4]);
@@ -585,6 +594,7 @@ class Quetzalcoatl extends BaseEnemy {
         this.attackSheetCols = 4;  
         this.usesAttackSprite = true;
         this.type = "boss";
+        this.enemyID = 5;
         
         // Custom sprite dimensions
         this.frameWidth = 80;
@@ -613,6 +623,7 @@ class AhPuch extends BaseEnemy{
         this.attackSheetCols = 8;  
         this.usesAttackSprite = true;
         this.type = "boss";
+
         
         // Custom sprite dimensions
         this.frameWidth = 66;
@@ -628,5 +639,7 @@ class AhPuch extends BaseEnemy{
         
         this.initAttackSpriteSheet("../assets/charSpritesheets/AttackBossAhPunch.png");
     
+        this.enemyID = 6;
+
     }
 }

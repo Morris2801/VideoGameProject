@@ -9,11 +9,11 @@ USE mayaztec;
 
 -- Player Table
 CREATE TABLE player (
-	player_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	username VARCHAR(20) NOT NULL, 
-    password VARCHAR(20) NOT NULL, 
-    date_create DATETIME NOT NULL, 
-    email VARCHAR(20) NOT NULL
+	player_id INT PRIMARY KEY AUTO_INCREMENT ,
+	username VARCHAR(20) , 
+    password VARCHAR(20) , 
+    date_create DATETIME , 
+    email VARCHAR(50) 
 );
 
 CREATE TABLE players(
@@ -91,16 +91,21 @@ CREATE TABLE player_runstats(
 	run_id INT PRIMARY KEY auto_increment, 
     player_id INT, 
 		FOREIGN KEY (player_id) REFERENCES player(player_id), 
-	run_duration FLOAT, 
-    run_date TIMESTAMP, 
+	run_start TIMESTAMP, 
+    run_end TIMESTAMP, 
+    finished bool,
     enemies_killed INT, 
     cards_collected INT, 
+    cards_used INT,
+    vases_broken INT, 
+    last_room INT, 
+    
     most_used_card INT, 
-		FOREIGN KEY (most_used_card) REFERENCES card(card_id),
+		-- FOREIGN KEY (most_used_card) REFERENCES card(card_id),
 	eliminated_by INT, 
-		FOREIGN KEY (eliminated_by) REFERENCES enemy(enemy_id),
-	last_level INT, 
-		FOREIGN KEY (last_level) REFERENCES level(level_id)
+		-- FOREIGN KEY (eliminated_by) REFERENCES enemy(enemy_id),
+	last_level INT -- ,
+		-- FOREIGN KEY (last_level) REFERENCES level(level_id)
 );
 
 CREATE TABLE enemy_card_drop(
@@ -115,4 +120,14 @@ CREATE TABLE boss_enemy(
 	id_boss INT PRIMARY KEY, 
     bendition_reward INT, 
 		FOREIGN KEY (bendition_reward) REFERENCES card_effect(effect_id)
+);
+
+
+
+CREATE TABLE level_layout (
+    level_id INT AUTO_INCREMENT PRIMARY KEY,
+    -- run_id INT, -- Foreign key
+    layout1 JSON NOT NULL,
+    layout2 JSON NOT NULL
+    -- FOREIGN KEY (run_id) REFERENCES player_runstats(run_id) ON DELETE CASCADE
 );
