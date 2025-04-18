@@ -518,7 +518,8 @@ function setEventListeners() {
         }
 
         if(event.key == " "){
-            game.player.Dash();
+            console.log("Dash realizado");
+            game.player.dash();
         }
     });
 

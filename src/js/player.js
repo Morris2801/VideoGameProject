@@ -272,8 +272,8 @@ class BasePlayer extends BaseCharacter {
     this.hasHitEnemy = false;
 
     // Dash properties
-  this.dashSpeed = 0.04;       // Velocidad del dash
-  this.dashDuration = 200;     // Duración del dash en milisegundos
+  this.dashSpeed = 3;       // Velocidad del dash
+  this.dashDuration = 500;     // Duracion del dash en milisegundos
   this.dashCooldown = 1000;    // Tiempo de espera entre dashes
   this.isDashing = false;      // Estado de dash
   this.dashTimer = 0;          // Contador de tiempo actual del dash
@@ -845,7 +845,15 @@ class BasePlayer extends BaseCharacter {
     
     const currentTime = Date.now();
 
+    console.log("Intentando dash:", {
+      stamina: this.stamina,
+      attacking: this.attacking,
+      isDashing: this.isDashing,
+      cooldown: currentTime - this.lastDashTime > this.dashCooldown
+    });
+
     if(this.stamina > 0 && !this.attacking && !this.isDashing && currentTime - this.lastDashTime > this.dashCooldown){
+      console.log("Dash activado en la direccion:", this.lastDirection, "velocidad", this.dashSpeed);
       this.stamina -= 1;
       this.isDashing = true;
       this.dashTimer = 0;
@@ -869,12 +877,47 @@ class BasePlayer extends BaseCharacter {
       //aplicar velcodiad para efectuar el dash
       this.velocity.x = dashVec.x*this.dashSpeed;
       this.velocity.y = dashVec.y*this.dashSpeed;
+      console.log("Velocidad Aplicada:", this.velocity.x, this.velocity.y);
     }
   }
 
   updateDash(deltaTime) {
     if (this.isDashing) {
       this.dashTimer += deltaTime;
+
+      if (this.dashTimer < this.dashDuration) {
+        // Calcular la nueva posicion del jugador
+        const dashMove = this.dashSpeed * 0.05;
+        let newX = this.position.x;
+        let newY = this.position.y;
+        
+        switch (this.lastDirection) {
+          case "right": newX += dashMove; break;
+          case "left": newX -= dashMove; break;
+          case "up": newY -= dashMove; break;
+          case "down": newY += dashMove; break;
+        }
+        
+        // hitbox temporal para probar colisiones
+        const tempHitbox = new Rect(
+          newX + this.charMargin,
+          newY + this.charMargin,
+          this.size.x - 2 * this.charMargin,
+          this.size.y - 2 * this.charMargin
+        );
+        
+        // Solo mover si no hay colision con paredes
+        if (!game.level.contact(tempHitbox, this.size, 'wall') && 
+            !game.level.contact(tempHitbox, this.size, 'exit') &&
+            !game.level.contact(tempHitbox, this.size, 'updoor') &&
+            !game.level.contact(tempHitbox, this.size, 'downdoor') &&
+            !game.level.contact(tempHitbox, this.size, 'leftdoor') &&
+            !game.level.contact(tempHitbox, this.size, 'rightdoor')) {
+          // Aplicar el movimiento si no hay colision
+          this.position.x = newX;
+          this.position.y = newY;
+        }
+      }
       
       // Terminar el dash cuando se acabe el tiempo
       if (this.dashTimer >= this.dashDuration) {
@@ -889,9 +932,9 @@ class BasePlayer extends BaseCharacter {
           this.velocity.y = 0;
         } else {
           // Restaurar velocidad de movimiento normal
-          if (this.preDashVelocity) {
-            this.velocity.x = this.preDashVelocity.x;
-            this.velocity.y = this.preDashVelocity.y;
+          if (this.velocityBeforeDash) {
+            this.velocity.x = this.velocityBeforeDash.x;
+            this.velocity.y = this.velocityBeforeDash.y;
           }
         }
       }
