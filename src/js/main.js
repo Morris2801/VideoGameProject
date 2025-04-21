@@ -482,20 +482,48 @@ async function gameStart() {
     drawScene(document.timeline.currentTime);
 }
 
+//SFX for running, attacking, breaking, and damage taken
+
+const running = new Audio("../js/running.wav");
+const attack = new Audio("../js/swing.wav");
+const breaking = new Audio("../js/vase_breaking.wav");
+const damage = new Audio("../js/damage.wav");
+
+function playWalk(){
+    running.currentTime = 0;
+    running.play();
+}
+function playAttack(){
+    attack.currentTime = 0;
+    attack.play();
+}
+function playBreak(){
+    breaking.currentTime = 0;
+    breaking.play();
+}
+function playDamage(){
+    damage.currentTime = 0;
+    damage.play();
+}
+
 //player-character interaction
 function setEventListeners() {
     window.addEventListener("keydown", event => {
         if (event.key == 'w' || event.key == "W" || event.code == "ArrowUp") {
             game.player.startMovement("up");
+            running.play();
         }
         if (event.key == 'a' || event.key == "A" || event.code == "ArrowLeft") {
             game.player.startMovement("left");
+            running.play();
         }
         if (event.key == 's' || event.key == "S" || event.code == "ArrowDown") {
             game.player.startMovement("down");
+            running.play();
         }
         if (event.key == 'd' || event.key == "D" || event.code == "ArrowRight") {
             game.player.startMovement("right");
+            running.play();
         }
         if (event.key >= '1' && event.key <= '6') {
             let index = parseInt(event.key) - 1;
@@ -504,6 +532,7 @@ function setEventListeners() {
         }
         //para vasija / chest
         if(event.key == "f" || event.key == "F"){
+            breaking.play();
             for(const actor of game.level.actors){
                 if(actor instanceof Vase){
                     actor.interact(game.player);
@@ -515,6 +544,7 @@ function setEventListeners() {
         if(event.key == "x" || event.key == "X"){
             game.player.startAttack();
             console.log("ataque realizado");
+            attack.play();
         }
 
         if(event.key == " "){
@@ -525,15 +555,29 @@ function setEventListeners() {
     window.addEventListener("keyup", event => {
         if (event.key == 'w' || event.key == "W" || event.code == "ArrowUp") {
             game.player.stopMovement("up");
+            running.pause();
+            running.currentTime = 0;
         }
         if (event.key == 'a' || event.key == "A" || event.code == "ArrowLeft") {
             game.player.stopMovement("left");
+            running.pause();
+            running.currentTime = 0;
         }
         if (event.key == 's' || event.key == "S" || event.code == "ArrowDown") {
             game.player.stopMovement("down");
+            running.pause();
+            running.currentTime = 0;
         }
         if (event.key == 'd' || event.key == "D" || event.code == "ArrowRight") {
             game.player.stopMovement("right");
+            running.pause();
+            running.currentTime = 0;
+        }
+        if (event.key == "f" || event.key == "F") {
+            breaking.currentTime = 0;
+        }
+        if (event.key == "x" || event.key == "X") {
+            attack.currentTime = 0;
         }
 
         
