@@ -395,7 +395,6 @@ footer {
   flex-direction: row;
 }
 
-
 #grid-item-G-3{
   grid-area: lat;
   background-color: rgba(55, 34, 9, 0.886);
@@ -466,13 +465,34 @@ footer {
 }
 #contextScreen{
   background-color:  rgba(2, 2, 2, 0.8);
+  bottom: 20px;
+  left: 20px;
+  width: 80%;
+  padding: 20px;
+  border-radius: 10px;
+  display: none;
 }
 #contextScreen p {
   width: 65%;
   justify-content: center;
   justify-items: center; 
-  font-size: 30px;
+  font-size: 20px;
 }
+
+.paragraphv {
+  display: block;
+  opacity: 1; 
+}
+
+.paragraph {
+  display: none;
+  opacity: 0; 
+  transition: opacity 0.5s ease-in-out;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
 #grid-item-G-5 {
   grid-area: footer;
   background-color: rgb(21, 54, 27, 0.3);
@@ -585,7 +605,7 @@ footer img {
 
 .tutorial-content{
   display: grid; 
-  grid-template-columns: 1fr 1fr; 
+  grid-template-columns: 1fr 2fr; 
   gap: 20px; 
   padding: 20px;
   background-color: rgba(0,0,0,0.95); 
@@ -593,14 +613,32 @@ footer img {
   box-shadow: 0 0 19px rgba(0, 0, 0, 0.5);
 }
 
-.tutorial-section {
+.tutorial-section1 {
   padding: 20px; 
+  grid-column: 1;
+  grid-row: 1;
   background-color: rgba(225,225,225,0.1);
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.tutorial-section h2{
+.tutorial-section2 {
+  padding: 20px; 
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  background-color: rgba(225,225,225,0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.tutorial-section1 h2{
+  text-align: center; 
+  margin-bottom: 10px;
+  font-size: 24px; 
+  color : #e8c766;
+}
+
+.tutorial-section2 h2{
   text-align: center; 
   margin-bottom: 10px;
   font-size: 24px; 
@@ -615,7 +653,7 @@ footer img {
 }
 #grid-item-2-7 p {
   font-family: 'VT323', monospace;
-  font-size: 22px;
+  font-size: 21px;
   line-height: 1.4;
   color: #fff;
   text-shadow: 1px 1px 0px #000;
@@ -651,6 +689,12 @@ footer img {
   to {
     translate: calc(-4 * 250px);
   }
+}
+
+.tutorial-section2 img {
+  width: 80%;
+  height: auto;
+  object-fit: contain;
 }
 
 

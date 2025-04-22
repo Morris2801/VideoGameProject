@@ -46,6 +46,7 @@ let treeLevel2 = new Tree(2,numRoomsLvl2);
 treeLevel2.treeGen();
 let initialLevel = new Level(treeLevel1.root.levelStringValue);
 
+
 // ------------------------------------------------------
 // Functions y eventlistenersDOM
 document.addEventListener('DOMContentLoaded', () => {
@@ -482,12 +483,12 @@ async function gameStart() {
     drawScene(document.timeline.currentTime);
 }
 
-//SFX for running, attacking, breaking, and damage taken
+//SFX for running, attacking, breaking, damage taken, and dash
 
 const running = new Audio("../js/running.wav");
 const attack = new Audio("../js/swing.wav");
 const breaking = new Audio("../js/vase_breaking.wav");
-const damage = new Audio("../js/damage.wav");
+const dash = new Audio("../js/dash.wav");
 
 function playWalk(){
     running.currentTime = 0;
@@ -501,9 +502,9 @@ function playBreak(){
     breaking.currentTime = 0;
     breaking.play();
 }
-function playDamage(){
-    damage.currentTime = 0;
-    damage.play();
+function playDash(){
+    dash.currentTime = 0;
+    dash.play();
 }
 
 //player-character interaction
@@ -550,6 +551,7 @@ function setEventListeners() {
         if(event.key == " "){
             console.log("Dash realizado");
             game.player.dash();
+            dash.play();
         }
     });
 
@@ -579,6 +581,10 @@ function setEventListeners() {
         }
         if (event.key == "x" || event.key == "X") {
             attack.currentTime = 0;
+        }
+        if (event.key == " "){
+            dash.currentTime = 0;
+            dash.pause();
         }
 
         
@@ -614,7 +620,7 @@ function drawUI(){
 
     let loctext;
     if (game.currentRoom.isBossRoom){
-        loctext = "Boss Room"; 
+        loctext = "Boss Room";
     }
     else{
         loctext = `Room ${game.currentRoom.roomNum}`;
