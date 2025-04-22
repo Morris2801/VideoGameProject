@@ -589,7 +589,7 @@ class Devil extends BaseEnemy {
 class Quetzalcoatl extends BaseEnemy {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width*1, height*1, x, y, _type);
-        this.health = 50; // Initial health for Quetzalcoatl
+        this.health = 5; // Initial health for Quetzalcoatl
         this.damage = 5;
         this.frameWidth = 120;
         this.frameHeight = 100;
@@ -608,11 +608,37 @@ class Quetzalcoatl extends BaseEnemy {
         this.frameWidth = 80;
         this.frameHeight = 64;
         this.sheetCols = 3;
+
+        //drop card flag
+        this.hasDroppedCard = false;
         
         
         this.initAttackSpriteSheet("../assets/charSpritesheets/SpriteSheetQuetzacoaltPeleando.png");
     
     }
+
+    takeDamage(damage) {
+        this.health -= damage;
+        console.log(this.health);
+        if (this.health <= 0 && !this.hasDroppedCard) {
+            this.hasDroppedCard = true;
+
+            this.alive = false;
+            game.player.killCount += 1;
+            game.player.score += this.scoreGiven;
+            console.log("KillCount ", game.player.killCount);
+
+            
+            // Create the Quetzalcoatl card at the boss position
+            const card = new QuetzalcoatlCard("#FFD700", 32,32,this.position.x, this.position.y, "benditionCard"            );
+            const spritePath = "../assets/cards/QuetzacolatCard.png";
+            card.setSprite(spritePath, new Rect (0, 0, 80, 150));
+
+            game.actors.push(card); // Add the card to the game actors
+            console.log("Card dropped at position: ", this.position.x, this.position.y);
+
+        }
+    } 
     
 }
 
@@ -621,6 +647,19 @@ class AhPuch extends BaseEnemy{
         super(_color, width*1, height*1, x, y, _type);
         this.health = 50; // Initial health for Ah Puch
         this.damage = 5;
+
+        //Propiedades para la fireball
+        this.isAttackingFireball = false;
+        this.fireballAttackDuration = 0;
+        this.fireballAttackMaxDuration = 2000; // 2 seconds for fireball attack
+        this.fireballCooldown = 100; //2 miliseconds 
+        this.lastFireballTime = 0;
+        this.fireballCount = 0;
+        this.maxFireBalls = 16;
+        this.fireBallDamage = 2;
+        this.fireBallSpeed = 0.002;
+        this.fireBalls = [];
+
         this.frameWidth = 64;
         this.frameHeight = 112;
         this.sheetCols = 8; 
@@ -650,4 +689,201 @@ class AhPuch extends BaseEnemy{
         this.enemyID = 6;
         this.scoreGiven = 800;
     }
+
+
+    updateAttack(deltaTime){
+        this.attackDuration += deltaTime;
+
+        //phase attack normal
+        if(!this.isAttackingFireball){
+            if(!this.hasHitPlayer && this.attackDuration > this.attackMaxDuration /2){
+            const attackBox = {
+                position: {
+                    x: this.position.x + this.attackBoxes[this.lastDirection].xOffset,
+                    y: this.position.y + this.attackBoxes[this.lastDirection].yOffset
+                },
+                size: {
+                    x: this.attackBoxes[this.lastDirection].width,
+                    y: this.attackBoxes[this.lastDirection].height
+                },
+                type: "enemyAttackBox"
+            };
+
+            if(boxOverlap(attackBox, game.player)){
+                game.player.health -= this.damage;
+                game.player.lastHitBy = this.enemyID;
+                this.hasHitPlayer = true;
+            }
+            }
+
+        if(this.attackDuration >= this.attackMaxDuration){
+            this.isAttackingFireball = true;
+            this.attackDuration = 0;
+            this.fireballAttackDuration = 0;
+            this.lastFireballTime = Date.now();
+
+            //congelar el ultimo frame de ataque
+            const attackFrameRange = this.attackFrames[this.lastDirection];
+            const lastAttackFrame = attackFrameRange[1];
+            this.currentFrameIndex = lastAttackFrame;
+        }
+        }
+
+        else{
+            this.fireballAttackDuration += deltaTime;
+            this.updateFireballAttack(deltaTime);
+
+            // finalizar la fase de ataque fireball
+            if(this.fireballAttackDuration >= this.fireballAttackMaxDuration){
+                this.isAttackingFireball = false;
+                this.attacking = false;
+                this.attackDuration = 0;
+                this.hasHitPlayer = false;
+                this.lastAttackEndTime = Date.now();
+                this.isRecovering = true;
+
+                //limpiar cuantas fireball le quedan
+                this.fireBalls = [];
+
+                this.switchBackToIdleState();
+            }
+        }  
+    }
+
+    updateFireballAttack(deltaTime) {
+        const currentTime = Date.now();
+
+        //crear las fireballs
+        if(currentTime - this.lastFireballTime > this.fireballCooldown){
+            this.lastFireballTime = currentTime;
+            this.spawnFireball();
+        }
+
+        //quitar las fireballs que ya se usaron
+        for (let i = this.fireBalls.length - 1; i >= 0; i--){
+            const fireball = this.fireBalls[i];
+            fireball.update(deltaTime);
+
+            // remover fireballs que ya no existen
+            if (fireball.shouldRemove) {
+                this.fireBalls.splice(i, 1);
+            }
+        }
+    }
+
+    spawnFireball(){
+        //calculo basado en la cantidad de fireballs que quedan
+        const angle = (this.fireballCount / this.maxFireBalls)* 2 * Math.PI;
+        this.fireballCount = (this.fireballCount + 1) % this.maxFireBalls;
+
+        const dirX = Math.cos(angle);
+        const dirY = Math.sin(angle);
+
+        //create a new fireball
+        const fireball = new Fireball(
+            this.position.x + this.size.x / 2, 
+            this.position.y + this.size.y /2,
+            this.fireBallDamage, 
+            new Vec(dirX, dirY),
+            this.fireBallSpeed
+        );
+
+        this.fireBalls.push(fireball);
+    }
+
+    draw(ctx, scale) {
+        super.draw(ctx, scale);
+
+        //dibujar las fireballs
+        for (const fireball of this.fireBalls) {
+            fireball.draw(ctx, scale);
+        }
+    }
+}
+
+class Fireball {
+    constructor(x, y, damage, direction, speed) {
+        this.position = new Vec(x, y);
+        this.size = { x: 0.1, y: 0.1 }; // tamaño de la fireball
+        this.direction = direction;
+        this.speed = speed;
+        this.damage = damage;
+        this.shouldRemove = false;
+        this.lifetime = 0;
+        this.maxLifetime = 3000; // 3 seconds
+        
+        // Crer hibox de la bola
+        this.hitbox = new Rect(
+            this.position.x,
+            this.position.y,
+            this.size.x,
+            this.size.y
+        );
+    }
+    
+    update(deltaTime) {
+        
+        this.lifetime += deltaTime;
+        if (this.lifetime >= this.maxLifetime) {
+            this.shouldRemove = true;
+            return;
+        }
+        
+        // mover la fireball
+        const movement = this.direction.times(this.speed * deltaTime);
+        this.position = this.position.plus(movement);
+        
+        // Update hitbox position
+        this.hitbox = new Rect(
+            this.position.x,
+            this.position.y,
+            this.size.x,
+            this.size.y
+        );
+        
+        // revisar colision con el player
+        if (game && game.player && boxOverlap(this, game.player)) {
+            game.player.health -= this.damage;
+            game.player.lastHitBy = 6; // AhPuch's enemyID
+            this.shouldRemove = true;
+        }
+        
+        
+        if (game && game.level && game.level.contact(this.hitbox, this.size, 'wall')) {
+             this.shouldRemove = true;
+         }
+    }
+    
+    draw(ctx, scale) {
+        const scaledX = this.position.x * scale;
+        const scaledY = this.position.y * scale;
+        const scaledSize = this.size.x * scale;
+        
+        // Create a glowing effect for the fireball
+        const gradient = ctx.createRadialGradient(
+            scaledX + scaledSize/2, 
+            scaledY + scaledSize/2, 
+            0,
+            scaledX + scaledSize/2, 
+            scaledY + scaledSize/2, 
+            scaledSize
+        );
+        gradient.addColorStop(0, "white");
+        gradient.addColorStop(0.3, "#ff4500"); // Orange-red color
+        gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(
+            scaledX + scaledSize/2, 
+            scaledY + scaledSize/2, 
+            scaledSize, 
+            0, 
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
+
+
+    
 }

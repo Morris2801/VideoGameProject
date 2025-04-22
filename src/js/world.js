@@ -122,6 +122,12 @@ const levelChars = {
         sprite: '../assets/cards/cardCalavera.png',
         rectParams: [0, 0 , 80, 150]},
     
+    "10":{ objClass: QuetzalcoatlCard,
+        label: "card",
+        cardId: 11,
+        sprite: 'C:\Users\Toyan\VideoGameProject\VideoGameProject\src\assets\cards\QuetzacolatCard.png',
+        rectParams: [0, 0, 100, 150]},
+    
     "j": {objClass: Vase,   // <- j de jarrón 
         label: "vase", 
         sprite: '../assets/mapElements/vase.png', 
@@ -176,7 +182,7 @@ const levelChars = {
     "A": {objClass: AhPuch,
         label: "boss",
         sprite: "../assets/charSpritesheets/BossIdleAhPunch.png",
-        rect: new Rect(0, 0, 65, 88.5),
+        rectParams :[0, 0, 65, 88.5],
         sheetCols:4,
         startFrame: [0, 0]}
     // Missing boss 2 here // enemy id 6

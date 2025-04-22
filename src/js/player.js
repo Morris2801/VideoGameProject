@@ -81,6 +81,12 @@ class Inventory {
         this.player.applyTransformation(card.transformationType || "default", duration);
       }
     }
+    else if(card.cardType === "benditionCard"){
+      if(this.player){
+        card.applyEffect(this.player);
+
+      }
+    }
     //buff card
     else if (card.cardType === "powerCard") { //card.cardType
       this.activeBuff = this.activeBuff || [];

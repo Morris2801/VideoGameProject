@@ -517,7 +517,7 @@ function setEventListeners() {
             console.log("ataque realizado");
         }
 
-        if(event.key == " "){
+        if(event.key == "shiftkey" || event.key == "Shift"){
             console.log("Dash realizado");
             game.player.dash();
         }
