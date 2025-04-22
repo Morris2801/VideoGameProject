@@ -228,8 +228,215 @@ function main() {
         }
     }
     */
+    // cosas para winsvsdeaths
+    document.getElementById('formSelectWinsDeaths').onsubmit = async (e) => {
+        e.preventDefault()
 
+        const data = new FormData(formSelectWinsDeaths)
+        console.log(data)
+        const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
 
+        let response = await fetch(`http://localhost:5000/api/winsvsdeaths/${dataObj['username']}`, {
+            method: 'GET'
+        })
+
+        if (response.ok) {
+            let results = await response.json()
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsWinsDeaths')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsWinsDeaths')
+                container.innerHTML = 'No results to show.'
+            }
+        }
+        else {
+            getResults.innerHTML = response.status
+        }
+    }
+    // cosas para Favorite card
+    document.getElementById('formSelectCard').onsubmit = async (e) => {
+        e.preventDefault()
+
+        const data = new FormData(formSelectCard)
+        console.log(data)
+        const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
+
+        let response = await fetch(`http://localhost:5000/api/favoritecard/${dataObj['username']}`, {
+            method: 'GET'
+        })
+
+        if (response.ok) {
+            let results = await response.json()
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsFavoriteCard')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsFavoriteCard')
+                container.innerHTML = 'No results to show.'
+            }
+        }
+        else {
+            getResults.innerHTML = response.status
+        }
+    }
+    // cosas para wins^deaths
+    document.getElementById('formSelectWinsDeaths').onsubmit = async (e) => {
+        e.preventDefault()
+
+        const data = new FormData(formSelectWinsDeaths)
+        console.log(data)
+        const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
+
+        let response = await fetch(`http://localhost:5000/api/winsvsdeaths/${dataObj['username']}`, {
+            method: 'GET'
+        })
+
+        if (response.ok) {
+            let results = await response.json()
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsWinsDeaths')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsWinsDeaths')
+                container.innerHTML = 'No results to show.'
+            }
+        }
+        else {
+            getResults.innerHTML = response.status
+        }
+    }
+    // cosas para Nemesis
+    document.getElementById('formSelectNemesis').onsubmit = async (e) => {
+        e.preventDefault()
+
+        const data = new FormData(formSelectNemesis)
+        console.log(data)
+        const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
+
+        let response = await fetch(`http://localhost:5000/api/nemesis/${dataObj['username']}`, {
+            method: 'GET'
+        })
+
+        if (response.ok) {
+            let results = await response.json()
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsNemesis')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsNemesis')
+                container.innerHTML = 'No results to show.'
+            }
+        }
+        else {
+            getResults.innerHTML = response.status
+        }
+    }
 }
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.toggle-buttons button');
+    const sections = document.querySelectorAll('.leaderboard-section');
+    sections.forEach(section => section.classList.remove('active'));
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+
+            sections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.toggle('active'); // Show or hide the clicked section
+                } else {
+                    section.classList.remove('active'); // Hide all other sections
+                }
+            });
+        });
+    });
+});
+
+
 
 main()

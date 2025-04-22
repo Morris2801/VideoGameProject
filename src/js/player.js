@@ -398,7 +398,19 @@ class BasePlayer extends BaseCharacter {
       // Intentar activar la carta
       const activated = this.inventory.activateCard(index);
       if (activated) {
-        console.log("Carta activada exitosamente");
+        console.log("Carta activada exitosamente");      
+      if(card.cardType == "weaponCard"){
+          applyScreenFlash("rgba(251, 223, 139,0.8)", 0.75, 0.2);
+          console.log("color yellow flash");
+      }
+      else if(card.cardType== "transformationCard"){
+          applyScreenFlash("rgba(107, 204, 226,0.8)", 0.75, 0.2);
+          console.log("color bluee flash");
+      }
+      else if(card.cardType== "powerCard"){
+          applyScreenFlash("rgba(115, 189, 65, 0.8)", 0.75, 0.2);
+          console.log("color green flash");
+      }
         this.score += 50;
         if (card.maxUses > 0) {
           // Update counter tracker

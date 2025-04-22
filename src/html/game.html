@@ -52,6 +52,7 @@
             </div>
         </aside>
         <div id="grid-item-G-4">
+            <canvas id = "flashCanvas"></canvas>
             <canvas id="canvas"></canvas>
             <canvas id="uiCanvas"></canvas>
             <div id = "startMenu" class= "menu">
@@ -110,7 +111,16 @@
                 <p class = "prompt">Press [Enter] / [Spacebar] to continue.</p>
     
             </div>
-            
+            <div id="optionsMenu" class="menu" style="display: none;">
+                <h1>Options</h1>
+                <label for="musicVolume">Music Volume:</label>
+                <input type="range" id="musicVolume" min="0" max="1" step="0.1" value="1">
+                <br><br>
+                <label for="soundEffectsToggle">Sound Effects:</label>
+                <input type="checkbox" id="soundEffectsToggle" checked>
+                <br><br>
+                <button id="backToMenuButton">Back</button>
+            </div>
         </div>
         <footer id="grid-item-G-5">
             <p>Need a hint? Hover for controls!</p>

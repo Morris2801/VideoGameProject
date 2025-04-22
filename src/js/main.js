@@ -44,7 +44,7 @@ let treeLevel1 = new Tree(1,numRoomsLvl1);
 treeLevel1.treeGen();
 let treeLevel2 = new Tree(2,numRoomsLvl2);
 treeLevel2.treeGen();
-let initialLevel = new Level(treeLevel1.root.levelStringValue);
+let initialLevel = new Level(treeLevel1.root.levelStringValue, 0);
 
 // ------------------------------------------------------
 // Functions y eventlistenersDOM
@@ -380,6 +380,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Restore the last card picked up, if any
         if (lastCardPickedUpGlobal) {
+            if(lastCardPickedUpGlobal.maxUses == 0){
+                lastCardPickedUpGlobal.maxUses = 1;
+                console.log("Card uses restored");
+            }
             newPlayer.inventory.items.push(lastCardPickedUpGlobal);
             console.log("Respawned with card:", lastCardPickedUpGlobal.cardId);
             console.log("New player inventory:", newPlayer.inventory.items);
@@ -395,6 +399,41 @@ document.addEventListener('DOMContentLoaded', () => {
     
     exitToMainButton.addEventListener('click', () => {
         location.reload();
+    });
+    const optionsMenu = document.getElementById("optionsMenu");
+    const musicVolumeSlider = document.getElementById("musicVolume");
+    const soundEffectsToggle = document.getElementById("soundEffectsToggle");
+    const backToMenuButton = document.getElementById("backToMenuButton");
+
+    // Open Options Menu from Start or Pause Menu
+    optionsButton.addEventListener("click", () => {
+        startMenu.style.display = "none";
+        pauseMenu.style.display = "none";
+        optionsMenu.style.display = "flex";
+    });
+
+    // Back to Start or Pause Menu
+    backToMenuButton.addEventListener("click", () => {
+        optionsMenu.style.display = "none";
+        if (game && game.isActive) {
+            pauseMenu.style.display = "flex";
+        } else {
+            startMenu.style.display = "flex";
+        }
+    });
+
+    // Adjust Music Volume
+    musicVolumeSlider.addEventListener("input", (event) => {
+        const volume = event.target.value;
+        GameMusic.setVolume(volume);
+        console.log("Music volume set to:", volume);
+    });
+
+    // Toggle Sound Effects
+    soundEffectsToggle.addEventListener("change", (event) => {
+        const soundEffectsEnabled = event.target.checked;
+        console.log("Sound effects enabled:", soundEffectsEnabled);
+        // Add logic to enable/disable sound effects
     });
 }); 
 
@@ -499,8 +538,10 @@ function setEventListeners() {
         }
         if (event.key >= '1' && event.key <= '6') {
             let index = parseInt(event.key) - 1;
+            game.selectedCardIndex = index;
             game.player.useCard(index);
             console.log("Inv.Key pressed: " + event.key);
+            
         }
         //para vasija / chest
         if(event.key == "f" || event.key == "F"){
@@ -536,77 +577,83 @@ function setEventListeners() {
             game.player.stopMovement("right");
         }
 
+        if(event.key >= "1" && event.key <= "6"){
+            let index = parseInt(event.key) - 1;
+            game.selectedCardIndex = null;
+        }
+
         
     });
 }
 //Stats drawing (tbd)
-const usernameText = new TextLabel(60, uiCanvasHeight/4-10, "20px Times New Roman", "white");
-const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px Times New Roman", "white");
-const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px Times New Roman", "white");
-const locationText = new TextLabel(60, uiCanvasHeight/4 + 80, "20px Times New Roman", "white");
-const transformText = new TextLabel(60, 3 * uiCanvasHeight/2 + 110, "10px Times New Roman", "yellow");
-const scoreTextUI = new TextLabel(60, uiCanvasHeight/4 + 110, "20px Times New Roman", "white"); 
+const usernameText = new TextLabel(80, uiCanvasHeight/4+10, "20px Times New Roman", "white");
+//const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px Times New Roman", "white");
+//const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px Times New Roman", "white");
+const locationText = new TextLabel(80, uiCanvasHeight/4 + 45, "20px Times New Roman", "white");
+const transformText = new TextLabel(80, 3 * uiCanvasHeight/2 + 110, "10px Times New Roman", "yellow");
+const scoreTextUI = new TextLabel(80, uiCanvasHeight/4 + 80, "20px Times New Roman", "white"); 
 //display inventory, HP, stamina, ... (tbd)
-function drawUI(){
+function drawUI() {
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
-    let inventory = game.player.inventory.items; 
-    let cardWidth = 80; 
+    let inventory = game.player.inventory.items;
+    let cardWidth = 80;
     let cardHeight = 150;
-    let cardSpacing = 10;
-    const xOrigin = uiCanvasWidth/3 + 10;
-    const y = uiCanvasHeight/2 - cardHeight/2;
+    let cardSpacing = 20;
+    const xOrigin = uiCanvasWidth / 4;
+    const y = uiCanvasHeight / 2 - cardHeight / 2;
     uiCtx.textAlign = "left";
 
     usernameText.draw(uiCtx, `Name: ${globUsername}`);
-    HPText.draw(uiCtx, `HP: ${game.player.health}`);
-    staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
-
-    const timerText = new TextLabel(uiCanvasWidth - 200, 30, "20px Times New Roman", "red");
+    //HPText.draw(uiCtx, `HP: ${game.player.health}`);
+    //staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
+    const timerText = new TextLabel(uiCanvasWidth - 200, uiCanvasHeight/4 + 45, "20px Times New Roman", "rgb(255, 255, 255)");
     const minutes = Math.floor(game.levelTimer / 60);
     const seconds = Math.floor(game.levelTimer % 60);
     timerText.draw(uiCtx, `Time Left\n: ${minutes}:${seconds.toString().padStart(2, '0')}`);
     scoreTextUI.draw(uiCtx, `Score: ${game.player.score}`);
-
     let loctext;
-    if (game.currentRoom.isBossRoom){
-        loctext = "Boss Room"; 
-    }
-    else{
+    if (game.currentRoom.isBossRoom) {
+        loctext = "Boss Room";
+    } else {
         loctext = `Room ${game.currentRoom.roomNum}`;
     }
     locationText.draw(uiCtx, `Lvl ${game.currentTreeIndex + 1} - ${loctext}`);
-    
+
     // Add transformation timer display
     if (game.player.isTransformed && game.player.transformationTimer > 0) {
         const secondsLeft = Math.ceil(game.player.transformationTimer / 1000);
         transformText.draw(uiCtx, `Transformation: ${game.player.transformationType} (${secondsLeft}s)`);
     }
-    
-    for(let i=0; i<inventory.length; i++){
-        let card = inventory[i];
-        const x = xOrigin + i * (cardWidth + cardSpacing); 
 
-        // Debugg
-        if (!card.spriteImage) {
-            console.error(`Card at index ${i} is missing a sprite.`);
+    for (let i = 0; i < game.player.inventory.max; i++) {
+        const x = xOrigin + i * (cardWidth + cardSpacing);
+
+        // Highlight the selected card slot
+        if (game.selectedCardIndex === i) {
+            uiCtx.strokeStyle = "yellow"; // Highlight color
+            uiCtx.lineWidth = 4; // Thickness of the border
+            uiCtx.strokeRect(x - 5, y - 5, cardWidth + 10, cardHeight + 10); // Draw the border
         }
 
-        if (card.spriteImage && card.spriteImage.complete) {
-            uiCtx.drawImage(
-                card.spriteImage,
-                x,
-                y,
-                cardWidth,
-                cardHeight
-            );
+        // Draw the card if it exists
+        if (inventory[i]) {
+            const card = inventory[i];
+            if (card.spriteImage && card.spriteImage.complete) {
+                uiCtx.drawImage(card.spriteImage, x, y, cardWidth, cardHeight);
+            } else {
+                uiCtx.fillStyle = "gray";
+                uiCtx.fillRect(x, y, cardWidth, cardHeight);
+            }
         } else {
-            //si no hay sprite poner un cuadro gris
-            uiCtx.fillStyle = "gray";
+            // Draw an empty slot
+            uiCtx.fillStyle = "rgba(0, 0, 0, 0.74)";
             uiCtx.fillRect(x, y, cardWidth, cardHeight);
         }
-        uiCtx.fillText(i+1,xOrigin+cardWidth/2, y+ cardHeight + 20);
-    }
 
+        // Draw the slot number
+        uiCtx.fillStyle = "white";
+        uiCtx.fillText(i + 1, x + cardWidth / 2 - 5, y + cardHeight + 20);
+    }
 }
 //Stats canvas text (tbd)
 const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 , "20px Times New Roman", "white");

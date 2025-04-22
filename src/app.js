@@ -70,14 +70,12 @@ app.get('/game', (request, response) => {
     })
 })
 
-
+// --------------------------------------------------------------- Cosas login
 app.post('/api/player/check', async (request, response) => {
     let connection = null;
     try {
         connection = await connectToDB();
         const { email, username, password } = request.body;
-
-        // Query the database for the user
         const [results] = await connection.query(
             'SELECT player_id, username, password FROM player WHERE email = ? AND username = ?',
             [email, username]
@@ -85,8 +83,6 @@ app.post('/api/player/check', async (request, response) => {
 
         if (results.length > 0) {
             const user = results[0];
-
-            // Compare the password (plain text comparison)
             if (user.password === password) {
                 response.status(200).json({ player_id: user.player_id, username: user.username });
             } else {
@@ -105,7 +101,6 @@ app.post('/api/player/check', async (request, response) => {
         }
     }
 });
-
 app.get('/api/player/check', async (request, response) => {
     let connection = null
     try{
@@ -139,58 +134,10 @@ app.get('/api/player/check', async (request, response) => {
         }
     }
 })
-// Get all users from the database and return them as a JSON object
-app.get('/api/player', async (request, response) => {
-    let connection = null
-    try {
-        connection = await connectToDB()
-        const [results, fields] = await connection.execute('select * from player')
-        console.log(`${results.length} rows returned`)
-        console.log(results)
-        response.json(results)
-    }
-    catch (error) {
-        response.status(500)
-        response.json(error)
-        console.log(error)
-    }
-    finally {
-        if (connection !== null) {
-            connection.end()
-            console.log("Connection closed succesfully!")
-        }
-    }
-})
-
-// Get a specific user from the database and return it as a JSON object
-app.get('/api/player/:player_id', async (request, response) => {
-    let connection = null
-
-    try {
-        connection = await connectToDB()
-
-        const [results_user, _] = await connection.query('select * from player where player_id= ?', [request.params.id])
-
-        console.log(`${results_user.length} rows returned`)
-        response.json(results_user)
-    }
-    catch (error) {
-        response.status(500)
-        response.json(error)
-        console.log(error)
-    }
-    finally {
-        if (connection !== null) {
-            connection.end()
-            console.log("Connection closed succesfully!")
-        }
-    }
-})
-
+// --------------------------------------------------------------- Queries a tabla player -----------------------
 // Insert a new user into the database and return a JSON object with the id of the new user
 app.post('/api/player', async (request, response) => {
     let connection = null;
-
     try {
         connection = await connectToDB();
 
@@ -218,6 +165,81 @@ app.post('/api/player', async (request, response) => {
         }
     }
 });
+// Check if a username already exists
+app.get('/api/player/check/:username', async (request, response) => {
+    let connection = null;
+
+    try {
+        connection = await connectToDB();
+
+        const [results, _] = await connection.query('SELECT * FROM player WHERE username = ?', [request.params.username]);
+
+        if (results.length > 0) {
+            response.status(200).json({ exists: true, message: 'Username already exists.' });
+        } else {
+            response.status(200).json({ exists: false, message: 'Username is available.' });
+        }
+    } catch (error) {
+        response.status(500).json({ error: 'Error checking username.' });
+        console.error(error);
+    } finally {
+        if (connection !== null) {
+            connection.end();
+            console.log('Connection closed successfully!');
+        }
+    }
+});
+
+
+
+// Get all users from the database and return them as a JSON object
+app.get('/api/player', async (request, response) => {
+    let connection = null
+    try {
+        connection = await connectToDB()
+        // leaderboard.html Query 1 MySQL
+        const [results, fields] = await connection.execute('SELECT p.player_id, p.username, p.recordScore, p.recordTime FROM player AS p LIMIT 10');
+        console.log(`${results.length} rows returned`)
+        console.log(results)
+        response.json(results)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+// Get a specific user from the database and return it as a JSON object
+app.get('/api/player/:username', async (request, response) => {
+    let connection = null
+
+    try {
+        connection = await connectToDB()
+
+        const [results_user, _] = await connection.query('SELECT p.player_id, p.username, p.recordScore, p.recordTime FROM player AS p WHERE username= ?', [request.params.username])
+
+        console.log(`${results_user.length} rows returned`)
+        response.json(results_user)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
 
 // Update a user in the database and return a JSON object with the number of rows updated
 app.put('/api/player', async (request, response) => {
@@ -227,7 +249,32 @@ app.put('/api/player', async (request, response) => {
     try {
         connection = await connectToDB()
 
-        const [results, fields] = await connection.query('update player set username = ?, email = ? where player_id= ?', [request.body['username'], request.body['email'], request.body['player_id']])
+        const [results, fields] = await connection.query('update player set recordScore = ?, recordTime = ? where player_id= ?', [request.body['recordScore'], request.body['recordTime'], request.body['player_id']])
+
+        console.log(`${results.affectedRows} rows updated`)
+        response.json({ 'message': `Data updated correctly: ${results.affectedRows} rows updated.` })
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+// Update a user in the database and return a JSON object with the number of rows updated
+app.put('/api/playertime', async (request, response) => {
+
+    let connection = null
+
+    try {
+        connection = await connectToDB()
+
+        const [results, fields] = await connection.query('update player set time_played = ADDTIME(time_played, ?)  where player_id= ?', [request.body['runTime'], request.body['player_id']])
 
         console.log(`${results.affectedRows} rows updated`)
         response.json({ 'message': `Data updated correctly: ${results.affectedRows} rows updated.` })
@@ -274,12 +321,12 @@ app.delete('/api/player/:player_id', async (request, response) => {
 
 
 
-// ------------------- Tests para enviar gameinfo
+// ------------------- Tests para enviar gameinfo per run -----------------
 app.get('/api/player_runstats', async (request, response) => {
     let connection = null
     try {
         connection = await connectToDB()
-        const [results, fields] = await connection.execute('select * from player_runstats')
+        const [results, fields] = await connection.execute('SELECT * FROM runsvswins;')
 
         console.log(`${results.length} rows returned`)
         console.log(results)
@@ -298,12 +345,12 @@ app.get('/api/player_runstats', async (request, response) => {
     }
 })
 
-app.get('/api/player_runstats/:run_id', async (request, response) => {
+app.get('/api/player_runstats/:username', async (request, response) => {
     let connection = null
     try {
         connection = await connectToDB()
 
-        const [results_run, _] = await connection.query('select * from player_runstats where run_id= ?', [request.params.run_id])
+        const [results_run, _] = await connection.query('select * from runsvswins where username= ?', [request.params.username])
 
         console.log(`${results_run.length} rows returned`)
         response.json(results_run)
@@ -344,6 +391,34 @@ app.post('/api/player_runstats', async (request, response) => {
         }
     }
 });
+
+// Update a playrs score ponts nd time
+app.put('/api/player', async (request, response) => {
+
+    let connection = null
+
+    try {
+        connection = await connectToDB()
+
+        const [results, fields] = await connection.query('update player set recordScore = ?, email = ? where player_id= ?', [request.body['username'], request.body['email'], request.body['player_id']])
+
+        console.log(`${results.affectedRows} rows updated`)
+        response.json({ 'message': `Data updated correctly: ${results.affectedRows} rows updated.` })
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+
 // test para mandar level info---------------------------
 /*
 app.get('/api/level_layout', async (request, response) => {
@@ -413,30 +488,160 @@ app.post('/api/level_layout', async (request, response) => {
 });
 */
 
-// Check if a username already exists
-app.get('/api/player/check/:username', async (request, response) => {
-    let connection = null;
 
+
+
+// ----------- player winsdeaths query -------------------
+// Get all users from the database and return them as a JSON object
+app.get('/api/winsvsdeaths', async (request, response) => {
+    let connection = null
     try {
-        connection = await connectToDB();
-
-        const [results, _] = await connection.query('SELECT * FROM player WHERE username = ?', [request.params.username]);
-
-        if (results.length > 0) {
-            response.status(200).json({ exists: true, message: 'Username already exists.' });
-        } else {
-            response.status(200).json({ exists: false, message: 'Username is available.' });
-        }
-    } catch (error) {
-        response.status(500).json({ error: 'Error checking username.' });
-        console.error(error);
-    } finally {
+        connection = await connectToDB()
+        // leaderboard.html Query 3 MySQL
+        const [results, fields] = await connection.execute('SELECT p.username, p.wins, (p.runcount - p.wins) AS deaths FROM runsvswins AS p LIMIT 10;');
+        console.log(`${results.length} rows returned`)
+        console.log(results)
+        response.json(results)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
         if (connection !== null) {
-            connection.end();
-            console.log('Connection closed successfully!');
+            connection.end()
+            console.log("Connection closed succesfully!")
         }
     }
-});
+})
+
+// Get a specific user from the database and return it as a JSON object
+app.get('/api/winsvsdeaths/:username', async (request, response) => {
+    let connection = null
+
+    try {
+        connection = await connectToDB()
+
+        const [results_user, _] = await connection.query('SELECT p.username, p.wins, (p.runcount - p.wins) AS deaths FROM runsvswins AS p WHERE username= ?', [request.params.username])
+
+        console.log(`${results_user.length} rows returned`)
+        response.json(results_user)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+// ----------- player favorite card query -------------------
+// Get all users from the database and return them as a JSON object
+app.get('/api/favoritecard', async (request, response) => {
+    let connection = null
+    try {
+        connection = await connectToDB()
+        // leaderboard.html Query 4 MySQL
+        const [results, fields] = await connection.execute('SELECT * FROM player_card ORDER BY cards_used_count DESC LIMIT 10;');
+        console.log(`${results.length} rows returned`)
+        console.log(results)
+        response.json(results)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+// Get a specific user from the database and return it as a JSON object
+app.get('/api/favoritecard/:username', async (request, response) => {
+    let connection = null
+
+    try {
+        connection = await connectToDB()
+
+        const [results_user, _] = await connection.query('SELECT * FROM player_card WHERE username= ? ORDER BY cards_used_count DESC LIMIT 1', [request.params.username])
+
+        console.log(`${results_user.length} rows returned`)
+        response.json(results_user)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+
+//-----------------Cosas para Player Nemesis
+// Get all users from the database and return them as a JSON object
+app.get('/api/nemesis', async (request, response) => {
+    let connection = null
+    try {
+        connection = await connectToDB()
+        // leaderboard.html Query 4 MySQL
+        const [results, fields] = await connection.execute('SELECT * FROM nemesis ORDER BY DeathCount DESC LIMIT 10;');
+        console.log(`${results.length} rows returned`)
+        console.log(results)
+        response.json(results)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+// Get a specific user from the database and return it as a JSON object
+app.get('/api/nemesis/:username', async (request, response) => {
+    let connection = null
+
+    try {
+        connection = await connectToDB()
+
+        const [results_user, _] = await connection.query('SELECT * FROM nemesis WHERE username = ? ORDER BY DeathCount DESC LIMIT 1', [request.params.username])
+
+        console.log(`${results_user.length} rows returned`)
+        response.json(results_user)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)

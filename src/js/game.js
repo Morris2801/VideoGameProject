@@ -22,6 +22,9 @@ class Game {
         const startTime = new Date();
         this.startTime = startTime;
         console.log("Game started at:", startTime);
+        this.run_start = new Date(); /// wtf por qué se pone la hora rara
+        this.run_end = null; 
+        this.run_duration = null;
 
         this.trees = trees;
         this.currentTreeIndex = 0;
@@ -31,6 +34,7 @@ class Game {
         this.player = this.level.player;
         this.actors = level.actors;
         this.attackEffects = [];
+        this.selectedCardIndex  = null;
 
         this.isActive = true;
         this.bossDefeated = false;
@@ -125,12 +129,14 @@ class Game {
                     if (!this.torchContact) {
                         this.player.health -= 1;
                         console.log("Fireburns start", this.player.health);
+                        
                         this.torchDamageTimer = 0;
                     }
                     this.torchContact = true;
                     this.torchDamageTimer += deltaTime;
                     if (this.torchDamageTimer >= this.torchDamageInterval) {
                         this.player.health -= 1;
+                        applyScreenFlash("red", 0.5, 0.5);
                         this.torchDamageTimer = 0;
                         console.log("Fireburns", this.player.health);
                     }
@@ -262,7 +268,7 @@ class Game {
             console.log("NextRoom:", nextRoom.roomNum);
             const oldPlayer = this.player;
             this.currentRoom= nextRoom;
-            this.level = new Level(nextRoom.levelStringValue);
+            this.level = new Level(nextRoom.levelStringValue, this.currentTreeIndex);
             //actualizar pos segun levGen, no la anterior
             let newPlayer = this.level.player;
             this.player= oldPlayer;
@@ -288,7 +294,7 @@ class Game {
             console.log(`treeInd ${this.currentTreeIndex} R ${this.currentRoom.roomNum} Paths: ${paths}`);
         }
         else{
-            console.log("Sike");
+            //console.log("Sike");
         }
     }
     changeLevel(treeIndex){
@@ -300,7 +306,7 @@ class Game {
             this.currentTreeIndex= treeIndex;
             this.currentTree = this.trees[treeIndex];
             this.currentRoom = this.currentTree.root;
-            this.level = new Level(this.currentRoom.levelStringValue);
+            this.level = new Level(this.currentRoom.levelStringValue, this.currentTreeIndex);
 
             const oldPlayer = this.player;
             let newPlayer = this.level.player;
@@ -331,14 +337,18 @@ class Game {
     async gameOver() {
         console.log("Game Over");
         if(this.isGameOver) return; 
+        document.getElementById("flashCanvas").style.display = "flex";
         this.isGameOver = true;
         //inicio de cosas para el API
         let mostUsedCard = this.player.mostUsedCard();
-        player_runstats = {
+        this.run_end = new Date(); // endTime, a mysql no le gustó el datatype
+        let player_runstats = {
             player_id : this.player.player_id , // checar por qué se queja con el FK constraint 
-            run_start: formatDateForMySQL(this.startTime), //startTime, a mysql no le gustó el datatype
-            // run_duration : time, a mysql no le gustó el datatype  
-            //run_end: lo pongo en el query,
+            run_start: formatDateForMySQL(this.run_start), //startTime, a mysql no le gustó el datatype
+            score: this.player.score,
+            run_end: formatDateForMySQL(this.run_end), //endTime, a mysql no le gustó el datatype
+            run_duration: time,
+            
             finished: false,
             enemies_killed: this.player.killCount,
             cards_collected: this.player.cardPickupCount,
@@ -370,9 +380,35 @@ class Game {
             console.error('Error during GameOver transmitting:', err);
 
         }
+        let playertime ={
+            player_id : this.player.player_id ,
+            runTime : time
+        }
+        try {
+            const response = await fetch('http://localhost:5000/api/playertime', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(playertime)
+            });
+            console.log("\nResponse", response);
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Olayertime sending", result);
+            }
+            else {
+                const error = await response.json();
+                console.log('Error sending playertime data:', error);
+            }
+        }
+        catch (err) {
+            console.error('Error during playertime transmitting:', err);
+        }
+
+
+
         // Stop game activity
         this.isActive = false;
-     
+        document.getElementById("flashCanvas").style.display = "none";
         document.getElementById("canvas").style.display = "none";
         document.getElementById("uiCanvas").style.display = "none";
         // show the game over menu
@@ -386,12 +422,15 @@ class Game {
         document.getElementById("victoryScreen").style.display = "flex";
         //inicio de cosas para el API
         let mostUsedCard = this.player.mostUsedCard();
-        player_runstats = {
-            // player_id : player_id ,  checar por qué se queja con el FK constraint 
-            run_start: formatDateForMySQL(this.startTime), //startTime, a mysql no le gustó el datatype
-            // run_duration : time, a mysql no le gustó el datatype  
-            //run_end: lo pongo en el query,
-            finished: true,
+        this.run_end = new Date(); // endTime, a mysql no le gustó el datatype
+        let player_runstats = {
+            player_id : this.player.player_id , // checar por qué se queja con el FK constraint 
+            run_start: formatDateForMySQL(this.run_start), //startTime, a mysql no le gustó el datatype
+            score: this.player.score,
+            run_end: formatDateForMySQL(this.run_end), //endTime, a mysql no le gustó el datatype
+            run_duration: time,
+            
+            finished: false,
             enemies_killed: this.player.killCount,
             cards_collected: this.player.cardPickupCount,
             cards_used: this.player.cardsUsed,
@@ -421,6 +460,53 @@ class Game {
         catch (err) {
             console.error('Error during Game Victory transmitting:', err);
         }
+        let runRes ={
+            player_id : this.player.player_id ,
+            recordScore : Math.floor(this.player.score),
+            recordTime : time
+        }
+        try {
+            const response = await fetch('http://localhost:5000/api/player', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(runRes)
+            });
+            console.log("\nResponse", response);
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Run stats sending", result);
+            }
+            else {
+                const error = await response.json();
+                console.log('Error sending runRes data:', error);
+            }
+        }
+        catch (err) {
+            console.error('Error during runRes transmitting:', err);
+        }        
+        let playertime ={
+            player_id : this.player.player_id ,
+            runTime : time
+        }
+        try {
+            const response = await fetch('http://localhost:5000/api/playertime', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(playertime)
+            });
+            console.log("\nResponse", response);
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Run stats sending", result);
+            }
+            else {
+                const error = await response.json();
+                console.log('Error sending playertime data:', error);
+            }
+        }
+        catch (err) {
+            console.error('Error during playertime transmitting:', err);
+        }
     }
     exitToMainMenu() {
         document.getElementById("gameOverMenu").style.display = "none";
@@ -434,7 +520,7 @@ class Game {
         this.currentTreeIndex = 0;
         this.currentTree = this.trees[this.currentTreeIndex];
         this.currentRoom = this.currentTree.root;
-        this.level = new Level(this.currentRoom.levelStringValue);
+        this.level = new Level(this.currentRoom.levelStringValue, this.currentTreeIndex);
         
         // Reset player 
         this.player = this.level.player; // Get anew player
@@ -462,7 +548,7 @@ class Game {
         
         //Valores de las medidadas
         const barWidth = 200;
-        const barHeight = 15;
+        const barHeight = 20;
         const barSpacing = 5;
         const barX = 30;
         const barY = 30;
@@ -563,6 +649,9 @@ const GameMusic = (() => {
             } else {
                 console.log("Track no encontrado:", track);
             }
+        },
+        setVolume: function (volume) {
+            currentMusic.volume = volume; // Set the volume of the current track
         }
     };
 })();
@@ -588,4 +677,44 @@ function boxOverlap(obj1, obj2) {
 // but i have been with this for 15 minutes and i dont want to waste more "time" on it
 function formatDateForMySQL(date) {
     return date.toISOString().slice(0, 19).replace('T', ' ');
+}
+
+function applyScreenFlash(color, duration, opacity) {
+    const canvas = document.getElementById("flashCanvas");
+    const ctx = canvas.getContext("2d");
+    let flashActive = true;
+
+    function drawFlash() {
+        if (!flashActive || game.isGameOver || !game.isActive) return; // Stop if the game is over
+        document.getElementById("flashCanvas").style.display = "flex";
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+        ctx.fillStyle = color;
+        ctx.globalAlpha = opacity;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    const timeoutId = setTimeout(() => {
+        if (!game.isGameOver) {
+            flashActive = false;
+            document.getElementById("flashCanvas").style.display = "none";
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the flash after duration
+        }
+    }, duration * 1000);
+
+    function flashLoop() {
+        if (flashActive && !game.isGameOver) {
+            drawFlash();
+            requestAnimationFrame(flashLoop);
+        }
+    }
+
+    flashLoop();
+
+    // Stop the flash effect immediately if the game ends
+    if (game.isGameOver) {
+        clearTimeout(timeoutId); // Cancel the timeout
+        flashActive = false;
+        document.getElementById("flashCanvas").style.display = "none";
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the flash immediately
+    }
 }

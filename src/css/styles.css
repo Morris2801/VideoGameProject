@@ -1,512 +1,533 @@
 * {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 
 /* ------------------ Background History Page ------------------ */
 #gameTitle{
-    font-size: 3em;
-    color: white;
-    text-align: center;
+  font-size: 3em;
+  color: white;
+  text-align: center;
 }
 
 
 /* Cosas para el grid (Layout 2 de Octavio)*/ 
 .grid-container2{  
-  display: grid;
-  grid-template-columns: 1.20fr 1.05fr 1.05fr;
-  grid-template-rows: 15% 45% 30%;
-  gap: 20px;
-  height: 100%;
-  padding: 10px;
-  grid-template-areas:
-      "header header nav"
-      "lat bar bar"
-      "lat . ."
-      "footer footer footer";
+display: grid;
+grid-template-columns: 1.20fr 1.05fr 1.05fr;
+grid-template-rows: 15% 45% 30%;
+gap: 20px;
+height: 100%;
+padding: 10px;
+grid-template-areas:
+    "header header nav"
+    "lat bar bar"
+    "lat . ."
+    "footer footer footer";
 }
 
-
-
 #grid-item-2-3 {
-  border: 4px solid #8b4513;
-  background-color: rgba(55, 34, 9, 0.95);
+border: 4px solid #8b4513;
+background-color: rgba(55, 34, 9, 0.95);
 }
 
 #grid-item-2-4 {
-  border: 4px solid #8b4513;
-  background-color: rgba(85, 75, 66, 0.9);
+border: 4px solid #8b4513;
+background-color: rgba(85, 75, 66, 0.9);
 }
 
 #grid-item-2-5, #grid-item-2-6 {
-  border: 4px solid #8b4513;
-  background-color: rgba(34, 35, 34, 0.9);
+border: 4px solid #8b4513;
+background-color: rgba(34, 35, 34, 0.9);
 }
 
 #grid-item-2-4 p {
-  font-family: 'VT323', monospace;
-  font-size: 22px;
-  line-height: 1.4;
-  color: #fff;
-  text-shadow: 1px 1px 0px #000;
+font-family: 'VT323', monospace;
+font-size: 22px;
+line-height: 1.4;
+color: #fff;
+text-shadow: 1px 1px 0px #000;
 }
 
 footer {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 10px;
-  color: #e8c766;
-  padding-top: 15px;
+font-family: 'Press Start 2P', cursive;
+font-size: 10px;
+color: #e8c766;
+padding-top: 15px;
 }
 
-/* Estilo para las cuadrículas de cartas y enemigos */
 .card-grid, .enemy-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  width: 100%;
-  margin-top: 10px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+width: 100%;
+margin-top: 10px;
 }
 
 .card-item, .enemy-item {
-  background-color: #8b4513;
-  border: 2px solid #e8c766;
-  padding: 15px;
-  text-align: center;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
+background-color: #8b4513;
+border: 2px solid #e8c766;
+padding: 15px;
+text-align: center;
+border-radius: 5px;
+cursor: pointer;
+transition: all 0.3s;
+font-family: 'VT323', monospace;
+font-size: 18px;
 }
 
 .card-item:hover, .enemy-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(232, 199, 102, 0.5);
-  border-color: #fff;
+transform: translateY(-5px);
+box-shadow: 0 5px 15px rgba(232, 199, 102, 0.5);
+border-color: #fff;
 }
 
 #grid-item-2-2 {
-  background-color: rgba(34, 26, 20, 0.9);
-  border: 3px solid #453624;
+background-color: rgba(34, 26, 20, 0.9);
+border: 3px solid #453624;
 }
 
 /* ------------- Home Page -------------- */
 #homeBody {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-image: url("../assets/mapElements/mainBackground.jpeg");
-  background-color: rgb(0, 0, 0);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; 
-  min-height: 100vh;
-  color: white;
-  overflow-x: hidden;
-  overflow-y: hidden;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+background-image: url("../assets/mapElements/mainBackground.jpeg");
+background-color: rgb(0, 0, 0);
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover; 
+min-height: 100vh;
+color: white;
+overflow-x: hidden;
+overflow-y: hidden;
 }
 
 
 .main-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 25% 1fr auto;
-  grid-template-areas:
-    "header header header"
-    "nav content content"
-    "footer footer footer";
-  min-height: 100vh;
-  padding: 20px;
-  max-width: 100%;
-  margin: 0;
-  gap: 20px;
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+grid-template-rows: 25% 1fr auto;
+grid-template-areas:
+  "header header header"
+  "nav content content"
+  "footer footer footer";
+min-height: 100vh;
+padding: 20px;
+max-width: 100%;
+margin: 0;
+gap: 20px;
 }
 
 
 .game-header {
-  grid-area: header;
-  text-align:left;
-  margin-bottom: 0;
-  justify-content: center;
-  display: flex;
+grid-area: header;
+text-align:left;
+margin-bottom: 0;
+justify-content: center;
+display: flex;
 
 }
 
 .game-header img {
-  max-width: 100%;
-  max-height: 100%;
-  filter: drop-shadow(0px 0px 10px rgba(232, 199, 102, 0.8));
+max-width: 100%;
+max-height: 100%;
+filter: drop-shadow(0px 0px 10px rgba(232, 199, 102, 0.8));
 }
 
 /* Estilos para la navegación vertical */
 .game-nav {
-  grid-area: nav;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  align-self: center;
-  justify-self: center;
-  padding: 20px;
-  width: auto;
-  max-width: 420px;
-  margin: 0; 
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: flex-end;
+grid-area: nav;
+display: grid;
+grid-template-columns: 1fr;
+gap: 20px;
+align-self: center;
+justify-self: center;
+padding: 20px;
+width: auto;
+max-width: 420px;
+margin: 0; 
+align-items: flex-start;
+align-content: flex-start;
+justify-content: flex-end;
 }
 
 .nav-button{
-  width: 100%;
-  display: grid;
+width: 100%;
+display: grid;
 }
 .nav-button a {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 30px;
-  color: #e8c766;
-  background-color: #593D2D;
-  padding: 15px 20px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  display: block; 
-  text-align: center;
-  transition: all 0.2s ease;
-  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
-  position: relative;
-  letter-spacing: 1px;
-  width: 100%;
-  box-sizing: border-box;
+font-family: 'Press Start 2P', cursive;
+font-size: 30px;
+color: #e8c766;
+background-color: #593D2D;
+padding: 15px 20px;
+text-decoration: none;
+border: none;
+cursor: pointer;
+display: block; 
+text-align: center;
+transition: all 0.2s ease;
+clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+position: relative;
+letter-spacing: 1px;
+width: 100%;
+box-sizing: border-box;
 }
 
 .nav-button a:hover {
-  background-color: #4D5923;
-  color: #F2E2C4;
-  transform: translateX(10px);
+background-color: #4D5923;
+color: #F2E2C4;
+transform: translateX(10px);
 }
 
 .nav-button a:hover::before {
-  opacity: 1;
+opacity: 1;
 }
 
 /* Estilos para las cartas */
 .card-section {
-  grid-area: content;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 10px;
-  text-align: center;
-  align-self: center;
-  justify-self: center;
-  padding-bottom: 10px;
-  width: 100%;
-  max-width: 800px;
+grid-area: content;
+display: grid;
+grid-template-rows: auto 1fr;
+gap: 10px;
+text-align: center;
+align-self: center;
+justify-self: center;
+padding-bottom: 10px;
+width: 100%;
+max-width: 800px;
 }
 .card-section-title{
-  margin-bottom: 1px;
+margin-bottom: 1px;
 }
 
 .cards-container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  justify-content: center;
-  align-items: top;
-  perspective: 1000px;
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 20px;
+justify-content: center;
+align-items: top;
+perspective: 1000px;
 }
 
 .card {
-  width: 120px;
-  height: 170px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-  position: relative;
-  justify-self: center;
+width: 120px;
+height: 170px;
+transition: transform 0.2s, box-shadow 0.2s;
+cursor: pointer;
+position: relative;
+justify-self: center;
 }
 
 .card img {
-  width: 100%;
-  height: 150%;
-  object-fit: cover;
-  border: 3px solid #000;
-  border-radius: 5px;
+width: 100%;
+height: 150%;
+object-fit: cover;
+border: 3px solid #000;
+border-radius: 5px;
 }
 
 
 .card:hover {
-  transform: translateY(-15px) scale(1.1) rotate(2deg);
-  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.5);
-  z-index: 10;
+transform: translateY(-15px) scale(1.1) rotate(2deg);
+box-shadow: 0 15px 20px rgba(0, 0, 0, 0.5);
+z-index: 10;
 }
 
 
 footer {
-  position: fixed; 
-  bottom: 0;
-  left: 0;
-  width: 100%; 
-  text-align: center;
-  padding: 5px;
-  background-color: rgba(21, 54, 27, 0.8); 
-  z-index: 100; /* Asegura que este por encima de otros elementos */
-  margin: 0; 
-  
+position: fixed; 
+bottom: 0;
+left: 0;
+width: 100%; 
+text-align: center;
+padding: 5px;
+background-color: rgba(21, 54, 27, 0.8); 
+z-index: 100; /* Asegura que este por encima de otros elementos */
+margin: 0; 
+
 }
 
 .linkContainer a {
-  font-family: "Press Start 2P", cursive;
-  font-size: 14px;
-  color: #e8c766;
-  background-color: #000;
-  border: none;
-  padding: 12px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
-  transition: all 0.2s ease;
-  position: relative;
-  letter-spacing: 1px;
-  /* background-color: rgb(75, 59, 46); para encontrarlo, si quieren quitar va */
+font-family: "Press Start 2P", cursive;
+font-size: 14px;
+color: #e8c766;
+background-color: #000;
+border: none;
+padding: 12px 20px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+cursor: pointer;
+clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+transition: all 0.2s ease;
+position: relative;
+letter-spacing: 1px;
+/* background-color: rgb(75, 59, 46); para encontrarlo, si quieren quitar va */
 }
 .linkContainer a:hover{
-  background-color: #7d5a1a;
-  color: #fff;
-  transform: translateY(-3px);
+background-color: #7d5a1a;
+color: #fff;
+transform: translateY(-3px);
 }
 
 .linkContainer a.active {
-  background-color: #e8c766;
-  color: #000;
+background-color: #e8c766;
+color: #000;
 }
 
 /* ------------------ Game Page ------------------ */
 
 #gameBody{
-  background-color: rgb(0, 0, 0);
-  height: 100vh;
-  color: white;
-  overflow: hidden;
+background-color: rgb(0, 0, 0);
+height: 100vh;
+color: white;
+overflow: hidden;
 }
 
 .health-bar {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 200px;
-  height: 20px;
-  padding: 5px;
-  background: #ddd;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  position: relative;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+width: 200px;
+height: 20px;
+padding: 5px;
+background: #ddd;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+position: relative;
 }
 .bar {
-  background: #c54;
-  width: 100%;
-  height: 10px;
-  position: relative;
-  
-  transition: width .5s linear;
+background: #c54;
+width: 100%;
+height: 10px;
+position: relative;
+
+transition: width .5s linear;
 }
 
 .hit {
-  background: rgba(255,255,255,0.6);
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 0px;
-  
-  transition: width .5s linear;
+background: rgba(255,255,255,0.6);
+position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+width: 0px;
+
+transition: width .5s linear;
 }
 
 .menu{
-  display: none; 
-  top : 0; 
-  left : 0; 
-  width : 100%;
-  height: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets//mapElements/mainBackground.jpeg");
-  background-size: cover;
-  background-blend-mode: darken;
-  background-repeat: no-repeat;
-  background-position: center;
-  color: white; 
-  text-align: center; 
-  justify-content: center; 
-  align-items: center; 
-  flex-direction: column;
-  font-family: 'Press Start 2P', cursive;
-  z-index: 10; /* Ensure it appears above the canvas */
-  pointer-events: auto;
-  border-radius: 50px;
+display: none; 
+top : 0; 
+left : 0; 
+width : 100%;
+height: 100%;
+background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets//mapElements/mainBackground.jpeg");
+background-size: cover;
+background-blend-mode: darken;
+background-repeat: no-repeat;
+background-position: center;
+color: white; 
+text-align: center; 
+justify-content: center; 
+align-items: center; 
+flex-direction: column;
+font-family: 'Press Start 2P', cursive;
+z-index: 10; 
+pointer-events: auto;
+border-radius: 50px;
 }
 .menu h1{
-  margin-bottom: 20px; 
-  font-size: 36px; 
+margin-bottom: 20px; 
+font-size: 36px; 
 }
 .menu button{
-  font-size: 20px; 
-  color: white; 
-  background-color: #593D2D;
-  border: none; 
-  padding: 10px 20px; 
-  margin: 10px; 
-  cursor: pointer;
-  transition: all 0.2s ease;
-  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+font-size: 20px; 
+color: white; 
+background-color: #593D2D;
+border: none; 
+padding: 10px 20px; 
+margin: 10px; 
+cursor: pointer;
+transition: all 0.2s ease;
+clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
 }
 .menu button:hover {
-  background-color: #e8c766;
-  color: black;
+background-color: #e8c766;
+color: black;
+}
+.menu input[type="range"] {
+width: 200px;
+}
+
+.menu button {
+margin-top: 20px;
+padding: 10px 20px;
+font-size: 16px;
+cursor: pointer;
 }
 
 /* Cosas para el gamegrid*/ 
 .grid-containerGame{  
-  display: grid;
-  grid-template-columns: 0.7fr 1.2fr 1.2fr;
-  grid-template-rows: 7% 80% 7%;
-  gap: 20px;
-  height: 100%;
-  padding: 10px;
-  grid-template-areas:
-      "header header nav"
-      "canvas canvas canvas"
-      "footer footer footer";
+display: grid;
+grid-template-columns: 0.7fr 1.2fr 1.2fr;
+grid-template-rows: 7% 80% 7%;
+gap: 20px;
+height: 100%;
+padding: 10px;
+grid-template-areas:
+    "header header nav"
+    "canvas canvas canvas"
+    "footer footer footer";
 }
 #grid-item-G-1 {
-  grid-area: header;
-  background-color: rgba(21, 54, 27, 0.3);
-  justify-content: center;
-  text-align: center;
-  align-content: center;
-  border-bottom-left-radius: 50px;
+grid-area: header;
+background-color: rgba(21, 54, 27, 0.3);
+justify-content: center;
+text-align: center;
+align-content: center;
+border-bottom-left-radius: 50px;
 }
 #grid-item-G-2 {
-  grid-area: nav;
-  background-color:  rgb(75, 59, 46, 0.3);
-  border-bottom-right-radius: 50px;
-  justify-content: space-evenly;
-  align-items: center;
-  align-content: center;
-  display: flex;
-  flex-direction: row;
+grid-area: nav;
+background-color:  rgb(75, 59, 46, 0.3);
+border-bottom-right-radius: 50px;
+justify-content: space-evenly;
+align-items: center;
+align-content: center;
+display: flex;
+flex-direction: row;
 }
 
 
 #grid-item-G-3{
-  grid-area: lat;
-  background-color: rgba(55, 34, 9, 0.886);
-  padding: 30px;
-  border: rgb(62, 62, 62) 3px solid;
-  border-radius: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;  
-  height: auto;
+grid-area: lat;
+background-color: rgba(55, 34, 9, 0.886);
+padding: 30px;
+border: rgb(62, 62, 62) 3px solid;
+border-radius: 30px;
+display: flex;
+flex-direction: column;
+align-items: center;  
+height: auto;
+}
+#flashCanvas{
+  width : 1100px;
+  height : 550px;
+  pointer-events : none;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  border-radius:100px;
 }
 
+
 #statsSidebar{
-  position: fixed; 
-  top: 0; 
-  right: -300px;
-  width: 300px;
-  height: 100%;
-  background-color: rgba(55, 34, 9, 0.886);
-  border-left: 3px solid rgb(58, 25, 2);
-  box-shadow: -5px 0 10px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease; 
-  transform: translateX(0);
-  z-index: 1000;
+position: fixed; 
+top: 0; 
+right: -300px;
+width: 300px;
+height: 100%;
+background-color: rgba(55, 34, 9, 0.886);
+border-left: 3px solid rgb(58, 25, 2);
+box-shadow: -5px 0 10px rgba(0,0,0,0.5);
+transition: transform 0.3s ease; 
+transform: translateX(0);
+z-index: 1000;
 }
 #statsContent{
-  padding: 20px; 
-  height: 100%;
-  display: flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+padding: 20px; 
+height: 100%;
+display: flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
 #statsTrigger{
-  position:absolute;
-  top:0;
-  left:-20px;
-  width:20px;
-  height:100%;
-  background-color: rgba(75,59,36,0.8);
-  cursor:pointer;
-  z-index: 1001;
-  transition: background-color 0.2s ease;
+position:absolute;
+top:0;
+left:-20px;
+width:20px;
+height:100%;
+background-color: rgba(75,59,36,0.8);
+cursor:pointer;
+z-index: 1001;
+transition: background-color 0.2s ease;
 }
 #statsTrigger:hover{
-  background-color: #e8c766;
+background-color: #e8c766;
 }
 #statsSidebar.open{
-  transform:translateX(-300px);
+transform:translateX(-300px);
 }
 
 #grid-item-G-4{
-  grid-area: canvas;
-  background-color:  transparent;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
+grid-area: canvas;
+background-color:  transparent;
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+align-content: center;
 }
 #canvas {
-  border: 10px solid rgb(145, 145, 145);
-  background-color: #414b4e;
-  border-radius: 100px;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  align-content: center;
+border: 10px solid rgb(145, 145, 145);
+background-color: #414b4e;
+background-image: url("../assets/mapElements/ctxBack.png");
+border-radius: 100px;
+justify-content: space-evenly;
+align-items: flex-start;
+align-content: center;
 }
 #contextScreen{
-  background-color:  rgba(2, 2, 2, 0.8);
+background-color:  rgba(2, 2, 2, 0.8);
 }
 #contextScreen p {
-  width: 65%;
-  justify-content: center;
-  justify-items: center; 
-  font-size: 30px;
+width: 65%;
+justify-content: center;
+justify-items: center; 
+font-size: 30px;
 }
 #grid-item-G-5 {
-  grid-area: footer;
-  background-color: rgb(21, 54, 27, 0.3);
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  justify-content: center;
-  text-align: center;
-  align-content: center;
-  position: relative;
-  font-size: 17px;
-  font-family: 'Press Start 2P';
+grid-area: footer;
+background-color: rgb(21, 54, 27, 0.3);
+border-top-left-radius: 50px;
+border-top-right-radius: 50px;
+justify-content: center;
+text-align: center;
+align-content: center;
+position: relative;
+font-size: 17px;
+font-family: 'Press Start 2P';
 }
 footer img {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: none;
-  border-image: solid 3px rgba(52, 73, 56, 0.3);
+position: absolute;
+bottom: 100%;
+left: 50%;
+transform: translateX(-50%);
+display: none;
+border-image: solid 3px rgba(52, 73, 56, 0.3);
 }
 #uiCanvas {
-  border: 10px solid rgb(92, 89, 89);
-  background-color: #0d0f10;
-  border-radius: 100px;
-  justify-content: space-evenly;
-  align-items: center;
-  align-content: center;
+border: 10px solid rgb(92, 89, 89);
+background-color: #0d0f10;
+background-image: url("../assets/mapElements/testUIBack.png");
+background-size: cover;
+border-radius: 100px;
+justify-content: space-evenly;
+align-items: center;
+align-content: center;
+box-shadow: #051008 0px 0px 20px;
 }
 #statsCanvas {
-  background-color: rgba(55, 34, 9, 0.886);
-  padding: 30px;
-  border: rgb(62, 62, 62) 3px solid;
-  border-radius: 30px;
-  height: auto;
+background-color: rgba(55, 34, 9, 0.886);
+padding: 30px;
+border: rgb(62, 62, 62) 3px solid;
+border-radius: 30px;
+height: auto;
 }
 
 
@@ -514,258 +535,258 @@ footer img {
 
 
 .lil-gui.autoPlace {
-    top: 15vh;
-    right: 5vw;
+  top: 15vh;
+  right: 5vw;
 }
 
 #ui {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 #ui > div {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 #ui input, #ui select, #ui option, #ui canvas {
-    pointer-events: auto;
+  pointer-events: auto;
 }
 
 /* ------------------ Tutorial page ------------------ */
 #tutorialBody{
-  background-image: url('../assets//mapElements/mainBackground.jpeg');
-  background-size: cover; 
-  background-position: center; 
-  background-attachment: fixed;
-  color: white; 
-  font-family: "Press Start 2P", cursive;
-  height: 100vh; 
-  margin : 0; 
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
+background-image: url('../assets//mapElements/mainBackground.jpeg');
+background-size: cover; 
+background-position: center; 
+background-attachment: fixed;
+color: white; 
+font-family: "Press Start 2P", cursive;
+height: 100vh; 
+margin : 0; 
+display: flex;
+justify-content: center; 
+align-items: center; 
 }
 
 .grid-containerTutorial{  
-  display: grid;
-  gap: 20px;
-  height: 100%;
-  padding: 35px;
-  grid-template-rows: 14% 79% 7%;
-  grid-template-areas:
-      "header nav nav"
-      "canvas canvas canvas"
-      "footer footer footer";
+display: grid;
+gap: 20px;
+height: 100%;
+padding: 35px;
+grid-template-rows: 14% 79% 7%;
+grid-template-areas:
+    "header nav nav"
+    "canvas canvas canvas"
+    "footer footer footer";
 }
 #grid-item-T-1 {
-  grid-area: header;
-  background-color: rgba(11, 30, 15, 0.832); /* Same as leaderboard header */
-  justify-content: center;
-  text-align: center;
-  align-content: center;
-  border-bottom-left-radius: 50px;
+grid-area: header;
+background-color: rgba(11, 30, 15, 0.832); /* Same as leaderboard header */
+justify-content: center;
+text-align: center;
+align-content: center;
+border-bottom-left-radius: 50px;
 }
 #grid-item-T-2 {
-  grid-area: nav;
-  background-color: rgba(40, 27, 16, 0.823); /* Same as leaderboard nav */
-  border-bottom-right-radius: 50px;
-  justify-content: space-evenly;
-  align-items: center;
-  align-content: center;
-  display: flex;
-  flex-direction: row;
+grid-area: nav;
+background-color: rgba(40, 27, 16, 0.823); /* Same as leaderboard nav */
+border-bottom-right-radius: 50px;
+justify-content: space-evenly;
+align-items: center;
+align-content: center;
+display: flex;
+flex-direction: row;
 }
 
 #grid-item-T-3 {
-  grid-area: stats;
-  width: 60%;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+grid-area: stats;
+width: 60%;
+justify-content: center;
+align-items: center;
+align-content: center;
 }
 
 .tutorial-content{
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  gap: 20px; 
-  padding: 20px;
-  background-color: rgba(0,0,0,0.95); 
-  border-radius: 10px;
-  box-shadow: 0 0 19px rgba(0, 0, 0, 0.5);
+display: grid; 
+grid-template-columns: 1fr 1fr; 
+gap: 20px; 
+padding: 20px;
+background-color: rgba(0,0,0,0.95); 
+border-radius: 10px;
+box-shadow: 0 0 19px rgba(0, 0, 0, 0.5);
 }
 
 .tutorial-section {
-  padding: 20px; 
-  background-color: rgba(225,225,225,0.1);
-  border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+padding: 20px; 
+background-color: rgba(225,225,225,0.1);
+border-radius: 10px;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .tutorial-section h2{
-  text-align: center; 
-  margin-bottom: 10px;
-  font-size: 24px; 
-  color : #e8c766;
+text-align: center; 
+margin-bottom: 10px;
+font-size: 24px; 
+color : #e8c766;
 }
 
 #grid-item-2-7 {
-  grid-area: canvas;
-  border: 4px solid #8b4513;
-  background-color: rgba(0,0,0,0.95); 
-  text-align: center;
+grid-area: canvas;
+border: 4px solid #8b4513;
+background-color: rgba(0,0,0,0.95); 
+text-align: center;
 }
 #grid-item-2-7 p {
-  font-family: 'VT323', monospace;
-  font-size: 22px;
-  line-height: 1.4;
-  color: #fff;
-  text-shadow: 1px 1px 0px #000;
+font-family: 'VT323', monospace;
+font-size: 22px;
+line-height: 1.4;
+color: #fff;
+text-shadow: 1px 1px 0px #000;
 }
 
 .carousel {
-  overflow: hidden;
-  width: 600px;
+overflow: hidden;
+width: 600px;
 }
 
 .wrap {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 160px;
-  justify-items: stretch;
-  animation: slide 15s linear infinite;
+display: grid;
+grid-auto-flow: column;
+grid-auto-columns: 160px;
+justify-items: stretch;
+animation: slide 15s linear infinite;
 }
 
 .wrap-img {
-  width: 120px;
-  height: 170px;
-  border-radius: 5px;
-  border : 3px solid #000;
-  object-fit: cover;
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-  height: auto;
-  position: relative;
-  justify-self: center;
+width: 120px;
+height: 170px;
+border-radius: 5px;
+border : 3px solid #000;
+object-fit: cover;
+transition: transform 0.2s, box-shadow 0.2s;
+cursor: pointer;
+height: auto;
+position: relative;
+justify-self: center;
 }
 
 @keyframes slide {
-  to {
-    translate: calc(-4 * 250px);
-  }
+to {
+  translate: calc(-4 * 250px);
+}
 }
 
 
 .footer {
-  background-color: rgba(21, 54, 27, 0.3);
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  padding: 10px;
-  font-size: 17px;
-  width: 100%;
-  text-align: center;
+background-color: rgba(21, 54, 27, 0.3);
+border-top-left-radius: 50px;
+border-top-right-radius: 50px;
+padding: 10px;
+font-size: 17px;
+width: 100%;
+text-align: center;
 }
 
 
 
 /* ------------------ Credits Page ------------------ */
 #creditsBody{
-  background-image: url('../assets/mapElements/mainBackground.jpeg');
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  color: white; 
-  font-family: "Press Start 2P", cursive;
-  height: 100vh; 
-  margin : 0; 
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
+background-image: url('../assets/mapElements/mainBackground.jpeg');
+background-size: cover; 
+background-position: center; 
+background-repeat: no-repeat; 
+color: white; 
+font-family: "Press Start 2P", cursive;
+height: 100vh; 
+margin : 0; 
+display: flex;
+justify-content: center; 
+align-items: center; 
 }
 .grid-containerCredits{  
-  display: grid;
-  grid-template-columns: 0.7fr 1.2fr 1.2fr;
-  grid-template-rows: 15% 670px 5%;
-  gap: 20px;
-  height: 100%;
-  padding: 35px;
-  grid-template-areas:
-      "header header nav"
-      "canvas canvas canvas"
-      "footer footer footer";
-  width: 100%;
+display: grid;
+grid-template-columns: 0.7fr 1.2fr 1.2fr;
+grid-template-rows: 15% 670px 5%;
+gap: 20px;
+height: 100%;
+padding: 35px;
+grid-template-areas:
+    "header header nav"
+    "canvas canvas canvas"
+    "footer footer footer";
+width: 100%;
 }
 #grid-item-C-1 {
-  grid-area: header;
-  background-color: rgba(11, 30, 15, 0.832);
-  justify-content: center;
-  text-align: center;
-  align-content: center;
-  border-bottom-left-radius: 50px;
+grid-area: header;
+background-color: rgba(11, 30, 15, 0.832);
+justify-content: center;
+text-align: center;
+align-content: center;
+border-bottom-left-radius: 50px;
 }
 #grid-item-C-2 {
-  grid-area: nav;
-  background-color: rgba(40, 27, 16, 0.823); /* Same as leaderboard nav */
-  border-bottom-right-radius: 50px;
-  justify-content: space-evenly;
-  align-items: center;
-  align-content: center;
-  display: flex;
-  flex-direction: row;
+grid-area: nav;
+background-color: rgba(40, 27, 16, 0.823); /* Same as leaderboard nav */
+border-bottom-right-radius: 50px;
+justify-content: space-evenly;
+align-items: center;
+align-content: center;
+display: flex;
+flex-direction: row;
 }
 
 #grid-item-C-4{
-  grid-area: canvas;
-  background-color:  rgb(0,0,0,0.75);
-  
+grid-area: canvas;
+background-color:  rgb(0,0,0,0.75);
+
 }
 #grid-item-C-5 {
-  grid-area: footer;
-  font-size: 17px;
-  background-color: rgb(21, 54, 27, 0.3);
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  justify-content: center;
-  text-align: center;
-  align-content: center;
-  position: absolute;
+grid-area: footer;
+font-size: 17px;
+background-color: rgb(21, 54, 27, 0.3);
+border-top-left-radius: 50px;
+border-top-right-radius: 50px;
+justify-content: center;
+text-align: center;
+align-content: center;
+position: absolute;
 }
 
 .credits-content{
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  gap: 20px; 
-  padding: 20px;
-  background-color: rgba(0,0,0,0.95); 
-  border-radius: 10px;
-  box-shadow: 0 0 19px rgba(0, 0, 0, 0.5);
+display: grid; 
+grid-template-columns: 1fr 1fr; 
+gap: 20px; 
+padding: 20px;
+background-color: rgba(0,0,0,0.95); 
+border-radius: 10px;
+box-shadow: 0 0 19px rgba(0, 0, 0, 0.5);
 }
 .credits-section{
-  padding: 20px; 
-  background-color: rgba(225,225,225,0.1);
-  border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+padding: 20px; 
+background-color: rgba(225,225,225,0.1);
+border-radius: 10px;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 .credits-section h2{
-  text-align: center; 
-  margin-bottom: 10px;
-  font-size: 24px; 
-  color : #e8c766;
+text-align: center; 
+margin-bottom: 10px;
+font-size: 24px; 
+color : #e8c766;
 }
 .credits-section ul{
-  list-style: none; 
-  padding: 0; 
+list-style: none; 
+padding: 0; 
 }
 .credits-section li {
-  margin-bottom: 10px;
-  font-size: 16px;
+margin-bottom: 10px;
+font-size: 16px;
 }
 
 .credits-section a {
-  color: #e8c766;
-  text-decoration: none;
+color: #e8c766;
+text-decoration: none;
 }
 
 .credits-section a:hover {
-  text-decoration: underline;
+text-decoration: underline;
 }
 
 
@@ -774,32 +795,123 @@ footer img {
 
 /* -------------------- Statistics ------------------ */
 #leaderboardBody{
-  background-image: url('../assets/mapElements/mainBackground.jpeg');
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  color: white; 
-  font-family: "Press Start 2P", cursive;
-  height: 100vh; 
-  margin : 0; 
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  overflow: auto;
+background-image: url('../assets/mapElements/mainBackground.jpeg');
+background-color: rgba(0, 0, 0,0.8);
+background-size: cover; 
+background-position: center; 
+background-repeat: no-repeat; 
+color: white; 
+font-family: "Press Start 2P", cursive;
+height: 100vh; 
+margin : 0; 
+display: flex;
+justify-content: center; 
+align-items: center; 
+overflow: auto;
 }
 .leaderboardContainer {
-  display: grid;
-  grid-template-columns: 0.7fr 1.2fr 1.2fr;
-  grid-template-rows: 14% 79% 7%;
-  gap: 20px;
-  height: 100%;
-  padding: 10px;
-  grid-template-areas:
-      "header header nav"
-      "stats stats stats"
-      "footer footer footer";
+display: grid;
+grid-template-columns: 0.7fr 1.2fr 1.2fr;
+grid-template-rows: 14% 79% 7%;
+gap: 20px;
+height: 100%;
+padding: 10px;
+grid-template-areas:
+    "header header nav"
+    "stats stats stats"
+    "footer footer footer";
 }
 #grid-item-L-1 {
+grid-area: header;
+background-color: rgba(11, 30, 15, 0.832);
+justify-content: center;
+text-align: center;
+align-content: center;
+border-bottom-left-radius: 50px;
+}
+#grid-item-L-2 {
+grid-area: nav;
+background-color:  rgba(40, 27, 16, 0.823);
+border-bottom-right-radius: 50px;
+justify-content: space-evenly;
+align-items: center;
+align-content: center;
+display: flex;
+flex-direction: row;
+}
+
+#grid-item-L{
+grid-area: stats;
+width: 90%;
+justify-content: center;
+align-items: center;
+align-content: center;
+}
+/*
+.leaderboard-section {
+margin: 1em; 
+padding: 1em; 
+border: 1px solid black; 
+display: flex; 
+flex-direction : column; 
+background-color: rgba(34,34,34,0.9);
+color: white; 
+border-radius: 10px;
+}
+*/
+.leaderboard-section .formInput, .leaderboard-section .resultDisplay{
+flex: 1; 
+margin: 1em 0; 
+}
+.leaderboard-section form {
+padding: 1em;
+display: flex; 
+flex-direction: column; 
+gap: 0.5em;
+}
+.leaderboard-section form input{
+margin: 0.2em; 
+max-width: 90%;
+padding: 0.5em; 
+border: 1px solid #DDD;
+border-radius: 5px;
+background-color: #222;
+color: white;
+}
+.leaderboard-section .resultDisplay p{
+margin: 1em; 
+font-size: 1em;
+color: #e8c766;
+}
+
+.leaderboard-section table, .leaderboard-section th, .leaderboard-section td{
+border: solid 1px #DDD;
+  border-collapse: collapse;
+  padding: 5px 10px;
+  text-align: center;
+  background-color: rgba(55, 34, 9, 0.95);
+  color: white;
+}
+
+.leaderboard-section th {
+  font-weight: bold;
+  background-color: rgba(75, 59, 36, 0.9);
+  color: #e8c766;
+}
+
+.leaderboard-section td {
+  background-color: rgba(55, 34, 9, 0.8);
+}
+
+.leaderboard-section h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5em;
+  color: #e8c766;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+#grid-item-T-1, #grid-item-L-1 {
   grid-area: header;
   background-color: rgba(11, 30, 15, 0.832);
   justify-content: center;
@@ -807,9 +919,10 @@ footer img {
   align-content: center;
   border-bottom-left-radius: 50px;
 }
-#grid-item-L-2 {
+
+#grid-item-T-2, #grid-item-L-2 {
   grid-area: nav;
-  background-color:  rgba(40, 27, 16, 0.823);
+  background-color: rgba(40, 27, 16, 0.823);
   border-bottom-right-radius: 50px;
   justify-content: space-evenly;
   align-items: center;
@@ -818,7 +931,7 @@ footer img {
   flex-direction: row;
 }
 
-#grid-item-L{
+#grid-item-T-3{
   grid-area: stats;
   width: 60%;
   justify-content: center;
@@ -826,106 +939,75 @@ footer img {
   align-content: center;
 }
 
-.leaderboard-section {
-  margin: 1em; 
-  padding: 1em; 
-  border: 1px solid black; 
-  display: flex; 
-  flex-direction : column; 
-  background-color: rgba(34,34,34,0.9);
-  color: white; 
-  border-radius: 10px;
-}
-
-.leaderboard-section .formInput, .leaderboard-section .resultDisplay{
-  flex: 1; 
-  margin: 1em 0; 
-}
-.leaderboard-section form {
-  padding: 1em;
-  display: flex; 
-  flex-direction: column; 
-  gap: 0.5em;
-}
-.leaderboard-section form input{
-  margin: 0.2em; 
-  max-width: 90%;
-  padding: 0.5em; 
-  border: 1px solid #DDD;
-  border-radius: 5px;
-  background-color: #222;
-  color: white;
-}
-.leaderboard-section .resultDisplay p{
-  margin: 1em; 
-  font-size: 1em;
-  color: #e8c766;
-}
-
-.leaderboard-section table, .leaderboard-section th, .leaderboard-section td{
-  border: solid 1px #DDD;
-    border-collapse: collapse;
-    padding: 5px 10px;
-    text-align: center;
-    background-color: rgba(55, 34, 9, 0.95);
-    color: white;
-}
-
-.leaderboard-section th {
-    font-weight: bold;
-    background-color: rgba(75, 59, 36, 0.9);
-    color: #e8c766;
-}
-
-.leaderboard-section td {
-    background-color: rgba(55, 34, 9, 0.8);
-}
-
-.leaderboard-section h1 {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 1.5em;
-    color: #e8c766;
-    margin-bottom: 1em;
-    text-align: center;
-}
-
-/* Apply leaderboard styles to the tutorial page */
-#grid-item-T-1, #grid-item-L-1 {
-    grid-area: header;
-    background-color: rgba(11, 30, 15, 0.832); /* Same as leaderboard header */
-    justify-content: center;
-    text-align: center;
-    align-content: center;
-    border-bottom-left-radius: 50px;
-}
-
-#grid-item-T-2, #grid-item-L-2 {
-    grid-area: nav;
-    background-color: rgba(40, 27, 16, 0.823); /* Same as leaderboard nav */
-    border-bottom-right-radius: 50px;
-    justify-content: space-evenly;
-    align-items: center;
-    align-content: center;
-    display: flex;
-    flex-direction: row;
-}
-
-#grid-item-T-3, #grid-item-L {
-    grid-area: stats;
-    width: 60%;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-}
-
 #grid-item-T-4, #grid-item-L-5 {
-    grid-area: footer;
-    font-size: 17px;
-    background-color: rgb(21, 54, 27, 0.3); /* Same as leaderboard footer */
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
+  grid-area: footer;
+  font-size: 17px;
+  background-color: rgb(21, 54, 27, 0.3);
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  position: relative;
+}
+
+.leaderboard-sections {
+    gap: 20px;
+    margin-top: 5px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Toggle buttons */
+.toggle-buttons {
+    display: flex;
     justify-content: center;
-    text-align: center;
-    align-content: center;
-    position: relative;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.toggle-buttons button {
+    padding: 10px 20px;
+    font-size: 25px;
+    font-family: 'Press Start 2P', cursive;
+    background-color: #593D2D;
+    color: #e8c766;
+    border: shadow 0 0 5px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-buttons button:hover {
+    background-color: #4D5923;
+    color: #F2E2C4;
+}
+
+.leaderboard-section {
+    display: none;
+    background-color: rgba(34, 34, 34, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    transition: all 0.3s ease;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.leaderboard-section.active {
+    display: flex;
+}
+
+.leaderboard-content {
+  flex: 1;
+}
+
+.leaderboard-canvas{
+  flex: 0 0 300px; 
+  height : 400px;
+  width: 600px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 2px solid #e8c766;
+  border-radius: 10px;
 }

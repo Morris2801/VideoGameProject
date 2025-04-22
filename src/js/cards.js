@@ -35,6 +35,9 @@ class BaseCard extends GameObject {
             return;
         }
         console.log(`Aplicando efectos de ${this.type} a ${target.type}`);
+        
+
+        
         // Apply buffs to the target's attributes
         target.health += this.healthBuff;
         target.healthRegen += this.healthRegenBuff;
