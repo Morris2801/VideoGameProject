@@ -614,7 +614,7 @@ footer img {
 }
 
 .tutorial-section1 {
-  padding: 20px; 
+  padding: 1px; 
   grid-column: 1;
   grid-row: 1;
   background-color: rgba(225,225,225,0.1);
@@ -712,10 +712,10 @@ footer img {
 
 /* ------------------ Credits Page ------------------ */
 #creditsBody{
-  background-image: url('../assets/mapElements/mainBackground.jpeg');
+  background-image: url('../assets//mapElements/mainBackground.jpeg');
   background-size: cover; 
   background-position: center; 
-  background-repeat: no-repeat; 
+  background-attachment: fixed;
   color: white; 
   font-family: "Press Start 2P", cursive;
   height: 100vh; 
@@ -727,7 +727,7 @@ footer img {
 .grid-containerCredits{  
   display: grid;
   grid-template-columns: 0.7fr 1.2fr 1.2fr;
-  grid-template-rows: 15% 670px 5%;
+  grid-template-rows: 15% 800px 5%;
   gap: 20px;
   height: 100%;
   padding: 35px;
@@ -787,6 +787,7 @@ footer img {
   background-color: rgba(225,225,225,0.1);
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 .credits-section h2{
   text-align: center; 
@@ -812,7 +813,15 @@ footer img {
   text-decoration: underline;
 }
 
-
+.Cfooter {
+  background-color: rgba(21, 54, 27, 0.3);
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  padding: 10px;
+  font-size: 17px;
+  width: 100%;
+  text-align: center;
+}
 
 
 
