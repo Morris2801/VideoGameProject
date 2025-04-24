@@ -42,7 +42,7 @@ class BaseEnemy extends BaseCharacter {
         // Frame animation properties
         this.frameTime = 0; 
         this.currentFrameIndex = 0; 
-        this.frameDuration = 10000; 
+        this.frameDuration = 150; 
 
         // Set movement frames // TEsting from mariachispritesheet
         this.setMovementFrames('right', [7, 8, 9, 10, 11], [11,11]);
@@ -68,6 +68,13 @@ class BaseEnemy extends BaseCharacter {
         this.forcedWanderTime = 0;
         this.lastAttackEndTime = 0;
         this.isRecovering = false;
+
+        this.animationUpdateInterval = 500; // Actualizar cada 500ms
+        this.lastAnimationUpdate = 0;
+        this.animationInProgress = false;
+        this.currentAnimationFrame = 0;
+        this.totalAnimationFrames = 0;
+        this.frameTime = 0;
 
         this.attackBoxes = {
             right: {
@@ -144,7 +151,61 @@ class BaseEnemy extends BaseCharacter {
     update(level, deltaTime) {
         const currentTime = Date.now();
         let distanceToPlayer = this.position.distanceTo(game.player.position);
+
+        //trackear si  esta el player en el rango de ataque
+        const inPlayerRange = distanceToPlayer <= this.attackRange;
         
+        // Garantizar animaciones completas cuando está persiguiendo o en rango
+    if (inPlayerRange && !this.attacking) {
+        this.lastAnimationUpdate += deltaTime;
+        if (this.lastAnimationUpdate > this.animationUpdateInterval) {
+            // Forzar la animación completa en la dirección actual
+            const currentDirection = this.lastDirection;
+            const moveFrames = this.movement[currentDirection].moveFrames;
+            
+            // Si no está en medio de una animación, iniciar una nueva
+            if (!this.animationInProgress) {
+                this.animationInProgress = true;
+                this.currentAnimationFrame = 0;
+                this.totalAnimationFrames = moveFrames.length;
+                this.frameTime = 0;
+            }
+            
+            this.lastAnimationUpdate = 0;
+        }
+    }
+    
+    // Sistema de animación por frames
+    if (this.animationInProgress && !this.attacking) {
+        this.frameTime += deltaTime;
+        if (this.frameTime > 150) { // Duración de cada frame (ajustar según necesidad)
+            // Avanzar al siguiente frame
+            this.currentAnimationFrame++;
+            this.frameTime = 0;
+            
+            // Obtener frames de la dirección actual
+            const moveFrames = this.movement[this.lastDirection].moveFrames;
+            
+            // Si hemos completado la animación, reiniciar
+            if (this.currentAnimationFrame >= this.totalAnimationFrames) {
+                this.currentAnimationFrame = 0;
+                
+                // Si ya no está en rango, terminar la animación forzada
+                if (!inPlayerRange) {
+                    this.animationInProgress = false;
+                }
+            }
+            
+            // Configurar el frame actual
+            this.frame = moveFrames[this.currentAnimationFrame];
+            this.spriteRect.x = this.frame % this.sheetCols;
+            this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
+        }
+    } else {
+        // Comportamiento normal de updateFrame
+        this.updateFrame(deltaTime);
+    }
+
         if (this.usesAttackSprite) {
             if (this.isRecovering && currentTime - this.lastAttackEndTime > this.recoveryTime) {
                 this.isRecovering = false;
@@ -235,8 +296,10 @@ class BaseEnemy extends BaseCharacter {
                 this.startMovement(dir);
             }
         }
-
-        this.updateFrame(deltaTime);
+        if(!this.animationInProgress){
+            this.updateFrame(deltaTime);    
+        }
+        
     }
     // random movement function with a predisposition of 70% to the old direction for consistency
     wander(level, deltaTime) {
@@ -247,9 +310,25 @@ class BaseEnemy extends BaseCharacter {
         ).direction();
         if (this.wanderTime <= 0) {
             this.velocity = randomDir.times(this.speed * deltaTime);
-            this.wanderTime = 1000* Math.random() * 2 + 1; //1 to 3 seconds
+            this.wanderTime = 500 + Math.random() * 2500; //1 to 3 seconds
+            this.animationInProgress = true;
+            const newDirection = this.normDir(randomDir);
+            this.currentAnimationFrame = 0;
+            this.totalAnimationFrames = this.movement[newDirection].moveFrames.length;
+            this.frameTime = 0;
         } else {
             this.wanderTime -= deltaTime;
+        }
+        if (this.velocity.x !== 0 || this.velocity.y !== 0) {
+            this.frameTime += deltaTime;
+            if (this.frameTime > 150) {
+                const moveFrames = this.movement[this.lastDirection].moveFrames;
+                this.currentAnimationFrame = (this.currentAnimationFrame + 1) % moveFrames.length;
+                this.frame = moveFrames[this.currentAnimationFrame];
+                this.spriteRect.x = this.frame % this.sheetCols;
+                this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
+                this.frameTime = 0;
+            }
         }
         let newPos = this.position.plus(this.velocity.times(deltaTime));
         this.innerHitbox = new Rect(
@@ -266,6 +345,12 @@ class BaseEnemy extends BaseCharacter {
         if (!level.contact(this.innerHitbox, this.size, 'wall')&& !level.contact(this.innerHitbox, this.size, "player") && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit') && !level.contact(this.innerHitbox, this.size, 'enemy') && !level.contact(this.innerHitbox, this.size, 'boss')) {
             this.position = newPos;
             this.lastDirection = this.normDir(this.velocity);
+
+            // this.frame += deltaTime;
+            // if(this.frame > 500){
+            //     this.setAnimation(...this.movement[this.lastDirection].moveFrames, true, 150);
+            //     this.frame = 0;
+            // }
             this.startMovement(this.lastDirection);
         } 
         else {
@@ -285,14 +370,32 @@ class BaseEnemy extends BaseCharacter {
     startMovement(direction) {
         let normalizedDirection = this.normDir(direction); 
         let dirInfo = this.movement[normalizedDirection];
-
-        if(!dirInfo.status){
-            dirInfo.status = true; 
-            this.lastDirection = normalizedDirection;
-            this.velocity[dirInfo.axis] = dirInfo.sign * this.speed; 
-            this.setAnimation(...dirInfo.moveFrames, dirInfo.repeat, dirInfo.duration);
-            //console.log(`Enemy moving: ${normalizedDirection}, Frames: ${dirInfo.moveFrames}`); 
+    
+        // Siempre actualizar estado de movimiento
+        dirInfo.status = true; 
+        
+        // Establecer la dirección antes de cualquier otra cosa
+        this.lastDirection = normalizedDirection;
+        
+        // Solo iniciar animación si:
+        // - No esta atacando (prioridad al ataque)
+       
+        if (!this.attacking && !this.isRecovering) {
+            // Si cambió la dirección o no hay animación en progreso
+            if (this.state !== "attack" && (this.lastDirection !== normalizedDirection || !this.animationInProgress)) {
+                this.animationInProgress = true;
+                this.currentAnimationFrame = 0;
+                this.totalAnimationFrames = dirInfo.moveFrames.length;
+                this.frameTime = 0;
+                
+                // Configurar el frame inicial
+                this.frame = dirInfo.moveFrames[0];
+                this.spriteRect.x = this.frame % this.sheetCols;
+                this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
+            }
         }
+        
+        this.velocity[dirInfo.axis] = dirInfo.sign * this.speed;
     }
 
     stopMovement(direction) {
@@ -589,7 +692,7 @@ class Devil extends BaseEnemy {
 class Quetzalcoatl extends BaseEnemy {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width*1, height*1, x, y, _type);
-        this.health = 5; // Initial health for Quetzalcoatl
+        this.health = 50; // Initial health for Quetzalcoatl
         this.damage = 5;
         this.frameWidth = 120;
         this.frameHeight = 100;
