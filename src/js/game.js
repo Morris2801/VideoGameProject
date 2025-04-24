@@ -544,7 +544,7 @@ const GameMusic = (() => {
         startMusic: function () {
             if (currentMusic.paused) {
                 currentMusic.play().catch(error => {
-                    console.log("Error al iniciar la música:", error);
+                    console.log("Error when starting music:", error);
                 });
             }
         },
@@ -552,17 +552,14 @@ const GameMusic = (() => {
             currentMusic.pause();
             currentMusic.currentTime = 0;
         },
-        changeMusic: function (track) {
-            if (audioFiles[track]) {
-                currentMusic.pause();
-                currentMusic = audioFiles[track];
-                currentMusic.loop = true;
-                currentMusic.play().catch(error => {
-                    console.log("Error al cambiar la música:", error);
-                });
-            } else {
-                console.log("Track no encontrado:", track);
-            }
+        changeMusic(track) {
+            const newTrack = audioFiles[track];
+            if (!newTrack) return console.log("Audio not found:", track);
+        
+            currentMusic.pause();
+            currentMusic = newTrack;
+            currentMusic.loop = true;
+            currentMusic.play().catch(err => console.log("Error changing music:", err));
         }
     };
 })();
