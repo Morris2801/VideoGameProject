@@ -42,7 +42,7 @@ class BaseEnemy extends BaseCharacter {
         // Frame animation properties
         this.frameTime = 0; 
         this.currentFrameIndex = 0; 
-        this.frameDuration = 10000; 
+        this.frameDuration = 150; 
 
         // Set movement frames // TEsting from mariachispritesheet
         this.setMovementFrames('right', [7, 8, 9, 10, 11], [11,11]);
@@ -68,6 +68,13 @@ class BaseEnemy extends BaseCharacter {
         this.forcedWanderTime = 0;
         this.lastAttackEndTime = 0;
         this.isRecovering = false;
+
+        this.animationUpdateInterval = 500; // Actualizar cada 500ms
+        this.lastAnimationUpdate = 0;
+        this.animationInProgress = false;
+        this.currentAnimationFrame = 0;
+        this.totalAnimationFrames = 0;
+        this.frameTime = 0;
 
         this.attackBoxes = {
             right: {
@@ -144,7 +151,61 @@ class BaseEnemy extends BaseCharacter {
     update(level, deltaTime) {
         const currentTime = Date.now();
         let distanceToPlayer = this.position.distanceTo(game.player.position);
+
+        //trackear si  esta el player en el rango de ataque
+        const inPlayerRange = distanceToPlayer <= this.attackRange;
         
+        // Garantizar animaciones completas cuando está persiguiendo o en rango
+    if (inPlayerRange && !this.attacking) {
+        this.lastAnimationUpdate += deltaTime;
+        if (this.lastAnimationUpdate > this.animationUpdateInterval) {
+            // Forzar la animación completa en la dirección actual
+            const currentDirection = this.lastDirection;
+            const moveFrames = this.movement[currentDirection].moveFrames;
+            
+            // Si no está en medio de una animación, iniciar una nueva
+            if (!this.animationInProgress) {
+                this.animationInProgress = true;
+                this.currentAnimationFrame = 0;
+                this.totalAnimationFrames = moveFrames.length;
+                this.frameTime = 0;
+            }
+            
+            this.lastAnimationUpdate = 0;
+        }
+    }
+    
+    // Sistema de animación por frames
+    if (this.animationInProgress && !this.attacking) {
+        this.frameTime += deltaTime;
+        if (this.frameTime > 150) { // Duración de cada frame (ajustar según necesidad)
+            // Avanzar al siguiente frame
+            this.currentAnimationFrame++;
+            this.frameTime = 0;
+            
+            // Obtener frames de la dirección actual
+            const moveFrames = this.movement[this.lastDirection].moveFrames;
+            
+            // Si hemos completado la animación, reiniciar
+            if (this.currentAnimationFrame >= this.totalAnimationFrames) {
+                this.currentAnimationFrame = 0;
+                
+                // Si ya no está en rango, terminar la animación forzada
+                if (!inPlayerRange) {
+                    this.animationInProgress = false;
+                }
+            }
+            
+            // Configurar el frame actual
+            this.frame = moveFrames[this.currentAnimationFrame];
+            this.spriteRect.x = this.frame % this.sheetCols;
+            this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
+        }
+    } else {
+        // Comportamiento normal de updateFrame
+        this.updateFrame(deltaTime);
+    }
+
         if (this.usesAttackSprite) {
             if (this.isRecovering && currentTime - this.lastAttackEndTime > this.recoveryTime) {
                 this.isRecovering = false;
@@ -235,8 +296,10 @@ class BaseEnemy extends BaseCharacter {
                 this.startMovement(dir);
             }
         }
-
-        this.updateFrame(deltaTime);
+        if(!this.animationInProgress){
+            this.updateFrame(deltaTime);    
+        }
+        
     }
     // random movement function with a predisposition of 70% to the old direction for consistency
     wander(level, deltaTime) {
@@ -247,9 +310,25 @@ class BaseEnemy extends BaseCharacter {
         ).direction();
         if (this.wanderTime <= 0) {
             this.velocity = randomDir.times(this.speed * deltaTime);
-            this.wanderTime = 1000* Math.random() * 2 + 1; //1 to 3 seconds
+            this.wanderTime = 500 + Math.random() * 2500; //1 to 3 seconds
+            this.animationInProgress = true;
+            const newDirection = this.normDir(randomDir);
+            this.currentAnimationFrame = 0;
+            this.totalAnimationFrames = this.movement[newDirection].moveFrames.length;
+            this.frameTime = 0;
         } else {
             this.wanderTime -= deltaTime;
+        }
+        if (this.velocity.x !== 0 || this.velocity.y !== 0) {
+            this.frameTime += deltaTime;
+            if (this.frameTime > 150) {
+                const moveFrames = this.movement[this.lastDirection].moveFrames;
+                this.currentAnimationFrame = (this.currentAnimationFrame + 1) % moveFrames.length;
+                this.frame = moveFrames[this.currentAnimationFrame];
+                this.spriteRect.x = this.frame % this.sheetCols;
+                this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
+                this.frameTime = 0;
+            }
         }
         let newPos = this.position.plus(this.velocity.times(deltaTime));
         this.innerHitbox = new Rect(
@@ -266,6 +345,12 @@ class BaseEnemy extends BaseCharacter {
         if (!level.contact(this.innerHitbox, this.size, 'wall')&& !level.contact(this.innerHitbox, this.size, "player") && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit') && !level.contact(this.innerHitbox, this.size, 'enemy') && !level.contact(this.innerHitbox, this.size, 'boss')) {
             this.position = newPos;
             this.lastDirection = this.normDir(this.velocity);
+
+            // this.frame += deltaTime;
+            // if(this.frame > 500){
+            //     this.setAnimation(...this.movement[this.lastDirection].moveFrames, true, 150);
+            //     this.frame = 0;
+            // }
             this.startMovement(this.lastDirection);
         } 
         else {
@@ -285,14 +370,32 @@ class BaseEnemy extends BaseCharacter {
     startMovement(direction) {
         let normalizedDirection = this.normDir(direction); 
         let dirInfo = this.movement[normalizedDirection];
-
-        if(!dirInfo.status){
-            dirInfo.status = true; 
-            this.lastDirection = normalizedDirection;
-            this.velocity[dirInfo.axis] = dirInfo.sign * this.speed; 
-            this.setAnimation(...dirInfo.moveFrames, dirInfo.repeat, dirInfo.duration);
-            //console.log(`Enemy moving: ${normalizedDirection}, Frames: ${dirInfo.moveFrames}`); 
+    
+        // Siempre actualizar estado de movimiento
+        dirInfo.status = true; 
+        
+        // Establecer la dirección antes de cualquier otra cosa
+        this.lastDirection = normalizedDirection;
+        
+        // Solo iniciar animación si:
+        // - No esta atacando (prioridad al ataque)
+       
+        if (!this.attacking && !this.isRecovering) {
+            // Si cambió la dirección o no hay animación en progreso
+            if (this.state !== "attack" && (this.lastDirection !== normalizedDirection || !this.animationInProgress)) {
+                this.animationInProgress = true;
+                this.currentAnimationFrame = 0;
+                this.totalAnimationFrames = dirInfo.moveFrames.length;
+                this.frameTime = 0;
+                
+                // Configurar el frame inicial
+                this.frame = dirInfo.moveFrames[0];
+                this.spriteRect.x = this.frame % this.sheetCols;
+                this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
+            }
         }
+        
+        this.velocity[dirInfo.axis] = dirInfo.sign * this.speed;
     }
 
     stopMovement(direction) {
@@ -608,11 +711,37 @@ class Quetzalcoatl extends BaseEnemy {
         this.frameWidth = 80;
         this.frameHeight = 64;
         this.sheetCols = 3;
+
+        //drop card flag
+        this.hasDroppedCard = false;
         
         
         this.initAttackSpriteSheet("../assets/charSpritesheets/SpriteSheetQuetzacoaltPeleando.png");
     
     }
+
+    takeDamage(damage) {
+        this.health -= damage;
+        console.log(this.health);
+        if (this.health <= 0 && !this.hasDroppedCard) {
+            this.hasDroppedCard = true;
+
+            this.alive = false;
+            game.player.killCount += 1;
+            game.player.score += this.scoreGiven;
+            console.log("KillCount ", game.player.killCount);
+
+            
+            // Create the Quetzalcoatl card at the boss position
+            const card = new QuetzalcoatlCard("#FFD700", 32,32,this.position.x, this.position.y, "benditionCard"            );
+            const spritePath = "../assets/cards/QuetzacolatCard.png";
+            card.setSprite(spritePath, new Rect (0, 0, 80, 150));
+
+            game.actors.push(card); // Add the card to the game actors
+            console.log("Card dropped at position: ", this.position.x, this.position.y);
+
+        }
+    } 
     
 }
 
@@ -621,6 +750,19 @@ class AhPuch extends BaseEnemy{
         super(_color, width*1, height*1, x, y, _type);
         this.health = 50; // Initial health for Ah Puch
         this.damage = 5;
+
+        //Propiedades para la fireball
+        this.isAttackingFireball = false;
+        this.fireballAttackDuration = 0;
+        this.fireballAttackMaxDuration = 2000; // 2 seconds for fireball attack
+        this.fireballCooldown = 100; //2 miliseconds 
+        this.lastFireballTime = 0;
+        this.fireballCount = 0;
+        this.maxFireBalls = 16;
+        this.fireBallDamage = 2;
+        this.fireBallSpeed = 0.002;
+        this.fireBalls = [];
+
         this.frameWidth = 64;
         this.frameHeight = 112;
         this.sheetCols = 8; 
@@ -650,4 +792,201 @@ class AhPuch extends BaseEnemy{
         this.enemyID = 6;
         this.scoreGiven = 800;
     }
+
+
+    updateAttack(deltaTime){
+        this.attackDuration += deltaTime;
+
+        //phase attack normal
+        if(!this.isAttackingFireball){
+            if(!this.hasHitPlayer && this.attackDuration > this.attackMaxDuration /2){
+            const attackBox = {
+                position: {
+                    x: this.position.x + this.attackBoxes[this.lastDirection].xOffset,
+                    y: this.position.y + this.attackBoxes[this.lastDirection].yOffset
+                },
+                size: {
+                    x: this.attackBoxes[this.lastDirection].width,
+                    y: this.attackBoxes[this.lastDirection].height
+                },
+                type: "enemyAttackBox"
+            };
+
+            if(boxOverlap(attackBox, game.player)){
+                game.player.health -= this.damage;
+                game.player.lastHitBy = this.enemyID;
+                this.hasHitPlayer = true;
+            }
+            }
+
+        if(this.attackDuration >= this.attackMaxDuration){
+            this.isAttackingFireball = true;
+            this.attackDuration = 0;
+            this.fireballAttackDuration = 0;
+            this.lastFireballTime = Date.now();
+
+            //congelar el ultimo frame de ataque
+            const attackFrameRange = this.attackFrames[this.lastDirection];
+            const lastAttackFrame = attackFrameRange[1];
+            this.currentFrameIndex = lastAttackFrame;
+        }
+        }
+
+        else{
+            this.fireballAttackDuration += deltaTime;
+            this.updateFireballAttack(deltaTime);
+
+            // finalizar la fase de ataque fireball
+            if(this.fireballAttackDuration >= this.fireballAttackMaxDuration){
+                this.isAttackingFireball = false;
+                this.attacking = false;
+                this.attackDuration = 0;
+                this.hasHitPlayer = false;
+                this.lastAttackEndTime = Date.now();
+                this.isRecovering = true;
+
+                //limpiar cuantas fireball le quedan
+                this.fireBalls = [];
+
+                this.switchBackToIdleState();
+            }
+        }  
+    }
+
+    updateFireballAttack(deltaTime) {
+        const currentTime = Date.now();
+
+        //crear las fireballs
+        if(currentTime - this.lastFireballTime > this.fireballCooldown){
+            this.lastFireballTime = currentTime;
+            this.spawnFireball();
+        }
+
+        //quitar las fireballs que ya se usaron
+        for (let i = this.fireBalls.length - 1; i >= 0; i--){
+            const fireball = this.fireBalls[i];
+            fireball.update(deltaTime);
+
+            // remover fireballs que ya no existen
+            if (fireball.shouldRemove) {
+                this.fireBalls.splice(i, 1);
+            }
+        }
+    }
+
+    spawnFireball(){
+        //calculo basado en la cantidad de fireballs que quedan
+        const angle = (this.fireballCount / this.maxFireBalls)* 2 * Math.PI;
+        this.fireballCount = (this.fireballCount + 1) % this.maxFireBalls;
+
+        const dirX = Math.cos(angle);
+        const dirY = Math.sin(angle);
+
+        //create a new fireball
+        const fireball = new Fireball(
+            this.position.x + this.size.x / 2, 
+            this.position.y + this.size.y /2,
+            this.fireBallDamage, 
+            new Vec(dirX, dirY),
+            this.fireBallSpeed
+        );
+
+        this.fireBalls.push(fireball);
+    }
+
+    draw(ctx, scale) {
+        super.draw(ctx, scale);
+
+        //dibujar las fireballs
+        for (const fireball of this.fireBalls) {
+            fireball.draw(ctx, scale);
+        }
+    }
+}
+
+class Fireball {
+    constructor(x, y, damage, direction, speed) {
+        this.position = new Vec(x, y);
+        this.size = { x: 0.1, y: 0.1 }; // tamaño de la fireball
+        this.direction = direction;
+        this.speed = speed;
+        this.damage = damage;
+        this.shouldRemove = false;
+        this.lifetime = 0;
+        this.maxLifetime = 3000; // 3 seconds
+        
+        // Crer hibox de la bola
+        this.hitbox = new Rect(
+            this.position.x,
+            this.position.y,
+            this.size.x,
+            this.size.y
+        );
+    }
+    
+    update(deltaTime) {
+        
+        this.lifetime += deltaTime;
+        if (this.lifetime >= this.maxLifetime) {
+            this.shouldRemove = true;
+            return;
+        }
+        
+        // mover la fireball
+        const movement = this.direction.times(this.speed * deltaTime);
+        this.position = this.position.plus(movement);
+        
+        // Update hitbox position
+        this.hitbox = new Rect(
+            this.position.x,
+            this.position.y,
+            this.size.x,
+            this.size.y
+        );
+        
+        // revisar colision con el player
+        if (game && game.player && boxOverlap(this, game.player)) {
+            game.player.health -= this.damage;
+            game.player.lastHitBy = 6; // AhPuch's enemyID
+            this.shouldRemove = true;
+        }
+        
+        
+        if (game && game.level && game.level.contact(this.hitbox, this.size, 'wall')) {
+             this.shouldRemove = true;
+         }
+    }
+    
+    draw(ctx, scale) {
+        const scaledX = this.position.x * scale;
+        const scaledY = this.position.y * scale;
+        const scaledSize = this.size.x * scale;
+        
+        // Create a glowing effect for the fireball
+        const gradient = ctx.createRadialGradient(
+            scaledX + scaledSize/2, 
+            scaledY + scaledSize/2, 
+            0,
+            scaledX + scaledSize/2, 
+            scaledY + scaledSize/2, 
+            scaledSize
+        );
+        gradient.addColorStop(0, "white");
+        gradient.addColorStop(0.3, "#ff4500"); // Orange-red color
+        gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(
+            scaledX + scaledSize/2, 
+            scaledY + scaledSize/2, 
+            scaledSize, 
+            0, 
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
+
+
+    
 }
