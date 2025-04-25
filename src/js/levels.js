@@ -77,7 +77,6 @@ function levGen(width, height, levelNum, isBossRoom = false){
     let numEnemiesLvl1 = Math.floor(Math.random() * (maxEnemiesLvl1 - minEnemiesLvl1) + minEnemiesLvl1); 
     let numEnemiesLvl2 = Math.floor(Math.random() * (maxEnemiesLvl2 - minEnemiesLvl2) + minEnemiesLvl2); 
 
-    // Take into account outer . boder dim
     width +=2;
     height +=2;
     // General level struct (walls and floor)

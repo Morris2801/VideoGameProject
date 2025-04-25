@@ -22,14 +22,15 @@ class Game {
         const startTime = new Date();
         this.startTime = startTime;
         console.log("Game started at:", startTime);
-        this.run_start = new Date(); /// wtf por qué se pone la hora rara
-        this.run_end = null; 
+        this.run_start = formatDateForMySQL(new Date()); /// wtf por qué se pone la hora rara
+        //this.run_end = null; 
         this.run_duration = null;
 
         this.trees = trees;
         this.currentTreeIndex = 0;
         this.currentTree = this.trees[this.currentTreeIndex];
         this.currentRoom = this.currentTree.root;
+        this.enteredThroughDir = null; 
 
         this.player = this.level.player;
         this.actors = level.actors;
@@ -62,6 +63,8 @@ class Game {
         this.torchDamageTimer = 0;
         this.torchDamageInterval = 2000; // 2 seconds
         this.torchContact = false;
+
+        this.doorCooldown = 0; // ms
     }
     // handles effects in list
 
@@ -101,90 +104,135 @@ class Game {
         }
         let currentActors = this.actors;
         // Detect collisions
-        for (let actor of currentActors) {
-            if (actor.type == "boss" && actor.alive == false) {
-                this.bossDefeated = true;
-                console.log("Bossbeat");
-            }
-            if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
-                //console.log(`Collision of ${this.player.type} with ${actor.type}`);
-                /*if (actor.type == 'wall') {
-                    console.log("Hit a wall");
-                } 
-                    */
-                if (actor.type == 'card') {
-                    if (this.player.inventory.items.length != this.player.inventory.max) {
-                        // player picks up card
-                        this.player.inventory.push(actor);
-                        this.player.lastCardPickedUp = actor;
-                        this.player.cardPickupCount++;
-                        this.player.score += 70;
-                        this.actors = this.actors.filter(item => item !== actor);
-                        // console.log("Picked up a card");
+        if (this.doorCooldown > 0) {
+            this.doorCooldown -= deltaTime;
+        }
+        // Only check door collisions if cooldown is over
+        if (this.doorCooldown <= 0) {
+            for (let actor of currentActors) {
+                if (actor.type == "boss" && actor.alive == false) {
+                    this.bossDefeated = true;
+                    console.log("Bossbeat");
+                }
+                if (actor.type != 'floor' && boxOverlap(this.player, actor)) {
+                    //console.log(`Collision of ${this.player.type} with ${actor.type}`);
+                    /*if (actor.type == 'wall') {
+                        console.log("Hit a wall");
+                    } 
+                        */
+                    if (actor.type == 'card') {
+                        if (this.player.inventory.items.length != this.player.inventory.max) {
+                            // player picks up card
+                            this.player.inventory.push(actor);
+                            this.player.lastCardPickedUp = actor;
+                            this.player.cardPickupCount++;
+                            this.player.score += 70;
+                            this.actors = this.actors.filter(item => item !== actor);
+                            // console.log("Picked up a card");
+                        }
+                        // console.log(this.player);
                     }
-                    // console.log(this.player);
-                }
-                else if (actor.type == 'torch') {
-                    // player receives damage from torch
-                    if (!this.torchContact) {
-                        this.player.health -= 1;
-                        console.log("Fireburns start", this.player.health);
-                        
-                        this.torchDamageTimer = 0;
+                    else if (actor.type == 'torch') {
+                        // player receives damage from torch
+                        if (!this.torchContact) {
+                            this.player.health -= 1;
+                            console.log("Fireburns start", this.player.health);
+                            
+                            this.torchDamageTimer = 0;
+                        }
+                        this.torchContact = true;
+                        this.torchDamageTimer += deltaTime;
+                        if (this.torchDamageTimer >= this.torchDamageInterval) {
+                            this.player.health -= 1;
+                            applyScreenFlash("red", 0.5, 0.5);
+                            this.torchDamageTimer = 0;
+                            console.log("Fireburns", this.player.health);
+                        }
                     }
-                    this.torchContact = true;
-                    this.torchDamageTimer += deltaTime;
-                    if (this.torchDamageTimer >= this.torchDamageInterval) {
-                        this.player.health -= 1;
-                        applyScreenFlash("red", 0.5, 0.5);
-                        this.torchDamageTimer = 0;
-                        console.log("Fireburns", this.player.health);
+                }
+                /* !!!!!!!!!!!!!!!!!!!!!!!! esto medio funcionaba cuando actor.type dependia de '*', no lo borren por si lo necesito
+                if(actor.type == "door" && this.level.contact(this.player.innerHitbox, this.player.size, "door")){
+                    console.log("Doorpos:", actor.position.x, actor.position.y, "\nPlayerpos:", this.player.position.x, this.player.position.y);
+                    console.log("\nFloored\nDoorpos:", Math.floor(actor.position.x), Math.floor(actor.position.y), "\nPlayerpos:", Math.floor(this.player.position.x), Math.floor(this.player.position.y));
+                    
+                    if(actor.position.x < this.player.position.x && Math.floor(this.player.position.y) == Math.floor(actor.position.y)){
+                        this.changeRoom("left");
+                        console.log("leftctive");
+                    }
+                    else if(actor.position.x > this.player.position.x && Math.floor(this.player.position.y) == Math.floor(actor.position.y)){
+                        this.changeRoom("right");
+                        console.log("irghtactive");
+                    }
+                    else if(actor.position.y < this.player.position.y && Math.floor(this.player.position.x) == Math.floor(actor.position.x)){
+                        this.changeRoom("up");
+                        console.log("upactive");
+                    }
+                    else if(actor.position.y > this.player.position.y && Math.floor(this.player.position.x) == Math.floor(actor.position.x)){
+                        this.changeRoom("downParent");
+                        console.log("donwactive");
+                    }       
+                }
+                */
+                // individual door handles
+                if (actor.type == "updoor" && this.level.contact(this.player.innerHitbox, this.player.size, "updoor")) {
+                    console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching UP door. EnteredThroughDir: ${this.enteredThroughDir}`);
+                    if (this.enteredThroughDir === "down") {
+                        console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through UP door`);
+                        this.changeRoom("back");
+                        this.enteredThroughDir = null;
+                    } else {
+                        console.log(`[DOOR] Going UP from room ${this.currentRoom.roomNum}`);
+                        this.changeRoom("up");
+                        this.enteredThroughDir = "up";
                     }
                 }
-            }
-            /* !!!!!!!!!!!!!!!!!!!!!!!! esto medio funcionaba cuando actor.type dependia de '*', no lo borren por si lo necesito
-            if(actor.type == "door" && this.level.contact(this.player.innerHitbox, this.player.size, "door")){
-                console.log("Doorpos:", actor.position.x, actor.position.y, "\nPlayerpos:", this.player.position.x, this.player.position.y);
-                console.log("\nFloored\nDoorpos:", Math.floor(actor.position.x), Math.floor(actor.position.y), "\nPlayerpos:", Math.floor(this.player.position.x), Math.floor(this.player.position.y));
-                
-                if(actor.position.x < this.player.position.x && Math.floor(this.player.position.y) == Math.floor(actor.position.y)){
-                    this.changeRoom("left");
-                    console.log("leftctive");
+                if (actor.type == "downdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "downdoor")) {
+                    console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching DOWN door. EnteredThroughDir: ${this.enteredThroughDir}`);
+                    if (this.enteredThroughDir === "up") {
+                        console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through DOWN door`);
+                        this.changeRoom("back");
+                        this.enteredThroughDir = null;
+                    } else {
+                        console.log(`[DOOR] Going DOWN from room ${this.currentRoom.roomNum}`);
+                        this.changeRoom("down");
+                        this.enteredThroughDir = "down";
+                    }
                 }
-                else if(actor.position.x > this.player.position.x && Math.floor(this.player.position.y) == Math.floor(actor.position.y)){
-                    this.changeRoom("right");
-                    console.log("irghtactive");
+                if (actor.type == "leftdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "leftdoor")) {
+                    console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching LEFT door. EnteredThroughDir: ${this.enteredThroughDir}`);
+                    if (this.enteredThroughDir === "right") {
+                        console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through LEFT door`);
+                        this.changeRoom("back");
+                        this.enteredThroughDir = null;
+                    } else {
+                        console.log(`[DOOR] Going LEFT from room ${this.currentRoom.roomNum}`);
+                        this.changeRoom("left");
+                        this.enteredThroughDir = "left";
+                    }
                 }
-                else if(actor.position.y < this.player.position.y && Math.floor(this.player.position.x) == Math.floor(actor.position.x)){
-                    this.changeRoom("up");
-                    console.log("upactive");
+                if (actor.type == "rightdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "rightdoor")) {
+                    console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching RIGHT door. EnteredThroughDir: ${this.enteredThroughDir}`);
+                    if (this.enteredThroughDir === "left") {
+                        console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through RIGHT door`);
+                        this.changeRoom("back");
+                        this.enteredThroughDir = null;
+                    } else {
+                        console.log(`[DOOR] Going RIGHT from room ${this.currentRoom.roomNum}`);
+                        this.changeRoom("right");
+                        this.enteredThroughDir = "right";
+                    }
                 }
-                else if(actor.position.y > this.player.position.y && Math.floor(this.player.position.x) == Math.floor(actor.position.x)){
-                    this.changeRoom("downParent");
-                    console.log("donwactive");
-                }       
-            }
-            */
-            // individual door handles
-            if (actor.type == "updoor" && this.level.contact(this.player.innerHitbox, this.player.size, "updoor")) {
-                this.changeRoom("up");
-                console.log("upactive");
-            }
-            if (actor.type == "downdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "downdoor")) {
-                this.changeRoom("down");
-                console.log("donwactive");
-            }
-            if (actor.type == "leftdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "leftdoor")) {
-                this.changeRoom("left");
-                console.log("leftctive");
-            }
-            if (actor.type == "rightdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "rightdoor")) {
-                this.changeRoom("right");
-                console.log("irghtactive");
-            }
-            if (actor.type == "exit" && this.level.contact(this.player.innerHitbox, this.player.size, "exit")) {
-                console.log("Exit active");
-                this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol/nivel
+                if (actor.type == "exit" && this.level.contact(this.player.innerHitbox, this.player.size, "exit")) {
+                    console.log("Exit active");
+                    this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol/nivel
+                }
+                if (actor.type.endsWith("door") && this.level.contact(this.player.innerHitbox, this.player.size, actor.type)) {
+                    const dir = actor.type.replace("door", "");
+                    if (this.currentRoom.doors[dir]) {
+                        this.changeRoom(dir);
+                        this.enteredThroughDir = dir;
+                    }
+                }
             }
         }
         // Eliminates defeated enemies
@@ -210,16 +258,13 @@ class Game {
         
         ctx.translate(cameraOffsetX, cameraOffsetY);
     
-        // Calculate visible area with some margin
         const visibleLeft = this.camera.x - (canvasWidth / 2 / zoomScale) - 5;
         const visibleRight = this.camera.x + (canvasWidth / 2 / zoomScale) + 5;
         const visibleTop = this.camera.y - (canvasHeight / 2 / zoomScale) - 5;
         const visibleBottom = this.camera.y + (canvasHeight / 2 / zoomScale) + 5;
     
-        // Draw floors and backgrounds first
         for(let actor of this.actors){
             if(actor.type == 'floor' || actor.type == 'door' || actor.type == "wall"){
-                // Only draw if in visible area 
                 if(actor.position.x + actor.size.x >= visibleLeft && 
                    actor.position.x <= visibleRight &&
                    actor.position.y + actor.size.y >= visibleTop &&
@@ -229,7 +274,6 @@ class Game {
             }
         }
         
-        // Then draw other actors with culling
         for(let actor of this.actors){
             if(actor.type != 'floor'){
                 if(actor.position.x + actor.size.x >= visibleLeft && 
@@ -240,61 +284,39 @@ class Game {
                 }
             }
         }
-        
-        // Always draw player
-        this.player.draw(ctx, zoomScale);
+         this.player.draw(ctx, zoomScale);
         
         ctx.restore();
-        
-        // Draw HUD elements 
         this.drawPlayerHUD(ctx);
     }
 
     // testTransit
-    changeRoom(direction){
-        let nextRoom;
-        if(direction === "down"){
-            nextRoom = this.currentRoom.downParent;
-            if (!nextRoom) {
-                console.log("Cannot move to parent: root room.");
-                return;
-            }
-            console.log("going to parent");
-        }
-        else{
-            nextRoom= this.currentRoom.children[direction];
-        }
-        if(nextRoom){
-            console.log("NextRoom:", nextRoom.roomNum);
-            const oldPlayer = this.player;
-            this.currentRoom= nextRoom;
-            this.level = new Level(nextRoom.levelStringValue, this.currentTreeIndex);
-            //actualizar pos segun levGen, no la anterior
+    changeRoom(direction) {
+        this.doorCooldown = 300; //300ms
+        const nextRoom = this.currentRoom.doors[direction];
+        console.log(`[ROOM TRANSITION] Attempting to go from room ${this.currentRoom.roomNum} to direction "${direction}"`);
+        if (nextRoom) {
+            console.log(`[ROOM TRANSITION] Exiting room ${this.currentRoom.roomNum} through door "${direction}" to room ${nextRoom.roomNum}`);
+            this.currentRoom = nextRoom;
+            let  oldPlayer = this.player;
+            this.level = new Level(this.currentRoom.levelStringValue, this.currentTreeIndex);
             let newPlayer = this.level.player;
-            this.player= oldPlayer;
+            
             this.player.position = newPlayer.position;
 
             this.camera.x = this.player.position.x;
             this.camera.y = this.player.position.y
 
             this.actors = this.level.actors;
-            let paths = []; 
-            if(this.currentRoom.children.up != null){
-                paths.push("up", this.currentRoom.children.up.roomNum);
-            }
-            if(this.currentRoom.children.left != null){
-                paths.push("left", this.currentRoom.children.left.roomNum);
-            }
-            if(this.currentRoom.children.right != null){
-                paths.push("right", this.currentRoom.children.right.roomNum);
-            }
-            if(this.currentRoom.downParent != null){
-                paths.push("down");
-            }
-            console.log(`treeInd ${this.currentTreeIndex} R ${this.currentRoom.roomNum} Paths: ${paths}`);
-        }
-        else{
-            //console.log("Sike");
+
+            this.camera.x = this.player.position.x;
+            this.camera.y = this.player.position.y;
+
+            this.doorCooldown = 300;
+
+            console.log(`[ROOM TRANSITION] Arrived at room ${this.currentRoom.roomNum}. Player position:`, this.player.position);
+        } else {
+            console.log(`[ROOM TRANSITION] No room exists in direction "${direction}" from room ${this.currentRoom.roomNum}`);
         }
     }
     changeLevel(treeIndex){
@@ -344,9 +366,9 @@ class Game {
         this.run_end = new Date(); // endTime, a mysql no le gustó el datatype
         let player_runstats = {
             player_id : this.player.player_id , // checar por qué se queja con el FK constraint 
-            run_start: formatDateForMySQL(this.run_start), //startTime, a mysql no le gustó el datatype
+            run_start: this.run_start, //startTime, a mysql no le gustó el datatype
             score: this.player.score,
-            run_end: formatDateForMySQL(this.run_end), //endTime, a mysql no le gustó el datatype
+            run_end: formatDateForMySQL(new Date()), //endTime, a mysql no le gustó el datatype
             run_duration: time,
             
             finished: false,
@@ -382,7 +404,8 @@ class Game {
         }
         let playertime ={
             player_id : this.player.player_id ,
-            runTime : time
+            runTime : time,
+            recordScore: Math.floor(this.player.score), 
         }
         try {
             const response = await fetch('http://localhost:5000/api/playertime', {
@@ -424,10 +447,10 @@ class Game {
         let mostUsedCard = this.player.mostUsedCard();
         this.run_end = new Date(); // endTime, a mysql no le gustó el datatype
         let player_runstats = {
-            player_id : this.player.player_id , // checar por qué se queja con el FK constraint 
-            run_start: formatDateForMySQL(this.run_start), //startTime, a mysql no le gustó el datatype
+            player_id : player_id , // checar por qué se queja con el FK constraint 
+            run_start: this.run_start, //startTime, a mysql no le gustó el datatype
             score: this.player.score,
-            run_end: formatDateForMySQL(this.run_end), //endTime, a mysql no le gustó el datatype
+            run_end: formatDateForMySQL(new Date()), //endTime, a mysql no le gustó el datatype
             run_duration: time,
             
             finished: false,
@@ -461,7 +484,7 @@ class Game {
             console.error('Error during Game Victory transmitting:', err);
         }
         let runRes ={
-            player_id : this.player.player_id ,
+            player_id : player_id ,
             recordScore : Math.floor(this.player.score),
             recordTime : time
         }
@@ -515,31 +538,44 @@ class Game {
 
     restartGame() {
         console.log("Restarting game...");
-        
+
+        // Stop the current game loop
+        this.isActive = false;
+        cancelAnimationFrame(this.animationFrameId); // Stop the animation frame loop
+
+        // Clear any existing event listeners (if applicable)
+        window.removeEventListener("keydown", this.keydownHandler);
+        window.removeEventListener("keyup", this.keyupHandler);
+
         // Reset core game state
         this.currentTreeIndex = 0;
         this.currentTree = this.trees[this.currentTreeIndex];
         this.currentRoom = this.currentTree.root;
         this.level = new Level(this.currentRoom.levelStringValue, this.currentTreeIndex);
-        
-        // Reset player 
-        this.player = this.level.player; // Get anew player
+
+        // Reset player
+        this.player = this.level.player; // Get a new player instance
         this.player.health = this.player.basehealth;
         this.player.stamina = this.player.baseStamina;
         this.player.isDead = false;
-        
-        // Reset game mechanics 
+
+        // Reset game mechanics
         this.actors = this.level.actors;
         this.attackEffects = [];
         this.isActive = true;
         this.bossDefeated = false;
         this.torchDamageTimer = 0;
         this.torchContact = false;
-        
+
         // Reset UI
         document.getElementById("gameOverMenu").style.display = "none";
         document.getElementById("canvas").style.display = "flex";
         document.getElementById("uiCanvas").style.display = "flex";
+
+        // Restart the game loop
+        this.animationFrameId = requestAnimationFrame(drawScene);
+
+        console.log("Game restarted successfully.");
     }
 
     
@@ -659,7 +695,6 @@ const GameMusic = (() => {
 
 
 
-
 // -------------------------------------------------
 // Functions
 
@@ -685,9 +720,9 @@ function applyScreenFlash(color, duration, opacity) {
     let flashActive = true;
 
     function drawFlash() {
-        if (!flashActive || game.isGameOver || !game.isActive) return; // Stop if the game is over
+        if (!flashActive || game.isGameOver || !game.isActive) return; 
         document.getElementById("flashCanvas").style.display = "flex";
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
         ctx.fillStyle = color;
         ctx.globalAlpha = opacity;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -697,7 +732,7 @@ function applyScreenFlash(color, duration, opacity) {
         if (!game.isGameOver) {
             flashActive = false;
             document.getElementById("flashCanvas").style.display = "none";
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the flash after duration
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
         }
     }, duration * 1000);
 
@@ -707,14 +742,18 @@ function applyScreenFlash(color, duration, opacity) {
             requestAnimationFrame(flashLoop);
         }
     }
-
     flashLoop();
-
-    // Stop the flash effect immediately if the game ends
     if (game.isGameOver) {
-        clearTimeout(timeoutId); // Cancel the timeout
+        clearTimeout(timeoutId); // Cancel
         flashActive = false;
         document.getElementById("flashCanvas").style.display = "none";
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the flash immediately
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear
     }
 }
+
+const oppositeDirections = {
+    up: "down",
+    down: "up",
+    left: "right",
+    right: "left"
+};

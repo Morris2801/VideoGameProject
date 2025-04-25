@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/styles.css">
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js" integrity="sha512-vCUbejtS+HcWYtDHRF2T5B0BKwVG/CLeuew5uT2AiX4SJ2Wff52+kfgONvtdATqkqQMC9Ye5K+Td0OTaz+P7cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" defer src="../js/api_script.js"></script>
     
     <title>MayAztec: Leaderboard</title>
@@ -29,9 +30,9 @@
             <div class="toggle-buttons">
                 <button data-target="playersSection">Players by Score</button>
                 <button data-target="runsSection">Top Runs</button>
-                <button data-target="winsDeathsSection">Wins vs Deaths</button>
                 <button data-target="favoriteCardSection">Favorite Cards</button>
                 <button data-target="nemesisSection">Nemesis</button>
+                <button data-target="progressionSection">Player Progression</button>
             </div>
             <div class="leaderboard-sections">
                 <div id="playersSection" class="leaderboard-section">
@@ -45,7 +46,7 @@
                         </div>
                         <div class="resultDisplay">
                             <h1>Result</h1>
-                            <p>When the request ends, the result will be displayed here.</p>
+                             
                             <div id="getResultsID"></div>
                         </div>
                     </div>
@@ -62,28 +63,11 @@
                         </div>
                         <div class="resultDisplay">
                             <h1>Result</h1>
-                            <p>When the request ends, the result will be displayed here.</p>
+                             
                             <div id="getResultsRun"></div>
                         </div>
                     </div>
                     <canvas id="runsCanvas" class="leaderboard-canvas"></canvas>
-                </div>
-                <div id="winsDeathsSection" class="leaderboard-section">
-                    <div class="leaderboard-content">
-                        <div class="formInput">
-                            <h1>Player Wins/Deaths</h1>
-                            <form id="formSelectWinsDeaths">
-                                <input type="text" name="username" placeholder="Type player username, or nothing to show all">
-                                <input type="submit" value="Show Wins vs Deaths">
-                            </form>
-                        </div>
-                        <div class="resultDisplay">
-                            <h1>Result</h1>
-                            <p>When the request ends, the result will be displayed here.</p>
-                            <div id="getResultsWinsDeaths"></div>
-                        </div>
-                    </div>
-                    <canvas id="winsDeathsCanvas" class="leaderboard-canvas"></canvas>
                 </div>
                 <div id="favoriteCardSection" class="leaderboard-section">
                     <div class="leaderboard-content">
@@ -96,11 +80,11 @@
                         </div>
                         <div class="resultDisplay">
                             <h1>Result</h1>
-                            <p>When the request ends, the result will be displayed here.</p>
+                             
                             <div id="getResultsFavoriteCard"></div>
                         </div>
                     </div>
-                    <canvas id="favoriteCardCanvas" class="leaderboard-canvas"></canvas>
+                    <canvas id="favoriteCardCanvas" class="leaderboard-canvas" height: = "320" width = "171" ></canvas>
                 </div>
                 <div id="nemesisSection" class="leaderboard-section">
                     <div class="leaderboard-content">
@@ -113,11 +97,27 @@
                         </div>
                         <div class="resultDisplay">
                             <h1>Result</h1>
-                            <p>When the request ends, the result will be displayed here.</p>
+                             
                             <div id="getResultsNemesis"></div>
                         </div>
                     </div>
-                    <canvas id="nemesisCanvas" class="leaderboard-canvas"></canvas>
+                    <canvas id="nemesisCanvas" class="leaderboard-canvas" height: = "320" width = "320"></canvas>
+                </div>
+                <div id="progressionSection" class="leaderboard-section">
+                    <div class="leaderboard-content">
+                        <div class="formInput">
+                            <h1>Player Progression Over Time</h1>
+                            <form id="formSelectProgression">
+                                <input type="text" name="username" placeholder="Type player username, or leave blank for all">
+                                <input type="submit" value="Show Progression">
+                            </form>
+                        </div>
+                        <div class="resultDisplay">
+                            <h1>Result</h1>
+                            <div id="getResultsProgression"></div>
+                        </div>
+                    </div>
+                    <canvas id="progressionCanvas" class="leaderboard-canvas"></canvas>
                 </div>
             </div>
         </div>

@@ -21,11 +21,11 @@ Purpose
 
 // Global variables for canvas dimensions
 const canvasWidth = 1200;
-const canvasHeight = 550;
+const canvasHeight = 600;
 const statsCanvasWidth = 365;
 const statsCanvasHeight = 300;
 const uiCanvasWidth = canvasWidth ;
-const uiCanvasHeight = canvasHeight / 3 - 25;
+const uiCanvasHeight = canvasHeight / 3 ;
 let ctx, uiCtx, statsCtx;
 
 let globUsername = '', password, email, player_id;  // para base de datos chavos
@@ -111,7 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     // Options menu (music) and maybe room # control?
     optionsButton.addEventListener("click", () => {
-    
+        startMenu.style.display = "none";
+        pauseMenu.style.display = "none";
+        optionsMenu.style.display = "flex";
     });
 
     loginButton.addEventListener('click', () => {
@@ -208,24 +210,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('keydown', (event) => {
-        if (event.key == 'Escape') {
-            // pause game
-            if (!isPaused) {
+        if (event.key === 'Escape') {
+            // Prevent pause menu during game over or victory
+            if (game.isGameOver || !game.isActive) {
+                console.log("Pause menu disabled during game over or victory.");
+                return;
+            }
+
+            // Pause game
+            if (!isPaused && game) {
                 pauseMenu.style.display = 'flex';
                 isPaused = true;
-                game.isActive = false; 
-                console.log("esc");
+                game.isActive = false;
+                console.log("Game paused.");
                 canvas.style.display = "none";
                 uiCanvas.style.display = "none";
             } 
-            else {
-                // Resume game
+            // Resume game
+            else if (isPaused && game) {
                 pauseMenu.style.display = 'none';
                 canvas.style.display = "flex";
                 uiCanvas.style.display = "flex";
                 isPaused = false;
                 game.isActive = true;
-                requestAnimationFrame(drawScene); 
+                requestAnimationFrame(drawScene);
             }
         }
     });
@@ -416,6 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backToMenuButton.addEventListener("click", () => {
         optionsMenu.style.display = "none";
         if (game && game.isActive) {
+            console.log("showing pause menu.");
             pauseMenu.style.display = "flex";
         } else {
             startMenu.style.display = "flex";
@@ -499,8 +508,9 @@ async function gameStart() {
     */
 
     console.log(game.level);
-    console.log(game.player);
     game.player.player_id = player_id;
+    console.log(game.player);
+
     let paths = []; 
     if(game.currentRoom.children.up != null){
         paths.push("up", game.currentRoom.children.up.roomNum);

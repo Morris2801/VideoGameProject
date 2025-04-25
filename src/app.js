@@ -274,7 +274,7 @@ app.put('/api/playertime', async (request, response) => {
     try {
         connection = await connectToDB()
 
-        const [results, fields] = await connection.query('update player set time_played = ADDTIME(time_played, ?)  where player_id= ?', [request.body['runTime'], request.body['player_id']])
+        const [results, fields] = await connection.query('update player set recordScore = ?, time_played = ADDTIME(time_played, ?)  where player_id= ?', [request.body['recordScore'], request.body['runTime'], request.body['player_id']])
 
         console.log(`${results.affectedRows} rows updated`)
         response.json({ 'message': `Data updated correctly: ${results.affectedRows} rows updated.` })
@@ -620,11 +620,74 @@ app.get('/api/nemesis', async (request, response) => {
 // Get a specific user from the database and return it as a JSON object
 app.get('/api/nemesis/:username', async (request, response) => {
     let connection = null
+    try {
+        connection = await connectToDB()
+        const [results_user, _] = await connection.query('SELECT * FROM nemesis WHERE username = ? ORDER BY DeathCount DESC LIMIT 1', [request.params.username])
 
+        console.log(`${results_user.length} rows returned`)
+        response.json(results_user)
+
+        // After fetching the nemesis result
+        if (results.length === 1) {
+            const enemyName = results[0].eliminated_by_name;
+            const img = new Image();
+            img.src = `../assets/enemies/${enemyName}.png`; // Adjust path as needed
+
+            img.onload = function() {
+                const ctx = document.getElementById('nemesisCanvas').getContext('2d');
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.drawImage(img, 10, 10, 128, 128); // Adjust size/position as needed
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "white";
+                ctx.fillText(enemyName, 10, 150);
+            };
+        }
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+//playerprogdata
+app.get('/api/progression', async (request, response) => {
+    let connection = null
+    try {
+        connection = await connectToDB()
+        const [results, fields] = await connection.execute(`SELECT p.username, r.run_start, r.score
+                 FROM player AS p
+                 JOIN player_runstats AS r ON p.player_id = r.player_id
+                 ORDER BY p.username, r.run_start`);
+        console.log(`${results.length} rows returned`)
+        console.log(results)
+        response.json(results)
+    }
+    catch (error) {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally {
+        if (connection !== null) {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+// Get player progression data 
+app.get('/api/progression/:username', async (request, response) => {
+    let connection = null
     try {
         connection = await connectToDB()
 
-        const [results_user, _] = await connection.query('SELECT * FROM nemesis WHERE username = ? ORDER BY DeathCount DESC LIMIT 1', [request.params.username])
+        const [results_user, _] = await connection.query('SELECT p.username, r.run_start, r.score FROM player AS p JOIN player_runstats AS r ON p.player_id = r.player_id WHERE p.username = ? ORDER BY r.run_start', [request.params.username])
 
         console.log(`${results_user.length} rows returned`)
         response.json(results_user)
@@ -641,7 +704,6 @@ app.get('/api/nemesis/:username', async (request, response) => {
         }
     }
 })
-
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)

@@ -11,7 +11,7 @@ CREATE TABLE player (
     date_create DATETIME , 
     email VARCHAR(50), 
     recordScore INT, 
-    recordTime TIME, 
+    recordTime TIME DEFAULT '00:00:00', 
     time_played TIME DEFAULT '00:00:00'
 );
 
@@ -99,7 +99,6 @@ BEGIN
     IF NEW.recordScore <= OLD.recordScore THEN
         SET NEW.recordScore = OLD.recordScore;
     END IF;
-
     -- Update recordTime only if the new time is lower
     IF NEW.recordTime <= OLD.recordTime THEN 
         SET NEW.recordTime = OLD.recordTime;
@@ -119,27 +118,38 @@ CREATE VIEW runsvswins AS
 	GROUP BY p.player_id;
 
 
-CREATE OR REPLACE VIEW player_card AS 
-SELECT 
-    p.username, 
-    SUM(r.cards_used) AS cards_used_count, 
-    c.card_name AS favorite_card
-FROM player AS p
-JOIN player_runstats AS r ON p.player_id = r.player_id
-JOIN cards AS c ON r.most_used_card = c.card_id
-GROUP BY p.username, c.card_name;
+CREATE OR REPLACE VIEW player_card AS
+SELECT username, favorite_card, cards_used_count
+FROM (
+    SELECT 
+        p.username, 
+        c.card_name AS favorite_card,
+        SUM(r.cards_used) AS cards_used_count,
+        ROW_NUMBER() OVER (PARTITION BY p.username ORDER BY SUM(r.cards_used) DESC) as rn
+    FROM player AS p
+    JOIN player_runstats AS r ON p.player_id = r.player_id
+    JOIN cards AS c ON r.most_used_card = c.card_id
+    GROUP BY p.username, c.card_name
+) t
+WHERE rn = 1;
 
     
-CREATE OR REPLACE VIEW nemesis AS 
-SELECT 
-    p.username, 
-    e.enemy_name AS eliminated_by_name,
-    COUNT(r.eliminated_by) AS DeathCount
-FROM player AS p
-JOIN player_runstats AS r ON p.player_id = r.player_id
-JOIN enemies AS e ON r.eliminated_by = e.enemy_id
-WHERE r.eliminated_by IS NOT NULL
-GROUP BY p.username, e.enemy_name ORDER BY DeathCount DESC;
+CREATE OR REPLACE VIEW nemesis AS
+SELECT username, eliminated_by_name, DeathCount
+FROM (
+    SELECT 
+        p.username, 
+        e.enemy_name AS eliminated_by_name,
+        COUNT(r.eliminated_by) AS DeathCount,
+        ROW_NUMBER() OVER (PARTITION BY p.username ORDER BY COUNT(r.eliminated_by) DESC) as rn
+    FROM player AS p
+    JOIN player_runstats AS r ON p.player_id = r.player_id
+    JOIN enemies AS e ON r.eliminated_by = e.enemy_id
+    WHERE r.eliminated_by IS NOT NULL
+    GROUP BY p.username, e.enemy_name
+    ORDER BY DeathCount DESC
+) t
+WHERE rn = 1;
 
     
 
