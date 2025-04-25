@@ -140,6 +140,7 @@ footer {
 
 /* Estilos para la navegación vertical */
 .game-nav {
+  font-family: 'VT323'monospace;
   grid-area: nav;
   display: grid;
   grid-template-columns: 1fr;
@@ -160,7 +161,7 @@ footer {
   display: grid;
 }
 .nav-button a {
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'VT323', monospace;
   font-size: 30px;
   color: #e8c766;
   background-color: #593D2D;
@@ -253,8 +254,8 @@ footer {
 }
 
 .linkContainer a {
-  font-family: "Press Start 2P", cursive;
-  font-size: 14px;
+  font-family: 'VT323', monospace;
+  font-size: 30px;
   color: #e8c766;
   background-color: #000;
   border: none;
