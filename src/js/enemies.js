@@ -460,8 +460,12 @@ class BaseEnemy extends BaseCharacter {
                 // Deal damage to player
                 game.player.health -= this.damage;
                 game.player.lastHitBy = this.enemyID; 
+                damage.currentTime = 0;
+                damage.play();
+                applyScreenFlash("rgba(255,0,0,0.5)",1.5,0.5);
                 console.log(`Player hit! Health: ${game.player.health}`);
                 this.hasHitPlayer = true;
+                
             }
         }
         
@@ -594,6 +598,12 @@ class BaseEnemy extends BaseCharacter {
         ctx.fillStyle = "#ff0000";
         ctx.fillRect(barX, barY, healthBarWidth, barHeight);
     }
+}
+
+const damage = new Audio("../js/damage.wav");
+function playDamage(){
+    damage.currentTime = 0;
+    damage.play();
 }
 
 // Mariachi enemy class

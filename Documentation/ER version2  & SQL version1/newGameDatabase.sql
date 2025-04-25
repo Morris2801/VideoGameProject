@@ -1,6 +1,8 @@
-DROP SCHEMA IF EXISTS mayaztec2;
-CREATE SCHEMA mayaztec2;
-USE mayaztec2;
+DROP SCHEMA IF EXISTS mayaztec;
+CREATE SCHEMA mayaztec;
+USE mayaztec;
+
+SET SQL_SAFE_UPDATES = 1;
 
 CREATE TABLE player (
 	player_id INT PRIMARY KEY AUTO_INCREMENT ,
@@ -8,11 +10,16 @@ CREATE TABLE player (
     password VARCHAR(20) , 
     date_create DATETIME , 
     email VARCHAR(50), 
-    score INT, 
-    record TIME, 
-    time_played TIME
+    recordScore INT, 
+    recordTime TIME DEFAULT '00:00:00', 
+    time_played TIME DEFAULT '00:00:00'
 );
 
+/*
+UPDATE player
+SET time_played = '00:00:00'
+WHERE time_played IS NULL;
+*/
 
 
 CREATE Table cards (
@@ -21,25 +28,37 @@ CREATE Table cards (
   rarity varchar(20) not null
 );
 
-CREATE TABLE enemies(
-  enemy_id INT PRIMARY KEY AUTO_INCREMENT,
-  enemy_name VARCHAR(20) NOT NULL
-);
+INSERT INTO cards (card_name, rarity) VALUES
+	('Calavera', 'Rare'),
+	('Machete', 'Rare'),
+	('ObsidianKnife', 'Rare'),
+	('Corazon', 'Uncommon'),
+	('Valiente', 'Uncommon'),
+	('Taco', 'Uncommon'),
+	('Mariachi', 'Uncommon'),
+	('MayanWarrior', 'Uncommon');
+
+
+
 
 CREATE TABLE player_runstats(
   run_id INT PRIMARY KEY auto_increment, 
   player_id INT, 
-  FOREIGN KEY (player_id) REFERENCES player(player_id),
-  eliminated_by INT, FOREIGN KEY (eliminated_by) REFERENCES enemies(enemy_id),
+  
+  FOREIGN KEY (player_id) REFERENCES player(player_id), 
 	cards_used INT,
+    cards_collected INT,
+    score INT,
   run_start TIMESTAMP, 
     run_end TIMESTAMP, 
+    run_duration TIME,
     finished bool,
     enemies_killed INT, 
     vases_broken INT, 
     last_room INT,
       most_used_card INT, 
-    -- FOREIGN KEY (most_used_card) REFERENCES card(card_id),	 
+    -- FOREIGN KEY (most_used_card) REFERENCES card(card_id),	
+	eliminated_by INT, 
 		-- FOREIGN KEY (eliminated_by) REFERENCES enemy(enemy_id),
 	last_level INT -- ,
 		-- FOREIGN KEY (last_level) REFERENCES level(level_id)
@@ -56,26 +75,38 @@ CREATE TABLE run_cards(
   FOREIGN KEY (run_id) REFERENCES player_runstats(run_id)
 );
 
+CREATE TABLE enemies(
+  enemy_id INT PRIMARY KEY AUTO_INCREMENT,
+  enemy_name VARCHAR(50) NOT NULL
+);
+INSERT INTO enemies(enemy_name) VALUES 
+	("Mariachi"), 
+	("Tlaxcalteca"), 
+	("Mayan Warrior"), 
+	("Devil"), 
+	("Quetzalcoatl"),
+	("Ah Puch");
+
 
 
 /*----------- Triggers (?) ------------- */
-
 DELIMITER $$
 CREATE TRIGGER updateHighScore
 BEFORE UPDATE ON player
 FOR EACH ROW 
 BEGIN 
-	IF NEW.score > OLD.score THEN
-		SET NEW.score = NEW.score;
-	ELSE
-		SET NEW.score = OLD.score;
-	END IF;
-    IF NEW.record > OLD.record THEN 
-		SET NEW.record = NEW.record;
-	ELSE
-		SET NEW.record = OLD.record;
-	END IF;
+    -- Update recordScore only if the new score is higher
+    IF NEW.recordScore <= OLD.recordScore THEN
+        SET NEW.recordScore = OLD.recordScore;
+    END IF;
+    -- Update recordTime only if the new time is lower
+    IF NEW.recordTime <= OLD.recordTime THEN 
+        SET NEW.recordTime = OLD.recordTime;
+    END IF;
 END$$
+DELIMITER ;
+
+-- DROP TRIGGER updateHighScore;
 
 
 /* ----------- Views ----------------*/
@@ -85,44 +116,56 @@ CREATE VIEW runsvswins AS
     INNER JOIN player_runstats AS r
     ON p.player_id = r.player_id
 	GROUP BY p.player_id;
-    
-CREATE VIEW player_card AS 
-	SELECT p.username,
-         SUM(rc.CardUses) AS card_used_count,
-         c.card_name AS Favorite_card
-  FROM player as p 
-  JOIN player_runstats as r ON p.player_id = r.player_id
-  JOIN run_cards as rc ON r.run_id = rc.run_id
-  JOIN cards AS c ON rc.card_id = c.card_id
-  GROUP BY p.username, c.card_name
-  ORDER BY card_used_count DESC;
 
-CREATE VIEW MostCard_Used AS
-  SELECT username, card_used_count, Favorite_card
-  FROM player_card
-  WHERE (username, card_used_count) IN (
-    SELECT username, MAX(card_used_count)
-    FROM player_card
-    GROUP BY username
-  );
+
+CREATE OR REPLACE VIEW player_card AS
+SELECT username, favorite_card, cards_used_count
+FROM (
+    SELECT 
+        p.username, 
+        c.card_name AS favorite_card,
+        SUM(r.cards_used) AS cards_used_count,
+        ROW_NUMBER() OVER (PARTITION BY p.username ORDER BY SUM(r.cards_used) DESC) as rn
+    FROM player AS p
+    JOIN player_runstats AS r ON p.player_id = r.player_id
+    JOIN cards AS c ON r.most_used_card = c.card_id
+    GROUP BY p.username, c.card_name
+) t
+WHERE rn = 1;
+
     
-CREATE VIEW nemesis AS 
-	SELECT p.username, e.enemy_name, COUNT(e.eliminated_by) AS DeathCount
-	FROM player AS p
-    JOIN player_runstats AS r
-    ON p.player_id = r.player_id
+CREATE OR REPLACE VIEW nemesis AS
+SELECT username, eliminated_by_name, DeathCount
+FROM (
+    SELECT 
+        p.username, 
+        e.enemy_name AS eliminated_by_name,
+        COUNT(r.eliminated_by) AS DeathCount,
+        ROW_NUMBER() OVER (PARTITION BY p.username ORDER BY COUNT(r.eliminated_by) DESC) as rn
+    FROM player AS p
+    JOIN player_runstats AS r ON p.player_id = r.player_id
     JOIN enemies AS e ON r.eliminated_by = e.enemy_id
     WHERE r.eliminated_by IS NOT NULL
-    GROUP BY p.username, e.enemy_id
-    ORDER BY DeathCount DESC;
+    GROUP BY p.username, e.enemy_name
+    ORDER BY DeathCount DESC
+) t
+WHERE rn = 1;
 
-
-
+    
 
 
 /* ---------- Stored Procedures (?) -------------*/
 
 
+UPDATE player AS p
+JOIN (
+    SELECT player_id, run_duration 
+    FROM player_runstats 
+    WHERE player_id = 1 
+    ORDER BY run_id DESC 
+    LIMIT 1
+) AS r ON p.player_id = r.player_id
+SET p.time_played = ADDTIME(p.time_played, r.run_duration);
 
 
 
@@ -133,7 +176,7 @@ SELECT * FROM player_runstats;
 
 /* ----- Queries test para leaderboard.html -------- */
 -- 1
-SELECT p.player_id, p.username, p.score, p.record FROM player AS p
+SELECT p.player_id, p.username, p.recordScore, p.recordTime FROM player AS p
 	LIMIT 10;
 
 -- 2
@@ -145,11 +188,9 @@ SELECT p.username, p.wins, (p.runcount - p.wins) AS deaths
 FROM runsvswins AS p;
 
 -- 4 
-SELECT * FROM player_card 
-ORDER BY cards_used_count
-LIMIT 10;
+SELECT * from player_card;
 
 -- 5 
 SELECT * FROM nemesis;
 
--- 6
+-- 6 

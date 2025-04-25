@@ -5,13 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/styles.css">
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js" integrity="sha512-vCUbejtS+HcWYtDHRF2T5B0BKwVG/CLeuew5uT2AiX4SJ2Wff52+kfgONvtdATqkqQMC9Ye5K+Td0OTaz+P7cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" defer src="../js/api_script.js"></script>
+    
     <title>MayAztec: Leaderboard</title>
 </head>
 <body id = "leaderboardBody">
-    <div class ="leaderboardContainer">
+    <div class="leaderboardContainer">
         <header id="grid-item-L-1">
-            <img src="../assets/documentation/Game_LogoTitle.png" height = "100%" alt="MayAztec Logo">
+            <img src="../assets/documentation/Game_LogoTitle.png" height="100%" alt="MayAztec Logo">
         </header>
         <nav id="grid-item-L-2">
             <div class="linkContainer">
@@ -24,96 +26,100 @@
                 <a href="../html/tutorial.html">Tutorial</a>
             </div>
         </nav>
-        <div id = "grid-item-L">
-            <div class="leaderboard-section">
-                <div class="formInput">
-                    <h1>Show users</h1>
-                    <form id="formSelectUser">
-                        <input type="text" name="player_id" placeholder="Type your player id, or nothing to show all players">
-                        <input type="submit" value="Show Player Info">
-                    </form>
+        <div id="grid-item-L">
+            <div class="toggle-buttons">
+                <button data-target="playersSection">Players by Score</button>
+                <button data-target="runsSection">Top Runs</button>
+                <button data-target="favoriteCardSection">Favorite Cards</button>
+                <button data-target="nemesisSection">Nemesis</button>
+                <button data-target="progressionSection">Player Progression</button>
+            </div>
+            <div class="leaderboard-sections">
+                <div id="playersSection" class="leaderboard-section">
+                    <div class="leaderboard-content">
+                        <div class="formInput">
+                            <h1>Players by Score and Timer</h1>
+                            <form id="formSelectUser">
+                                <input type="text" name="player_id" placeholder="Type your player username, or nothing to show top 10 players">
+                                <input type="submit" value="Show Player Info">
+                            </form>
+                        </div>
+                        <div class="resultDisplay">
+                            <h1>Result</h1>
+                             
+                            <div id="getResultsID"></div>
+                        </div>
+                    </div>
+                    <canvas id="playersCanvas" class="leaderboard-canvas"></canvas>
                 </div>
-                <div class="resultDisplay">
-                    <h1>Result</h1>
-                    <p>When the request ends, the result will be displayed here.</p>
-                    <div id="getResultsID"></div>
+                <div id="runsSection" class="leaderboard-section">
+                    <div class="leaderboard-content">
+                        <div class="formInput">
+                            <h1>Top 10 Most Runs & Wins</h1>
+                            <form id="formSelectRunStats">
+                                <input type="text" name="run_id" placeholder="Type player username, or nothing to show top 10 players with most runs">
+                                <input type="submit" value="Show Runs">
+                            </form>
+                        </div>
+                        <div class="resultDisplay">
+                            <h1>Result</h1>
+                             
+                            <div id="getResultsRun"></div>
+                        </div>
+                    </div>
+                    <canvas id="runsCanvas" class="leaderboard-canvas"></canvas>
+                </div>
+                <div id="favoriteCardSection" class="leaderboard-section">
+                    <div class="leaderboard-content">
+                        <div class="formInput">
+                            <h1>Favorite Card per Player</h1>
+                            <form id="formSelectCard">
+                                <input type="text" name="username" placeholder="Type player username, or nothing to show all">
+                                <input type="submit" value="Show Favorite Cards">
+                            </form>
+                        </div>
+                        <div class="resultDisplay">
+                            <h1>Result</h1>
+                             
+                            <div id="getResultsFavoriteCard"></div>
+                        </div>
+                    </div>
+                    <canvas id="favoriteCardCanvas" class="leaderboard-canvas" height: = "320" width = "171" ></canvas>
+                </div>
+                <div id="nemesisSection" class="leaderboard-section">
+                    <div class="leaderboard-content">
+                        <div class="formInput">
+                            <h1>Nemesis</h1>
+                            <form id="formSelectNemesis">
+                                <input type="text" name="username" placeholder="Type player username, or nothing to show all">
+                                <input type="submit" value="Show Nemesis per Player">
+                            </form>
+                        </div>
+                        <div class="resultDisplay">
+                            <h1>Result</h1>
+                             
+                            <div id="getResultsNemesis"></div>
+                        </div>
+                    </div>
+                    <canvas id="nemesisCanvas" class="leaderboard-canvas" height: = "320" width = "320"></canvas>
+                </div>
+                <div id="progressionSection" class="leaderboard-section">
+                    <div class="leaderboard-content">
+                        <div class="formInput">
+                            <h1>Player Progression Over Time</h1>
+                            <form id="formSelectProgression">
+                                <input type="text" name="username" placeholder="Type player username, or leave blank for all">
+                                <input type="submit" value="Show Progression">
+                            </form>
+                        </div>
+                        <div class="resultDisplay">
+                            <h1>Result</h1>
+                            <div id="getResultsProgression"></div>
+                        </div>
+                    </div>
+                    <canvas id="progressionCanvas" class="leaderboard-canvas"></canvas>
                 </div>
             </div>
-            <!-- Examples user should not be able to touch but in case i forget how something works
-
-            <div class="leaderboard-section">
-                <div class="formInput">
-                    <h1>Add user</h1>
-                    <form id="formInsert">
-                        <input type="text" name="username" placeholder="Type in username">
-                        <input type="text" name="email" placeholder="Type in email">
-                        <input type="submit" value="Add User">
-                    </form>
-                </div>
-                <div class="resultDisplay">
-                    <h1>Result</h1>
-                    <p id="postResults">When the request ends, the result will be displayed here.</p>
-                </div>
-            </div>
-            <div class="leaderboard-section">
-                <div class="formInput">
-                    <h1>Update user</h1>
-                    <form id="formUpdate">
-                        <input type="text" name="player_id" placeholder="Type your userID">
-                        <input type="text" name="name" placeholder="Type your first new name">
-                        <input type="text" name="surname" placeholder="Type your last new name">
-                        <input type="submit" value="Update User">
-                    </form>
-                </div>
-                <div class="resultDisplay">
-                    <h1>Result</h1>
-                    <p id="putResults">When the request ends, the result will be displayed here.</p>
-                </div>
-            </div>
-            <div class="leaderboard-section">
-                <div class="formInput">
-                    <h1>Delete user</h1>
-                    <form id="formDelete" method="delete">
-                        <input type="text" name="player_id" placeholder="Type your userID">
-                        <input type="submit" value="Delete User">
-                    </form>
-                </div>
-                <div class="resultDisplay">
-                    <h1>Result</h1>
-                    <p id="deleteResults">When the request ends, the result will be displayed here.</p>
-                </div>
-            </div>
-            -->
-            <div class="leaderboard-section">
-                <div class="formInput">
-                    <h1>Show RunStats</h1>
-                    <form id="formSelectRunStats">
-                        <input type="text" name="run_id" placeholder="Type run id, or nothing to show all">
-                        <input type="submit" value="Show Runs">
-                    </form>
-                </div>
-                <div class="resultDisplay">
-                    <h1>Result</h1>
-                    <p>When the request ends, the result will be displayed here.</p>
-                    <div id="getResultsRun"></div>
-                </div>
-            </div>
-        <!--
-            <div class="leaderboard-section">
-                <div class="formInput">
-                    <h1>Show LevelLayouts</h1>
-                    <form id="formSelectLevelStats">
-                        <input type="text" name="level_id" placeholder="Type level id, or nothing to show all">
-                        <input type="submit" value="Show Levels">
-                    </form>
-                </div>
-                <div class="resultDisplay">
-                    <h1>Result</h1>
-                    <p>When the request ends, the result will be displayed here.</p>
-                    <div id="getResultsLevel"></div>
-                </div>
-            </div>
-        -->
         </div>
     </div>
 </body>

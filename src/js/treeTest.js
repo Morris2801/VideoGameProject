@@ -19,31 +19,13 @@ Classes
 
 
 class TreeNode {
-    constructor(roomNum, levelStringValue = "", downParent = null){ 
-        // key info  
+    constructor(roomNum, levelStringValue = "", downParent = null, enteredFromDir = null) {
         this.roomNum = roomNum;
-        this.levelStringValue = levelStringValue; // stores level data
-        //pointers
+        this.levelStringValue = levelStringValue;
         this.downParent = downParent;
-        this.children = {
-            up: null, 
-            left: null, 
-            right: null
-        }    
-        this.isBossRoom = false;
-    }
-    isLeaf(){
-        return this.children.up === null && this.children.left === null && this.children.right === null;
-    }
-    hasChildren(){
-        return !this.isLeaf();
-    }
-    returnRels(){
-        let parRoom = this.downParent ? this.downParent.roomNum : "null";
-        let upRoom = this.children.up ? this.children.up.roomNum : "null";
-        let leftRoom = this.children.left ? this.children.left.roomNum : "null"; 
-        let rightRoom = this.children.right ? this.children.right.roomNum : "null"; 
-        return `Room ${this.roomNum}, padre: ${parRoom} -> [U: ${upRoom}, L: ${leftRoom}, R: ${rightRoom}]`;
+        this.enteredFromDir = enteredFromDir; // direction from which parent connects
+        this.children = { up: null, left: null, right: null, down: null };
+        this.doors = {}; // e.g. { left: childNode, right: childNode, up: childNode, down: parentNode }
     }
 }
 
@@ -56,10 +38,10 @@ class Tree{ // level tree
         this.root = new TreeNode(1, levGen(cols, rows,1)); // sets root}
         this.lastRoom = this.root;
     }
-    treeGen(node =this.root){
+    treeGen(node = this.root){
         if(this.currentRoomCount >= this.numRooms){
             this.bossLoc2(); // when finished generating #Rooms, sets boss room 
-            return; 
+            return ;
         }
         const maxPossibleChildren = this.numRooms - this.currentRoomCount;
         const numChildren = Math.min(Math.floor(Math.random()*3)+1, maxPossibleChildren);
@@ -76,8 +58,11 @@ class Tree{ // level tree
             //console.log(`Vhild #${i+1}/${numChildren} dir: ${dir}, Rnum: ${childRoomNum}`);
             //console.log("-----", this.currentRoomCount, "vs", this.numRooms);
             const isBossRoom = this.currentRoomCount == this.numRooms;
-            const childNode = new TreeNode(childRoomNum, levGen(cols, rows, this.levNum, isBossRoom), node);
+            const childNode = new TreeNode(childRoomNum, levGen(cols, rows, this.levNum, isBossRoom), node, dir); // dir is "left", "right", etc.
             node.children[dir] = childNode;
+            childNode.downParent = node;
+            node.doors[dir] = childNode;
+            childNode.doors[oppositeDirections[dir]] = node;
             this.lastRoom = childNode;
         }
         for(let dir of ["up", "left", "right"]){
@@ -97,6 +82,7 @@ class Tree{ // level tree
         yield node;
     }   
     //debug
+    /*
     printTree(nodo = this.root, profundidad = 0){
         console.log(" ".repeat(profundidad) + nodo.returnRels());
         for(let dir of ["up", "left", "right"]){
@@ -117,7 +103,7 @@ class Tree{ // level tree
                 this.traverse(node.children[dir], depth + 1, maxDepthFound);
             }
         }
-    }
+    }*/
     //sets boss room "boss location"
     bossLoc1(){
         let maxDepthFound = {
@@ -137,6 +123,18 @@ class Tree{ // level tree
         }
         else{
             console.log("Algo salio mal con bossLoc2");
+        }
+    }
+    printTreeStructure(node = this.root, indent = "") {
+        if (!node) return;
+        // Print current node and its room number
+        console.log(`${indent}Room ${node.roomNum}`);
+        // For each direction, print the child if it exists
+        for (let dir of ["up", "left", "right"]) {
+            if (node.children[dir]) {
+                console.log(`${indent}  └─${dir}→`);
+                this.printTreeStructure(node.children[dir], indent + "    ");
+            }
         }
     }
 }
