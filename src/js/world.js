@@ -30,7 +30,7 @@ const levelChars = {
         rectParams: [0, 0, 193, 394]},
     "#": {objClass: GameObject ,
         label: "wall",
-        sprite: '../assets/mapElements/brickYellow.png',
+        //sprite: '../assets/mapElements/brickYellow.png',
         rectParams: [0, 0, 64, 32]},
     //acabé haciendo puertitas únicas porque se confunde
     "u": {objClass: GameObject, // -------------------upDoor
@@ -189,8 +189,9 @@ const levelChars = {
 };
 
 class Level {
-    constructor(plan) {
+    constructor(plan, currentTreeIndex) {
         // Matriz de strs
+        this.currentTreeIndex = currentTreeIndex;
         let rows = plan.trim().split('\n').map(l => [...l]);
         this.height = rows.length;
         this.width = rows[0].length;
@@ -219,7 +220,10 @@ class Level {
                 // Resumir todo lo que se pueda en los else ifs cuando terminemos
                 else if (actor.type == "wall") {
                     item.rectParams = this.randomTile(31, 10, 17);
-                    actor.setSprite(item.sprite, new Rect(...item.rectParams));
+                    const sprite =  this.currentTreeIndex === 0
+                        ? '../assets/mapElements/brickYellow.png'
+                        : '../assets/mapElements/brickPurple.png';
+                    actor.setSprite(sprite, new Rect(...item.rectParams));
                     this.actors.push(actor);
                     cellType = "wall";
                 } 

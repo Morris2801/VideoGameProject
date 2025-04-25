@@ -462,8 +462,10 @@ class BaseEnemy extends BaseCharacter {
                 game.player.lastHitBy = this.enemyID; 
                 damage.currentTime = 0;
                 damage.play();
+                applyScreenFlash("rgba(255,0,0,0.5)",1.5,0.5);
                 console.log(`Player hit! Health: ${game.player.health}`);
                 this.hasHitPlayer = true;
+                
             }
         }
         

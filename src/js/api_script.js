@@ -13,6 +13,23 @@ Purpose
 */
 
 
+/**
+ * @param {number} alpha Indicated the transparency of the color
+ * @returns {string} A string of the form 'rgba(240, 50, 123, 1.0)' that represents a color
+ */
+function random_color(alpha=1.0)
+{
+    const r_c = () => Math.round(Math.random() * 255)
+    return `rgba(${r_c()}, ${r_c()}, ${r_c()}, ${alpha}`
+}
+
+Chart.defaults.font.size = 16;
+
+function timeStringToSeconds(timeString) {
+    const [minutes, seconds] = timeString.split(':').map(Number);
+    return minutes * 60 + seconds;
+}
+
 function main() {
     // cosas para Player
     document.getElementById('formSelectUser').onsubmit = async (e) => {
@@ -58,6 +75,105 @@ function main() {
         else {
             getResults.innerHTML = response.status
         }
+        try {
+            const data = new FormData(formSelectUser)
+            console.log(data)
+            const dataObj = Object.fromEntries(data.entries())
+            console.log(dataObj)
+            let players_response = await fetch(`http://localhost:5000/api/player/${dataObj['player_id']}`, {
+                method: 'GET'
+            })
+            if(players_response.ok)
+            {
+                console.log('Response is ok. Converting to JSON.')
+        
+                let results = await players_response.json()
+        
+                console.log(results)
+                console.log('Data converted correctly. Plotting chart.')
+                if (window.levelChart1) {
+                    window.levelChart1.destroy();
+                }
+                if (results.length === 1) {
+                    const player = results[0];
+                    const playerName = player['username'];
+                    const score = player['recordScore'];
+                    const time = timeStringToSeconds(player['recordTime']); 
+                    
+                    const ctx_levels1 = document.getElementById('playersCanvas').getContext('2d');
+                    window.levelChart1 = new Chart(ctx_levels1, {
+                        type: 'bar',
+                        data: {
+                            labels: ['High Score', 'Time (s)'],
+                            datasets: [
+                                {
+                                    label: 'High Score',
+                                    data: [score, null], 
+                                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1,
+                                    yAxisID: 'y-score'
+                                },
+                                {
+                                    label: 'Time (s)',
+                                    data: [null, time], 
+                                    backgroundColor: 'rgba(200, 200, 200, 0.5)',
+                                    borderColor: 'rgba(200, 200, 200, 1)',
+                                    borderWidth: 1,
+                                    yAxisID: 'y-time'
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'top' },
+                                title: { display: true, text: `High Score & Time for ${playerName}` }
+                            },
+                            scales: {
+                                'y-score': {
+                                    type: 'linear',
+                                    position: 'left',
+                                    beginAtZero: true,
+                                    title: { display: true, text: 'Score' }
+                                },
+                                'y-time': {
+                                    type: 'linear',
+                                    position: 'right',
+                                    beginAtZero: true,
+                                    title: { display: true, text: 'Time (s)' },
+                                    grid: { drawOnChartArea: false } 
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    const players_names = results.map(e => e['username'])
+                    const players_colors = results.map(e => random_color(0.8))
+                    const players_borders = results.map(e => 'rgba(0, 0, 0, 1.0)')
+                    const players_completion = results.map(e => e['recordScore'])
+                    const ctx_levels1 = document.getElementById('playersCanvas').getContext('2d');
+                    window.levelChart1 = new Chart(ctx_levels1, {
+                        type: 'bar',
+                        data: {
+                            labels: players_names,
+                            datasets: [
+                                {
+                                    label: 'High Scores',
+                                    backgroundColor: players_colors,
+                                    borderColor: players_borders,
+                                    data: players_completion
+                                }
+                            ]
+                        }
+                    })
+                }
+            }
+        }
+        catch(error){
+            console.log(error)
+        }
+        
     }
     /*
         document.getElementById('formInsert').onsubmit = async(e)=>
@@ -176,6 +292,92 @@ function main() {
                 const container = document.getElementById('getResultsRun')
                 container.innerHTML = 'No results to show.'
             }
+            const ctx = document.getElementById('runsCanvas').getContext('2d');
+
+            if (window.runsWinsChart) {
+                window.runsWinsChart.destroy();
+            }
+
+            if (results.length === 1) {
+                const user = results[0];
+                const wins = user['wins'];
+                const runs = user['runcount'];
+                const losses = runs - wins;
+
+                console.log("Drawing pie chart for user:", user.username);
+
+                window.runsWinsChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Wins', 'Losses'],
+                        datasets: [{
+                            data: [wins, losses],
+                            backgroundColor: [
+                                '#e8c766', // Golden yellow for wins
+                                '#8b4513'  // Brown for losses
+                            ],
+                            borderColor: [
+                                '#e8c766', // Golden yellow border for wins
+                                '#8b4513'  // Brown border for losses
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    color: '#e8c766' // Golden yellow for legend text
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: `Wins vs Losses for ${user['username']}`,
+                                color: '#e8c766' // Golden yellow for the title
+                            }
+                        }
+                    }
+                });
+            } else {
+                const usernames = results.map(e => e['username']);
+                const runs = results.map(e => e['runcount']);
+                const wins = results.map(e => e['wins']);
+
+                console.log("Drawing bar chart for users:", usernames);
+
+                window.runsWinsChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: usernames,
+                        datasets: [
+                            {
+                                label: 'Runs',
+                                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                data: runs
+                            },
+                            {
+                                label: 'Wins',
+                                backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                                borderColor: 'rgba(255, 206, 86, 1)',
+                                data: wins
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'top' },
+                            title: { display: true, text: 'Runs vs Wins per Player' }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
         }
         else {
             getResults.innerHTML = response.status
@@ -228,8 +430,373 @@ function main() {
         }
     }
     */
+    // cosas para winsvsdeaths
+    /*
+    document.getElementById('formSelectWinsDeaths').onsubmit = async (e) => {
+        e.preventDefault()
 
+        const data = new FormData(formSelectWinsDeaths)
+        console.log(data)
+        const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
 
+        let response = await fetch(`http://localhost:5000/api/winsvsdeaths/${dataObj['username']}`, {
+            method: 'GET'
+        })
+
+        if (response.ok) {
+            let results = await response.json()
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsWinsDeaths')
+                container.innerHTML = ''
+                container.appendChild(table)       
+            }
+            else {
+                const container = document.getElementById('getResultsWinsDeaths')
+                container.innerHTML = 'No results to show.'
+            }
+            
+        }
+        else {
+            getResults.innerHTML = response.status
+        }
+    }
+        */
+    // cosas para Favorite card
+    document.getElementById('formSelectCard').onsubmit = async (e) => {
+        e.preventDefault()
+
+        const data = new FormData(formSelectCard)
+        console.log(data)
+        const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
+
+        let response = await fetch(`http://localhost:5000/api/favoritecard/${dataObj['username']}`, {
+            method: 'GET'
+        })
+
+        if (response.ok) {
+            let results = await response.json()
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsFavoriteCard')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsFavoriteCard')
+                container.innerHTML = 'No results to show.'
+            }
+            
+            const cardName = results[0].favorite_card;
+            const img = new Image();
+            if(cardName == 'Calavera') img.src = "../assets/cards/cardCalavera.png";
+            else if(cardName == 'Machete') img.src = "../assets/cards/cardMachete.png";
+            else if(cardName == 'ObsidianKnife') img.src = "../assets/cards/cardObsidianKnife.png";
+            else if(cardName == 'Corazon') img.src = "../assets/cards/cardHeart.jpeg";
+            else if(cardName == 'Valiente') img.src = "../assets/cards/cardValiente.png";
+            else if(cardName == 'Taco') img.src = "../assets/cards/cardTaco.png";
+            else if(cardName == 'Mariachi') img.src = "../assets/cards/cardMariachi.jpeg";
+            else if(cardName == 'MayanWarrior') img.src = "../assets/cards/cardGuerrero.png";
+            
+            img.onload = function () {
+                const ctx = document.getElementById('favoriteCardCanvas').getContext('2d');
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.drawImage(img, (ctx.canvas.width - 80) / 2 , 0, 80, 150); 
+            };
+        }
+        else {
+            getResults.innerHTML = response.status
+        }
+    }
+    // cosas para wins^deaths
+    /*
+    document.getElementById('formSelectWinsDeaths').onsubmit = async (e) => {
+        e.preventDefault()
+
+        const data = new FormData(formSelectWinsDeaths)
+        console.log(data)
+        const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
+
+        let response = await fetch(`http://localhost:5000/api/winsvsdeaths/${dataObj['username']}`, {
+            method: 'GET'
+        })
+
+        if (response.ok) {
+            let results = await response.json()
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsWinsDeaths')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsWinsDeaths')
+                container.innerHTML = 'No results to show.'
+            }
+        }
+        else {
+            getResults.innerHTML = response.status
+        }
+    }
+        */
+    // cosas para Nemesis
+    document.getElementById('formSelectNemesis').onsubmit = async (e) => {
+        e.preventDefault()
+
+        const data = new FormData(formSelectNemesis)
+        console.log(data)
+        const dataObj = Object.fromEntries(data.entries())
+        console.log(dataObj)
+
+        let response = await fetch(`http://localhost:5000/api/nemesis/${dataObj['username']}`, {
+            method: 'GET'
+        })
+
+        if (response.ok) {
+            let results = await response.json()
+            if (results.length > 0) {
+                const headers = Object.keys(results[0])
+                const values = Object.values(results)
+                let table = document.createElement("table")
+                let tr = table.insertRow(-1)
+                for (const header of headers) {
+                    let th = document.createElement("th")
+                    th.innerHTML = header
+                    tr.appendChild(th)
+                }
+                for (const row of values) {
+                    let tr = table.insertRow(-1)
+                    for (const key of Object.keys(row)) {
+                        let tabCell = tr.insertCell(-1)
+                        tabCell.innerHTML = row[key]
+                    }
+                }
+                const container = document.getElementById('getResultsNemesis')
+                container.innerHTML = ''
+                container.appendChild(table)
+            }
+            else {
+                const container = document.getElementById('getResultsNemesis')
+                container.innerHTML = 'No results to show.'
+            }
+            const enemyName = results[0].eliminated_by_name;
+            let img = new Image();
+            console.log(img);
+            img.width = 0;
+            img.height = 0;
+            if(enemyName == 'Mariachi') {
+                img.src = "../assets/charSpritesheets/enemyThumbnails/mariachiThumb.png";
+                img.width = 232;
+                img.height = 224;
+            }
+            else if(enemyName == 'Tlaxcalteca'){
+                img.src ="../assets/charSpritesheets/enemyThumbnails/skelThumb.png";
+                img.width = 264;
+                img.height = 274;
+            } 
+            else if(enemyName == 'Mayan Warrior'){
+                img.src ="../assets/charSpritesheets/enemyThumbnails/warriorThumb.png";
+                img.width = 152;
+                img.height = 253;
+            } 
+            else if(enemyName == 'Devil'){
+                img.src = "../assets/charSpritesheets/enemyThumbnails/devilThumb.png";
+                img.width = 263;
+                img.height = 208;
+            } 
+            else if(enemyName == 'Quetzalcoatl'){
+                img.src = "../assets/charSpritesheets/enemyThumbnails/quetzThumb.png";
+                img.width = 210;
+                img.height = 309;
+            } 
+            else if(enemyName == 'Ah Puch') {
+                img.src = "../assets/charSpritesheets/enemyThumbnails/ahThumb.png";
+                img.width = 213;
+                img.height = 290;
+            }
+            img.onload = function () {
+                const ctx = document.getElementById('nemesisCanvas').getContext('2d');
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.drawImage(img, (ctx.canvas.width - img.width) / 2 + 5, 5, img.width- 10 , ctx.canvas.height- 10); 
+                console.log(ctx.canvas.width, ctx.canvas.height);
+                console.log((ctx.canvas.width - img.width) / 2 ,0, img.width , ctx.canvas.height);
+            };
+        }
+        else {
+            getResults.innerHTML = response.status
+        }
+    }
+
+    document.getElementById('formSelectProgression').onsubmit = async (e) => {
+        e.preventDefault();
+        const data = new FormData(formSelectProgression);
+        const dataObj = Object.fromEntries(data.entries());
+        console.log(dataObj);
+        let response = await fetch(`http://localhost:5000/api/progression/${dataObj['username']}`, {
+            method: 'GET'
+        });
+        if (response.ok) {
+            let results = await response.json();
+            if (results.length > 0) {
+                const groupedData = results.reduce((acc, row) => {
+                    if (!acc[row.username]) acc[row.username] = [];
+                    acc[row.username].push({ x: new Date(row.run_start).getTime(), y: row.score });
+                    return acc;
+                }, {});
+                const datasets = Object.entries(groupedData).map(([username, data]) => ({
+                    label: `${username}'s Progression`,
+                    data: data, // array of {x:timestamp, y:score }
+                    borderColor: random_color(1),
+                    backgroundColor: random_color(0.2),
+                    tension: 0.3,
+                    fill: false
+                }));
+
+                // Render the chart
+                const ctx = document.getElementById('progressionCanvas').getContext('2d');
+                if (window.progressionChart) {
+                    window.progressionChart.destroy();
+                }
+                window.progressionChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    color: '#e8c766' // Golden yellow for legend text
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Player Progression Over Time',
+                                color: '#e8c766' // Golden yellow for the title
+                            }
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                title: {
+                                    display: true,
+                                    text: 'Date (Timestamp)',
+                                    color: '#e8c766' // Golden yellow for axis title
+                                },
+                                ticks: {
+                                    color: '#e8c766', // Golden yellow for tick labels
+                                    callback: function (value) {
+                                        return new Date(value).toLocaleDateString();
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(232, 199, 102, 0.2)' // Light golden grid lines
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Score',
+                                    color: '#e8c766' // Golden yellow for axis title
+                                },
+                                ticks: {
+                                    color: '#e8c766' // Golden yellow for tick labels
+                                },
+                                grid: {
+                                    color: 'rgba(232, 199, 102, 0.2)' // Light golden grid lines
+                                }
+                            }
+                        }
+                    }
+                });
+} else {
+                const container = document.getElementById('getResultsProgression');
+                container.innerHTML = 'No results to show.';
+            }
+        } else {
+            console.error('Failed to fetch progression data.');
+        }
+    };
 }
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.toggle-buttons button');
+    const sections = document.querySelectorAll('.leaderboard-section');
+    sections.forEach(section => section.classList.remove('active'));
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+
+            sections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.toggle('active'); // Show or hide the clicked section
+                } else {
+                    section.classList.remove('active'); // Hide all other sections
+                }
+            });
+        });
+    });
+});
+
+
 
 main()
