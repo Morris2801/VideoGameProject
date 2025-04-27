@@ -92,7 +92,7 @@ border: 3px solid #453624;
 margin: 0;
 padding: 0;
 box-sizing: border-box;
-background-image: url("../assets/mapElements/mainBackground.jpeg");
+background-image: url("../assets/mapElements/ScreenHomePage.png");
 background-color: rgb(0, 0, 0);
 background-position: center;
 background-repeat: no-repeat;
@@ -129,14 +129,43 @@ display: flex;
 
 }
 
-.game-header img {
-max-width: 100%;
-max-height: 100%;
-filter: drop-shadow(0px 0px 10px rgba(232, 199, 102, 0.8));
+.game-header {
+  grid-area: header;
+  text-align: center;  /* Centrar todo el contenido del header */
+  margin-bottom: 0;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;  /* Cambiar a columna para apilar elementos */
+  align-items: left;    
+  margin-left: 20px;
+}
+
+.game-header h1 {
+  font-family: "press start 2p", cursive  ;
+  font-size: 80px;
+  display: block;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 5px;
+  margin-top: 200px;
+  
+}
+.game-header h2{
+  font-family: "press start 2p", cursive  ;
+  font-size: 15px;
+  display: block;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 5px;
 }
 
 /* Estilos para la navegación vertical */
 .game-nav {
+  font-family: "Press Start 2P", cursive;
 grid-area: nav;
 display: grid;
 grid-template-columns: 1fr;
@@ -157,8 +186,8 @@ width: 100%;
 display: grid;
 }
 .nav-button a {
-font-family: 'Press Start 2P', cursive;
-font-size: 30px;
+font-family: "Press Start 2P", cursive;
+font-size: 15px;
 color: #e8c766;
 background-color: #593D2D;
 padding: 15px 20px;
@@ -170,9 +199,12 @@ text-align: center;
 transition: all 0.2s ease;
 clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
 position: relative;
-letter-spacing: 1px;
+letter-spacing: 2px;
+line-height: 2;
 width: 100%;
 box-sizing: border-box;
+padding-top: 15px;
+padding-bottom: 15px;
 }
 
 .nav-button a:hover {
@@ -197,9 +229,11 @@ justify-self: center;
 padding-bottom: 10px;
 width: 100%;
 max-width: 800px;
+margin-top: -60px;
 }
 .card-section-title{
 margin-bottom: 1px;
+margin-top: -10px;
 }
 
 .cards-container {
@@ -250,8 +284,8 @@ margin: 0;
 }
 
 .linkContainer a {
-font-family: "Press Start 2P", cursive;
-font-size: 14px;
+font-family: 'VT323', monospace;
+font-size: 30px;
 color: #e8c766;
 background-color: #000;
 border: none;
@@ -1160,4 +1194,38 @@ border: solid 1px #DDD;
   border: 2px solid #e8c766;
   border-radius: 10px;
   box-shadow: 0 0 24px 0 rgba(232, 199, 102, 0.15);
+}
+
+/* Estilos para header de todas las paginas */
+
+#grid-item-L-1.game-header,
+#grid-item-T-1.game-header,
+#grid-item-C-1.game-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 0;
+}
+
+#grid-item-L-1 h1.game-title,
+#grid-item-T-1 h1.game-title,
+#grid-item-C-1 h1.game-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 40px;
+  letter-spacing: 5px;
+  margin: 0 0 10px 0;
+  text-align: center;
+  margin-top: 10px;
+}
+
+#grid-item-L-1 h2.game-subtitle,
+#grid-item-T-1 h2.game-subtitle,
+#grid-item-C-1 h2.game-subtitle {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin: 0;
+  text-align: center;
 }
