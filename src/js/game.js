@@ -331,6 +331,30 @@ class Game {
             this.camera.x = this.player.position.x;
             this.camera.y = this.player.position.y;
 
+            if(this.currentRoom.isBossRoom)
+            {
+                const bossTrack = this.currentTreeIndex == 0 ? "bossMusic1" : "bossMusic2";
+                GameMusic.changeMusic(bossTrack);
+                
+            }else{
+                const levelTrack = this.currentTreeIndex == 0 ? "levelMusic1" : "levelMusic2";
+                GameMusic.changeMusic(levelTrack);
+    
+
+            }
+
+            if(this.currentRoom.isBossRoom)
+            {
+                const bossTrack = this.currentTreeIndex == 0 ? "bossMusic1" : "bossMusic2";
+                GameMusic.changeMusic(bossTrack);
+                
+            }else{
+                const levelTrack = this.currentTreeIndex == 0 ? "levelMusic1" : "levelMusic2";
+                GameMusic.changeMusic(levelTrack);
+    
+
+            }
+            this.doorCooldown = 300;
             console.log(`[ROOM TRANSITION] Room ${this.currentRoom.roomNum}. Player position:`, this.player.position);
         } else {
             console.log(`[ROOM TRANSITION] No room "${direction}" from ${this.currentRoom.roomNum}`);

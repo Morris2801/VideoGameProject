@@ -661,17 +661,24 @@ class MayanWarrior extends BaseEnemy {
         this.damage = 3;
         this.enemyID = 3;
         this.scoreGiven = 300;
-        this.setMovementFrames('down', [0,1,2,3],[1,1]);
+        this.usesAttackSprite = true;
+        this.setMovementFrames('down', [6,7,8,9,10,11],[6,6]);
         this.setMovementFrames('up', [0,1,2,3], [1,1]);
         this.setMovementFrames('left', [6,7,8,9,10,11],[6,6]);
         this.setMovementFrames('right', [12,13,14,15,16,17], [12,12]);
 
-        this.initAttackSpriteSheet("../assets/charSpritesheets/warriorFightSidesSpriteSheet.png");
+        this.attackSpriteWidth = 110;
+        this.attackSpriteHeight = 64;
+        this.attackSheetWidth = 672;
+        this.attackSheetHeight = 343;
+        this.attackSheetCols = 6;  
+
+        this.initAttackSpriteSheet("../assets/charSpritesheets/MayanPeleandoSpriteSheet.png");
         this.attackFrames = {
-            right: [6,11], 
-            left: [0,5], 
-            up: [0,5], 
-            down: [6,11] 
+            right: [0,5], 
+            left: [6,11], 
+            up: [12,17], 
+            down: [18,23] 
         };
     }
 }
