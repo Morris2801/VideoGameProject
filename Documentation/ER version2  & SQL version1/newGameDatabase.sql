@@ -1,8 +1,6 @@
-DROP SCHEMA IF EXISTS mayaztec;
+-- DROP SCHEMA IF EXISTS mayaztec;
 CREATE SCHEMA mayaztec;
 USE mayaztec;
-
-SET SQL_SAFE_UPDATES = 1;
 
 CREATE TABLE player (
 	player_id INT PRIMARY KEY AUTO_INCREMENT ,
@@ -15,6 +13,10 @@ CREATE TABLE player (
     time_played TIME DEFAULT '00:00:00'
 );
 
+
+SET SQL_SAFE_UPDATES = 1;
+
+INSERT INTO player SET player_id= 0, username = "Guest", recordScore = 0;
 /*
 UPDATE player
 SET time_played = '00:00:00'
@@ -64,16 +66,6 @@ CREATE TABLE player_runstats(
 		-- FOREIGN KEY (last_level) REFERENCES level(level_id)
 );
 
-CREATE TABLE run_cards(
-  run_cardID INT PRIMARY KEY auto_increment not null,
-  card_id int,
-  FOREIGN KEY (card_id) REFERENCES cards(card_id),
-  cardType VARCHAR(20) not null,
-  CardUses SMALLINT NOT NULL,
-  CardsCollected SMALLINT not null,
-  run_id INT,
-  FOREIGN KEY (run_id) REFERENCES player_runstats(run_id)
-);
 
 CREATE TABLE enemies(
   enemy_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -166,31 +158,3 @@ JOIN (
     LIMIT 1
 ) AS r ON p.player_id = r.player_id
 SET p.time_played = ADDTIME(p.time_played, r.run_duration);
-
-
-
-
-/* --------------------Test Queries -----------------*/
-SELECT * FROM player;
-SELECT * FROM player_runstats;
-
-/* ----- Queries test para leaderboard.html -------- */
--- 1
-SELECT p.player_id, p.username, p.recordScore, p.recordTime FROM player AS p
-	LIMIT 10;
-
--- 2
-SELECT * FROM runsvswins
-	LIMIT 10;
-
--- 3
-SELECT p.username, p.wins, (p.runcount - p.wins) AS deaths
-FROM runsvswins AS p;
-
--- 4 
-SELECT * from player_card;
-
--- 5 
-SELECT * FROM nemesis;
-
--- 6 

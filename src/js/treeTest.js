@@ -33,28 +33,26 @@ class Tree{ // level tree
     constructor(levNum, numRooms){
         //important info 
         this.levNum = levNum;
-        this.numRooms = numRooms; // <- how many rooms per level
+        this.numRooms = numRooms; // <- #rooms/level
         this.currentRoomCount = 1; 
-        this.root = new TreeNode(1, levGen(cols, rows,1)); // sets root}
+        this.root = new TreeNode(1, levGen(cols, rows,1)); //etsroot}
         this.lastRoom = this.root;
     }
     treeGen(node = this.root){
         if(this.currentRoomCount >= this.numRooms){
-            this.bossLoc2(); // when finished generating #Rooms, sets boss room 
+            this.bossLoc2(); // when finished generating #Rooms -> sets boss room 
             return ;
         }
         const maxPossibleChildren = this.numRooms - this.currentRoomCount;
         const numChildren = Math.min(Math.floor(Math.random()*3)+1, maxPossibleChildren);
-        
         //console.log(`levNum ${this.levNum} room ${node.roomNum}, NumChildren: ${numChildren}`);
-        let availableDirs = ["up", "left", "right"];
+        let availableDirs = ["up", "left", "right"]; //Mejorar en futuro: permitir generación de habitaciones hacia abajo
         for(let i = 0; i < numChildren && availableDirs.length > 0; i++){
-            const dirIndex = Math.floor(Math.random() * availableDirs.length); // random between 1-3
-            const dir = availableDirs[dirIndex]; // removes direction to avoid duplicates
+            const dirIndex = Math.floor(Math.random() * availableDirs.length); // random 1-3
+            const dir = availableDirs[dirIndex]; // quita dir para evitar duplicados
             availableDirs.splice(dirIndex, 1);
             this.currentRoomCount++;
             const childRoomNum = this.currentRoomCount;
-            
             //console.log(`Vhild #${i+1}/${numChildren} dir: ${dir}, Rnum: ${childRoomNum}`);
             //console.log("-----", this.currentRoomCount, "vs", this.numRooms);
             const isBossRoom = this.currentRoomCount == this.numRooms;

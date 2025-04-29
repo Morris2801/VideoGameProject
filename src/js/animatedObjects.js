@@ -18,5 +18,8 @@ class Torch extends AnimatedObject{
     }
     update(_level, deltaTime) {
         this.updateFrame(deltaTime);
+        if(soundEffectsEnabled){
+            fire.play();
+        }
     }
 }

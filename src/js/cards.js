@@ -26,7 +26,7 @@ class BaseCard extends GameObject {
         this.damageBuff = 0;
         // powerCard, transformationCard, weaponCard
         this.cardType = '';
-        this.type = "card"; 
+        this.type = "card";
     }
     // function to apply the effect of the card to player
     applyEffect(target) {

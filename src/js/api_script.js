@@ -109,8 +109,8 @@ function main() {
                                 {
                                     label: 'High Score',
                                     data: [score, null], 
-                                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    backgroundColor: 'rgb(229, 210, 152)',
+                                    borderColor: 'rgb(232,199,102)',
                                     borderWidth: 1,
                                     yAxisID: 'y-score'
                                 },
@@ -127,22 +127,22 @@ function main() {
                         options: {
                             responsive: true,
                             plugins: {
-                                legend: { position: 'top' },
-                                title: { display: true, text: `High Score & Time for ${playerName}` }
+                                legend: {position: 'top'},
+                                title: {display: true, text: `High Score & Time for ${playerName}`}
                             },
                             scales: {
                                 'y-score': {
                                     type: 'linear',
                                     position: 'left',
                                     beginAtZero: true,
-                                    title: { display: true, text: 'Score' }
+                                    title: {display: true, text: 'Score'}
                                 },
                                 'y-time': {
                                     type: 'linear',
                                     position: 'right',
                                     beginAtZero: true,
-                                    title: { display: true, text: 'Time (s)' },
-                                    grid: { drawOnChartArea: false } 
+                                    title: {display: true, text: 'Time (s)'},
+                                    grid: {drawOnChartArea: false} 
                                 }
                             }
                         }
@@ -313,11 +313,11 @@ function main() {
                         datasets: [{
                             data: [wins, losses],
                             backgroundColor: [
-                                '#e8c766', // Golden yellow for wins
+                                'rgb(232,199,102)', // Golden yellow for wins
                                 '#8b4513'  // Brown for losses
                             ],
                             borderColor: [
-                                '#e8c766', // Golden yellow border for wins
+                                'rgb(232,199,102)', // Golden yellow border for wins
                                 '#8b4513'  // Brown border for losses
                             ],
                             borderWidth: 1
@@ -329,13 +329,13 @@ function main() {
                             legend: {
                                 position: 'top',
                                 labels: {
-                                    color: '#e8c766' // Golden yellow for legend text
+                                    color: 'rgb(232,199,102)' // Golden yellow for legend text
                                 }
                             },
                             title: {
                                 display: true,
                                 text: `Wins vs Losses for ${user['username']}`,
-                                color: '#e8c766' // Golden yellow for the title
+                                color: 'rgb(232,199,102)' // Golden yellow for the title
                             }
                         }
                     }
@@ -694,13 +694,11 @@ function main() {
                 const datasets = Object.entries(groupedData).map(([username, data]) => ({
                     label: `${username}'s Progression`,
                     data: data, // array of {x:timestamp, y:score }
-                    borderColor: random_color(1),
-                    backgroundColor: random_color(0.2),
+                    borderColor: "rgb(242, 237, 222)", 
+                    backgroundColor: "rgb(123, 99, 24)", 
                     tension: 0.3,
                     fill: false
                 }));
-
-                // Render the chart
                 const ctx = document.getElementById('progressionCanvas').getContext('2d');
                 if (window.progressionChart) {
                     window.progressionChart.destroy();
@@ -716,13 +714,13 @@ function main() {
                             legend: {
                                 position: 'top',
                                 labels: {
-                                    color: '#e8c766' // Golden yellow for legend text
+                                    color: 'rgb(255, 255, 255)'
                                 }
                             },
                             title: {
                                 display: true,
                                 text: 'Player Progression Over Time',
-                                color: '#e8c766' // Golden yellow for the title
+                                color: 'rgb(255, 255, 255)'
                             }
                         },
                         scales: {
@@ -731,16 +729,16 @@ function main() {
                                 title: {
                                     display: true,
                                     text: 'Date (Timestamp)',
-                                    color: '#e8c766' // Golden yellow for axis title
+                                    color: 'rgb(219, 204, 158)' // Golden yellow for axis title
                                 },
                                 ticks: {
-                                    color: '#e8c766', // Golden yellow for tick labels
+                                    color: 'rgb(232,199,102)', // Golden yellow for tick labels
                                     callback: function (value) {
                                         return new Date(value).toLocaleDateString();
                                     }
                                 },
                                 grid: {
-                                    color: 'rgba(232, 199, 102, 0.2)' // Light golden grid lines
+                                    color: 'rgba(232, 200, 102, 0.04)' // Light golden grid lines
                                 }
                             },
                             y: {
@@ -748,10 +746,10 @@ function main() {
                                 title: {
                                     display: true,
                                     text: 'Score',
-                                    color: '#e8c766' // Golden yellow for axis title
+                                    color: 'rgb(232,199,102)' // Golden yellow for axis title
                                 },
                                 ticks: {
-                                    color: '#e8c766' // Golden yellow for tick labels
+                                    color: 'rgb(214, 203, 170)' // Golden yellow for tick labels
                                 },
                                 grid: {
                                     color: 'rgba(232, 199, 102, 0.2)' // Light golden grid lines
@@ -772,31 +770,24 @@ function main() {
 
 
 
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.toggle-buttons button');
     const sections = document.querySelectorAll('.leaderboard-section');
     sections.forEach(section => section.classList.remove('active'));
-
     buttons.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click',()=>{
             const targetId = button.getAttribute('data-target');
-
-            sections.forEach(section => {
-                if (section.id === targetId) {
-                    section.classList.toggle('active'); // Show or hide the clicked section
-                } else {
-                    section.classList.remove('active'); // Hide all other sections
+            sections.forEach(section =>{
+                if (section.id === targetId){
+                    section.classList.toggle('active');
+                } 
+                else{
+                    section.classList.remove('active');
                 }
             });
         });
     });
 });
-
 
 
 main()

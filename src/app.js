@@ -198,7 +198,7 @@ app.get('/api/player', async (request, response) => {
     try {
         connection = await connectToDB()
         // leaderboard.html Query 1 MySQL
-        const [results, fields] = await connection.execute('SELECT p.player_id, p.username, p.recordScore, p.recordTime FROM player AS p LIMIT 10');
+        const [results, fields] = await connection.execute('SELECT p.player_id, p.username, p.recordScore, p.recordTime FROM player AS p ORDER BY p.recordScore DESC LIMIT 10');
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)

@@ -55,7 +55,6 @@ class Game {
         this.camera.y = this.player.position.y;
         
         this.isActive = true;  
-        this.bossDefeated=false;
         // torch damage things
 
         // Torch damage properties
@@ -124,6 +123,7 @@ class Game {
                         if (this.player.inventory.items.length != this.player.inventory.max) {
                             // player picks up card
                             this.player.inventory.push(actor);
+                            pickup.play();
                             this.player.lastCardPickedUp = actor;
                             this.player.cardPickupCount++;
                             this.player.score += 70;
@@ -136,6 +136,10 @@ class Game {
                         // player receives damage from torch
                         if (!this.torchContact) {
                             this.player.health -= 1;
+                            applyScreenFlash("red", 0.5, 0.5);
+                            if(soundEffectsEnabled){
+                                burn.play();
+                            }
                             console.log("Fireburns start", this.player.health);
                             
                             this.torchDamageTimer = 0;
@@ -144,6 +148,9 @@ class Game {
                         this.torchDamageTimer += deltaTime;
                         if (this.torchDamageTimer >= this.torchDamageInterval) {
                             this.player.health -= 1;
+                            if(soundEffectsEnabled){
+                                burn.play();
+                            }
                             applyScreenFlash("red", 0.5, 0.5);
                             this.torchDamageTimer = 0;
                             console.log("Fireburns", this.player.health);
@@ -222,7 +229,7 @@ class Game {
                         this.enteredThroughDir = "right";
                     }
                 }
-                if (actor.type == "exit" && this.level.contact(this.player.innerHitbox, this.player.size, "exit")) {
+                if (actor.type == "exit" && this.level.contact(this.player.innerHitbox, this.player.size, "exit") && this.bossDefeated == true) {
                     console.log("Exit active");
                     this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol/nivel
                 }
@@ -292,40 +299,52 @@ class Game {
 
     // testTransit
     changeRoom(direction) {
-        this.doorCooldown = 300; //300ms
+        this.doorCooldown = 300; // 300ms cooldown
         const nextRoom = this.currentRoom.doors[direction];
         console.log(`[ROOM TRANSITION] Attempting to go from room ${this.currentRoom.roomNum} to direction "${direction}"`);
+
         if (nextRoom) {
             console.log(`[ROOM TRANSITION] Exiting room ${this.currentRoom.roomNum} through door "${direction}" to room ${nextRoom.roomNum}`);
             this.currentRoom = nextRoom;
-            let  oldPlayer = this.player;
+            changeRoomSound.play();
+            // Load the new room
             this.level = new Level(this.currentRoom.levelStringValue, this.currentTreeIndex);
-            let newPlayer = this.level.player;
-            
-            this.player.position = newPlayer.position;
-
-            this.camera.x = this.player.position.x;
-            this.camera.y = this.player.position.y
-
             this.actors = this.level.actors;
 
+            // Adjust player position based on the door they entered through
+            const doorPositions = {
+                up: { x: this.level.width / 2, y: 1.5 }, 
+                down: { x: this.level.width / 2, y: this.level.height - 2.5 }, 
+                left: { x: 1.5, y: this.level.height / 2 }, 
+                right: { x: this.level.width - 2.5, y: this.level.height / 2 },
+            };
+
+            const oppositeDoorPositions = {
+                up: { x: this.level.width / 2, y: this.level.height - 3.5 }, // Down door
+                down: { x: this.level.width / 2, y: 3.5 }, // Up door
+                left: { x: this.level.width - 3.5, y: this.level.height / 2 }, // Right door
+                right: { x: 3.5, y: this.level.height / 2 }, // Left door
+            };
+            const newPosition = oppositeDoorPositions[direction];
+            this.player.position.x = newPosition.x;
+            this.player.position.y = newPosition.y;
             this.camera.x = this.player.position.x;
             this.camera.y = this.player.position.y;
 
-            this.doorCooldown = 300;
-
-            console.log(`[ROOM TRANSITION] Arrived at room ${this.currentRoom.roomNum}. Player position:`, this.player.position);
+            console.log(`[ROOM TRANSITION] Room ${this.currentRoom.roomNum}. Player position:`, this.player.position);
         } else {
-            console.log(`[ROOM TRANSITION] No room exists in direction "${direction}" from room ${this.currentRoom.roomNum}`);
+            console.log(`[ROOM TRANSITION] No room "${direction}" from ${this.currentRoom.roomNum}`);
         }
     }
     changeLevel(treeIndex){
         if(treeIndex >= 0 && treeIndex < this.trees.length){ 
             if(this.bossDefeated == false){
+                console.log("defeat boss first");
                 return;
             }
             console.log("Siwtch arbol");
             this.currentTreeIndex= treeIndex;
+            levelUpSound.play();
             this.currentTree = this.trees[treeIndex];
             this.currentRoom = this.currentTree.root;
             this.level = new Level(this.currentRoom.levelStringValue, this.currentTreeIndex);
@@ -338,7 +357,7 @@ class Game {
             console.log("NewPlayerInfo", this.player);
 
             this.actors = this.level.actors;
-            this.bossDefeated = false;
+            this.bossDefeated = false; // flag reset supposedly ------------------------------
             if(treeIndex == 0){
                 this.player.score += 1000; //bonus por pasar de nivel
                 this.levelTimeLImit = this.levelTimeLimit;
@@ -348,6 +367,7 @@ class Game {
                 this.levelTimeLimit = this.levelTimeLimit2;
             }
             this.levelTimer = this.levelTimeLimit;
+
         }
         else{
             console.log("No hay siguiente arbol");
@@ -360,6 +380,7 @@ class Game {
         console.log("Game Over");
         if(this.isGameOver) return; 
         document.getElementById("flashCanvas").style.display = "flex";
+        gameOverSound.play();
         this.isGameOver = true;
         //inicio de cosas para el API
         let mostUsedCard = this.player.mostUsedCard();
@@ -440,6 +461,7 @@ class Game {
     async showVictoryScreen() {
         this.player.score += 15*(this.levelTimer); 
         this.isActive = false;
+        victorySound.play();
         document.getElementById("canvas").style.display = "none";
         document.getElementById("uiCanvas").style.display = "none";
         document.getElementById("victoryScreen").style.display = "flex";
@@ -453,7 +475,7 @@ class Game {
             run_end: formatDateForMySQL(new Date()), //endTime, a mysql no le gustó el datatype
             run_duration: time,
             
-            finished: false,
+            finished: true,
             enemies_killed: this.player.killCount,
             cards_collected: this.player.cardPickupCount,
             cards_used: this.player.cardsUsed,
@@ -509,7 +531,8 @@ class Game {
         }        
         let playertime ={
             player_id : this.player.player_id ,
-            runTime : time
+            runTime : time,
+            recordScore: Math.floor(this.player.score), 
         }
         try {
             const response = await fetch('http://localhost:5000/api/playertime', {
@@ -541,25 +564,21 @@ class Game {
 
         // Stop the current game loop
         this.isActive = false;
-        cancelAnimationFrame(this.animationFrameId); // Stop the animation frame loop
-
-        // Clear any existing event listeners (if applicable)
-        window.removeEventListener("keydown", this.keydownHandler);
+        cancelAnimationFrame(this.animationFrameId); 
+            window.removeEventListener("keydown", this.keydownHandler);
         window.removeEventListener("keyup", this.keyupHandler);
 
-        // Reset core game state
         this.currentTreeIndex = 0;
         this.currentTree = this.trees[this.currentTreeIndex];
         this.currentRoom = this.currentTree.root;
         this.level = new Level(this.currentRoom.levelStringValue, this.currentTreeIndex);
 
         // Reset player
-        this.player = this.level.player; // Get a new player instance
+        this.player = this.level.player;
         this.player.health = this.player.basehealth;
         this.player.stamina = this.player.baseStamina;
         this.player.isDead = false;
-
-        // Reset game mechanics
+        
         this.actors = this.level.actors;
         this.attackEffects = [];
         this.isActive = true;
@@ -571,8 +590,7 @@ class Game {
         document.getElementById("gameOverMenu").style.display = "none";
         document.getElementById("canvas").style.display = "flex";
         document.getElementById("uiCanvas").style.display = "flex";
-
-        // Restart the game loop
+        
         this.animationFrameId = requestAnimationFrame(drawScene);
 
         console.log("Game restarted successfully.");
