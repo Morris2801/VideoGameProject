@@ -604,7 +604,7 @@ class BaseEnemy extends BaseCharacter {
     }
 }
 
-const damage = new Audio("../js/damage.wav");
+const damage = new Audio("../assets/sound/damage.wav");
 function playDamage(){
     damage.currentTime = 0;
     damage.play();

@@ -320,10 +320,10 @@ class Game {
             };
 
             const oppositeDoorPositions = {
-                up: { x: this.level.width / 2, y: this.level.height - 3.5 }, // Down door
-                down: { x: this.level.width / 2, y: 3.5 }, // Up door
-                left: { x: this.level.width - 3.5, y: this.level.height / 2 }, // Right door
-                right: { x: 3.5, y: this.level.height / 2 }, // Left door
+                up: { x: Math.floor(this.level.width / 2), y: this.level.height - 3.5 }, // Down door
+                down: { x: Math.floor(this.level.width / 2), y: 3.5 }, // Up door
+                left: { x: this.level.width - 3.5, y: Math.floor(this.level.height / 2) }, // Right door
+                right: { x: 3.5, y: Math.floor(this.level.height / 2) }, // Left door
             };
             const newPosition = oppositeDoorPositions[direction];
             this.player.position.x = newPosition.x;
@@ -687,10 +687,10 @@ class Game {
 // music
 const GameMusic = (() => {
     const audioFiles = {
-        levelMusic1: new Audio("../js/Nivel1.mp3"),
-        levelMusic2: new Audio("../js/Nivel2.mp3"),
-        bossMusic1: new Audio("../js/Boss1.mp3"),
-        bossMusic2: new Audio("../js/Boss2.mp3"),
+        levelMusic1: new Audio("../assets/sound/Nivel1.mp3"),
+        levelMusic2: new Audio("../assets/sound/Nivel2.mp3"),
+        bossMusic1: new Audio("../assets/sound/Boss1.mp3"),
+        bossMusic2: new Audio("../assets/sound/Boss2.mp3"),
     };
 
     let currentMusic = audioFiles.levelMusic1;

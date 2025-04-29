@@ -562,24 +562,23 @@ async function gameStart() {
 
 //SFX for running, attacking, breaking, damage taken, and dash
 
-const running = new Audio("../js/running.wav");
-const attack = new Audio("../js/swing.wav");
-const breaking = new Audio("../js/vase_breaking.wav");
-const dash = new Audio("../js/dash.wav");
-const powerup = new Audio("../js/powerup.mp3");
-const fire = new Audio("../js/fire.wav");
-const burn = new Audio("../js/burn.mp3");
-const pickup = new Audio("../js/pickup.wav");
-const damageSound = new Audio("../js/damage.wav");
-
-const enemyDeath = new Audio("../js/death-splat.mp3");
-const dragonSound = new Audio("../js/dragon.mp3");
-const fireballSound = new Audio("../js/fireball.mp3");
-const gameOverSound = new Audio("../js/gameover.wav");
-const victorySound = new Audio("../js/fanfare.mp3");
-const levelUpSound = new Audio("../js/levelup.wav");
-const changeRoomSound = new Audio("../js/door.mp3");
-const respawn = new Audio("../js/respawn.mp3");
+const running = new Audio("../assets/sound/running.wav");
+const attack = new Audio("../assets/sound/swing.wav");
+const breaking = new Audio("../assets/sound/vase_breaking.wav");
+const dash = new Audio("../assets/sound/dash.wav");
+const powerup = new Audio("../assets/sound/powerup.mp3");
+const fire = new Audio("../assets/sound/fire.wav");
+const burn = new Audio("../assets/sound/burn.mp3");
+const pickup = new Audio("../assets/sound/pickup.wav");
+const damageSound = new Audio("../assets/sound/damage.wav");
+const enemyDeath = new Audio("../assets/sound/death-splat.mp3");
+const dragonSound = new Audio("../assets/sound/dragon.mp3");
+const fireballSound = new Audio("../assets/sound/fireball.mp3");
+const gameOverSound = new Audio("../assets/sound/gameover.wav");
+const victorySound = new Audio("../assets/sound/fanfare.mp3");
+const levelUpSound = new Audio("../assets/sound/levelup.wav");
+const changeRoomSound = new Audio("../assets/sound/door.mp3");
+const respawn = new Audio("../assets/sound/respawn.mp3");
 
 
 //player-character interaction
