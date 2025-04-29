@@ -290,14 +290,14 @@ class BasePlayer extends BaseCharacter {
       right: {
         xOffset: this.size.x * (2 / 3),
         yOffset: this.size.y * (1 / 7),
-        width: PLAYER_SCALE * 0.5,
-        height: PLAYER_SCALE * 0.7,
+        width: PLAYER_SCALE * 0.4,
+        height: PLAYER_SCALE * 0.5,
       },
       left: {
         xOffset: -this.size.x * (1 / 5), // Mirror the xOffset of right
         yOffset: this.size.y * (1 / 7),
-        width: PLAYER_SCALE * 0.5,
-        height: PLAYER_SCALE * 0.7,
+        width: PLAYER_SCALE * 0.4,
+        height: PLAYER_SCALE * 0.5,
       },
       up: {
         xOffset: this.size.x * (1 / 7),
@@ -308,8 +308,8 @@ class BasePlayer extends BaseCharacter {
       down: {
         xOffset: this.size.x * (1 / 7),
         yOffset: this.size.y * (2 / 3),
-        width: PLAYER_SCALE * 0.7,
-        height: PLAYER_SCALE * 0.5,
+        width: PLAYER_SCALE * 0.5,
+        height: PLAYER_SCALE * 0.3,
       },
     };
 
@@ -849,8 +849,8 @@ class BasePlayer extends BaseCharacter {
     const scaledHeight = hitbox.height * scale;
 
     // Dibujar hitbox
-    // ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
-    // ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
+    ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+    ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
   }
 
   restoreSprites() {
