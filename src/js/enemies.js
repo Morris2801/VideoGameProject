@@ -780,16 +780,21 @@ class AhPuch extends BaseEnemy{
         this.fireBallSpeed = 0.002;
         this.fireBalls = [];
 
-        this.frameWidth = 64;
-        this.frameHeight = 112;
-        this.sheetCols = 8; 
-        this.attackSpriteWidth = 64;
-        this.attackSpriteHeight = 112;
-        this.attackSheetWidth = 256;
-        this.attackSheetHeight = 177;
-        this.attackSheetCols = 8;  
+        this.frameWidth = 317.5;
+        this.frameHeight = 317.5;
+        this.sheetCols = 2; 
+        this.attackSpriteWidth = 216;
+        this.attackSpriteHeight = 365;
+        this.attackSheetWidth = 1083;
+        this.attackSheetHeight = 676;
+        this.attackSheetCols = 5;  
         this.usesAttackSprite = true;
         this.type = "boss";
+
+        this.setMovementFrames('right', [0,1], [0, 4]);
+        this.setMovementFrames('left', [0, 1],[0,0]);
+        this.setMovementFrames('up',[0,1], [1,1]);
+        this.setMovementFrames('down', [0,1], [0,0]);
 
         
         // Custom sprite dimensions
@@ -799,12 +804,12 @@ class AhPuch extends BaseEnemy{
         
         this.attackFrames = {
             right: [0,7], 
-            left: [15,8], 
+            left: [0,7], 
             up: [0,7], 
-            down: [15,8] 
+            down: [0,7] 
         };
         
-        this.initAttackSpriteSheet("../assets/charSpritesheets/AttackBossAhPunch.png");
+        this.initAttackSpriteSheet("../assets/charSpritesheets/AhPuchNewFigth.png");
     
         this.enemyID = 6;
         this.scoreGiven = 800;

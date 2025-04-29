@@ -181,9 +181,9 @@ const levelChars = {
         startFrame: [0, 0]},
     "A": {objClass: AhPuch,
         label: "boss",
-        sprite: "../assets/charSpritesheets/BossIdleAhPunch.png",
-        rectParams :[0, 0, 65, 88.5],
-        sheetCols:4,
+        sprite: "../assets/charSpritesheets/PrubeaNewAhPuch.png",
+        rectParams :[0, 0, 317.5,317.5],
+        sheetCols:2,
         startFrame: [0, 0]}
     // Missing boss 2 here // enemy id 6
 };
