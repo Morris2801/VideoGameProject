@@ -49,7 +49,8 @@ class Tree{ // level tree
             availableDirs = availableDirs.filter(dir => dir !== backDir);
         }
         const maxPossibleChildren = Math.min(availableDirs.length, this.numRooms - this.currentRoomCount);
-        const numChildren = Math.floor(Math.random() * (maxPossibleChildren + 1)); // 0 to maxPossibleChildren
+        // Always at least 1 child if possible
+        const numChildren = maxPossibleChildren > 0 ? Math.max(1, Math.floor(Math.random() * (maxPossibleChildren + 1))) : 0;
         for (let i = availableDirs.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [availableDirs[i], availableDirs[j]] = [availableDirs[j], availableDirs[i]];
@@ -115,13 +116,16 @@ class Tree{ // level tree
             console.log(`Llv ${this.levNum} Boss room: ${maxDepthFound.bossRoom.roomNum}, depth: ${maxDepthFound.maxDepth}`);
         }
     }
-    bossLoc2(){
-        if(this.lastRoom){
-            this.lastRoom.isBossRoom = true;
-            console.log(`Llv ${this.levNum} Boss room: ${this.lastRoom.roomNum}`);
+    bossLoc2() {
+        let candidate = this.lastRoom;
+        while (candidate && candidate.enteredFromDir === "down") {
+            candidate = candidate.downParent;
         }
-        else{
-            console.log("Algo salio mal con bossLoc2");
+        if(candidate){
+            candidate.isBossRoom = true;
+            console.log(`Llv ${this.levNum} Boss room: ${candidate.roomNum}`);
+        } else {
+            console.log("No valid boss room found (not in a down child)");
         }
     }
     printTreeStructure(node = this.root, indent = "") {
