@@ -891,6 +891,10 @@ class AhPuch extends BaseEnemy{
         if(currentTime - this.lastFireballTime > this.fireballCooldown){
             this.lastFireballTime = currentTime;
             this.spawnFireball();
+            if(soundEffectsEnabled){
+                fireballSound.currentTime = 0;
+                fireballSound.play();
+            }
         }
 
         //quitar las fireballs que ya se usaron
@@ -923,10 +927,7 @@ class AhPuch extends BaseEnemy{
         );
 
         this.fireBalls.push(fireball);
-        if(soundEffectsEnabled){
-            fireballSound.currentTime = 0;
-            fireballSound.play();
-        }
+        
     }
 
     draw(ctx, scale) {

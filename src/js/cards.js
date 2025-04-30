@@ -35,9 +35,9 @@ class BaseCard extends GameObject {
             return;
         }
         console.log(`Aplicando efectos de ${this.type} a ${target.type}`);
-        
 
-        
+
+
         // Apply buffs to the target's attributes
         target.health += this.healthBuff;
         target.healthRegen += this.healthRegenBuff;
@@ -99,7 +99,8 @@ class MacahuitlCard extends BaseCard {
         super(color, width, height, x, y, type);
         this.cardId = 1; // Unique card ID
         this.damageBuff = 5;
-        this.maxUses = 10;
+        this.duration = 10;
+        this.maxUses = 1;
         this.cardType = "weaponCard";
         this.weaponType = "macahuitl";
     }
@@ -110,7 +111,8 @@ class ObsidianKnifeCard extends BaseCard {
         super(color, width, height, x, y, type);
         this.cardId = 2; // Unique card ID
         this.damageBuff = 4;
-        this.maxUses = 10;
+        this.maxUses = 1;
+        this.duration = 10;
         this.cardType = "weaponCard";
         this.weaponType = "obsidianKnife";
     }
@@ -209,64 +211,52 @@ class CalaveraCard extends BaseCard {
 }
 
 
-class QuetzalcoatlCard extends BaseCard{
+class QuetzalcoatlCard extends BaseCard {
     constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
         this.cardId = 11; // Unique card ID
         this.maxUses = 1;
-        this.healthBuff = 2;
+        this.healthBuff = 20;
         this.staminaBuff = 2;
         this.cardType = "benditionCard";
         this.isUnique = true; // Unique card
-        this.alreadyUsed = false; 
+        this.alreadyUsed = false;
         this.permanentEffect = true; // Permanent effect
     }
 
     //sobre escribiendo sobre el applyEffect de la clase base
     //para que la carta haga un efecto permanente
-    applyEffect(target){
-        if(!target || this.alreadyUsed){
+    applyEffect(target) {
+        if (!target || this.alreadyUsed) {
             console.log("Error o carta ya usada");
             return;
         }
         console.log(`Aplicando efectos de ${this.type} a ${target.type}`);
 
-        // cambiar lso valores de los atributos del target
         target.maxHealth = 12;
         target.maxStamina = 12;
         target.basehealth = 12;
-
-        //cambiar el valor de la stamina
         target.maxStamina = 7;
         target.stamina = 7;
         target.baseStamina = 7;
-
-        //vida adicional 
-        if(this.healthBuff > 0){
-        target.health += this.healthBuff;
-    }
-    
-        //cambiar que ya la uso
+        if (this.healthBuff > 0) {
+            target.health += this.healthBuff;
+        }
         this.alreadyUsed = true;
-        
-
-        //remove from inventory
-        if(target.inventory){
+        if (target.inventory) {
             const index = target.inventory.items.indexOf(this);
-            if(index !== -1 ){
+            if (index !== -1) {
                 target.inventory.items.splice(index, 1);
                 console.log(`Carta eliminada del inventario: ${this.cardType}`);
             }
         }
-
-        if(game && game.saveState){
-            game.saveState.quetzalcoatlBlessing = true; 
+        if (game && game.saveState) {
+            game.saveState.quetzalcoatlBlessing = true;
             game.saveState.playerHealth = target.health;
             game.saveState.playerMaxHealth = target.maxHealth;
             game.saveState.playerMaxStamina = target.maxStamina;
             game.saveState.playerStamina = target.stamina;
             console.log("Estado de la carta guardado en el juego.");
-
             game.saveGame();
         }
     }

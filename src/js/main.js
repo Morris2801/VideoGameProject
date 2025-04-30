@@ -31,7 +31,7 @@ let ctx, uiCtx, statsCtx;
 let globUsername = 'Guest', password, email, player_id = 1;  // para base de datos chavos
 let sfxVolume = 1;
 let soundEffectsEnabled = true; 
-let volume = 0.5; 
+let volume = 0.25; 
 
 //Game variables
 let game;
@@ -739,12 +739,12 @@ function drawUI() {
     }
 }
 //Stats canvas text (tbd)
-const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 , "20px Times New Roman", "white");
-const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 30, "20px Times New Roman", "white");
-const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 60, "20px Times New Roman", "white");
-const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 90, "20px Times New Roman", "white");
-const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 120, "20px Times New Roman", "white");
-const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 150, "20px Times New Roman", "white"); 
+const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 , "20px Times New Roman", "white");
+const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 30, "20px Times New Roman", "white");
+const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 60, "20px Times New Roman", "white");
+const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 90, "20px Times New Roman", "white");
+const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 120, "20px Times New Roman", "white");
+const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 150, "20px Times New Roman", "white"); 
 
 function drawStats(){
     statsCtx.clearRect(0,0, statsCanvasWidth, statsCanvasHeight);

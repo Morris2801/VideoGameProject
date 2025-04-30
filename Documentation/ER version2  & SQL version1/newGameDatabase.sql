@@ -8,7 +8,7 @@ CREATE TABLE player (
     password VARCHAR(20) , 
     date_create DATETIME , 
     email VARCHAR(50), 
-    recordScore INT, 
+    recordScore INT DEFAULT 0, 
     recordTime TIME DEFAULT '00:00:00', 
     time_played TIME DEFAULT '00:00:00'
 );
@@ -102,8 +102,8 @@ DELIMITER ;
 
 
 /* ----------- Views ----------------*/
-CREATE VIEW runsvswins AS 
-	SELECT p.player_id, p.username, COUNT(r.run_id) AS runcount, SUM(CASE WHEN r.finished = TRUE THEN 1 ELSE 0 END) AS wins
+CREATE OR REPLACE VIEW runsvswins AS 
+	SELECT p.player_id AS PlayerID, p.username AS Username, COUNT(r.run_id) AS Runcount, SUM(CASE WHEN r.finished = TRUE THEN 1 ELSE 0 END) AS Wins
 	FROM player AS p
     INNER JOIN player_runstats AS r
     ON p.player_id = r.player_id
@@ -111,7 +111,7 @@ CREATE VIEW runsvswins AS
 
 
 CREATE OR REPLACE VIEW player_card AS
-SELECT username, favorite_card, cards_used_count
+SELECT username AS Username, favorite_card AS "Favorite Card", cards_used_count AS "Usage Count"
 FROM (
     SELECT 
         p.username, 
@@ -127,7 +127,7 @@ WHERE rn = 1;
 
     
 CREATE OR REPLACE VIEW nemesis AS
-SELECT username, eliminated_by_name, DeathCount
+SELECT username AS Username, eliminated_by_name AS Enemy, DeathCount AS KillCount
 FROM (
     SELECT 
         p.username, 

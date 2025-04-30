@@ -43,32 +43,39 @@ class Tree{ // level tree
             this.bossLoc2();
             return;
         }
-        let availableDirs = ["up", "left", "right", "down"];
+        let availableDirs = node === this.root
+            ? ["up", "left", "right"]
+            : ["up", "left", "right", "down"];
+
         if (enteredFromDir) {
             const backDir = oppositeDirections[enteredFromDir];
-            availableDirs = availableDirs.filter(dir => dir !== backDir);
+            availableDirs = availableDirs.filter(d => d !== backDir);
         }
+
         const maxPossibleChildren = Math.min(availableDirs.length, this.numRooms - this.currentRoomCount);
-        // Always at least 1 child if possible
-        const numChildren = maxPossibleChildren > 0 ? Math.max(1, Math.floor(Math.random() * (maxPossibleChildren + 1))) : 0;
+        const numChildren = Math.min(Math.floor(Math.random() * 3) + 1, maxPossibleChildren);
+
         for (let i = availableDirs.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [availableDirs[i], availableDirs[j]] = [availableDirs[j], availableDirs[i]];
         }
-        for (let i = 0; i < numChildren; i++) {
-            if (this.currentRoomCount >= this.numRooms) break;
-           const dir = availableDirs.splice(0, 1)[0]; 
+        for (let i = 0; i < numChildren && availableDirs.length > 0; i++) {
+            const dirIndex = Math.floor(Math.random() * availableDirs.length);
+            const dir = availableDirs[dirIndex];
+            availableDirs.splice(dirIndex, 1);
             this.currentRoomCount++;
             const childRoomNum = this.currentRoomCount;
             const isBossRoom = this.currentRoomCount === this.numRooms;
-            // Create child
             const childNode = new TreeNode(childRoomNum, levGen(cols, rows, this.levNum, isBossRoom), node, dir);
             node.children[dir] = childNode;
-            childNode.downParent = node;
             node.doors[dir] = childNode;
             childNode.doors[oppositeDirections[dir]] = node;
             this.lastRoom = childNode;
-            this.treeGen(childNode, dir);
+        }
+        for (let dir of ["up", "left", "right", "down"]) {
+            if (node.children[dir]) {
+                this.treeGen(node.children[dir], dir);
+            }
         }
     }
     *posOrden(node = this.root){
@@ -154,18 +161,12 @@ for(let node of testTree.posOrden()){
 //console.log("ArbolTest");
 //testTree.printTree();
 
-
-
-
-
-
+  
 /*Código Victor 3er semestre ref arbol C++
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
-
-class NodoArbol{
+#include <sstream> class NodoArbol{
     public: 
         int info; 
         NodoArbol* izq;
@@ -308,9 +309,7 @@ class Tree{
                 }
             }
         }
-};
-
-int main(){
+}; int main(){
     Tree miArbol; 
     /*miArbol.crearArbol(miArbol.raiz); //Implementación de crearArbol(NodoArbol* &r)
     miArbol.raiz = miArbol.crearArbol(); // La otra
@@ -330,9 +329,7 @@ int main(){
         ss >> data;
         miArbol.insert(miArbol.raiz, data);
     }
-    file.close();
-
-    std::cout << "Preorden:\n"; 
+    file.close();     std::cout << "Preorden:\n"; 
     miArbol.preorden(miArbol.raiz);
     std::cout << std::endl << "Inorden:\n";
     miArbol.inorden(miArbol.raiz); 
@@ -345,11 +342,6 @@ int main(){
     else{
         std::cout << "\nNo lo encontró\n"; 
     }
-    //miArbol.search(miArbol.raiz, 110); 
-
-    return 0; 
-}
-
-
+    //miArbol.search(miArbol.raiz, 110);      return 0; 
+} 
 */
-

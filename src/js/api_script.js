@@ -17,13 +17,12 @@ Purpose
  * @param {number} alpha Indicated the transparency of the color
  * @returns {string} A string of the form 'rgba(240, 50, 123, 1.0)' that represents a color
  */
-function random_color(alpha=1.0)
-{
+function random_color(alpha = 1.0) {
     const r_c = () => Math.round(Math.random() * 255)
     return `rgba(${r_c()}, ${r_c()}, ${r_c()}, ${alpha}`
 }
-
-Chart.defaults.font.size = 16;
+Chart.defaults.font.size = 20;
+Chart.defaults.font.family = 'PressStart2P';
 
 function timeStringToSeconds(timeString) {
     const [minutes, seconds] = timeString.split(':').map(Number);
@@ -83,12 +82,11 @@ function main() {
             let players_response = await fetch(`http://localhost:5000/api/player/${dataObj['player_id']}`, {
                 method: 'GET'
             })
-            if(players_response.ok)
-            {
+            if (players_response.ok) {
                 console.log('Response is ok. Converting to JSON.')
-        
+
                 let results = await players_response.json()
-        
+
                 console.log(results)
                 console.log('Data converted correctly. Plotting chart.')
                 if (window.levelChart1) {
@@ -96,10 +94,10 @@ function main() {
                 }
                 if (results.length === 1) {
                     const player = results[0];
-                    const playerName = player['username'];
-                    const score = player['recordScore'];
-                    const time = timeStringToSeconds(player['recordTime']); 
-                    
+                    const playerName = player['Username'];
+                    const score = player['High Score'];
+                    const time = timeStringToSeconds(player['Record Time']);
+
                     const ctx_levels1 = document.getElementById('playersCanvas').getContext('2d');
                     window.levelChart1 = new Chart(ctx_levels1, {
                         type: 'bar',
@@ -108,7 +106,7 @@ function main() {
                             datasets: [
                                 {
                                     label: 'High Score',
-                                    data: [score, null], 
+                                    data: [score, null],
                                     backgroundColor: 'rgb(229, 210, 152)',
                                     borderColor: 'rgb(232,199,102)',
                                     borderWidth: 1,
@@ -116,7 +114,7 @@ function main() {
                                 },
                                 {
                                     label: 'Time (s)',
-                                    data: [null, time], 
+                                    data: [null, time],
                                     backgroundColor: 'rgba(200, 200, 200, 0.5)',
                                     borderColor: 'rgba(200, 200, 200, 1)',
                                     borderWidth: 1,
@@ -127,31 +125,32 @@ function main() {
                         options: {
                             responsive: true,
                             plugins: {
-                                legend: {position: 'top'},
-                                title: {display: true, text: `High Score & Time for ${playerName}`}
+                                legend: { position: 'top' },
+                                title: { display: true, text: `High Score & Time for ${playerName}` }
                             },
                             scales: {
                                 'y-score': {
                                     type: 'linear',
                                     position: 'left',
                                     beginAtZero: true,
-                                    title: {display: true, text: 'Score'}
+                                    title: { display: true, text: 'Score' }
                                 },
                                 'y-time': {
                                     type: 'linear',
                                     position: 'right',
                                     beginAtZero: true,
-                                    title: {display: true, text: 'Time (s)'},
-                                    grid: {drawOnChartArea: false} 
+                                    title: { display: true, text: 'Time (s)' },
+                                    grid: { drawOnChartArea: false }
                                 }
                             }
                         }
                     });
-                } else {
-                    const players_names = results.map(e => e['username'])
+                } 
+                else {
+                    const players_names = results.map(e => e['Username'])
                     const players_colors = results.map(e => random_color(0.8))
                     const players_borders = results.map(e => 'rgba(0, 0, 0, 1.0)')
-                    const players_completion = results.map(e => e['recordScore'])
+                    const players_completion = results.map(e => e['High Score'])
                     const ctx_levels1 = document.getElementById('playersCanvas').getContext('2d');
                     window.levelChart1 = new Chart(ctx_levels1, {
                         type: 'bar',
@@ -170,10 +169,10 @@ function main() {
                 }
             }
         }
-        catch(error){
+        catch (error) {
             console.log(error)
         }
-        
+
     }
     /*
         document.getElementById('formInsert').onsubmit = async(e)=>
@@ -300,8 +299,8 @@ function main() {
 
             if (results.length === 1) {
                 const user = results[0];
-                const wins = user['wins'];
-                const runs = user['runcount'];
+                const wins = user['Wins'];
+                const runs = user['Runcount'];
                 const losses = runs - wins;
 
                 console.log("Drawing pie chart for user:", user.username);
@@ -341,9 +340,9 @@ function main() {
                     }
                 });
             } else {
-                const usernames = results.map(e => e['username']);
-                const runs = results.map(e => e['runcount']);
-                const wins = results.map(e => e['wins']);
+                const usernames = results.map(e => e['Username']);
+                const runs = results.map(e => e['Runcount']);
+                const wins = results.map(e => e['Wins']);
 
                 console.log("Drawing bar chart for users:", usernames);
 
@@ -518,22 +517,22 @@ function main() {
                 const container = document.getElementById('getResultsFavoriteCard')
                 container.innerHTML = 'No results to show.'
             }
-            
-            const cardName = results[0].favorite_card;
+            console.log(results);
+            const cardName = results[0]["Favorite Card"];
             const img = new Image();
-            if(cardName == 'Calavera') img.src = "../assets/cards/cardCalavera.png";
-            else if(cardName == 'Machete') img.src = "../assets/cards/cardMachete.png";
-            else if(cardName == 'ObsidianKnife') img.src = "../assets/cards/cardObsidianKnife.png";
-            else if(cardName == 'Corazon') img.src = "../assets/cards/cardHeart.jpeg";
-            else if(cardName == 'Valiente') img.src = "../assets/cards/cardValiente.png";
-            else if(cardName == 'Taco') img.src = "../assets/cards/cardTaco.png";
-            else if(cardName == 'Mariachi') img.src = "../assets/cards/cardMariachi.jpeg";
-            else if(cardName == 'MayanWarrior') img.src = "../assets/cards/cardGuerrero.png";
-            
+            if (cardName == 'Calavera') img.src = "../assets/cards/cardCalavera.png";
+            else if (cardName == 'Machete') img.src = "../assets/cards/cardMachete.png";
+            else if (cardName == 'ObsidianKnife') img.src = "../assets/cards/cardObsidianKnife.png";
+            else if (cardName == 'Corazon') img.src = "../assets/cards/cardHeart.jpeg";
+            else if (cardName == 'Valiente') img.src = "../assets/cards/cardValiente.png";
+            else if (cardName == 'Taco') img.src = "../assets/cards/cardTaco.png";
+            else if (cardName == 'Mariachi') img.src = "../assets/cards/cardMariachi.jpeg";
+            else if (cardName == 'MayanWarrior') img.src = "../assets/cards/cardGuerrero.png";
+
             img.onload = function () {
                 const ctx = document.getElementById('favoriteCardCanvas').getContext('2d');
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.drawImage(img, (ctx.canvas.width - 80) / 2 , 0, 80, 150); 
+                ctx.drawImage(img, (ctx.canvas.width - 80) / 2, 0, 80, 150);
             };
         }
         else {
@@ -595,11 +594,9 @@ function main() {
         console.log(data)
         const dataObj = Object.fromEntries(data.entries())
         console.log(dataObj)
-
         let response = await fetch(`http://localhost:5000/api/nemesis/${dataObj['username']}`, {
             method: 'GET'
         })
-
         if (response.ok) {
             let results = await response.json()
             if (results.length > 0) {
@@ -627,37 +624,37 @@ function main() {
                 const container = document.getElementById('getResultsNemesis')
                 container.innerHTML = 'No results to show.'
             }
-            const enemyName = results[0].eliminated_by_name;
+            const enemyName = results[0]["Enemy"];
             let img = new Image();
             console.log(img);
             img.width = 0;
             img.height = 0;
-            if(enemyName == 'Mariachi') {
+            if (enemyName == 'Mariachi') {
                 img.src = "../assets/charSpritesheets/enemyThumbnails/mariachiThumb.png";
                 img.width = 232;
                 img.height = 224;
             }
-            else if(enemyName == 'Tlaxcalteca'){
-                img.src ="../assets/charSpritesheets/enemyThumbnails/skelThumb.png";
+            else if (enemyName == 'Tlaxcalteca') {
+                img.src = "../assets/charSpritesheets/enemyThumbnails/skelThumb.png";
                 img.width = 264;
                 img.height = 274;
-            } 
-            else if(enemyName == 'Mayan Warrior'){
-                img.src ="../assets/charSpritesheets/enemyThumbnails/warriorThumb.png";
+            }
+            else if (enemyName == 'Mayan Warrior') {
+                img.src = "../assets/charSpritesheets/enemyThumbnails/warriorThumb.png";
                 img.width = 152;
                 img.height = 253;
-            } 
-            else if(enemyName == 'Devil'){
+            }
+            else if (enemyName == 'Devil') {
                 img.src = "../assets/charSpritesheets/enemyThumbnails/devilThumb.png";
                 img.width = 263;
                 img.height = 208;
-            } 
-            else if(enemyName == 'Quetzalcoatl'){
+            }
+            else if (enemyName == 'Quetzalcoatl') {
                 img.src = "../assets/charSpritesheets/enemyThumbnails/quetzThumb.png";
                 img.width = 210;
                 img.height = 309;
-            } 
-            else if(enemyName == 'Ah Puch') {
+            }
+            else if (enemyName == 'Ah Puch') {
                 img.src = "../assets/charSpritesheets/enemyThumbnails/ahThumb.png";
                 img.width = 213;
                 img.height = 290;
@@ -665,9 +662,9 @@ function main() {
             img.onload = function () {
                 const ctx = document.getElementById('nemesisCanvas').getContext('2d');
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.drawImage(img, (ctx.canvas.width - img.width) / 2 + 5, 5, img.width- 10 , ctx.canvas.height- 10); 
+                ctx.drawImage(img, (ctx.canvas.width - img.width) / 2 + 5, 5, img.width - 10, ctx.canvas.height - 10);
                 console.log(ctx.canvas.width, ctx.canvas.height);
-                console.log((ctx.canvas.width - img.width) / 2 ,0, img.width , ctx.canvas.height);
+                console.log((ctx.canvas.width - img.width) / 2, 0, img.width, ctx.canvas.height);
             };
         }
         else {
@@ -679,88 +676,79 @@ function main() {
         e.preventDefault();
         const data = new FormData(formSelectProgression);
         const dataObj = Object.fromEntries(data.entries());
-        console.log(dataObj);
-        let response = await fetch(`http://localhost:5000/api/progression/${dataObj['username']}`, {
-            method: 'GET'
-        });
+        const username = dataObj['username']?.trim();
+        let response = await fetch(`http://localhost:5000/api/progression`, { method: 'GET' });
+
         if (response.ok) {
             let results = await response.json();
             if (results.length > 0) {
-                const groupedData = results.reduce((acc, row) => {
-                    if (!acc[row.username]) acc[row.username] = [];
-                    acc[row.username].push({ x: new Date(row.run_start).getTime(), y: row.score });
-                    return acc;
-                }, {});
-                const datasets = Object.entries(groupedData).map(([username, data]) => ({
-                    label: `${username}'s Progression`,
-                    data: data, // array of {x:timestamp, y:score }
-                    borderColor: "rgb(242, 237, 222)", 
-                    backgroundColor: "rgb(123, 99, 24)", 
-                    tension: 0.3,
-                    fill: false
+                let filtered = username
+                    ? results.filter(row => row.username === username)
+                    : results;
+                const allDates = [...new Set(filtered.map(r => r.run_start))]
+                    .sort((a, b) => new Date(a) - new Date(b));
+                const labels = allDates.map(date =>
+                    new Date(date).toLocaleString().replace(',', '')
+                );
+                const grouped = {};
+                filtered.forEach(row => {
+                    if (!grouped[row.username]) grouped[row.username] = {};
+                    grouped[row.username][row.run_start] = row.score;
+                });
+                const datasets = Object.entries(grouped).map(([usname, dateScoreMap]) => ({
+                    label: `${usname}'s Progression`,
+                    data: allDates.map(date => dateScoreMap[date] ?? null),
+                    borderColor: random_color(0.8),
+                    fill: false,
+                    tension: 0
                 }));
+
                 const ctx = document.getElementById('progressionCanvas').getContext('2d');
-                if (window.progressionChart) {
-                    window.progressionChart.destroy();
-                }
+                if (window.progressionChart) window.progressionChart.destroy();
                 window.progressionChart = new Chart(ctx, {
                     type: 'line',
                     data: {
+                        labels: labels,
                         datasets: datasets
                     },
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    color: 'rgb(255, 255, 255)'
-                                }
-                            },
+                            legend: { position: 'top', labels: { color: 'rgb(255,255,255)' } },
                             title: {
                                 display: true,
                                 text: 'Player Progression Over Time',
-                                color: 'rgb(255, 255, 255)'
+                                color: 'rgb(255,255,255)'
                             }
                         },
                         scales: {
                             x: {
-                                type: 'linear',
-                                title: {
-                                    display: true,
-                                    text: 'Date (Timestamp)',
-                                    color: 'rgb(219, 204, 158)' // Golden yellow for axis title
-                                },
+                                title: { display: true, text: 'Date [Timestamp]', color: 'rgb(255,255,255)' },
                                 ticks: {
-                                    color: 'rgb(232,199,102)', // Golden yellow for tick labels
-                                    callback: function (value) {
-                                        return new Date(value).toLocaleDateString();
+                                    color: 'rgb(232,199,102)',
+                                    maxRotation: 70,
+                                    minRotation: 45,
+                                    callback: function (value, index) { //https://www.chartjs.org/docs/latest/axes/labelling.html
+                                        const showEvery = 3;
+                                        return index % showEvery === 0 ? this.getLabelForValue(value) : '';
+                                    },
+                                    font: {
+                                        size: 12
                                     }
                                 },
-                                grid: {
-                                    color: 'rgba(232, 200, 102, 0.04)' // Light golden grid lines
-                                }
+                                grid: { color: 'rgba(232,200,102,0.04)' }
                             },
                             y: {
                                 beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Score',
-                                    color: 'rgb(232,199,102)' // Golden yellow for axis title
-                                },
-                                ticks: {
-                                    color: 'rgb(214, 203, 170)' // Golden yellow for tick labels
-                                },
-                                grid: {
-                                    color: 'rgba(232, 199, 102, 0.2)' // Light golden grid lines
-                                }
+                                title: { display: true, text: 'Score', color: 'rgb(255,255,255)' },
+                                ticks: { color: 'rgb(214,203,170)' },
+                                grid: { color: 'rgba(232,199,102,0.2)' }
                             }
                         }
                     }
                 });
-} else {
-                const container = document.getElementById('getResultsProgression');
-                container.innerHTML = 'No results to show.';
+            } else {
+                document.getElementById('getResultsProgression').innerHTML = 'No results to show.';
             }
         } else {
             console.error('Failed to fetch progression data.');
@@ -768,23 +756,19 @@ function main() {
     };
 }
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.toggle-buttons button');
     const sections = document.querySelectorAll('.leaderboard-section');
-    sections.forEach(section => section.classList.remove('active'));
     buttons.forEach(button => {
-        button.addEventListener('click',()=>{
+        button.addEventListener('click', () => {
             const targetId = button.getAttribute('data-target');
-            sections.forEach(section =>{
-                if (section.id === targetId){
-                    section.classList.toggle('active');
-                } 
-                else{
-                    section.classList.remove('active');
-                }
+            sections.forEach(section => {
+                section.style.display = 'none';
             });
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.style.display = 'flex';
+            }
         });
     });
 });

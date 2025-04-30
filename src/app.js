@@ -103,32 +103,32 @@ app.post('/api/player/check', async (request, response) => {
 });
 app.get('/api/player/check', async (request, response) => {
     let connection = null
-    try{
+    try {
         connection = await connectToDB();
-        const{email, username, password} = request.body; 
-        const[results] = await connection.query(
+        const { email, username, password } = request.body;
+        const [results] = await connection.query(
             'SELECT player_id, username, password FROM player WHERE email = ? AND username = ?',
             [email, username]
         );
-        if(results.length > 0){
+        if (results.length > 0) {
             const user = results[0];
-            if(user.password === password){
-                response.status(200).json({player_id: user.player_id, username: user.username});
+            if (user.password === password) {
+                response.status(200).json({ player_id: user.player_id, username: user.username });
             }
-            else{
-                response.status(401).json({message: 'Invalid password'});
+            else {
+                response.status(401).json({ message: 'Invalid password' });
             }
         }
-        else{
-            response.status(404).json({message: 'Player not found' })
+        else {
+            response.status(404).json({ message: 'Player not found' })
         }
     }
     catch (error) {
-        response.status(500).json({message: 'aLGO hice mal con la API jiji --Mau', error});
+        response.status(500).json({ message: 'aLGO hice mal con la API jiji --Mau', error });
         console.log(error);
     }
     finally {
-        if(connection !== null){
+        if (connection !== null) {
             connection.end();
             console.log("Connection closed");
         }
@@ -198,7 +198,11 @@ app.get('/api/player', async (request, response) => {
     try {
         connection = await connectToDB()
         // leaderboard.html Query 1 MySQL
-        const [results, fields] = await connection.execute('SELECT p.player_id, p.username, p.recordScore, p.recordTime FROM player AS p ORDER BY p.recordScore DESC LIMIT 10');
+        const [results, fields] = await connection.execute(`
+            SELECT p.player_id AS "PlayerID", p.username AS 'Username', p.recordScore AS 'High Score', p.recordTime AS 'Record Time' 
+            FROM player AS p 
+            ORDER BY p.recordScore DESC 
+            LIMIT 10`);
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)
@@ -223,7 +227,9 @@ app.get('/api/player/:username', async (request, response) => {
     try {
         connection = await connectToDB()
 
-        const [results_user, _] = await connection.query('SELECT p.player_id, p.username, p.recordScore, p.recordTime FROM player AS p WHERE username= ?', [request.params.username])
+        const [results_user, _] = await connection.query(`
+            SELECT p.player_id AS "PlayerID", p.username AS "Username", p.recordScore AS "High Score", p.recordTime AS "Record Time" 
+            FROM player AS p WHERE username= ?`, [request.params.username])
 
         console.log(`${results_user.length} rows returned`)
         response.json(results_user)
@@ -326,7 +332,9 @@ app.get('/api/player_runstats', async (request, response) => {
     let connection = null
     try {
         connection = await connectToDB()
-        const [results, fields] = await connection.execute('SELECT * FROM runsvswins;')
+        const [results, fields] = await connection.execute(`
+            SELECT * FROM runsvswins 
+            ORDER BY runcount DESC;`)
 
         console.log(`${results.length} rows returned`)
         console.log(results)
@@ -350,7 +358,7 @@ app.get('/api/player_runstats/:username', async (request, response) => {
     try {
         connection = await connectToDB()
 
-        const [results_run, _] = await connection.query('select * from runsvswins where username= ?', [request.params.username])
+        const [results_run, _] = await connection.query('select * from runsvswins where username= ? ORDER BY runcount DESC', [request.params.username])
 
         console.log(`${results_run.length} rows returned`)
         response.json(results_run)
@@ -394,14 +402,10 @@ app.post('/api/player_runstats', async (request, response) => {
 
 // Update a playrs score ponts nd time
 app.put('/api/player', async (request, response) => {
-
     let connection = null
-
     try {
         connection = await connectToDB()
-
         const [results, fields] = await connection.query('update player set recordScore = ?, email = ? where player_id= ?', [request.body['username'], request.body['email'], request.body['player_id']])
-
         console.log(`${results.affectedRows} rows updated`)
         response.json({ 'message': `Data updated correctly: ${results.affectedRows} rows updated.` })
     }
@@ -498,7 +502,7 @@ app.get('/api/winsvsdeaths', async (request, response) => {
     try {
         connection = await connectToDB()
         // leaderboard.html Query 3 MySQL
-        const [results, fields] = await connection.execute('SELECT p.username, p.wins, (p.runcount - p.wins) AS deaths FROM runsvswins AS p LIMIT 10;');
+        const [results, fields] = await connection.execute('SELECT p.username, p.wins, (p.runcount - p.wins) AS deaths FROM runsvswins AS p ORDER BY p.runcount LIMIT 10;');
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)
@@ -519,12 +523,9 @@ app.get('/api/winsvsdeaths', async (request, response) => {
 // Get a specific user from the database and return it as a JSON object
 app.get('/api/winsvsdeaths/:username', async (request, response) => {
     let connection = null
-
     try {
         connection = await connectToDB()
-
         const [results_user, _] = await connection.query('SELECT p.username, p.wins, (p.runcount - p.wins) AS deaths FROM runsvswins AS p WHERE username= ?', [request.params.username])
-
         console.log(`${results_user.length} rows returned`)
         response.json(results_user)
     }
@@ -548,7 +549,10 @@ app.get('/api/favoritecard', async (request, response) => {
     try {
         connection = await connectToDB()
         // leaderboard.html Query 4 MySQL
-        const [results, fields] = await connection.execute('SELECT * FROM player_card ORDER BY cards_used_count DESC LIMIT 10;');
+        const [results, fields] = await connection.execute(`
+            SELECT * 
+            FROM player_card 
+            ORDER BY 'Usage Count' DESC LIMIT 10;`);
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)
@@ -569,11 +573,13 @@ app.get('/api/favoritecard', async (request, response) => {
 // Get a specific user from the database and return it as a JSON object
 app.get('/api/favoritecard/:username', async (request, response) => {
     let connection = null
-
     try {
         connection = await connectToDB()
 
-        const [results_user, _] = await connection.query('SELECT * FROM player_card WHERE username= ? ORDER BY cards_used_count DESC LIMIT 1', [request.params.username])
+        const [results_user, _] = await connection.query(`
+            SELECT * 
+            FROM player_card 
+            WHERE Username= ? ORDER BY "Usage Count" DESC LIMIT 1`, [request.params.username])
 
         console.log(`${results_user.length} rows returned`)
         response.json(results_user)
@@ -591,7 +597,6 @@ app.get('/api/favoritecard/:username', async (request, response) => {
     }
 })
 
-
 //-----------------Cosas para Player Nemesis
 // Get all users from the database and return them as a JSON object
 app.get('/api/nemesis', async (request, response) => {
@@ -599,7 +604,10 @@ app.get('/api/nemesis', async (request, response) => {
     try {
         connection = await connectToDB()
         // leaderboard.html Query 4 MySQL
-        const [results, fields] = await connection.execute('SELECT * FROM nemesis ORDER BY DeathCount DESC LIMIT 10;');
+        const [results, fields] = await connection.execute(`
+            SELECT * 
+            FROM nemesis 
+            ORDER BY KillCount DESC LIMIT 10;`);
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)
@@ -622,21 +630,19 @@ app.get('/api/nemesis/:username', async (request, response) => {
     let connection = null
     try {
         connection = await connectToDB()
-        const [results_user, _] = await connection.query('SELECT * FROM nemesis WHERE username = ? ORDER BY DeathCount DESC LIMIT 1', [request.params.username])
-
+        const [results_user, _] = await connection.query('SELECT * FROM nemesis WHERE Username = ? ORDER BY KillCount DESC LIMIT 1', [request.params.username])
         console.log(`${results_user.length} rows returned`)
+        
         response.json(results_user)
-
-        // After fetching the nemesis result
         if (results.length === 1) {
-            const enemyName = results[0].eliminated_by_name;
+            const enemyName = results[0]["Enemy"];
             const img = new Image();
-            img.src = `../assets/enemies/${enemyName}.png`; // Adjust path as needed
+            img.src = `../assets/enemies/${enemyName}.png`; // que pro me vi
 
-            img.onload = function() {
+            img.onload = function () {
                 const ctx = document.getElementById('nemesisCanvas').getContext('2d');
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.drawImage(img, 10, 10, 128, 128); // Adjust size/position as needed
+                ctx.drawImage(img, 10, 10, 128, 128);
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "white";
                 ctx.fillText(enemyName, 10, 150);
@@ -655,7 +661,9 @@ app.get('/api/nemesis/:username', async (request, response) => {
         }
     }
 })
-
+function formatDateForMySQL(date) {
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+}
 //playerprogdata
 app.get('/api/progression', async (request, response) => {
     let connection = null
@@ -665,6 +673,7 @@ app.get('/api/progression', async (request, response) => {
                  FROM player AS p
                  JOIN player_runstats AS r ON p.player_id = r.player_id
                  ORDER BY p.username, r.run_start`);
+        
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)
@@ -688,7 +697,7 @@ app.get('/api/progression/:username', async (request, response) => {
         connection = await connectToDB()
 
         const [results_user, _] = await connection.query('SELECT p.username, r.run_start, r.score FROM player AS p JOIN player_runstats AS r ON p.player_id = r.player_id WHERE p.username = ? ORDER BY r.run_start', [request.params.username])
-
+       
         console.log(`${results_user.length} rows returned`)
         response.json(results_user)
     }
