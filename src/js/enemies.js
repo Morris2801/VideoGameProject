@@ -553,9 +553,13 @@ class BaseEnemy extends BaseCharacter {
     takeDamage(damage) {
         this.health -= damage;
         console.log(this.health);
+        damageSound.play();
         if (this.health <= 0) {
             this.alive = false;
             game.player.killCount += 1;
+            if(soundEffectEnabled){
+                enemyDeath.play();
+            }
             game.player.score += this.scoreGiven;
             console.log("KillCount ", game.player.killCount);
         }
@@ -600,7 +604,7 @@ class BaseEnemy extends BaseCharacter {
     }
 }
 
-const damage = new Audio("../js/damage.wav");
+const damage = new Audio("../assets/sound/damage.wav");
 function playDamage(){
     damage.currentTime = 0;
     damage.play();
@@ -785,7 +789,25 @@ class Quetzalcoatl extends BaseEnemy {
             console.log("Card dropped at position: ", this.position.x, this.position.y);
 
         }
-    } 
+    }
+     
+    startAttack() {
+        if (this.attacking) return;
+        
+        // Play sound before calling super
+        if (soundEffectsEnabled) {
+            dragonSound.currentTime = 0;
+            dragonSound.play();
+        }
+        
+        // Let the parent handle all animation setup
+        super.startAttack();
+        
+        // Custom logging after parent setup
+        console.log("Quetzalcoatl attack");
+    }
+
+    
     
 }
 
@@ -909,6 +931,10 @@ class AhPuch extends BaseEnemy{
         if(currentTime - this.lastFireballTime > this.fireballCooldown){
             this.lastFireballTime = currentTime;
             this.spawnFireball();
+            if(soundEffectsEnabled){
+                fireballSound.currentTime = 0;
+                fireballSound.play();
+            }
         }
 
         //quitar las fireballs que ya se usaron
