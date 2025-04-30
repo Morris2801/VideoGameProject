@@ -701,6 +701,33 @@ class Devil extends BaseEnemy {
             down: [0,3] 
         };
     }
+
+    //sobreescribir el metodo takeDamage para el diablo
+    // para que suelte la carta del diablo
+    takeDamage(damage) {
+        this.health -= damage;
+        console.log(this.health);
+        
+        if (this.health <= 0 && !this.hasDroppedCard) {
+            this.hasDroppedCard = true;
+            this.alive = false;
+            game.player.killCount += 1;
+            game.player.score += this.scoreGiven;
+            
+            // 50% probability check
+            if (Math.random() < 0.5) {
+                
+                
+                // Create the Devil card at the position where Devil was defeated
+                const card = new DiabloCard("#800000", 32, 32, this.position.x, this.position.y, "card");
+                const spritePath = "../assets/cards/cardDiablo.png";
+                card.setSprite(spritePath, new Rect(0, 0, 80, 150));
+                
+                // Add the card to the game
+                game.actors.push(card);
+            }
+        }
+    }
 }
 
 // Bosses
