@@ -269,9 +269,10 @@ class BasePlayer extends BaseCharacter {
     this.baseDamage = 3;
 
     // Variables de estado de ataque
+    this.attackKeyReleased = true; // Para evitar ataques continuos
     this.attacking = false;
     this.attackTimer = 0;
-    this.attackCooldown = 100;
+    this.attackCooldown = 1000;
     this.attackDuration = 0;
     this.attackMaxDuration = 700; // 700ms para completar el ataque
     this.lastDirection = "right"; //  por defecto
@@ -666,13 +667,14 @@ class BasePlayer extends BaseCharacter {
   }
 
   startAttack() {
-    if (this.attackCooldown > 0 || this.attacking) return;
+    if (this.attackCooldown > 0 || this.attacking || !this.attackKeyReleased) return;
 
     console.log("Starting attack");
     this.attacking = true;
     this.attackDuration = 0;
-    this.attackCooldown = 300; // 300ms de cooldown
+    this.attackCooldown = 800; // 300ms de cooldown
     this.hasHitEnemy = false;
+    this.attackKeyReleased = false; // Evitar ataques continuos
 
     // guardar el sprite antes de realizar el ataque 
     this.savedNormalSprite = this.spriteImage;
@@ -686,6 +688,9 @@ class BasePlayer extends BaseCharacter {
       
   }
 
+  setAttackKeyReleased() {
+    this.attackKeyReleased = true;
+  }
   
     
   
