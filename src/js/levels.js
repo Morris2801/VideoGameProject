@@ -64,7 +64,7 @@ function floorCross(level,w, h){
     } 
 }
 //function to generate level string from parameters
-function levGen(width, height, levelNum, isBossRoom = false){
+function levGen(width, height, levelNum, isBossRoom = true){
     let level = [];
     //Basic geometry
     let cells = width * height; 
