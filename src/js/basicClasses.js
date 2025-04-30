@@ -33,22 +33,22 @@ const scale = 57;
 
 
 // Text
-class TextLabel{
-    constructor(x,y,font,color){
+class TextLabel {
+    constructor(x, y, font, color) {
         this.x = x;
         this.y = y;
         this.font = font;
         this.color = color;
     }
-    draw(ctx,text){
-        ctx.font=this.font;
+    draw(ctx, text) {
+        ctx.font = this.font;
         ctx.fillStyle = this.color;
-        ctx.fillText(text,this.x,this.y);
+        ctx.fillText(text, this.x, this.y);
     }
 }
 
 // Class for bounding boxes
-class Rect{
+class Rect {
     constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
@@ -59,32 +59,32 @@ class Rect{
 
 // Class to manage directions and positions
 class Vec {
-    constructor(x,y){
-        this.x = x; 
-        this.y = y; 
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
     }
-    plus(other){
+    plus(other) {
         return new Vec(this.x + other.x, this.y + other.y);
     }
-    minus(other){
+    minus(other) {
         return new Vec(this.x - other.x, this.y - other.y);
     }
-    times(scalar){
-        return new Vec(this.x*scalar, this.y*scalar);
+    times(scalar) {
+        return new Vec(this.x * scalar, this.y * scalar);
     }
-    magnitude(){
-        return Math.sqrt(this.x **2 + this.y **2);
+    magnitude() {
+        return Math.sqrt(this.x ** 2 + this.y ** 2);
     }
-    distanceTo(vec2){
+    distanceTo(vec2) {
         return this.minus(vec2).magnitude();
     }
-    direction(){
-        return new Vec(this.x/this.magnitude(), this.y/this.magnitude());
+    direction() {
+        return new Vec(this.x / this.magnitude(), this.y / this.magnitude());
     }
 }
 
 // Class to manage game objects
-class GameObject{
+class GameObject {
     constructor(color, width, height, x, y, type) {
         this.position = new Vec(x, y);
         this.size = new Vec(width, height);
@@ -106,24 +106,24 @@ class GameObject{
         const scaledY = this.position.y * scale;
         const scaledWidth = this.size.x * scale * customScale;
         const scaledHeight = this.size.y * scale * customScale;
-        
+
         if (this.spriteImage) {
             if (this.spriteRect) {
                 ctx.drawImage(this.spriteImage,
-                          this.spriteRect.x * this.spriteRect.width,
-                          this.spriteRect.y * this.spriteRect.height,
-                          this.spriteRect.width, this.spriteRect.height,
-                          scaledX, scaledY,
-                          scaledWidth, scaledHeight);
+                    this.spriteRect.x * this.spriteRect.width,
+                    this.spriteRect.y * this.spriteRect.height,
+                    this.spriteRect.width, this.spriteRect.height,
+                    scaledX, scaledY,
+                    scaledWidth, scaledHeight);
             } else {
                 ctx.drawImage(this.spriteImage,
-                          scaledX, scaledY,
-                          scaledWidth, scaledHeight);
+                    scaledX, scaledY,
+                    scaledWidth, scaledHeight);
             }
         } else {
             ctx.fillStyle = this.color;
             ctx.fillRect(scaledX, scaledY,
-                     scaledWidth, scaledHeight);
+                scaledWidth, scaledHeight);
         }
     }
     // Overridable update method
@@ -131,21 +131,21 @@ class GameObject{
 
     }
     // Method to enable card drop mechanic through inheritance and loot table 
-    dropCard(position){
+    dropCard(position) {
         const lootTable = [
-            { type: null, chance: 0.35, spritePath: null }, //35% chance to drop nothing
-            { type: CalaveraCard, chance: 0.07 * 0.65, spritePath: '../assets/cards/cardCalavera.png'}, 
-            { type: MacheteCard, chance: 0.07 * 0.65, spritePath: '../assets/cards/cardMachete.png'},
-            { type: ObsidianKnifeCard, chance: 0.07 * 0.65, spritePath: "../assets/cards/cardObsidianKnife.png"},
-            { type: CorazonCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardHeart.jpeg"},
-            { type: ValienteCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardValiente.png"},
-            { type: TacoCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardTaco.png"},
-            { type: MariachiCard, chance: 0.15 * 0.65, spritePath: "../assets/cards/cardMariachi.jpeg"},
-            { type: MayanWarriorCard, chance: 0.15 * 0.65, spritePath: "../assets/cards/cardGuerrero.png"},
+            { type: null, chance: 0.35, spritePath: null }, //35% nada
+            { type: CalaveraCard, chance: 0.07 * 0.65, spritePath: '../assets/cards/cardCalavera.png' },
+            { type: MacheteCard, chance: 0.07 * 0.65, spritePath: '../assets/cards/cardMachete.png' },
+            { type: ObsidianKnifeCard, chance: 0.07 * 0.65, spritePath: "../assets/cards/cardObsidianKnife.png" },
+            { type: CorazonCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardHeart.jpeg" },
+            { type: ValienteCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardValiente.png" },
+            { type: TacoCard, chance: 0.16 * 0.65, spritePath: "../assets/cards/cardTaco.png" },
+            { type: MariachiCard, chance: 0.15 * 0.65, spritePath: "../assets/cards/cardMariachi.jpeg" },
+            { type: MayanWarriorCard, chance: 0.15 * 0.65, spritePath: "../assets/cards/cardGuerrero.png" },
         ];
-        const rand = Math.random(); 
-        let chance = 0; 
-        let cardClass = null; 
+        const rand = Math.random();
+        let chance = 0;
+        let cardClass = null;
         for (const item of lootTable) {
             chance += item.chance;
             if (rand <= chance) {
@@ -154,12 +154,12 @@ class GameObject{
                     console.log("No card dropped");
                     return;
                 }
-                cardClass.spritePath = item.spritePath;
+                cardClass.spritePath=item.spritePath;
                 break;
             }
         }
-        if(cardClass){
-            const card = new cardClass("white", 1, 1, position.x, position.y, "card"); 
+        if (cardClass) {
+            const card = new cardClass("white", 1, 1, position.x, position.y, "card");
             card.setSprite(cardClass.spritePath, new Rect(0, 0, 80, 150));
             game.actors.push(card);
             // Agregar a fuerza bruta la carta a invnetario game.player.inventory.items.push(card);
@@ -167,11 +167,11 @@ class GameObject{
             console.log(card);
             console.log(`Dropped ${cardClass.name} @ ${position.x}, ${position.y}`);
         }
-    }    
+    }
 }
 
 // Class to manage animated objects
-class AnimatedObject extends GameObject{
+class AnimatedObject extends GameObject {
     constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
         // Animation properties
@@ -199,7 +199,7 @@ class AnimatedObject extends GameObject{
         if (this.totalTime > this.frameDuration) {
             let restartFrame = (this.repeat ? this.minFrame : this.frame);
             let wasLastFrame = (this.frame === this.maxFrame);
-            
+
             this.frame = this.frame < this.maxFrame ? this.frame + 1 : restartFrame;
             this.spriteRect.x = this.frame % this.sheetCols;
             this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
@@ -210,7 +210,7 @@ class AnimatedObject extends GameObject{
 }
 
 // Class to manage characters
-class BaseCharacter extends AnimatedObject{
+class BaseCharacter extends AnimatedObject {
     constructor(_color, width, height, x, y, _type) {
         super(_color, width, height, x, y, _type);
         this.velocity = new Vec(0.0, 0.0);
@@ -220,47 +220,47 @@ class BaseCharacter extends AnimatedObject{
 
         // Default mov. vars.
         this.movement = {
-            right: { 
-                status: false, 
-                axis: "x", 
-                sign: 1, 
-                repeat: true, 
-                duration: 100, 
-                moveFrames: [0, 0], 
-                idleFrames: [0, 0] 
-            },
-            left:  { 
-                status: false, 
+            right: {
+                status: false,
                 axis: "x",
-                sign: -1, 
-                repeat: true, 
-                duration: 100, 
-                moveFrames: [0, 0], 
-                idleFrames: [0, 0] 
+                sign: 1,
+                repeat: true,
+                duration: 100,
+                moveFrames: [0, 0],
+                idleFrames: [0, 0]
             },
-            up:    { 
-                status: false, 
-                axis: "y", 
-                sign: -1, 
-                repeat: true, 
-                duration: 100, 
-                moveFrames: [0, 0], 
-                idleFrames: [0, 0] 
+            left: {
+                status: false,
+                axis: "x",
+                sign: -1,
+                repeat: true,
+                duration: 100,
+                moveFrames: [0, 0],
+                idleFrames: [0, 0]
             },
-            down:  { 
-                status: false, 
-                axis: "y", 
-                sign: 1, 
-                repeat: true, 
-                duration: 100, 
-                moveFrames: [0, 0], 
-                idleFrames: [0, 0] 
+            up: {
+                status: false,
+                axis: "y",
+                sign: -1,
+                repeat: true,
+                duration: 100,
+                moveFrames: [0, 0],
+                idleFrames: [0, 0]
+            },
+            down: {
+                status: false,
+                axis: "y",
+                sign: 1,
+                repeat: true,
+                duration: 100,
+                moveFrames: [0, 0],
+                idleFrames: [0, 0]
             },
         };
         this.innerHitbox = new Rect(
-            this.position.x + this.charMargin, 
-            this.position.y + this.charMargin, 
-            this.size.x - 2 * this.charMargin, 
+            this.position.x + this.charMargin,
+            this.position.y + this.charMargin,
+            this.size.x - 2 * this.charMargin,
             this.size.y - 2 * this.charMargin
         );
     }
@@ -275,12 +275,12 @@ class BaseCharacter extends AnimatedObject{
         let newPosition = this.position.plus(this.velocity.times(deltaTime));
         // Move only if the player's inner hitbox does not move inside a wall || door
         this.innerHitbox = new Rect(
-            newPosition.x + this.charMargin, 
-            newPosition.y + this.charMargin, 
-            this.size.x - 2 * this.charMargin, 
+            newPosition.x + this.charMargin,
+            newPosition.y + this.charMargin,
+            this.size.x - 2 * this.charMargin,
             this.size.y - 2 * this.charMargin
         );
-        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, 'player') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor')&& !level.contact(this.innerHitbox, this.size, 'downdoor')&& !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit') && !level.contact(this.innerHitbox, this.size, 'enemy') && !level.contact(this.innerHitbox, this.size, 'boss')) {
+        if (!level.contact(this.innerHitbox, this.size, 'wall') && !level.contact(this.innerHitbox, this.size, 'player') && !level.contact(this.innerHitbox, this.size, "updoor") && !level.contact(this.innerHitbox, this.size, 'leftdoor') && !level.contact(this.innerHitbox, this.size, 'downdoor') && !level.contact(this.innerHitbox, this.size, 'rightdoor') && !level.contact(this.innerHitbox, this.size, 'exit') && !level.contact(this.innerHitbox, this.size, 'enemy') && !level.contact(this.innerHitbox, this.size, 'boss')) {
             this.position = newPosition;
         }
         this.updateFrame(deltaTime);

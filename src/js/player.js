@@ -117,9 +117,9 @@ class Inventory {
       this.player.stamina += card.staminaBuff;
     }
     if (card.damageBuff) {
-      // Damage bonus handled in getDamageBonus()
+      this.player.damage += card.damageBuff;
     }
-
+    
     // Visual effects if applicable
     if (card.visualEffect && this.player.applyVisualEffect) {
       this.player.applyVisualEffect(card.visualEffect);
@@ -145,6 +145,9 @@ class Inventory {
     }
     if (card.staminaBuff && typeof this.player.stamina === 'number') {
       this.player.stamina = Math.max(0, this.player.stamina - card.staminaBuff);
+    }
+    if( card.damageBuff && typeof this.player.damage === 'number') {
+      this.player.damage = Math.max(0, this.player.damage - card.damageBuff);
     }
   }
 
@@ -843,9 +846,11 @@ class BasePlayer extends BaseCharacter {
     const scaledHeight = hitbox.height * scale;
 
     // Dibujar hitbox
+    /*
     ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
     ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
-  }
+    */
+    }
 
   restoreSprites() {
 

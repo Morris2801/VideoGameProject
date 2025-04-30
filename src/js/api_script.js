@@ -303,7 +303,7 @@ function main() {
                 const runs = user['Runcount'];
                 const losses = runs - wins;
 
-                console.log("Drawing pie chart for user:", user.username);
+                console.log("pie chart:", user.username);
 
                 window.runsWinsChart = new Chart(ctx, {
                     type: 'pie',
@@ -312,12 +312,12 @@ function main() {
                         datasets: [{
                             data: [wins, losses],
                             backgroundColor: [
-                                'rgb(232,199,102)', // Golden yellow for wins
-                                '#8b4513'  // Brown for losses
+                                'rgb(232,199,102)', 
+                                '#8b4513'
                             ],
                             borderColor: [
-                                'rgb(232,199,102)', // Golden yellow border for wins
-                                '#8b4513'  // Brown border for losses
+                                'rgb(232,199,102)',
+                                '#8b4513'
                             ],
                             borderWidth: 1
                         }]
@@ -328,13 +328,13 @@ function main() {
                             legend: {
                                 position: 'top',
                                 labels: {
-                                    color: 'rgb(232,199,102)' // Golden yellow for legend text
+                                    color: 'rgb(232,199,102)'  
                                 }
                             },
                             title: {
                                 display: true,
                                 text: `Wins vs Losses for ${user['username']}`,
-                                color: 'rgb(232,199,102)' // Golden yellow for the title
+                                color: 'rgb(232,199,102)' 
                             }
                         }
                     }
