@@ -607,6 +607,7 @@ class Game {
         this.torchDamageTimer = 0;
         this.torchContact = false;
 
+
         // Reset UI
         document.getElementById("gameOverMenu").style.display = "none";
         document.getElementById("canvas").style.display = "flex";
@@ -621,6 +622,7 @@ class Game {
     drawPlayerHUD(ctx) {
         if (!this.player) return;
 
+        ctx.font = "4px Press Start 2P";
         //Valores de las medidadas
         const barWidth = 200;
         const barHeight = 20;
@@ -642,7 +644,6 @@ class Game {
         ctx.fillRect(barX, barY, healthBarFillWidth, barHeight);
 
         // texto de vida
-        ctx.font = "15px Arial";
         ctx.fillStyle = "white";
         ctx.fillText(`HP: ${this.player.health}/${this.player.basehealth}`, barX + 10, barY + barHeight / 2 + 3);
 
@@ -668,7 +669,6 @@ class Game {
             const transformY = staminaY + barHeight + barSpacing + 5;
             const secondsLeft = Math.ceil(this.player.transformationTimer / 1000);
             ctx.fillStyle = "white";
-            ctx.fonto = "50px Arial"
             ctx.fillText(`${this.player.transformationType}: ${secondsLeft}s`, barX, transformY + 10);
         }
     }
@@ -683,6 +683,7 @@ class Game {
                     actor.setSprite('../assets/mapElements/door.png', new Rect(0, 0, 52, 52));
                 }
             }
+            actor.type.replace("","door");
         }
     }
 

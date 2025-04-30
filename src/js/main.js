@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isContextScreenActive = true;
         if (typeof GameMusic !== "undefined") {
             console.log("Iniciando música...");
+            console.log("Volume:", volume);
             GameMusic.setVolume(volume); 
             GameMusic.startMusic();  
         
@@ -218,17 +219,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Pause menu disabled during game over or victory.");
                 return;
             }
-
-            // Pause game
             if (!isPaused && game) {
                 pauseMenu.style.display = 'flex';
                 isPaused = true;
                 game.isActive = false;
+                document.querySelectorAll("#musicVolume").forEach((slider) => {
+                    slider.value = volume; 
+                });
+                document.querySelectorAll("#sfxVolume").forEach((slider) => {
+                    slider.value = sfxVolume;
+                });
+                document.querySelectorAll("#soundEffectsToggle").forEach((toggle) => {
+                    toggle.checked = soundEffectsEnabled;
+                });
                 console.log("Game paused.");
                 canvas.style.display = "none";
                 uiCanvas.style.display = "none";
-            } 
-            // Resume game
+            }
             else if (isPaused && game) {
                 pauseMenu.style.display = 'none';
                 canvas.style.display = "flex";
@@ -413,12 +420,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     const optionsMenu = document.getElementById("optionsMenu");
-    const musicVolumeSlider = document.getElementById("musicVolume");
-    const soundEffectsToggle = document.getElementById("soundEffectsToggle");
+
     const backToMenuButton = document.getElementById("backToMenuButton");
-    const sfxVolumeSlider = document.getElementById("sfxVolume");
-    sfxVolumeSlider.value = sfxVolume;
-    musicVolumeSlider.value = volume; 
 
 
     // Open Options Menu from Start or Pause Menu
@@ -433,44 +436,45 @@ document.addEventListener('DOMContentLoaded', () => {
     backToMenuButton.addEventListener("click", () => {
         optionsMenu.style.display = "none";
         if (game && game.isActive) {
-            console.log("showing pause menu.");
+            console.log("pausa o n");
             pauseMenu.style.display = "flex";
         } else {
             startMenu.style.display = "flex";
         }
     });
 
-    // Adjust Music Volume
-    musicVolumeSlider.addEventListener("input", (event) => {
-        volume = event.target.value;
-        GameMusic.setVolume(volume);
-        console.log("Music volume set to:", volume);
-    });
 
-    // Toggle Sound Effects
-    soundEffectsToggle.addEventListener("change", (event) => {
-        soundEffectsEnabled = event.target.checked;
-        console.log("Sound effects enabled:", soundEffectsEnabled);
-        // Add logic to enable/disable sound effects
-    });
-
-    sfxVolumeSlider.addEventListener("input", (event) => {
-        sfxVolume = parseFloat(event.target.value); // Update the global volume variable
-        console.log("Sound effects volume set to:", sfxVolume);
-
-        running.volume = sfxVolume;
-        attack.volume = sfxVolume;
-        breaking.volume = sfxVolume;
-        dash.volume = sfxVolume;
-        powerup.volume = sfxVolume;
+    document.querySelectorAll("#sfxVolume").forEach((slider) => {
+        slider.addEventListener("input", (event) => {
+            sfxVolume = parseFloat(event.target.value); 
+            console.log("SFXVol", sfxVolume);
+            running.volume = sfxVolume;
+            attack.volume = sfxVolume;
+            breaking.volume = sfxVolume;
+            dash.volume = sfxVolume;
+            powerup.volume = sfxVolume;
+        });
     });
 
     document.querySelectorAll("#optionsButton").forEach((button) => {
         button.addEventListener("click", () => {
-            console.log("Options menu button clicked");
+            console.log("Options menu click");
             startMenu.style.display = "none";
             pauseMenu.style.display = "none";
             optionsMenu.style.display = "flex";
+        });
+    });
+    document.querySelectorAll("#soundEffectsToggle").forEach((toggle) => {
+        toggle.addEventListener("change", (event) => {
+            soundEffectsEnabled = event.target.checked;
+            console.log("Sound prendido:", soundEffectsEnabled);
+        });
+    });
+    document.querySelectorAll("#musicVolume").forEach((slider) => {
+        slider.addEventListener("input", (event) => {
+            volume = parseFloat(event.target.value); 
+            GameMusic.setVolume(volume);
+            console.log("Music vol:", volume);
         });
     });
 }); 
@@ -669,14 +673,15 @@ function setEventListeners() {
     });
 }
 //Stats drawing (tbd)
-const usernameText = new TextLabel(80, uiCanvasHeight/4+10, "20px Times New Roman", "white");
-//const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px Times New Roman", "white");
-//const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px Times New Roman", "white");
-const locationText = new TextLabel(80, uiCanvasHeight/4 + 45, "20px Times New Roman", "white");
+const usernameText = new TextLabel(80, uiCanvasHeight/4+10, "15px 'Press Start 2P", "white");
+//const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px 'Press Start 2P", "white");
+//const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px 'Press Start 2P", "white");
+const locationText = new TextLabel(80, uiCanvasHeight/4 + 45, "13px 'Press Start 2P", "white");
 const transformText = new TextLabel(80, 3 * uiCanvasHeight/2 + 110, "10px Times New Roman", "yellow");
-const scoreTextUI = new TextLabel(80, uiCanvasHeight/4 + 80, "20px Times New Roman", "white"); 
+const scoreTextUI = new TextLabel(80, uiCanvasHeight/4 + 80, "11px 'Press Start 2P", "white"); 
 //display inventory, HP, stamina, ... (tbd)
 function drawUI() {
+    ctx.font = "10px 'Press Start 2P'";
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
     let inventory = game.player.inventory.items;
     let cardWidth = 80;
@@ -689,7 +694,7 @@ function drawUI() {
     usernameText.draw(uiCtx, `Name: ${globUsername}`);
     //HPText.draw(uiCtx, `HP: ${game.player.health}`);
     //staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
-    const timerText = new TextLabel(uiCanvasWidth - 200, uiCanvasHeight/4 + 45, "20px Times New Roman", "rgb(255, 255, 255)");
+    const timerText = new TextLabel(uiCanvasWidth - 280, uiCanvasHeight/4 + 45, "14px 'Press Start 2P", "rgb(255, 255, 255)");
     const minutes = Math.floor(game.levelTimer / 60);
     const seconds = Math.floor(game.levelTimer % 60);
     timerText.draw(uiCtx, `Time Left\n: ${minutes}:${seconds.toString().padStart(2, '0')}`);
@@ -740,14 +745,15 @@ function drawUI() {
     }
 }
 //Stats canvas text (tbd)
-const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 , "20px Times New Roman", "white");
-const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 30, "20px Times New Roman", "white");
-const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 60, "20px Times New Roman", "white");
-const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 90, "20px Times New Roman", "white");
-const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 120, "20px Times New Roman", "white");
-const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 150, "20px Times New Roman", "white"); 
+const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 , "10px 'Press Start 2P", "white");
+const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 30, "10px 'Press Start 2P", "white");
+const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 60, "10px 'Press Start 2P", "white");
+const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 90, "10px 'Press Start 2P", "white");
+const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 120, "10px 'Press Start 2P", "white");
+const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 150, "10px 'Press Start 2P", "white"); 
 
 function drawStats(){
+    ctx.font = "10px 'Press Start 2P'";
     statsCtx.clearRect(0,0, statsCanvasWidth, statsCanvasHeight);
     killCount.draw(statsCtx, `Kill Count: ${game.player.killCount}`);
     let totalSeconds = Math.floor(totalElapsedTime/1000);

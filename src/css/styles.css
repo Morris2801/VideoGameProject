@@ -372,7 +372,7 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets//mapElements/mainBackground.jpeg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url("../assets//mapElements/mainBackground.jpeg");
   background-size: cover;
   background-blend-mode: darken;
   background-repeat: no-repeat;
@@ -457,6 +457,12 @@ footer {
   gap: 20px;
   padding: 20px;
   margin-top: 30px;
+}
+
+#loginForm,  #loginForm input{
+  width: 75%;
+  margin: 8px 0px;
+  padding: 5px;
 }
 
 #grid-item-G-3 {
