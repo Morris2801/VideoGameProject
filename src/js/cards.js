@@ -146,11 +146,11 @@ class DiabloCard extends BaseCard {
     constructor(color, width, height, x, y, type) {
         super(color, width, height, x, y, type);
         this.cardId = 5; // Unique card ID
-        this.damageBuff = 3;
-        this.duration = 10;
-        this.healthRegenBuff = 6;
+        this.damageBuff = 30;
+        this.duration = 3;
+        this.healthBuff = 10;
         this.maxUses = 1;
-        this.cardType = "transformationCard";
+        this.cardType = "powerCard";
     }
 }
 

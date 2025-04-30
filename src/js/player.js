@@ -271,9 +271,10 @@ class BasePlayer extends BaseCharacter {
     this.baseDamage = 3;
 
     // Variables de estado de ataque
+    this.attackKeyReleased = true; // Para evitar ataques continuos
     this.attacking = false;
     this.attackTimer = 0;
-    this.attackCooldown = 100;
+    this.attackCooldown = 1000;
     this.attackDuration = 0;
     this.attackMaxDuration = 700; // 700ms para completar el ataque
     this.lastDirection = "right"; //  por defecto
@@ -292,14 +293,14 @@ class BasePlayer extends BaseCharacter {
       right: {
         xOffset: this.size.x * (2 / 3),
         yOffset: this.size.y * (1 / 7),
-        width: PLAYER_SCALE * 0.5,
-        height: PLAYER_SCALE * 0.7,
+        width: PLAYER_SCALE * 0.4,
+        height: PLAYER_SCALE * 0.5,
       },
       left: {
         xOffset: -this.size.x * (1 / 5), // Mirror the xOffset of right
         yOffset: this.size.y * (1 / 7),
-        width: PLAYER_SCALE * 0.5,
-        height: PLAYER_SCALE * 0.7,
+        width: PLAYER_SCALE * 0.4,
+        height: PLAYER_SCALE * 0.5,
       },
       up: {
         xOffset: this.size.x * (1 / 7),
@@ -310,8 +311,8 @@ class BasePlayer extends BaseCharacter {
       down: {
         xOffset: this.size.x * (1 / 7),
         yOffset: this.size.y * (2 / 3),
-        width: PLAYER_SCALE * 0.7,
-        height: PLAYER_SCALE * 0.5,
+        width: PLAYER_SCALE * 0.5,
+        height: PLAYER_SCALE * 0.3,
       },
     };
 
@@ -664,13 +665,14 @@ class BasePlayer extends BaseCharacter {
   }
 
   startAttack() {
-    if (this.attackCooldown > 0 || this.attacking) return;
+    if (this.attackCooldown > 0 || this.attacking || !this.attackKeyReleased) return;
 
     console.log("Starting attack");
     this.attacking = true;
     this.attackDuration = 0;
-    this.attackCooldown = 300; // 300ms de cooldown
+    this.attackCooldown = 800; // 300ms de cooldown
     this.hasHitEnemy = false;
+    this.attackKeyReleased = false; // Evitar ataques continuos
 
     // guardar el sprite antes de realizar el ataque 
     this.savedNormalSprite = this.spriteImage;
@@ -684,6 +686,13 @@ class BasePlayer extends BaseCharacter {
       
   }
 
+  setAttackKeyReleased() {
+    this.attackKeyReleased = true;
+  }
+  
+    
+  
+  
   draw(ctx, scale) {
     if (this.attacking) {
       this.drawAttackingPlayer(ctx, scale);

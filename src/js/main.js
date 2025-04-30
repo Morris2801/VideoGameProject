@@ -656,6 +656,7 @@ function setEventListeners() {
         }
         if (event.key == "x" || event.key == "X") {
             attack.currentTime = 0;
+            game.player.setAttackKeyReleased()
         }
         if (event.key == " "){
             dash.currentTime = 0;

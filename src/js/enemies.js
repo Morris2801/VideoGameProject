@@ -705,6 +705,33 @@ class Devil extends BaseEnemy {
             down: [0,3] 
         };
     }
+
+    //sobreescribir el metodo takeDamage para el diablo
+    // para que suelte la carta del diablo
+    takeDamage(damage) {
+        this.health -= damage;
+        console.log(this.health);
+        
+        if (this.health <= 0 && !this.hasDroppedCard) {
+            this.hasDroppedCard = true;
+            this.alive = false;
+            game.player.killCount += 1;
+            game.player.score += this.scoreGiven;
+            
+            // 50% probability check
+            if (Math.random() < 0.5) {
+                
+                
+                // Create the Devil card at the position where Devil was defeated
+                const card = new DiabloCard("#800000", 32, 32, this.position.x, this.position.y, "card");
+                const spritePath = "../assets/cards/cardDiablo.png";
+                card.setSprite(spritePath, new Rect(0, 0, 80, 150));
+                
+                // Add the card to the game
+                game.actors.push(card);
+            }
+        }
+    }
 }
 
 // Bosses
@@ -794,16 +821,21 @@ class AhPuch extends BaseEnemy{
         this.fireBallSpeed = 0.002;
         this.fireBalls = [];
 
-        this.frameWidth = 64;
-        this.frameHeight = 112;
-        this.sheetCols = 8; 
-        this.attackSpriteWidth = 64;
-        this.attackSpriteHeight = 112;
-        this.attackSheetWidth = 256;
-        this.attackSheetHeight = 177;
-        this.attackSheetCols = 8;  
+        this.frameWidth = 317.5;
+        this.frameHeight = 317.5;
+        this.sheetCols = 2; 
+        this.attackSpriteWidth = 216;
+        this.attackSpriteHeight = 365;
+        this.attackSheetWidth = 1083;
+        this.attackSheetHeight = 676;
+        this.attackSheetCols = 5;  
         this.usesAttackSprite = true;
         this.type = "boss";
+
+        this.setMovementFrames('right', [0,1], [0, 4]);
+        this.setMovementFrames('left', [0, 1],[0,0]);
+        this.setMovementFrames('up',[0,1], [1,1]);
+        this.setMovementFrames('down', [0,1], [0,0]);
 
         
         // Custom sprite dimensions
@@ -813,12 +845,12 @@ class AhPuch extends BaseEnemy{
         
         this.attackFrames = {
             right: [0,7], 
-            left: [15,8], 
+            left: [0,7], 
             up: [0,7], 
-            down: [15,8] 
+            down: [0,7] 
         };
         
-        this.initAttackSpriteSheet("../assets/charSpritesheets/AttackBossAhPunch.png");
+        this.initAttackSpriteSheet("../assets/charSpritesheets/AhPuchNewFigth.png");
     
         this.enemyID = 6;
         this.scoreGiven = 800;
