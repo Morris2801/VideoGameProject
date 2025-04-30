@@ -41,8 +41,8 @@ let time;
 let lastCardPickedUpGlobal = null;
 
 // Level Gens
-const numRoomsLvl1 = 5; // <- modify
-const numRoomsLvl2 = 7; // <- modify
+const numRoomsLvl1 = 7; // <- modify
+const numRoomsLvl2 = 9; // <- modify
 let treeLevel1 = new Tree(1,numRoomsLvl1);
 treeLevel1.treeGen();
 let treeLevel2 = new Tree(2,numRoomsLvl2);

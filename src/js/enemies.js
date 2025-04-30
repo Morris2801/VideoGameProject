@@ -557,7 +557,7 @@ class BaseEnemy extends BaseCharacter {
         if (this.health <= 0) {
             this.alive = false;
             game.player.killCount += 1;
-            if(soundEffectEnabled){
+            if(soundEffectsEnabled){
                 enemyDeath.play();
             }
             game.player.score += this.scoreGiven;
@@ -760,6 +760,12 @@ class Quetzalcoatl extends BaseEnemy {
         this.frameHeight = 64;
         this.sheetCols = 3;
 
+        //rate de ataque modificado
+        this.attackCooldown = 1000; // Reduced from 5000 to 2000ms
+        this.minAttackInterval = 2000; // Reduced from 8000 to 3000ms
+        this.recoveryTime = 1200; // Reduced from 3000 to 1200ms
+
+
         //drop card flag
         this.hasDroppedCard = false;
         
@@ -839,6 +845,11 @@ class AhPuch extends BaseEnemy{
         this.attackSheetCols = 5;  
         this.usesAttackSprite = true;
         this.type = "boss";
+
+        //rate de ataque modificado
+        this.attackCooldown = 1000; // Reduced from 5000 to 2000ms
+        this.minAttackInterval = 2000; // Reduced from 8000 to 3000ms
+        this.recoveryTime = 1200; // Reduced from 3000 to 1200ms
 
         this.setMovementFrames('right', [0,1], [0, 4]);
         this.setMovementFrames('left', [0, 1],[0,0]);
