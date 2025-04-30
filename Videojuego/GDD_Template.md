@@ -64,14 +64,14 @@ Embark on a thrilling journey through a mystical pyramid steeped in Aztec and Ma
 
 
 ### **Gameplay**
-The player's character exists in a 2D pixel world, contextualized in an ancient underground pyramid, with 2 distinct levels that seek to make two runs as different as possible. Each level will consist of randomly generated room layouts with enemies and reward vases, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the allowed time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards (1 permanent and 5 consumables), which will provide temporary but varied boosts in stats for combat or in weaponry. 
+The player's character exists in a 2D pixel world, contextualized in an ancient aztec/mayan underground pyramid, with 2 distinct levels that seek to make two runs as different as possible. Each level will consist of randomly generated room layouts with enemies and vases that might drop some rewards, as well as a corresponding boss. To progress, the player must explore areas filled with a mix of challenging enemies, and collect cards that aid in their advancement before the allowed time per level runs out. In order to survive, the player will possess an "inventory" of 6 cards, which will provide temporary but varied boosts in stats for combat or weaponry. 
 
 #### Game Objective
 _Background_
 Legend speaks of a time where gods were not as pleased with prehispanic civilizations as history has led us to believe. The gods had gifted them with their knowledge, abundance, and power, but began to feel disrespected. They watched as mortals grew complacent, failing to honor the sacred balance between humanity, nature, and the divine. Temples were left unmaintained, rituals dwindled, and acts of greed marred the harmony the gods once sought to protect. Together, the civilizations turned to a sacred prophecy that spoke of a chosen warrior, one who would represent the best of whatever good was left in them. Together, they tasked that warrior to venture into the Lost Pyramid, the original point of contact with the gods, in hopes of making them change their mind before the world as they know it collapses. 
 That warrior, is you. What everyone did not know, is that once you enter the Pyramid, the only outcomes are your eternal deaths or emerging victorious.
 
-The objective of the game is to gradually defeat the ancient gods  in order to escape the infinite cycle of death and resurrection they've thrust yourself upon, and proving yourself as the chosen warrior, saving all of the groups. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
+The objective of the game is to gradually defeat the ancient gods in order to escape the infinite cycle of death and resurrection they've thrust yourself upon, and proving yourself as the chosen warrior, saving all of the groups. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
 
 #### Obstacles and Challenges
 In order to finish the game, a player would have to beat all the levels in a single, continuous attempt. The player must fight with enemies spawning randomly in randomly generated room layouts, as well as manage inventory consumables adequately and strategically. Enemies will try to attack the player, either with melee hits or in the boss's cases, with ranged attacks. All cards act as consumables, some with more, some with less. Once a card's allowed uses are spent, the player must search for more (either through combat, since defeated enemies have a chance to drop a card, or  through exploring) to refill their acting inventory. Upon taking significant damage and depleting all of the player's Health Points, the current "game run" will be over, and most of the player's progress will be lost, and they will have to traverse the levels from the beginning. They will only be able to start over with the last card they added to their inventory from their previous life, along with a basic default card, forcing the player to repeatedly attempt to complete the game from scratch. Also, the gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore the level, prepare their inventory with what they'd like to use for boss fights and choose which challenges to face. The greater the adventure, the better the reward.
@@ -82,20 +82,20 @@ The player will face 4 types of base-enemies in close-range combat, as well as 2
 ##### Overview
 In **MayAztec**, the player must balance **close-range-combat**, **inventory management**, and **strategic use of Lotería cards**. With four types of base enemies and two major boss fights, every encounter demands a measured approach:
 
-- **Short-range battles**: The player wields a base weapon (e.g., a macuahuitl) and can enhance or replace it with cards.
+- **Short-range battles**: The player wields a base weapon and can enhance or replace it with specific cards.
 - **Exploration & Preparation**: Delving into each level, the player must decide when to keep exploring for better cards vs. when to confront the boss.
 - **Risk vs. Reward**: Entering fights unprepared could result in heavy damage or death, while thorough exploration may grant powerful temporary or permanent card effects.
 
 ##### Base Enemies Tactics
 1. **Medium Enemies (Type I)**  
    - Moderate HP, balanced offense.  
-   - Recommended Tactic: Time your attacks between their combos, use dash to evade.  
+   - Recommended Tactic: Time your attacks between their combos, use dash to evade or wait for their cooldown for some quick damage.  
    - Card Synergy: Damage-boosting or healing cards to withstand longer fights.
 
 2. **Heavy Enemies (Type II)**  
    - High HP, slower but with powerful hits.  
    - Recommended Tactic: Maintain distance, wait for their slow wind-up, then strike.  
-   - Card Synergy: Card healing  effects help chip away at their large health pool.
+   - Card Synergy: Card healing effects help chip away at their large health pool.
 
 ##### 1.3 Boss Fights Tactics
 - **Boss Phase Recognition**: Watch for animation or HP threshold cues that signal a shift in behavior.
@@ -103,12 +103,12 @@ In **MayAztec**, the player must balance **close-range-combat**, **inventory man
 - **Card Management**: Ensure at least one slot is free to pick up an on-the-fly power-up if you find a vase in the boss arena.
 
 ##### 1.4 Inventory & Time Management
-- **Card Slots**: You have up to 5 Lotería card slots. Decide which effects to keep and which to discard.
+- **Card Slots**: You have up to 6 Lotería card slots. Decide which effects to keep and which to discard.
 - **Resource Conservation**: Overusing your best cards early may leave you underpowered for the boss.
 - **Retreating**: If a fight seems too risky, backtrack to search for better cards or healing items.
 
 ### **Mindset**
-The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with just a base weapon but seeking to improve in a tense and challenging environment. The player must feel the curiosity to explore rooms and gain rewards along the way, but exercise caution due to the threat of going all-in with each enemy the player encounters. They must manage their inventory conservatively, sometimes with a bit of improvisation but always rushing to face the level's boss.
+The game is designed to be played with an adventure-oriented and reward-facing mindset toward the unknown, starting with just a base weapon but seeking to improve in a tense and challenging environment. The player must feel the curiosity to explore rooms and gain rewards along the way, but exercise caution due to the threat of going all-in with each enemy the player encounters. They must manage their inventory conservatively, sometimes with a bit of improvisation but always rushing to face the level's boss or else the time may run out.
 
 ---
 
@@ -133,12 +133,14 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Title Screen**          | Displays game logo, “Start,” “Options,” “Exit.”                                                                               |
 | **Options**               | Consult statistics                                                                                                            |
 | **Game (Main Gameplay)**  | Core level exploration and combat take place here.                                                                            |
-| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–5), base weapon icon, boss HP (when engaged), Timer Bar.                 |
+| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–6), Enemies HP, Timer.                 |
 | **Pause Menu**            | [ESC] key triggers. Options to resume, adjust settings, or quit to Title.                                                    |
 | **In-Game Options**       | Accessible from Pause. Quit to main screen.                                                                                   |
-| **Transition Screen**     | Brief fade-in/out or summary after clearing a level.                                                                          |
+| **Transition Screen**     | Brief summary of why you are there and the end goal.                                                                          |
 | **Death Screen (Game Over)** | Shows final stats (time played, enemies killed, cards used). Option to restart or quit.                                      |
 | **Victory Screen**        | After defeating the final boss. Displays completion time and final card usage.                                                |
+| **Tutorial Screen**        | Gives the player a simple rundown on how to play, its controls, enemies, and the cards they will encounter with a breif description.                                                |
+| **Credits Screen**        | Refrences on tools, Music/SFX, and other stuff that was used, inspired, or borrowed from with its authors for their recognition.                                                |
 
 
 ### **Controls**
@@ -149,10 +151,10 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 | **Move Left**              | A / Left Arrow                   | Moves player character west.                                                             |
 | **Move Down**              | S / Down Arrow                   | Moves player character south.                                                            |
 | **Move Right**             | D / Right Arrow                  | Moves player character east.                                                             |
-| **Attack (BaseCard)**      | X                         | Performs a melee attack with the base weapon/card.                                       |
-| **Interact (vase)**       | F                                | Opens vases, picks up items if available.                                               |
-| **Use Card 1–5**           | Number Keys 1–5                  | Activates the assigned Lotería card.                                                     |
-| **Dash**                   | Shift                            | Brief invulnerability and burst movement. Consumes stamina.                              |
+| **Attack (BaseCard)**      | X                         | Performs a melee attack with the base weapon in hand.                                       |
+| **Interact (vase)**       | F                                | Opens vases, picks up items if dropped.                                               |
+| **Use Card 1–6**           | Number Keys 1–6                  | Activates the assigned Lotería card if available.                                                     |
+| **Dash**                   | Shift                            | Brief invulnerability and burst movement. Consumes 1 stamina per.                              |
 | **Pause Menu**             | ESC                              | Opens pause menu with in-game options.                                                   |
 | **Menu Navigation**        | Arrow Mouse + Enter  | Navigate in menus, confirm selections.                                                   |
 
@@ -160,35 +162,35 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 ### **Mechanics**
 
 1. **Lotería Card System (Dynamic Power-Ups)**  
-   - **Inventory Array**: Cards collected go into slots [1–5].  
+   - **Inventory Array**: Cards collected go into slots [1–6].  
    - **Usage**: Press the corresponding number key to activate.  
    - **Effects**: May increase speed, attack, or transform the player for a limited time.  
-   - **Balance**: Probability weight tables ensure varied card drops.
+   - **Balance**: Probability weight tables ensures varied card drops.
 
 2. **Boss Fights (Soulslike & Zelda-Inspired)**  
-   - Multi-phase attacks.  
+   - Different attack patterns.  
    - **HP Thresholds**: e.g., 50% HP triggers new pattern or bullet-hell.  
-   - **Reward**: Defeating a boss can grant permanent buffs or advanced cards.
+   - **Reward**: Defeating a boss grants permanent buffs/blessings.
 
 3. **Time & Inventory Management**
-   - Limited time to finish each run.
-   - The deeper the level, the tougher the enemies, but the more potent the cards.  
+   - Limited time to finish each level.
+   - The deeper the level, the tougher the enemies, but the more potent the cards that are found.  
    - Inventory capacity is limited to **6** active card slots (1 Base card + 5 empty slots).
 
 5. **Procedural/Randomized Elements**  
    - **Enemy spawn points**: Weighted random within each room.  
-   - **Card/Item drops**: Probability-based, scaling with each new level.
+   - **Card/Item drops**: Probability-based, scaling with different levels and the mob that was killed.
 
 ### Considerations
 
 #### Mindset & Player Experience
 - **Adventure-Oriented**: Encourage players to explore each room, face unknown threats, and chase potential rewards.
 - **Reward-Facing**: The tension between pressing forward or backtracking for more cards fosters strategic planning.
-- **Caution**: Overconfidence can lead to a quick defeat; careful resource usage is key.
+- **Caution**: Overconfidence can lead to a quick defeat; careful, resource usage is key.
 
 #### Difficulty & Progression
-- **Incremental Complexity**: Each level introduces new card possibilities and tougher enemies.  
-- **Boss Difficulty Spike**: Encourages the player to use the best synergy of cards and sharpen their reflexes.
+- **Incremental Complexity**: Each level introduces new card possibilities and tougher enemies spawn.  
+- **Boss Difficulty Spike**: Encourages the player to use the best synergy/combo of cards and sharpen their reflexes.
 
 #### Lotería Cards
 
@@ -198,26 +200,26 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 | **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
 |:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
-|    0    | Macuahuitl      | Weapon   | 5 pts         | 10 hits           | Aztec obsidian weapon. Replaces base weapon.                                                                    |
-| 1       | Cuchillo de Obsidiana  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos.                                                                                     |
-| 2       | Machete         | Weapon   | 6 pts | 5 hits           | Ideal vs. enemies with high HP (Heavy).                                                               |
+|    0    | Macuahuitl      | Weapon   | 5 pts         | 10 hits           | Classic aztec obsidian weapon. Increases damage dealt to +5.                                                                   |
+| 1       | Cuchillo de Obsidiana  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos with an damage increase of +4.                                                                                     |
+| 2       | Machete         | Weapon   | 6 pts | 5 hits           | Ideal vs. enemies with high HP (Heavy) with its +6 damage.                                                               |
 
 ##### Transformation Cards
 
 | **Card ID** | **Name**         | **Type**         | **Damage** | **Duration** | **Effect / Description**                                                                                                                      |
 |:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
-| 3       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +3 temporary health bars; weapon turns into a guitar with 4 damage points per hit. 
-| 4       | Diablo           | Transformation   | 3 pts (trident) | 10s       | Automatic regeneration up until 6 health points, with a trident with 3 damage pts per hit.  |
-| 5       | Guerrero Maya    | Transformation   | +2 actual weapon | 10s     | +2 stamina bars, stamina bar regenerates +1 second faster                                          |
+| 3       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +15 temporary health bars; weapon turns into a guitar with 5 damage points per hit. 
+| 4       | Diablo           | Transformation   | 3 pts (spear) | 10s       | Transform into a devil with a trident, increasing your damage by 3 pts per hit.  |
+| 5       | Guerrero Maya    | Transformation   | +2 actual weapon | 10s     | Turn into a fierce mayan warrior which gives you +2 stamina bars.                                         |
 
 ##### Cartas de Buff
 
 | **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
 |:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 6       | Corazon      | Buff      | –         | Instant     | Replenishes HP to the fullest, and adds 1 extra health slot. If said extra slot is lost, it won't be recovered unless another "Corazón" card is used.                              |
-| 7       | El Valiente  | Buff      | –         | 10s         | Grants **immunity** to damage for 10s, but **1 health bar is lost** when activating it.                                                             |
-| 8       | El Taco      | Buff      | –         | 10s         | Stamina remains unchanged for 10s, allowing unlimited dashes or combos in said lapse.                                                       |
-| 9       | La Calavera  | Buff      | –         | 10s         | Eliminates base enemies in a single hit; against bosses, adds +10 damage points to the selected weapon for 10s. Rarely dropped in-game.     |
+| 6       | Corazon      | Buff      | –         | Instant     | Gain 10 permament hitpoints, great when coming out of a battle or going into a boss fight.                              |
+| 7       | El Valiente  | Buff      | –         | 10s         | Transforms into the "Valiente" giving you 10 temporary hitpoints, great to get out of a pickle.                                                             |
+| 8       | El Taco      | Buff      | –         | 10s         | Gain 10 termporary hitpoints, an alternate, yet reliable option to the "Corazon card".                                                       |
+| 9       | La Calavera  | Buff      | –         | 10s         | Temporary increase the damage dealt to 10, great for dealing with tougher enemies or bosses.     |
 
 **Drop Probability (General Guidelines)**:
 - **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons or buff cards.  
@@ -237,7 +239,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 | **El Músico / Mariachi** (Light) | 10       | 1      | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier or minor buffs.                  |
 | **Tlaxcaltecas** (Light)         | 15       | 2       | Appear in small groups with basic melee.                                                    | ~15% chance for Type Two or a buff card.                                            |
 | **Guerrero Maya** (Medium)       | 20       | 3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons  or transformation.                        |
-| **El Diablo (Replica)** (Heavy)  | 35       | 4       | Teleports near the player, attacking with a trident. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear  or powerful buffs.            |
+| **El Diablo (Replica)** (Heavy)  | 35       | 4       | Attacking with a heavy trident, dealing huge damage. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear  or powerful buffs.            |
   
 
 #### Bosses
@@ -248,7 +250,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
    - **Behavior**: Floats in serpent form, spitting acid or energy orbs.  
    - **Phase 1**: Sweeping tail attacks, occasional projectile.  
    - **Phase 2** (HP < 50%): Gains bullet-hell pattern (multiple orbs, swirling movement).  
-   - **Drop**: 5–10% chance for Mariachi or Diablo, plus guaranteed healing/resources, and the blessing of God you get a greater resistance.
+   - **Drop**: 5–10% chance for Mariachi or Diablo, plus guaranteed healing/resources, and the blessing of God you will get permament max health.
 
 2. **Ah Puch (God of Death)**  
    - **HP**: ~110  
@@ -256,7 +258,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
    - **Behavior**: Humanoid form, performs heavy physical strikes and launches fire zones.  
    - **Phase 1**: Straightforward melee combos + fire projectiles.  
    - **Phase 2** (HP < 50%): Expands fire zones, summons undead minions or orbs.  
-   - **Drop**: 5–10% chance for Diablo or Mayan Warrior, plus a permanent unlock if design allows, and two bars of life.
+   - **Drop**: No drop as this is the final boss, if defeated you win the game.
 
 **Level difficulties**
 
@@ -314,8 +316,8 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 | **Tlaxcaltecas** (Type1)  | ~40% of appearances         | ~20% of appearances         |
 | **Guerrero Maya** (Type2) | ~15% of appearances         | ~40% of appearances         |
 | **Diablo (Replica)** (Type2) | ~5% of appearances      | ~20% of appearances         |
-| **Boss Quetzalcoatl**     | Only in the final boss room (100% chance if it's the last room in Level 1) | 0% in normal rooms |
-| **Boss Ah Puch**          | 0% in normal rooms         | Only in the final boss room (100% chance if it's the last room in Level 2) |
+| **Boss Quetzalcoatl**     | Only in the final boss room (100% chance if it's the boss room in Level 1) | 0% in normal rooms |
+| **Boss Ah Puch**          | 0% in normal rooms         | Only in the final boss room (100% chance if it's the boss room in Level 2) |
 
 
 ### Vase 
@@ -328,7 +330,7 @@ You have a secured card:
 
 ### Score 
 **Value Assigned per Event/Element**
-Each action gets rewarded in-game, counting towards the total score per run. 
+Each action gets rewarded in-game, counting towards the total score for the run. 
 
 | **Event**   | **Points Awarded**                  |
 |---------------------------|------------------------------|
@@ -370,7 +372,7 @@ Basic Room Mockup:
             4. Stone tile variants
             5. Pyramid wall tiles
         2. _Interactive_
-            1. vases
+            1. Vases
             2. Cards
             3. Mayan Warrior
             4. Mariachis
@@ -384,14 +386,16 @@ Basic Room Mockup:
             2. Columns
             3. Runes
             4. Torches
-            5. Stone tile variants
-            6. Underground wall tiles
+            5. Darker s
+            6. tone tile variants
+            7. Underground wall tiles
         2. _Interactive_
-            1. vases
+            1. Vases
             2. Cards
-            3. Tlaxcaltecas
-            4. Demons
-            5. Ah Puch, Mayan God of Death
+            3. Mariachis
+            4. Tlaxcaltecas
+            5. Demons
+            6. Ah Puch, Mayan God of Death
 
 
 ### ****
@@ -474,18 +478,18 @@ The color palette to be followed revolves around Earthly, Warm and Ancient tones
 
 The game is pictured as a pixel-art concept, with general cubic shapes governing the general ambiance except for noteworthy aspects of what is being shown, such as the character, enemies, objects, etc. to make them stand out at a glance. Therefore, these will be the ones without sharp angles, aiming for a more detailed shape. Solid edges will be used as well for important elements, but non-black outlines with tints and hue variants will also be relied upon in order to avoid having a monotonous, flat appearance in the object characterization. Weathered objects in the background and context will be interpreted by using color ramps to enhance textures, giving objects a more natural, weathered look.
 
-Well-designed feedback, both good (e.g. leveling up) and bad (e.g. being hit), are great for teaching the player how to play through trial and error, instead of scripting a lengthy tutorial.
+Well-designed feedback, both good (e.g. leveling up, beating a boss) and bad (e.g. being hit, dying and restarting), are great for teaching the player how to play through trial and error, instead of scripting a lengthy tutorial.
 
 For interactive elements, visual feedback should feel intuitive and fit naturally within the pixel-art style and color philosophy:
 - Subtle Motion and Animation: Gentle bobbing for collectibles (cards) will be incorporated.
 - Color and Lighting Variations: Slight hue shifts to distinguish interactable objects, soft lighting pulses or glows, as will be the case for vases
 
 ### User Interface
-The idea is to have in the center of the canvas, the actual game window, with each room taking the entirety of the allotted screen with the characters inside. Outside of said room, the player will be able to see their cards, their health, stamina, timer and buffs as the following image suggests: 
+The way the UI was done is through a seperate section of the screen, with its card slots visible through a black rectangle where they appear when you grab one from the ground, as the cards get used, they move to the left and open the spots to the right. 
 
 ![GUI Mockup](/Videojuego/GDDImages/GUIImages.jpg)
 
-The idea is for the interface to be as simple as possible, also in a pixel-like style and with everything neatly tagged.
+The idea is for the interface to be as simple as possible, but still incorporating the color pallet of the game, also in a pixel-like style and with everything neatly tagged.
 
 ### **Graphics Needed**
 
@@ -542,9 +546,9 @@ The idea is for the interface to be as simple as possible, also in a pixel-like 
 
 
 4. Other
-    1. vase
+    1. Vase
     2. Door (matching Wall block and Underground Wall block)
-    3. Card (10 miniatures for map appearance, 10 detailed screenings for player UI)
+    3. Card (10 mini versions for map appearance, 10 more detailed screenings for player UI)
     4. Base weapon
 
         ![Macahuitl card mockup](/Videojuego/GDDImages/baseweaponCard.jpeg)
@@ -567,7 +571,7 @@ The music will be structured to loop per level, maintaining an immersive experie
 
 1. Effects
     1. Sharp Footsteps (stone floor) [Source](https://opengameart.org/content/step-sound-walking)
-    2. vase Opening [Source]()
+    2. Vase Opening/breaking [Source]()
     3. Card picked up [Source]()
     4. Card used [Source]()
 2. Feedback
@@ -662,6 +666,7 @@ The music will be structured to loop per level, maintaining an immersive experie
 3. Work on front-end, screens and bringing everything together
 
 ### Sprint 6: 
-1. Add sound effects 
+1. Add sound effects of dashing, vase breaking, attack, attacking and recieving and dealing damage
 2. Make adjustments in gameplay based on testing
 3. Correct bugs
+4. Update GDD
