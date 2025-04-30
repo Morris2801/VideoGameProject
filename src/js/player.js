@@ -62,6 +62,7 @@ class Inventory {
     const card = this.items[cardIndex];
     if (!card) return false;
     console.log(`Activating card: ${card.cardType || card.type}, weapon type: ${card.weaponType}, transformation type: ${card.transformationType}`);
+    
     if (this.player) {
       this.player.trackCardUse(card);
     }
@@ -92,6 +93,7 @@ class Inventory {
       this.activeBuff = this.activeBuff || [];
       this.activeBuff.push(card);
       //effecto de buff
+      
       if (this.player) {
         this.applyBuffEffects(card);
       }
@@ -405,22 +407,24 @@ class BasePlayer extends BaseCharacter {
       // Intentar activar la carta
       const activated = this.inventory.activateCard(index);
       if (activated) {
-        console.log("Carta activada exitosamente");      
-      if(card.cardType == "weaponCard"){
+        console.log("Carta activada exitosamente");
+        if(soundEffectsEnabled){
+          powerup.play();
+        }
+        if (card.cardType == "weaponCard") {
           applyScreenFlash("rgba(251, 223, 139,0.8)", 0.75, 0.2);
           console.log("color yellow flash");
-      }
-      else if(card.cardType== "transformationCard"){
+        }
+        else if (card.cardType == "transformationCard") {
           applyScreenFlash("rgba(107, 204, 226,0.8)", 0.75, 0.2);
           console.log("color bluee flash");
-      }
-      else if(card.cardType== "powerCard"){
+        }
+        else if (card.cardType == "powerCard") {
           applyScreenFlash("rgba(115, 189, 65, 0.8)", 0.75, 0.2);
           console.log("color green flash");
-      }
+        }
         this.score += 50;
         if (card.maxUses > 0) {
-          // Update counter tracker
           card.maxUses--;
           console.log(`Card ${card.cardType} uses left: ${card.maxUses}`);
           if (card.maxUses === 0) {
@@ -477,13 +481,11 @@ class BasePlayer extends BaseCharacter {
       return;
     }
 
-    // Actualizar direccion segun la velocidad
     if (this.velocity.x > 0) this.lastDirection = "right";
     else if (this.velocity.x < 0) this.lastDirection = "left";
     else if (this.velocity.y < 0) this.lastDirection = "up";
     else if (this.velocity.y > 0) this.lastDirection = "down";
 
-    // cooldown de ataque
     if (this.attackCooldown > 0) {
       this.attackCooldown -= deltaTime;
       if (this.attackCooldown < 0) this.attackCooldown = 0;
@@ -491,9 +493,6 @@ class BasePlayer extends BaseCharacter {
 
     if (this.attacking) {
       this.attackDuration += deltaTime;
-
-
-      // Comprobar colisiones con enemigos usando la hitbox de ataque
       if (game && game.actors && !this.hasHitEnemy) {
         const attackBox = {
           position: {
@@ -608,7 +607,6 @@ class BasePlayer extends BaseCharacter {
       if (transformSprites) {
         this.currentSprite = new Image();
         this.currentSprite.src = transformSprites.main;
-        //update el sprite que debe ser dibujado
         this.spriteImage = this.currentSprite;
 
         this.currentAttackingSprite = new Image();
@@ -696,38 +694,29 @@ class BasePlayer extends BaseCharacter {
   
   
   draw(ctx, scale) {
-    // Dibujado normal
     if (this.attacking) {
       this.drawAttackingPlayer(ctx, scale);
       this.drawWeapon(ctx, scale);
       this.drawAttackHitbox(ctx, scale); //Dibujar hitbox 
-    } else {
-      // Dibujar jugador normal
+    } 
+    else {
       super.draw(ctx, scale);
     }
-
-
     if (this.currentVisualEffect) {
       ctx.restore();
     }
   }
-
   drawAttackingPlayer(ctx, scale) {
     const direction = this.lastDirection;
-
-    // Calcular frame de ataque basado en progreso
     const attackProgress = this.attackDuration / this.attackMaxDuration;
     const attackFrameCount = this.attackFrames[direction][1] - this.attackFrames[direction][0] + 1;
-    const attackFrame = Math.min(Math.floor(attackProgress * attackFrameCount),
-      attackFrameCount - 1);
+    const attackFrame = Math.min(Math.floor(attackProgress * attackFrameCount), attackFrameCount - 1);
 
-    // Aplicar escala del jugador - quitando el multiplicador 1.8 para mantener escala normal
     const scaledX = this.position.x * scale;
     const scaledY = this.position.y * scale;
     const scaledWidth = this.size.x * scale * 1.4;
     const scaledHeight = this.size.y * scale * 1;
 
-    // Configurar transformacion para direccion
     ctx.save();
     if (direction === 'left') {
       ctx.translate(scaledX + scaledWidth, scaledY);

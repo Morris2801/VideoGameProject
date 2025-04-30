@@ -120,12 +120,10 @@ function levGen(width, height, levelNum, isBossRoom = false){
         //array mod in said position to be the desired char
         level[pos[0] + pos[1] *width] = thing;
     }
-    // Special case of placing @ inside a smaller area within room rect and checking for things to not be on top of each other 
     function placePlayer(cosa){
         let pos, cellIndex;
         do {
             pos = [
-                //Smaller area with -4 and 3
                 Math.floor(Math.random() * (width - 4) + 3), 
                 Math.floor(Math.random() * (height - 4) + 3) 
             ];
@@ -177,7 +175,7 @@ function levGen(width, height, levelNum, isBossRoom = false){
     }
     else if (levelNum == 2){
         //console.log("NumEnemiesLvl2: " + numEnemiesLvl2);
-        //Choose random enemy with function above
+        //Choose random enemy with functio
         for(let i = 0; i < numEnemiesLvl2; i++){
             let enemy = getRandEnemy(enemyProbabilitiesLvl2);
             //console.log(enemy);

@@ -5,32 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/styles.css">
-    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js" integrity="sha512-vCUbejtS+HcWYtDHRF2T5B0BKwVG/CLeuew5uT2AiX4SJ2Wff52+kfgONvtdATqkqQMC9Ye5K+Td0OTaz+P7cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js"
+        integrity="sha512-vCUbejtS+HcWYtDHRF2T5B0BKwVG/CLeuew5uT2AiX4SJ2Wff52+kfgONvtdATqkqQMC9Ye5K+Td0OTaz+P7cw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" defer src="../js/api_script.js"></script>
 
-    <!-- enlaces a Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-    
+
     <title>MayAztec: Leaderboard</title>
 </head>
-<body id = "leaderboardBody">
+
+<body id="leaderboardBody">
     <div class="leaderboardContainer">
         <header id="grid-item-L-1">
             <h1 class="game-title">MAYAZTEC</h1>
             <h2 class="game-subtitle">LEADERBOARD</h2>
         </header>
         <nav id="grid-item-L-2">
-            <div class="linkContainer">
-                <a href="../html/home.html">Home</a>
-            </div>
-            <div class="linkContainer">
-                <a href="../html/credits.html">Credits</a>
-            </div>
-            <div class="linkContainer">
-                <a href="../html/tutorial.html">Tutorial</a>
-            </div>
+            <div class="linkContainer"><a href="../html/home.html">Home</a></div>
+            <div class="linkContainer"><a href="../html/game.html">Play</a></div>
+            <div class="linkContainer"><a href="../html/tutorial.html">Tutorial</a></div>
+            <div class="linkContainer"><a href="../html/credits.html">Credits</a></div>
         </nav>
         <div id="grid-item-L">
             <div class="toggle-buttons">
@@ -42,88 +39,79 @@
             </div>
             <div class="leaderboard-sections">
                 <div id="playersSection" class="leaderboard-section">
-                    <div class="leaderboard-content">
-                        <div class="formInput">
-                            <h1>Players by Score and Timer</h1>
+                    <div class="grid-container">
+                        <h1 class="section-title">Players by Score and Timer</h1>
+                        <div class="flex-container">
                             <form id="formSelectUser">
                                 <input type="text" name="player_id" placeholder="Type your player username, or nothing to show top 10 players">
                                 <input type="submit" value="Show Player Info">
                             </form>
+                            <div class="resultDisplay">
+                                <div id="getResultsID"></div>
+                            </div>
                         </div>
-                        <div class="resultDisplay">
-                            <h1>Result</h1>
-                             
-                            <div id="getResultsID"></div>
-                        </div>
+                        <canvas id="playersCanvas" class="leaderboard-canvas"></canvas>
                     </div>
-                    <canvas id="playersCanvas" class="leaderboard-canvas"></canvas>
                 </div>
-                <div id="runsSection" class="leaderboard-section">
-                    <div class="leaderboard-content">
-                        <div class="formInput">
-                            <h1>Top 10 Most Runs & Wins</h1>
+               <div id="runsSection" class="leaderboard-section">
+                    <div class="grid-container">
+                        <h1 class="section-title">Top 10 Most Runs & Wins</h1>
+                        <div class="flex-container">
                             <form id="formSelectRunStats">
                                 <input type="text" name="run_id" placeholder="Type player username, or nothing to show top 10 players with most runs">
                                 <input type="submit" value="Show Runs">
                             </form>
+                            <div class="resultDisplay">
+                                <div id="getResultsRun"></div>
+                            </div>
                         </div>
-                        <div class="resultDisplay">
-                            <h1>Result</h1>
-                             
-                            <div id="getResultsRun"></div>
-                        </div>
+                        <canvas id="runsCanvas" class="leaderboard-canvas"></canvas>
                     </div>
-                    <canvas id="runsCanvas" class="leaderboard-canvas"></canvas>
                 </div>
-                <div id="favoriteCardSection" class="leaderboard-section">
-                    <div class="leaderboard-content">
-                        <div class="formInput">
-                            <h1>Favorite Card per Player</h1>
+               <div id="favoriteCardSection" class="leaderboard-section">
+                    <div class="grid-container">
+                        <h1 class="section-title">Favorite Card per Player</h1>
+                        <div class="flex-container">
                             <form id="formSelectCard">
                                 <input type="text" name="username" placeholder="Type player username, or nothing to show all">
                                 <input type="submit" value="Show Favorite Cards">
                             </form>
+                            <div class="resultDisplay">
+                                <div id="getResultsFavoriteCard"></div>
+                            </div>
                         </div>
-                        <div class="resultDisplay">
-                            <h1>Result</h1>
-                             
-                            <div id="getResultsFavoriteCard"></div>
-                        </div>
+                        <canvas id="favoriteCardCanvas" class="leaderboard-canvas"></canvas>
                     </div>
-                    <canvas id="favoriteCardCanvas" class="leaderboard-canvas" height: = "320" width = "171" ></canvas>
                 </div>
-                <div id="nemesisSection" class="leaderboard-section">
-                    <div class="leaderboard-content">
-                        <div class="formInput">
-                            <h1>Nemesis</h1>
+               <div id="nemesisSection" class="leaderboard-section">
+                    <div class="grid-container">
+                        <h1 class="section-title">Nemesis</h1>
+                        <div class="flex-container">
                             <form id="formSelectNemesis">
                                 <input type="text" name="username" placeholder="Type player username, or nothing to show all">
                                 <input type="submit" value="Show Nemesis per Player">
                             </form>
+                            <div class="resultDisplay">
+                                <div id="getResultsNemesis"></div>
+                            </div>
                         </div>
-                        <div class="resultDisplay">
-                            <h1>Result</h1>
-                             
-                            <div id="getResultsNemesis"></div>
-                        </div>
+                        <canvas id="nemesisCanvas" class="leaderboard-canvas"></canvas>
                     </div>
-                    <canvas id="nemesisCanvas" class="leaderboard-canvas" height: = "320" width = "320"></canvas>
                 </div>
-                <div id="progressionSection" class="leaderboard-section">
-                    <div class="leaderboard-content">
-                        <div class="formInput">
-                            <h1>Player Progression Over Time</h1>
+               <div id="progressionSection" class="leaderboard-section">
+                    <div class="grid-container">
+                        <h1 class="section-title">Player Progression Over Time</h1>
+                        <div class="flex-container">
                             <form id="formSelectProgression">
                                 <input type="text" name="username" placeholder="Type player username, or leave blank for all">
                                 <input type="submit" value="Show Progression">
                             </form>
+                            <div class="resultDisplay">
+                                <div id="getResultsProgression"></div>
+                            </div>
                         </div>
-                        <div class="resultDisplay">
-                            <h1>Result</h1>
-                            <div id="getResultsProgression"></div>
-                        </div>
+                        <canvas id="progressionCanvas" class="leaderboard-canvas"></canvas>
                     </div>
-                    <canvas id="progressionCanvas" class="leaderboard-canvas"></canvas>
                 </div>
             </div>
         </div>

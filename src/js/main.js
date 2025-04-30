@@ -28,7 +28,10 @@ const uiCanvasWidth = canvasWidth ;
 const uiCanvasHeight = canvasHeight / 3 ;
 let ctx, uiCtx, statsCtx;
 
-let globUsername = '', password, email, player_id;  // para base de datos chavos
+let globUsername = 'Guest', password, email, player_id = 1;  // para base de datos chavos
+let sfxVolume = 1;
+let soundEffectsEnabled = true; 
+let volume = 0.25; 
 
 //Game variables
 let game;
@@ -51,7 +54,7 @@ let initialLevel = new Level(treeLevel1.root.levelStringValue, 0);
 document.addEventListener('DOMContentLoaded', () => {
     // HTML element extraction
     const restartButton = document.getElementById("restartButton");
-    const exitToMainButton = document.getElementById("exitToMainButton");
+    const exitToMainButton = document.getElementsByClassName(".exitToMainButton");
 
     const startMenu = document.getElementById("startMenu");
     const pauseMenu = document.getElementById("pauseMenu");
@@ -59,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const optionsButton = document.getElementById("optionsButton");
     const loginButton = document.getElementById("loginButton");
     const resumeButton = document.getElementById("resumeButton");
-    const exitButton = document.getElementById("exitButton");
     const loginSection = document.getElementById("loginSection");
     const cancelButton = document.getElementById("cancelButton");
     
@@ -90,7 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
         isContextScreenActive = true;
         if (typeof GameMusic !== "undefined") {
             console.log("Iniciando música...");
+            GameMusic.setVolume(volume); 
             GameMusic.startMusic();  
+        
         } else {
             console.error("GameMusic no está definido.");
         }
@@ -183,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else{
                 const error = await response.json();
                 console.error('Login failed:', error);
-                alert('Login failed idk');
+                alert('Login failed idk es el else');
             }
         } catch (err) {
             console.error('Error during login:', err);
@@ -204,14 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(drawScene);
     });
 
-    exitButton.addEventListener('click', () => {
-        pauseMenu.style.display = 'none';
-        location.reload(); 
+    document.addEventListener("DOMContentLoaded", () => {
+        matchFlashCanvasToCanvas();
     });
-
     window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            // Prevent pause menu during game over or victory
+            // ! pause menu during game over /victory
             if (game.isGameOver || !game.isActive) {
                 console.log("Pause menu disabled during game over or victory.");
                 return;
@@ -269,22 +271,22 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
         if (!isValid) {
-            return; // Stop execution if validation fails
+            return; 
         }
         console.log("Regex tests passed. Checking if username exists...");
         try {
-            // Check if the username already exists
+            // Check if the username exists
             const checkResponse = await fetch(`http://localhost:5000/api/player/check/${username}`);
             const checkResult = await checkResponse.json();
     
             if (checkResult.exists) {
                 alert('Username already exists. Please choose a different username.');
-                return; // Stop execution if username exists
+                return; // Stop execution if exitsts
             }
     
             console.log('Username is available. Proceeding with registration...');
     
-            // Send a POST request to register the user
+            // POST request to register
             const response = await fetch('http://localhost:5000/api/player', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -296,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Registration successful:', result);
                 player_id = result.player_id;
                 globUsername = username;
-                alert('Registration successful! You can now log in.');
+                alert('Registration successful, logineable.');
                 loginSection.style.display = 'none';
                 startMenu.style.display = 'flex';
             } else {
@@ -362,14 +364,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset total elapsed time
         totalElapsedTime = 0;
 
-        // Save the old player's last card picked up to the global variable
         lastCardPickedUpGlobal = game?.player?.lastCardPickedUp || null;
         treeLevel1 = new Tree(1,numRoomsLvl1);
         treeLevel1.treeGen();
         treeLevel2 = new Tree(2,numRoomsLvl2);
         treeLevel2.treeGen();
-        initialLevel = new Level(treeLevel1.root.levelStringValue);
-        // Call gameStart directly to reset the game
+        initialLevel = new Level(treeLevel1.root.levelStringValue, 0);
+        game.currentTreeIndex = 0;
         game.isGameOver = false;
         gameStart();
 
@@ -400,25 +401,33 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset UI
         document.getElementById("canvas").style.display = "flex";
         document.getElementById("uiCanvas").style.display = "flex";
-
+        respawn.play();
         console.log("Game restarted successfully.");
         lastCardPickedUpGlobal = null;
     });
     
-    exitToMainButton.addEventListener('click', () => {
-        location.reload();
+    document.querySelectorAll(".exitToMainButton").forEach((button) => {
+        button.addEventListener("click", () => {
+            location.reload();
+        });
     });
+    
     const optionsMenu = document.getElementById("optionsMenu");
     const musicVolumeSlider = document.getElementById("musicVolume");
     const soundEffectsToggle = document.getElementById("soundEffectsToggle");
     const backToMenuButton = document.getElementById("backToMenuButton");
+    const sfxVolumeSlider = document.getElementById("sfxVolume");
+    sfxVolumeSlider.value = sfxVolume;
+    musicVolumeSlider.value = volume; 
+
 
     // Open Options Menu from Start or Pause Menu
-    optionsButton.addEventListener("click", () => {
+    /*optionsButton.addEventListener("click", () => {
+        console.log("optionsmenubutton");
         startMenu.style.display = "none";
         pauseMenu.style.display = "none";
         optionsMenu.style.display = "flex";
-    });
+    }); mejor con el query selector porque es el mismo botón muchas veces*/
 
     // Back to Start or Pause Menu
     backToMenuButton.addEventListener("click", () => {
@@ -433,16 +442,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adjust Music Volume
     musicVolumeSlider.addEventListener("input", (event) => {
-        const volume = event.target.value;
+        volume = event.target.value;
         GameMusic.setVolume(volume);
         console.log("Music volume set to:", volume);
     });
 
     // Toggle Sound Effects
     soundEffectsToggle.addEventListener("change", (event) => {
-        const soundEffectsEnabled = event.target.checked;
+        soundEffectsEnabled = event.target.checked;
         console.log("Sound effects enabled:", soundEffectsEnabled);
         // Add logic to enable/disable sound effects
+    });
+
+    sfxVolumeSlider.addEventListener("input", (event) => {
+        sfxVolume = parseFloat(event.target.value); // Update the global volume variable
+        console.log("Sound effects volume set to:", sfxVolume);
+
+        running.volume = sfxVolume;
+        attack.volume = sfxVolume;
+        breaking.volume = sfxVolume;
+        dash.volume = sfxVolume;
+        powerup.volume = sfxVolume;
+    });
+
+    document.querySelectorAll("#optionsButton").forEach((button) => {
+        button.addEventListener("click", () => {
+            console.log("Options menu button clicked");
+            startMenu.style.display = "none";
+            pauseMenu.style.display = "none";
+            optionsMenu.style.display = "flex";
+        });
     });
 }); 
 
@@ -533,27 +562,24 @@ async function gameStart() {
 
 //SFX for running, attacking, breaking, damage taken, and dash
 
-const running = new Audio("../js/running.wav");
-const attack = new Audio("../js/swing.wav");
-const breaking = new Audio("../js/vase_breaking.wav");
-const dash = new Audio("../js/dash.wav");
+const running = new Audio("../assets/sound/running.wav");
+const attack = new Audio("../assets/sound/swing.wav");
+const breaking = new Audio("../assets/sound/vase_breaking.wav");
+const dash = new Audio("../assets/sound/dash.wav");
+const powerup = new Audio("../assets/sound/powerup.mp3");
+const fire = new Audio("../assets/sound/fire.wav");
+const burn = new Audio("../assets/sound/burn.mp3");
+const pickup = new Audio("../assets/sound/pickup.wav");
+const damageSound = new Audio("../assets/sound/damage.wav");
+const enemyDeath = new Audio("../assets/sound/death-splat.mp3");
+const dragonSound = new Audio("../assets/sound/dragon.mp3");
+const fireballSound = new Audio("../assets/sound/fireball.mp3");
+const gameOverSound = new Audio("../assets/sound/gameover.wav");
+const victorySound = new Audio("../assets/sound/fanfare.mp3");
+const levelUpSound = new Audio("../assets/sound/levelup.wav");
+const changeRoomSound = new Audio("../assets/sound/door.mp3");
+const respawn = new Audio("../assets/sound/respawn.mp3");
 
-function playWalk(){
-    running.currentTime = 0;
-    running.play();
-}
-function playAttack(){
-    attack.currentTime = 0;
-    attack.play();
-}
-function playBreak(){
-    breaking.currentTime = 0;
-    breaking.play();
-}
-function playDash(){
-    dash.currentTime = 0;
-    dash.play();
-}
 
 //player-character interaction
 function setEventListeners() {
@@ -583,7 +609,6 @@ function setEventListeners() {
         }
         //para vasija / chest
         if(event.key == "f" || event.key == "F"){
-            breaking.play();
             for(const actor of game.level.actors){
                 if(actor instanceof Vase){
                     actor.interact(game.player);
@@ -640,14 +665,7 @@ function setEventListeners() {
         if(event.key >= "1" && event.key <= "6"){
             let index = parseInt(event.key) - 1;
             game.selectedCardIndex = null;
-        }
-
-        if(event.key >= "1" && event.key <= "6"){
-            let index = parseInt(event.key) - 1;
-            game.selectedCardIndex = null;
-        }
-
-        
+        }        
     });
 }
 //Stats drawing (tbd)
@@ -722,12 +740,12 @@ function drawUI() {
     }
 }
 //Stats canvas text (tbd)
-const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 , "20px Times New Roman", "white");
-const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 30, "20px Times New Roman", "white");
-const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 60, "20px Times New Roman", "white");
-const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 90, "20px Times New Roman", "white");
-const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 120, "20px Times New Roman", "white");
-const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/2 + 150, "20px Times New Roman", "white"); 
+const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 , "20px Times New Roman", "white");
+const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 30, "20px Times New Roman", "white");
+const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 60, "20px Times New Roman", "white");
+const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 90, "20px Times New Roman", "white");
+const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 120, "20px Times New Roman", "white");
+const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 150, "20px Times New Roman", "white"); 
 
 function drawStats(){
     statsCtx.clearRect(0,0, statsCanvasWidth, statsCanvasHeight);
@@ -777,5 +795,16 @@ let player_runstats;
     most_used_card : , 
 	eliminated_by : , 
 	last_level : ,
-};
-*/
+};*/
+
+
+function matchFlashCanvasToCanvas() {
+    const canvas = document.getElementById("canvas");
+    const flashCanvas = document.getElementById("flashCanvas");
+    const canvasRect = canvas.getBoundingClientRect();
+    flashCanvas.style.width = `${canvasRect.width}px`;
+    flashCanvas.style.height = `${canvasRect.height}px`;
+    flashCanvas.style.top = `${canvasRect.top}px`;
+    flashCanvas.style.left = `${canvasRect.left}px`;
+}
+window.addEventListener("resize", matchFlashCanvasToCanvas);

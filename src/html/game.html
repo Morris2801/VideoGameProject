@@ -36,10 +36,13 @@
                     <a href="../html/home.html">Home</a>
                 </div>
                 <div class="linkContainer">
-                    <a href="../html/credits.html">Credits</a>
+                    <a href="../html/tutorial.html">Tutorial</a>
                 </div>
                 <div class="linkContainer">
-                    <a href="../html/tutorial.html">Tutorial</a>
+                    <a href="../html/leaderboard.html">Leaderboard</a>
+                </div>
+                <div class="linkContainer">
+                    <a href="../html/credits.html">Credits</a>
                 </div>
             </nav>
             <div id = "statsTrigger"></div>
@@ -63,22 +66,29 @@
             <div id="pauseMenu" class= "menu">
                 <h1>Pause Menu</h1>
                 <button id="resumeButton">Resume Game</button>
-                <button id="optionsButton">Options</button>
-                <button id="exitButton">Exit to Main Menu</button>
+                <label for="musicVolume">Music Volume:</label>
+                <input type="range" id="musicVolume" min="0" max="1" step="0.1" value="1">
+                <br>
+                <label for="soundEffectsToggle">Sound Effects:</label>
+                <input type="checkbox" id="soundEffectsToggle" checked>
+                <br>
+                <label for="sfxVolume">Sound Effects Volume</label>
+                <input type="range" id="sfxVolume" min="0" max="1" step="0.1" value="0.5">
+                <button class="exitToMainButton">Exit to Main Menu</button>
             </div>
 
             <div id="gameOverMenu" class= "menu">
                 <h1>Game Over</h1>
                 <p>You have been defeated!</p>
                 <button id="restartButton">Restart Game</button>
-                <button id="exitToMainButton">Exit to Main Menu</button>
+                <button class="exitToMainButton">Exit to Main Menu</button>
             </div>
             <div id="victoryScreen" class = "menu">
                 <h1>Victory!</h1>
                 <p>Congratulations on completing MayAztec</p>
                 <p>You have completed the God's trials...</p>
                 <p>Thank you for playing</p>
-                <button id="exitButton">Exit to Main Menu</button>
+                <button class="exitToMainButton">Exit to Main Menu</button>
             </div>
             <div id="loginSection" class = "menu">
                 <h1>Login</h1>
@@ -126,6 +136,8 @@
                 <label for="soundEffectsToggle">Sound Effects:</label>
                 <input type="checkbox" id="soundEffectsToggle" checked>
                 <br><br>
+                <label for="sfxVolume">Sound Effects Volume</label>
+                <input type="range" id="sfxVolume" min="0" max="1" step="0.1" value="0.5">
                 <button id="backToMenuButton">Back</button>
             </div>
         </div>
