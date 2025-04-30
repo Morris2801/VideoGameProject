@@ -553,13 +553,9 @@ class BaseEnemy extends BaseCharacter {
     takeDamage(damage) {
         this.health -= damage;
         console.log(this.health);
-        damageSound.play();
         if (this.health <= 0) {
             this.alive = false;
             game.player.killCount += 1;
-            if(soundEffectsEnabled){
-                enemyDeath.play();
-            }
             game.player.score += this.scoreGiven;
             console.log("KillCount ", game.player.killCount);
         }
@@ -604,7 +600,7 @@ class BaseEnemy extends BaseCharacter {
     }
 }
 
-const damage = new Audio("../assets/sound/damage.wav");
+const damage = new Audio("../js/damage.wav");
 function playDamage(){
     damage.currentTime = 0;
     damage.play();
@@ -779,6 +775,8 @@ class Quetzalcoatl extends BaseEnemy {
             game.player.score += this.scoreGiven;
             console.log("KillCount ", game.player.killCount);
 
+            
+            // Create the Quetzalcoatl card at the boss position
             const card = new QuetzalcoatlCard("#FFD700", 32,32,this.position.x, this.position.y, "benditionCard"            );
             const spritePath = "../assets/cards/QuetzacolatCard.png";
             card.setSprite(spritePath, new Rect (0, 0, 80, 150));
@@ -788,25 +786,13 @@ class Quetzalcoatl extends BaseEnemy {
 
         }
     } 
-    startAttack() {
-        if (this.attacking) return;
-        console.log("Quetzalcoatl attack");
-        this.attacking = true;
-        this.attackDuration = 0;
-        this.hasHitPlayer = false;
-        if (soundEffectsEnabled) {
-            dragonSound.currentTime = 0;
-            dragonSound.play();
-        }
-        super.startAttack();
-    }
     
 }
 
 class AhPuch extends BaseEnemy{
     constructor(_color, width, height, x, y, _type) {
         super(_color, width*1, height*1, x, y, _type);
-        this.health = 50; 
+        this.health = 50; // Initial health for Ah Puch
         this.damage = 5;
 
         //Propiedades para la fireball
@@ -923,10 +909,6 @@ class AhPuch extends BaseEnemy{
         if(currentTime - this.lastFireballTime > this.fireballCooldown){
             this.lastFireballTime = currentTime;
             this.spawnFireball();
-            if(soundEffectsEnabled){
-                fireballSound.currentTime = 0;
-                fireballSound.play();
-            }
         }
 
         //quitar las fireballs que ya se usaron
@@ -959,7 +941,6 @@ class AhPuch extends BaseEnemy{
         );
 
         this.fireBalls.push(fireball);
-        
     }
 
     draw(ctx, scale) {
