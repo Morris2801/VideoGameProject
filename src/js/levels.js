@@ -79,7 +79,7 @@ function levGen(width, height, levelNum, isBossRoom = false){
 
     width +=2;
     height +=2;
-    // General level struct (walls and floor)
+    // General level struct (walls and floor) (la caja base)
     for (let j = 0; j < height; j++){
         for (let i = 0; i < width; i++){
             // Outer rim
@@ -96,20 +96,18 @@ function levGen(width, height, levelNum, isBossRoom = false){
             }
         }
     }
-
     // Doors
     level[width + Math.floor(width/2)] = "u"; //up
     level[width * (height - 2)  + Math.floor(width / 2)] = "s"; //south
     level[width * Math.floor(height / 2) + 1] = "l"; //left
     level[width * Math.floor(height / 2) + (width - 2)] = "r"; //right
-
     // Function to place anything in valid positions
     function placeX(thing){
         let pos; 
         do{
             pos = [Math.floor(Math.random() * (width - 4) + 2), Math.floor(Math.random() * (height - 4) + 2)];
         }
-        //conditions: not be a door and be floor
+        //conditions: not be a door and be floor -.....- poderoso dowhile
         while(level[pos[0] + pos[1] * width] != '.' && 
             level[pos[0] + pos[1] * width] != 'l'&& 
             level[pos[0] + pos[1] * width] != 'r'&& 
@@ -117,7 +115,6 @@ function levGen(width, height, levelNum, isBossRoom = false){
             level[pos[0] + pos[1] * width] != 'u' && 
             level[pos[0] + pos[1] * width] != '#'
         );
-        //array mod in said position to be the desired char
         level[pos[0] + pos[1] *width] = thing;
     }
     function placePlayer(cosa){

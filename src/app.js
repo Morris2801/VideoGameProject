@@ -28,7 +28,7 @@ app.use(express.json())
 //app.use(express.static('./public'))
 app.use(express.static('./'))
 
-// Function to connect to the MyS   QL database
+// Function to connect to the MySQL database
 async function connectToDB() {
     return await mysql.createConnection({
         host: 'localhost',
@@ -551,7 +551,7 @@ app.get('/api/favoritecard', async (request, response) => {
         const [results, fields] = await connection.execute(`
             SELECT * 
             FROM player_card 
-            ORDER BY 'Usage Count' DESC LIMIT 10;`);
+            ORDER BY UsageCount DESC LIMIT 10;`);
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)
@@ -578,7 +578,7 @@ app.get('/api/favoritecard/:username', async (request, response) => {
         const [results_user, _] = await connection.query(`
             SELECT * 
             FROM player_card 
-            WHERE Username= ? ORDER BY "Usage Count" DESC LIMIT 1`, [request.params.username])
+            WHERE Username= ? ORDER BY UsageCount DESC LIMIT 1`, [request.params.username])
 
         console.log(`${results_user.length} rows returned`)
         response.json(results_user)

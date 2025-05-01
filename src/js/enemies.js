@@ -64,7 +64,7 @@ class BaseEnemy extends BaseCharacter {
         this.minAttackInterval = 8000; // Minimum time between attacks
         this.recoveryTime = 3000; // Time needed to recover after attack
         this.consecutiveAttacks = 0;
-        this.lastStateChange = Date.now();
+        this.lastStateChange = Date.now(); //wtf hector por qué usas dates
         this.forcedWanderTime = 0;
         this.lastAttackEndTime = 0;
         this.isRecovering = false;
@@ -453,7 +453,7 @@ class BaseEnemy extends BaseCharacter {
                 damage.currentTime = 0;
                 damage.play();
                 applyScreenFlash("rgba(255,0,0,0.5)", 1.5, 0.5);
-                console.log(`Player hit! Health: ${game.player.health}`);
+                console.log(`Player hit: health: ${game.player.health}`);
                 this.hasHitPlayer = true;
 
             }
@@ -774,7 +774,7 @@ class Quetzalcoatl extends BaseEnemy {
             card.setSprite(spritePath, new Rect(0, 0, 80, 150));
 
             game.actors.push(card); // Add the card to the game actors
-            console.log("Card dropped at position: ", this.position.x, this.position.y);
+            console.log("Card dropped @ pos ", this.position.x, this.position.y);
 
         }
     }
@@ -983,7 +983,7 @@ class Fireball {
         this.lifetime = 0;
         this.maxLifetime = 3000; // 3 seconds
 
-        // Crer hibox de la bola
+        // Crear hibox de la bola
         this.hitbox = new Rect(
             this.position.x,
             this.position.y,
@@ -999,12 +999,8 @@ class Fireball {
             this.shouldRemove = true;
             return;
         }
-
-        // mover la fireball
         const movement = this.direction.times(this.speed * deltaTime);
         this.position = this.position.plus(movement);
-
-        // Update hitbox position
         this.hitbox = new Rect(
             this.position.x,
             this.position.y,
@@ -1018,7 +1014,6 @@ class Fireball {
             game.player.lastHitBy = 6; // AhPuch's enemyID
             this.shouldRemove = true;
         }
-
 
         if (game && game.level && game.level.contact(this.hitbox, this.size, 'wall')) {
             this.shouldRemove = true;
@@ -1038,7 +1033,7 @@ class Fireball {
             scaledSize
         );
         gradient.addColorStop(0, "white");
-        gradient.addColorStop(0.3, "#ff4500"); 
+        gradient.addColorStop(0.3, "#ff4500");
         gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
 
         ctx.fillStyle = gradient;
@@ -1052,7 +1047,4 @@ class Fireball {
         );
         ctx.fill();
     }
-
-
-
 }

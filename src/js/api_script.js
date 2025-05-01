@@ -10,10 +10,12 @@ Team members
 Purpose
 - Handles frontend interactions with a backend API for a video game database.
 - Imagined to allow CRUD operations by sending HTTP requests and updating webpage based on responses. 
+- Allows for dynamic data visualization using Chart.js.
+- Provides functions to handle player statistics, run statistics, level layout, and nemesis data, as well as progression by score and run_date.
 */
 
 
-/**
+/** para los colores random de la primera grafica y la de progression
  * @param {number} alpha Indicated the transparency of the color
  * @returns {string} A string of the form 'rgba(240, 50, 123, 1.0)' that represents a color
  */
@@ -24,13 +26,14 @@ function random_color(alpha = 1.0) {
 Chart.defaults.font.size = 20;
 Chart.defaults.font.family = 'PressStart2P';
 
+//Para convertir el tiempo de la base de datos a segundos   (progressionchart)
 function timeStringToSeconds(timeString) {
     const [minutes, seconds] = timeString.split(':').map(Number);
     return minutes * 60 + seconds;
 }
 
 function main() {
-    // cosas para Player
+    // cosas para Player TOp10 Leaderboard
     document.getElementById('formSelectUser').onsubmit = async (e) => {
         e.preventDefault()
 
@@ -52,23 +55,23 @@ function main() {
                 let tr = table.insertRow(-1)
                 for (const header of headers) {
                     let th = document.createElement("th")
-                    th.innerHTML = header
+                    th.innerHTML =header
                     tr.appendChild(th)
                 }
                 for (const row of values) {
-                    let tr = table.insertRow(-1)
+                    let tr= table.insertRow(-1)
                     for (const key of Object.keys(row)) {
                         let tabCell = tr.insertCell(-1)
                         tabCell.innerHTML = row[key]
                     }
                 }
                 const container = document.getElementById('getResultsID')
-                container.innerHTML = ''
+                container.innerHTML =''
                 container.appendChild(table)
             }
             else {
                 const container = document.getElementById('getResultsID')
-                container.innerHTML = 'No results to show.'
+                container.innerHTML ='No results to show.'
             }
         }
         else {
@@ -83,12 +86,11 @@ function main() {
                 method: 'GET'
             })
             if (players_response.ok) {
-                console.log('Response is ok. Converting to JSON.')
+                console.log('Response ok. Converting to JSON.')
 
                 let results = await players_response.json()
-
                 console.log(results)
-                console.log('Data converted correctly. Plotting chart.')
+                console.log('Plotting chart.')
                 if (window.levelChart1) {
                     window.levelChart1.destroy();
                 }
@@ -125,8 +127,8 @@ function main() {
                         options: {
                             responsive: true,
                             plugins: {
-                                legend: { position: 'top' },
-                                title: { display: true, text: `High Score & Time for ${playerName}` }
+                                legend: {position: 'top' },
+                                title: {display: true, text: `High Score & Time for ${playerName}` }
                             },
                             scales: {
                                 'y-score': {
@@ -139,8 +141,8 @@ function main() {
                                     type: 'linear',
                                     position: 'right',
                                     beginAtZero: true,
-                                    title: { display: true, text: 'Time (s)' },
-                                    grid: { drawOnChartArea: false }
+                                    title: {display: true, text: 'Time (s)' },
+                                    grid: {drawOnChartArea: false }
                                 }
                             }
                         }
@@ -172,7 +174,6 @@ function main() {
         catch (error) {
             console.log(error)
         }
-
     }
     /*
         document.getElementById('formInsert').onsubmit = async(e)=>
@@ -344,7 +345,7 @@ function main() {
                 const runs = results.map(e => e['Runcount']);
                 const wins = results.map(e => e['Wins']);
 
-                console.log("Drawing bar chart for users:", usernames);
+                console.log("bar chart for: ", usernames);
 
                 window.runsWinsChart = new Chart(ctx, {
                     type: 'bar',
@@ -368,11 +369,11 @@ function main() {
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: { position: 'top' },
-                            title: { display: true, text: 'Runs vs Wins per Player' }
+                            legend: {position: 'top' },
+                            title: {display: true, text: 'Runs vs Wins per Player' }
                         },
                         scales: {
-                            y: { beginAtZero: true }
+                            y: { beginAtZero:true}
                         }
                     }
                 });
@@ -489,7 +490,6 @@ function main() {
         let response = await fetch(`http://localhost:5000/api/favoritecard/${dataObj['username']}`, {
             method: 'GET'
         })
-
         if (response.ok) {
             let results = await response.json()
             if (results.length > 0) {
@@ -518,7 +518,7 @@ function main() {
                 container.innerHTML = 'No results to show.'
             }
             console.log(results);
-            const cardName = results[0]["Favorite Card"];
+            const cardName = results[0]["FavoriteCard"];
             const img = new Image();
             if (cardName == 'Calavera') img.src = "../assets/cards/cardCalavera.png";
             else if (cardName == 'Machete') img.src = "../assets/cards/cardMachete.png";
@@ -685,10 +685,10 @@ function main() {
                 let filtered = username
                     ? results.filter(row => row.username === username)
                     : results;
-                const allDates = [...new Set(filtered.map(r => r.run_start))]
-                    .sort((a, b) => new Date(a) - new Date(b));
+                const allDates = [...new Set(filtered.map(r => r.run_start))].sort((a, b) => new Date(a) - new Date(b));
                 const labels = allDates.map(date =>
-                    new Date(date).toLocaleString().replace(',', '')
+                    new Date(date).toLocaleString().replace(',', '')  
+                    // profe si ve esto al final sí se usó dates, y la ufnción de toLocalString() es la que está desfigurando las fechas con variaciones en la zona horaria (30/4/2025 10:49pm --Mau)
                 );
                 const grouped = {};
                 filtered.forEach(row => {
@@ -698,7 +698,7 @@ function main() {
                 const datasets = Object.entries(grouped).map(([usname, dateScoreMap]) => ({
                     label: `${usname}'s Progression`,
                     data: allDates.map(date => dateScoreMap[date] ?? null),
-                    borderColor: random_color(0.8),
+                    borderColor: random_color(0.8), // esto es lo que no le gustó a esteban
                     fill: false,
                     tension: 0
                 }));
@@ -714,7 +714,7 @@ function main() {
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: { position: 'top', labels: { color: 'rgb(255,255,255)' } },
+                            legend: {position: 'top', labels: {color: 'rgb(255,255,255)' } },
                             title: {
                                 display: true,
                                 text: 'Player Progression Over Time',

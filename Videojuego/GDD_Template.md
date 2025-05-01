@@ -68,13 +68,14 @@ The player's character exists in a 2D pixel world, contextualized in an ancient 
 
 #### Game Objective
 _Background_
+
 Legend speaks of a time where gods were not as pleased with prehispanic civilizations as history has led us to believe. The gods had gifted them with their knowledge, abundance, and power, but began to feel disrespected. They watched as mortals grew complacent, failing to honor the sacred balance between humanity, nature, and the divine. Temples were left unmaintained, rituals dwindled, and acts of greed marred the harmony the gods once sought to protect. Together, the civilizations turned to a sacred prophecy that spoke of a chosen warrior, one who would represent the best of whatever good was left in them. Together, they tasked that warrior to venture into the Lost Pyramid, the original point of contact with the gods, in hopes of making them change their mind before the world as they know it collapses. 
 That warrior, is you. What everyone did not know, is that once you enter the Pyramid, the only outcomes are your eternal deaths or emerging victorious.
 
 The objective of the game is to gradually defeat the ancient gods in order to escape the infinite cycle of death and resurrection they've thrust yourself upon, and proving yourself as the chosen warrior, saving all of the groups. At first, the task will seem daunting, but by gradually advancing, and gaining powerful weapons and powerups, little by little the player's knowledge, experience and abilities will grow. 
 
 #### Obstacles and Challenges
-In order to finish the game, a player would have to beat all the levels in a single, continuous attempt. The player must fight with enemies spawning randomly in randomly generated room layouts, as well as manage inventory consumables adequately and strategically. Enemies will try to attack the player, either with melee hits or in the boss's cases, with ranged attacks. All cards act as consumables, some with more, some with less. Once a card's allowed uses are spent, the player must search for more (either through combat, since defeated enemies have a chance to drop a card, or  through exploring) to refill their acting inventory. Upon taking significant damage and depleting all of the player's Health Points, the current "game run" will be over, and most of the player's progress will be lost, and they will have to traverse the levels from the beginning. They will only be able to start over with the last card they added to their inventory from their previous life, along with a basic default card, forcing the player to repeatedly attempt to complete the game from scratch. Also, the gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore the level, prepare their inventory with what they'd like to use for boss fights and choose which challenges to face. The greater the adventure, the better the reward.
+In order to finish the game, a player would have to beat all the levels in a single, continuous attempt. The player must fight with enemies spawning randomly in randomly generated room layouts, as well as manage inventory consumables adequately and strategically. Enemies will try to attack the player, either with melee hits or in the boss's cases, with ranged attacks. All cards act as one-time consumables for varied buffs and effects. Once a card's allowed uses are spent, the player must search for more (either through combat, since defeated enemies have a chance to drop a card, or through exploration) to refill their active inventory. Upon taking significant damage and depleting all of the player's Health Points, the current "game run" will be over, and most of the player's progress will be lost, and they will have to traverse the levels from the beginning. They will only be able to start over with the last card they added to their inventory from their previous life, forcing the player to repeatedly attempt to complete the game from scratch. Also, the gods provide a limited preparation time depending on each level as a challenge before facing them, allowing the player to explore the level, prepare their inventory with what they'd like to use for boss fights and choose which challenges to face. The greater the adventure, the better the reward.
 
 #### Tactics & Strategies
 The player will face 4 types of base-enemies in close-range combat, as well as 2 boss fights. To overcome these obstacles, the player must experiment with different card usage, as well as find a balance on when to fight and when they decide they figure their inventory is just right for a boss fight, thus requiring a bit of exploring and combat to prepare. As they progress in further levels, the benefits reaped from the cards will increase as difficulty does, therefore providing better tools and advantages. Time and inventory management will be essential.
@@ -120,9 +121,9 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 
 | **Attribute**    | **Base Value**         | **Details**                                                                                                                                           | **Justification**                                                                    |
 | ---------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| **HP**           | 10 Life Bars           | Each bar is 1HP, automatically recovers 5 bars without using cards.                                                                                   | Survives 5 hits from basic enemies and 2-3 from difficult enemies.                   |
-| **Stamina**      | 5 bars                 | Each dash consumes 1 bar. Regenerates every 1.5 sec per bar.                                                                                          | Allows 5 dashes without being completely defenseless, but still requires management. |
-| **Card Slots**   | 5+1                    | - 1 slot for the base weapon. 5 for Lottery cards.                                                                                                    | Balanced so that the player cannot farm cards excessively and must manage resources. |
+| **HP**           | 10 Life Bars           | Each bar is 1HP.                                            | Allows for a balanced gameplay experience with a bit of risk                   |
+| **Stamina**      | 5 bars                 | Each dash consumes 1 bar.                                                                           | Allows 5 dashes without being completely defenseless, but still requires management. |
+| **Card Slots**   | 6                    |                                                                                                     | Balanced so that the player must manage resources. |
 | **Attack Speed** |                        | **3-hit combo**: Each hit of the combo has \~0.3s delay. After the third hit, there is an overall **cooldown** of 0.8-1s before restarting the combo. | Allows fluid gameplay without overusing combos.                                      |
 | **Base Damage**  | 3 pts with base weapon | Allows balanced combat: normal enemies die in 4 hits, difficult ones in 4-6, bosses in 15-25 (without using cards).                                   |                                                 
 
@@ -130,20 +131,20 @@ The game is designed to be played with an adventure-oriented and reward-facing m
 ### Screens & Menus
 | **Screen**                | **Description**                                                                                                               |
 |---------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| **Title Screen**          | Displays game logo, “Start,” “Options,” “Exit.”                                                                               |
-| **Options**               | Consult statistics                                                                                                            |
-| **Game (Main Gameplay)**  | Core level exploration and combat take place here.                                                                            |
-| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–6), Enemies HP, Timer.                 |
-| **Pause Menu**            | [ESC] key triggers. Options to resume, adjust settings, or quit to Title.                                                    |
-| **In-Game Options**       | Accessible from Pause. Quit to main screen.                                                                                   |
-| **Transition Screen**     | Brief summary of why you are there and the end goal.                                                                          |
-| **Death Screen (Game Over)** | Shows final stats (time played, enemies killed, cards used). Option to restart or quit.                                      |
-| **Victory Screen**        | After defeating the final boss. Displays completion time and final card usage.                                                |
-| **Tutorial Screen**        | Gives the player a simple rundown on how to play, its controls, enemies, and the cards they will encounter with a breif description.                                                |
-| **Credits Screen**        | Refrences on tools, Music/SFX, and other stuff that was used, inspired, or borrowed from with its authors for their recognition.                                                |
+| **Title Screen**          | Displays game logo, “Start,” “Options,” “Exit.” ![Title Screen](./GDDImages/Title%20Screen.png)                                                                             |
+| **Options**               | Adjust audio ![Audio Management](./GDDImages/Options%20Menu.png)                                                                          |
+| **Game (Main Gameplay)**  | Core level exploration and combat take place here. Has a sidebar in the right side to show current run statistics, and if the mouse hovers over the footer, a popup image with the controls appears ![Main Section](./GDDImages/MainScreen.png)                                                                           |
+| ** Context Screen **      | Shows backstory  ![Context Screen](./GDDImages/ContextScreen.png)|
+| **HUD Game**              | Shows player HP and Bar of resistance, card slots (1–6), Timer.                |
+| **Pause Menu**            | [ESC] key triggers. Options to resume, adjust settings, or quit to Title.   ![Pause Menu](./GDDImages/PauseMenu.png)                                                 |
+| **Death Screen (Game Over)** | Option to restart or quit.  ![Game Over](./GDDImages/GameOverScreen.png)                                  |
+| **Victory Screen**        | After defeating the final boss.    ![Victory Screen](./GDDImages/Victory%20Screen.png)       |
+
 
 
 ### **Controls**
+
+![Controls Summary](../src/assets/documentation/controls.png)
 
 | **Action**                 | **Default Key**                  | **Description**                                                                          |
 |----------------------------|----------------------------------|------------------------------------------------------------------------------------------|
@@ -200,26 +201,26 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 | **Card ID** | **Name**         | **Type** | **Damage**     | **Duration** | **Effect / Description**                                                                                                      |
 |:----------:|:----------------:|:--------:|:-------------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------|
-|    0    | Macuahuitl      | Weapon   | 5 pts         | 10 hits           | Classic aztec obsidian weapon. Increases damage dealt to +5.                                                                   |
-| 1       | Cuchillo de Obsidiana  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos with an damage increase of +4.                                                                                     |
-| 2       | Machete         | Weapon   | 6 pts | 5 hits           | Ideal vs. enemies with high HP (Heavy) with its +6 damage.                                                               |
+|    0    | Macuahuitl      | Weapon   | 5 pts         | 10 hits           | Classic aztec obsidian weapon. Increases damage dealt to +5.         ![CardImage](../src/assets/cards/cardBaseweapon.jpeg)                                                          |
+| 1       | Cuchillo de Obsidiana  | Weapon   | 4 pt          | 10 hits           | Light & fast, for quick combos with an damage increase of +4.             ![CardImage](../src/assets/cards/cardObsidianKnife.png)                                                                                      |
+| 2       | Machete         | Weapon   | 6 pts | 5 hits           | Ideal vs. enemies with high HP (Heavy) with its +6 damage.      ![CardImage](../src/assets/cards/cardMachete.png)                                                                       |
 
 ##### Transformation Cards
 
 | **Card ID** | **Name**         | **Type**         | **Damage** | **Duration** | **Effect / Description**                                                                                                                      |
 |:----------:|:----------------:|:----------------:|:---------:|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------|
-| 3       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +15 temporary health bars; weapon turns into a guitar with 5 damage points per hit. 
-| 4       | Diablo           | Transformation   | 3 pts (spear) | 10s       | Transform into a devil with a trident, increasing your damage by 3 pts per hit.  |
-| 5       | Guerrero Maya    | Transformation   | +2 actual weapon | 10s     | Turn into a fierce mayan warrior which gives you +2 stamina bars.                                         |
+| 3       | Mariachi         | Transformation   | 4 pts (guitar) | 10s         | +15 temporary health bars; weapon turns into a guitar with 5 damage points per hit. ![CardImage](../src/assets/cards/cardMariachi.jpeg)              
+| 4       | Diablo           | Transformation   | 3 pts (spear) | 10s       | Transform into a devil with a trident, increasing your damage by 3 pts per hit.  ![CardImage](../src/assets/cards/cardDiablo.png)              |
+| 5       | Guerrero Maya    | Transformation   | +2 actual weapon | 10s     | Turn into a fierce mayan warrior which gives you +2 stamina bars.   ![CardImage](../src/assets/cards/cardGuerrero.png)                                                    |
 
 ##### Cartas de Buff
 
 | **Card ID** | **Name**     | **Type**  | **Damage** | **Duration** | **Effect / Description**                                                                                                                               |
 |:----------:|:------------:|:---------:|:---------:|:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 6       | Corazon      | Buff      | –         | Instant     | Gain 10 permament hitpoints, great when coming out of a battle or going into a boss fight.                              |
-| 7       | El Valiente  | Buff      | –         | 10s         | Transforms into the "Valiente" giving you 10 temporary hitpoints, great to get out of a pickle.                                                             |
-| 8       | El Taco      | Buff      | –         | 10s         | Gain 10 termporary hitpoints, an alternate, yet reliable option to the "Corazon card".                                                       |
-| 9       | La Calavera  | Buff      | –         | 10s         | Temporary increase the damage dealt to 10, great for dealing with tougher enemies or bosses.     |
+| 6       | Corazon      | Buff      | –         | Instant     | Gain 10 permament hitpoints, great when coming out of a battle or going into a boss fight.          ![CardImage](../src/assets/cards/cardHeart.jpeg)                                  |
+| 7       | El Valiente  | Buff      | –         | 10s         | Transforms into the "Valiente" giving you 10 temporary hitpoints, great to get out of a pickle.   ![CardImage](../src/assets/cards/cardValiente.png)                                                                        |
+| 8       | El Taco      | Buff      | –         | 10s         | Gain 10 termporary hitpoints, an alternate, yet reliable option to the "Corazon card".   ![CardImage](../src/assets/cards/cardTaco.png)                                                                  |
+| 9       | La Calavera  | Buff      | –         | 10s         | Temporary increase the damage dealt to 10, great for dealing with tougher enemies or bosses                           ![CardImage](../src/assets/cards/cardCalavera.png)               |
 
 **Drop Probability (General Guidelines)**:
 - **Light Enemies (El Músico, Tlaxcaltecas)**: ~10–15% chance for low-tier weapons or buff cards.  
@@ -236,15 +237,16 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 | **Enemy**             | **HP Range** | **Damage** | **Behavior**                                                                                 | **Drop Probability**                                                             |
 |:---------------------:|:-----------:|:---------:|:--------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-| **El Músico / Mariachi** (Light) | 10       | 1      | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier or minor buffs.                  |
-| **Tlaxcaltecas** (Light)         | 15       | 2       | Appear in small groups with basic melee.                                                    | ~15% chance for Type Two or a buff card.                                            |
-| **Guerrero Maya** (Medium)       | 20       | 3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons  or transformation.                        |
-| **El Diablo (Replica)** (Heavy)  | 35       | 4       | Attacking with a heavy trident, dealing huge damage. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear  or powerful buffs.            |
+| **El Músico / Mariachi** (Light) ![EnemyThumbnail](../src/assets/charSpritesheets/enemyThumbnails/mariachiThumb.png)| 10       | 1      | Quick guitar strikes; leaps backward. Often tries to flank.                                 | ~15% chance for low-tier or minor buffs.                  |
+| **Tlaxcaltecas** (Light)     ![EnemyThumbnail](../src/assets/charSpritesheets/enemyThumbnails/skelThumb.png)    | 15       | 2       | Appear in small groups with basic melee.                                                    | ~15% chance for Type Two or a buff card.                                            |
+| **Guerrero Maya** (Medium)    ![EnemyThumbnail](../src/assets/charSpritesheets/enemyThumbnails/warriorThumb.png)   | 20       | 3       | Balanced offense/defense, can block. Slower but more durable.                               | ~20% chance for mid-tier weapons  or transformation.                        |
+| **El Diablo (Replica)** (Heavy) ![EnemyThumbnail](../src/assets/charSpritesheets/enemyThumbnails/devilThumb.png)  | 35       | 4       | Attacking with a heavy trident, dealing huge damage. Disappears upon defeat (replica).      | ~10–15% chance for high-tier gear  or powerful buffs.            |
   
 
 #### Bosses
 
 1. **Quetzcoalt (Serpent Form)**  
+    ![EnemyThumbnail](../src/assets/charSpritesheets/enemyThumbnails/quetzThumb.png)
    - **HP**: ~85  
    - **Damage**: 4–6  
    - **Behavior**: Floats in serpent form, spitting acid or energy orbs.  
@@ -253,6 +255,7 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
    - **Drop**: 5–10% chance for Mariachi or Diablo, plus guaranteed healing/resources, and the blessing of God you will get permament max health.
 
 2. **Ah Puch (God of Death)**  
+![EnemyThumbnail](../src/assets/charSpritesheets/enemyThumbnails/ahThumb.png)
    - **HP**: ~110  
    - **Damage**: 5–7  
    - **Behavior**: Humanoid form, performs heavy physical strikes and launches fire zones.  
@@ -274,14 +277,14 @@ Below is the updated **sample set** of 10 base cards. Each card has an **ID**, a
 
 #### Timer Justifications
 In each level you will have a limited time.
-- In the first level 10 min (so you have time to get used to the game mechanics).
+- In the first level 4 min (so you have time to get used to the game mechanics).
 - In the second level 7 min (already with experience you know what to do and how to face the challenges)
 
 ##### Combat and Timers
 
 To prevent the player or enemies from abusing attacks or moves, the following **cooldowns** and reaction times are set:
 
-1. **Main Character Attacks  
+1. **Main Character Attacks** 
    - **Time between hits**: 0.5 s cooldown after a single attack before being able to initiate another one.  
    - **3-hit combo**: Each hit of the combo has ~0.3 s delay. After the third hit, there is an overall **cooldown** of 0.8-1 s before restarting the combo.  
    - Justification**: Avoids “spamming” attacks and forces the player to measure times, giving enemies a chance to respond.
@@ -308,7 +311,7 @@ To prevent the player or enemies from abusing attacks or moves, the following **
 |---|----------|------------|
 | **Rooms** | 12 Possible choices: <ul><li>You enter a starting room</li><li>You have multiple paths</li><li>Some doors are closed and you can't pass through them</li><li>All accessible paths lead to the boss.</li></ul> | 15 Possible choices: <ul><li>More possibilities to explore and try to reach the boss</li><li>All accessible paths lead to the boss.</li></ul> |
 | **Enemies** | 3-5 enemies in each dungeon room: <ul><li>Can do 3, 4, 5 enemies in each room</li></ul> | From 4 to 7 enemies in each room: <ul><li>Higher possibility of high-category enemies</li></ul> |
-| **Vases** (max 5 per room) | A vase has a 15% chance in every room of the dungeon at this level. | A vase has a 20% chance in every room of the dungeon at this level. |
+| **Vases** (max 5 per room) ![Vase](../src/assets/mapElements/vase.png) | A vase has a 15% chance in every room of the dungeon at this level. | A vase has a 20% chance in every room of the dungeon at this level. |
 
 | **Enemy Probabilities**   | **Level 1**                  | **Level 2**                  |
 |---------------------------|------------------------------|------------------------------|
@@ -347,7 +350,8 @@ Each action gets rewarded in-game, counting towards the total score for the run.
 |  _Level 2 cleared_ | + 1250 |
 |  _Time bonus_ | + (Remaining level seconds * 15) |
 
-
+### Camera
+A camera will follow the player, centering its position along the canvas context so that the game feels more immersive, an added challenge in exploration is introduced, and sprites are better seen.
 
 ---
 
@@ -431,6 +435,9 @@ Basic Room Mockup:
 5. `Game`
 6. `Inventory`
 7. `Level`
+8. `TreeNode`
+9. `Tree`
+10. `Camera` 
 
 
 
@@ -462,9 +469,7 @@ Basic Room Mockup:
         J. `CalaveraCard`
     3. `BaseInteractable`
         1. `Vase`
-2. `Level`
-    1. `Level1`
-    2. `Level2`
+
 
 ---
 
@@ -481,13 +486,14 @@ The game is pictured as a pixel-art concept, with general cubic shapes governing
 Well-designed feedback, both good (e.g. leveling up, beating a boss) and bad (e.g. being hit, dying and restarting), are great for teaching the player how to play through trial and error, instead of scripting a lengthy tutorial.
 
 For interactive elements, visual feedback should feel intuitive and fit naturally within the pixel-art style and color philosophy:
-- Subtle Motion and Animation: Gentle bobbing for collectibles (cards) will be incorporated.
 - Color and Lighting Variations: Slight hue shifts to distinguish interactable objects, soft lighting pulses or glows, as will be the case for vases
 
 ### User Interface
 The way the UI was done is through a seperate section of the screen, with its card slots visible through a black rectangle where they appear when you grab one from the ground, as the cards get used, they move to the left and open the spots to the right. 
 
 ![GUI Mockup](/Videojuego/GDDImages/GUIImages.jpg)
+
+![Final GUI](./GDDImages/MainScreen.png)
 
 The idea is for the interface to be as simple as possible, but still incorporating the color pallet of the game, also in a pixel-like style and with everything neatly tagged.
 
@@ -501,14 +507,38 @@ The idea is for the interface to be as simple as possible, but still incorporati
 
         
         2. Tlaxcalteca (idle, walking, stabbing)
+
+        ![Enemy Spritesheet](../src/assets/charSpritesheets/SpriteSheetTlaxcalteca.png)
+
+
         3. Mariachi (idle, walking, hitting)
 
-        ![Base enemy spritesheet: Mariachi](/Videojuego/GDDImages/mariachiSpriteSheet.jpeg)
+        ![Base transformation spritesheet: Mariachi](/Videojuego/GDDImages/mariachiSpriteSheet.jpeg)
+        ![Enemy Spritesheet](../src/assets/charSpritesheets/skelMariachi_SpriteSheet.png)
 
         4. Demon (idle, walking, hitting)
-        5. Ah Puch (idle, walking, hitting, shooting)
+
+        ![Enemy Spritesheet](../src/assets/charSpritesheets/devilAttack.png)
+        ![Enemy Spritesheet](../src/assets/charSpritesheets/devilWalk.png)
+
+
+        5. Mayan Warrior (idle, walking, attacking)
+
+        ![Enemy/tranformation spritesheet walk](../src/assets/charSpritesheets/warriorWalkSpriteSheet.png)
+        ![Enemy/transformation spritesheet attack](../src/assets/charSpritesheets/warriorFightSidesSpriteSheet.png)
+        
+        
+        6. Ah Puch (idle, walking, hitting, shooting)
+
+        ![Ah Puch Spritesheet walk](../src/assets/charSpritesheets/PrubeaNewAhPuch.png)
+        ![Ah Puch Spritesheet fight](../src/assets/charSpritesheets/AhPuchNewFigth.PNG)
+
     2. Other
         1. Quetzalcóatl: serpent-like (idle, slithering, hitting, shooting)
+
+        ![Adaption from Pokemon - Nintendo. All credits due](../src/assets/charSpritesheets/SpriteSheetQuetzacoaltPeleando.png)
+        ![Adaption from Pokemon - Nintendo. All credits due](../src/assets/charSpritesheets/SpriteSheetBossQIDLE.png)
+
 2. Blocks
     1. Stone Block Variants
 
@@ -517,20 +547,21 @@ The idea is for the interface to be as simple as possible, but still incorporati
         1. Stone Block
         2. Cracked Stone Block 
         3. Mossy Stone Block
-    2. Pyramid wall tiles [Source](https://opengameart.org/content/stoneblocks)
+    2. Pyramid wall tiles 
         
-        ![Wall examples](/Videojuego/GDDImages/pyramidWall.png)
+        ![Wall examples Lvl1](../src/assets/mapElements/brickYellow.png)
 
         1. Wall block
         2. Cracked wall block
         3. Wall border
     2. Underground wall tiles
+
+        ![Wall example Lvl2](../src/assets/mapElements/brickPurple.png)
+
         1. Underground Wall block
         2. Cracked Underground wall block
         3. Wall border
-    3. Column 
-        1. Cracked column
-        2. Vined column
+
 3. Ambient
     1. Torch [Source](https://opengameart.org/content/simple-torch-animation-16x16)
 
@@ -540,18 +571,25 @@ The idea is for the interface to be as simple as possible, but still incorporati
 
         ![Vines asset](/Videojuego/GDDImages/Vines.png)
 
-    3. Runes [Source](https://opengameart.org/content/runes)
-
-        ![Runes asset](/Videojuego/GDDImages/display-Runes.png)
-
 
 4. Other
-    1. Vase
+    1. Vase 
+    
+        ![Vase](../src/assets/mapElements/vase.png)
+
     2. Door (matching Wall block and Underground Wall block)
-    3. Card (10 mini versions for map appearance, 10 more detailed screenings for player UI)
+
+        - Open:     
+           ![opendoor](../src/assets/mapElements/doorOpen.png)
+        - Closed path: 
+            
+            ![closed door](../src/assets/mapElements/door.png)
+        - Level Exit: 
+        
+            ![level exit](../src/assets/mapElements/bossdoor.png) 
+    3. Card (10 mini versions for map appearance, 10 more detailed screenings for player UI) [Loteria Cards](#Lotería-Cards) 
     4. Base weapon
 
-        ![Macahuitl card mockup](/Videojuego/GDDImages/baseweaponCard.jpeg)
 
 ---
 
@@ -565,29 +603,24 @@ For the style attributes, the game’s music and sound should have a consistent 
 
 The game will need various sound effects to enhance immersion and provide auditory feedback for player actions. Footsteps will sound sharper against stone surfaces. Other environmental sounds include a vases opening, power-ups being used, and melee attacks landing, all designed to feel responsive and natural. Feedback sounds will be crucial for player experience, such as a relieved sigh when gaining health, a surprised grunt when taking damage, and a sad, descending chime upon death.
 
-The music will be structured to loop per level, maintaining an immersive experience throughout gameplay. Unsettling undertones will build tension, and the music will likely be slow paced. For triumphant moments, a short, victorious fanfare will play upon completing significant challenges, and a melancholic, fading theme will accompany game-over screens to emphasize the weight of failure. [Source](https://felgo.com/game-resources/free-music-for-games)
+The music will be structured to loop per level, maintaining an immersive experience throughout gameplay. Unsettling undertones will build tension, and the music will likely be slow paced. For triumphant moments, a short, victorious fanfare will play upon completing significant challenges, and a melancholic, fading theme will accompany game-over screens to emphasize the weight of failure. 
 
 ### **Sounds Needed**
 
 1. Effects
     1. Sharp Footsteps (stone floor) [Source](https://opengameart.org/content/step-sound-walking)
-    2. Vase Opening/breaking [Source]()
-    3. Card picked up [Source]()
-    4. Card used [Source]()
-2. Feedback
-    1. Relieved &quot;Ahhhh!&quot; (health) [Source]()
-    2. Shocked &quot;Ooomph!&quot; (attacked) [Source]()
-    3. Sad chime (died) [Source]()
-
+    2. Vase Opening/breaking [Source](https://www.myinstants.com/en/instant/ceramic-breaking-ceramica-rompiendose-35022/)
+    3. Card picked up [Source](https://opengameart.org/content/beep-tone-sound-sfx)
+    4. Card used [Source](https://opengameart.org/content/power-up-sound-effects)
 
 ### **Music Needed**
-- Menu music [Source]()
-- Music for level 1 [Source]()
-- Boss music level 1 [Source]()
-- Music for level 2 [Source]()
-- Boss music level 2 [Source]()
-- Victory music [Source]()
-- Game over/death music [Source]()
+- Menu music [Source](https://felgo.com/game-resources/free-music-for-games)
+- Music for level 1 [Source](https://felgo.com/game-resources/free-music-for-games)
+- Boss music level 1 [Source](https://felgo.com/game-resources/free-music-for-games)
+- Music for level 2 [Source](https://felgo.com/game-resources/free-music-for-games)
+- Boss music level 2 [Source](https://felgo.com/game-resources/free-music-for-games)
+- Victory music [Source](https://www.myinstants.com/en/search/?name=victory+fanfare)
+- Game over/death music [Source](https://opengameart.org/content/game-over-bad-chest-sfx)
 
 
 

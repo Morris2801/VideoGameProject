@@ -31,7 +31,6 @@ let level;
 let player;
 const scale = 57;
 
-
 // Text
 class TextLabel {
     constructor(x, y, font, color) {
@@ -115,7 +114,8 @@ class GameObject {
                     this.spriteRect.width, this.spriteRect.height,
                     scaledX, scaledY,
                     scaledWidth, scaledHeight);
-            } else {
+            } 
+            else {
                 ctx.drawImage(this.spriteImage,
                     scaledX, scaledY,
                     scaledWidth, scaledHeight);
@@ -154,7 +154,7 @@ class GameObject {
                     console.log("No card dropped");
                     return;
                 }
-                cardClass.spritePath=item.spritePath;
+                cardClass.spritePath = item.spritePath;
                 break;
             }
         }
@@ -257,6 +257,7 @@ class BaseCharacter extends AnimatedObject {
                 idleFrames: [0, 0]
             },
         };
+        // An inner hitbox was required for collision detection because sometimes the sprite one was glitchy
         this.innerHitbox = new Rect(
             this.position.x + this.charMargin,
             this.position.y + this.charMargin,

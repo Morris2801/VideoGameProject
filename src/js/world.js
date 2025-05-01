@@ -22,7 +22,6 @@ Purpose
 
 // Lectura de chars para armar nivel
 const levelChars = {
-    // Rect defined as offset from the first tile, and size of the tiles
     // Map elements
     ".": {objClass: GameObject,
         label: "floor",
@@ -65,7 +64,6 @@ const levelChars = {
         rectParams : [0,0,32,32]},
 
     // Cartas ($->testing)
-    
     "$": {objClass : BaseCard, 
         label: "card",
         cardID: 0,
@@ -185,7 +183,6 @@ const levelChars = {
         rectParams :[0, 0, 317.5,317.5],
         sheetCols:2,
         startFrame: [0, 0]}
-    // Missing boss 2 here // enemy id 6
 };
 
 class Level {
@@ -197,24 +194,19 @@ class Level {
         this.width = rows[0].length;
         this.actors = [];
 
-        // Fill the rows array with a label for the type of element in the cell
-        // Most cells are 'empty', except for the 'wall'
         this.rows = rows.map((row, y) => {
             return row.map((ch, x) => {
                 let item = levelChars[ch];
                 let objClass = item.objClass;
                 let cellType = item.label;
-                // Create a new instance of the type specified
                 let actor = new objClass("white", 1, 1, x, y, item.label);
                 if (actor.type == "player") {
-                    // Also instantiate a floor tile below the player
                     this.addBackgroundFloor(x, y);
                     actor.setSprite(item.sprite, new Rect(...item.rectParams));
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.player = actor;
                     cellType = "empty";
-
                 } 
 
                 // Resumir todo lo que se pueda en los else ifs cuando terminemos
@@ -305,7 +297,6 @@ class Level {
             });
         });
     }
-    // Force sprite into floor tiles
     addBackgroundFloor(x, y){
         let floor = levelChars['.']; 
         let floorActor = new GameObject("white", 1, 1, x, y, floor.label);
@@ -313,19 +304,15 @@ class Level {
         floorActor.setSprite(floor.sprite, new Rect(...rectParams)); 
         this.actors.push(floorActor); 
     }
-    // Randomize sprites for each wall tile
     randomTile(xStart, xRange, y) {
         let tile = Math.floor(Math.random() * xRange + xStart);
         return [tile, y, 32, 32];
     }
-    // Detect when the player touches a wall
     contact(hitbox, size, type) {
-        // Determine which cells the player is occupying
         let xStart = Math.floor(hitbox.x);
         let xEnd = Math.ceil(hitbox.x + hitbox.width);
         let yStart = Math.floor(hitbox.y);
         let yEnd = Math.ceil(hitbox.y + hitbox.height);
-        // Check each of those cells
         for (let y=yStart; y<yEnd; y++) {
             for (let x=xStart; x<xEnd; x++) {
                 let isOutside = x < 0 || x >= this.width ||
