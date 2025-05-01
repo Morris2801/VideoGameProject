@@ -41,8 +41,8 @@ let time;
 let lastCardPickedUpGlobal = null;
 
 // Level Gens
-const numRoomsLvl1 = 7; // <- modify
-const numRoomsLvl2 = 9; // <- modify
+const numRoomsLvl1 = 7; // <- modify si quiere más reto
+const numRoomsLvl2 = 9; // <- modify si quiere más reto
 let treeLevel1 = new Tree(1,numRoomsLvl1);
 treeLevel1.treeGen();
 let treeLevel2 = new Tree(2,numRoomsLvl2);
@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // HTML element extraction
     const restartButton = document.getElementById("restartButton");
     const exitToMainButton = document.getElementsByClassName(".exitToMainButton");
-
     const startMenu = document.getElementById("startMenu");
     const pauseMenu = document.getElementById("pauseMenu");
     const startGameButton = document.getElementById("startButton");
@@ -64,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const resumeButton = document.getElementById("resumeButton");
     const loginSection = document.getElementById("loginSection");
     const cancelButton = document.getElementById("cancelButton");
-    
     const loginForm = document.getElementById("loginForm");
     const statsSidebar = document.getElementById("statsSidebar");
     const statsTrigger = document.getElementById("statsTrigger");
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.style.display = "none";
     uiCanvas.style.display = "none";
     startMenu.style.display = "flex";
-    // Context screen behavior, and game start with init() function
+    // Context screen behavior, and game start + init() 
     window.addEventListener("keydown", (event) =>{
         if(isContextScreenActive && (event.key == "Enter" || event.code == "Space")){
             contextScreen.style.display = "none"; 
@@ -158,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
         if (!isValid) {
-            return; // Stop execution if validation fails
+            return; 
         }
         console.log("RegexTests passed apparently");
         // Send the data to the backend using fetch
@@ -366,11 +364,9 @@ document.addEventListener('DOMContentLoaded', () => {
     */
     restartButton.addEventListener('click', () => {
         document.getElementById("gameOverMenu").style.display = "none";
-
+        let blessingFlag = game.player.hasQuetzBlessing;
         console.log("Restarting game...");
-        // Reset total elapsed time
         totalElapsedTime = 0;
-
         lastCardPickedUpGlobal = game?.player?.lastCardPickedUp || null;
         treeLevel1 = new Tree(1,numRoomsLvl1);
         treeLevel1.treeGen();
@@ -379,32 +375,37 @@ document.addEventListener('DOMContentLoaded', () => {
         initialLevel = new Level(treeLevel1.root.levelStringValue, 0);
         game.currentTreeIndex = 0;
         game.isGameOver = false;
-        gameStart();
-
-        
+        gameStart();        
+        console.log("flag", blessingFlag);
         const newPlayer = game.player;
-
-        // Initialize the inventory for the new player
         if (!newPlayer.inventory) {
-            newPlayer.inventory = { items: [], max: 6 }; // Ensure inventory is properly initialized
+            newPlayer.inventory = { items: [], max: 6 }; 
         }
-
-        // Reset player properties
-        newPlayer.health = newPlayer.basehealth;
-        newPlayer.stamina = newPlayer.baseStamina;
+        newPlayer.hasQuetzBlessing = blessingFlag;
+        if (newPlayer.hasQuetzBlessing) {
+            console.log("Dejando QuetzBless.ing");
+            newPlayer.maxHealth = 12;
+            newPlayer.maxStamina = 7;
+            newPlayer.basehealth = 12;
+            newPlayer.baseStamina = 7;
+            newPlayer.health = 12;
+            newPlayer.stamina = 7;
+        } 
+        else {
+            newPlayer.health = newPlayer.basehealth;
+            newPlayer.stamina = newPlayer.baseStamina;
+        }
         newPlayer.isDead = false;
-
-        // Restore the last card picked up, if any
+        console.log(lastCardPickedUpGlobal);
         if (lastCardPickedUpGlobal) {
-            if(lastCardPickedUpGlobal.maxUses == 0){
-                lastCardPickedUpGlobal.maxUses = 1;
-                console.log("Card uses restored");
-            }
+            lastCardPickedUpGlobal.maxUses = 1; 
+            console.log("restorecarduses:", lastCardPickedUpGlobal);
             newPlayer.inventory.items.push(lastCardPickedUpGlobal);
-            console.log("Respawned with card:", lastCardPickedUpGlobal.cardId);
+            newPlayer.inventory.items[0].maxUses = 1;
+            console.log(newPlayer.inventory.items[0]);
+            console.log("Respawned with card:", lastCardPickedUpGlobal.cardId, lastCardPickedUpGlobal.maxUses);
             console.log("New player inventory:", newPlayer.inventory.items);
         }
-
         // Reset UI
         document.getElementById("canvas").style.display = "flex";
         document.getElementById("uiCanvas").style.display = "flex";
@@ -418,12 +419,8 @@ document.addEventListener('DOMContentLoaded', () => {
             location.reload();
         });
     });
-    
     const optionsMenu = document.getElementById("optionsMenu");
-
     const backToMenuButton = document.getElementById("backToMenuButton");
-
-
     // Open Options Menu from Start or Pause Menu
     /*optionsButton.addEventListener("click", () => {
         console.log("optionsmenubutton");
@@ -442,7 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
             startMenu.style.display = "flex";
         }
     });
-
 
     document.querySelectorAll("#sfxVolume").forEach((slider) => {
         slider.addEventListener("input", (event) => {
@@ -504,7 +500,6 @@ function init(){
     uiCanvas.style.display = "flex"; 
 
     gameStart();
-
 }
 
 // Game creation
@@ -559,7 +554,6 @@ async function gameStart() {
     }
     // debug
     console.log(`treeInd ${game.currentTreeIndex} R ${game.currentRoom.roomNum} Paths: ${paths}`);
-
     setEventListeners();
     drawScene(document.timeline.currentTime);
 }
@@ -609,7 +603,6 @@ function setEventListeners() {
             game.selectedCardIndex = index;
             game.player.useCard(index);
             console.log("Inv.Key pressed: " + event.key);
-            
         }
         //para vasija / chest
         if(event.key == "f" || event.key == "F"){
@@ -690,7 +683,6 @@ function drawUI() {
     const xOrigin = uiCanvasWidth / 4;
     const y = uiCanvasHeight / 2 - cardHeight / 2;
     uiCtx.textAlign = "left";
-
     usernameText.draw(uiCtx, `Name: ${globUsername}`);
     //HPText.draw(uiCtx, `HP: ${game.player.health}`);
     //staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
@@ -713,33 +705,31 @@ function drawUI() {
         const secondsLeft = Math.ceil(game.player.transformationTimer / 1000);
         transformText.draw(uiCtx, `Transformation: ${game.player.transformationType} (${secondsLeft}s)`);
     }
-
     for (let i = 0; i < game.player.inventory.max; i++) {
         const x = xOrigin + i * (cardWidth + cardSpacing);
-
-        // Highlight the selected card slot
+        // Highlight  card slot
         if (game.selectedCardIndex === i) {
-            uiCtx.strokeStyle = "yellow"; // Highlight color
-            uiCtx.lineWidth = 4; // Thickness of the border
-            uiCtx.strokeRect(x - 5, y - 5, cardWidth + 10, cardHeight + 10); // Draw the border
+            uiCtx.strokeStyle = "yellow";
+            uiCtx.lineWidth = 4; 
+            uiCtx.strokeRect(x - 5, y - 5, cardWidth + 10, cardHeight + 10);
         }
-
-        // Draw the card if it exists
+        // Draw the card if
         if (inventory[i]) {
             const card = inventory[i];
             if (card.spriteImage && card.spriteImage.complete) {
                 uiCtx.drawImage(card.spriteImage, x, y, cardWidth, cardHeight);
-            } else {
+            } 
+            else {
                 uiCtx.fillStyle = "gray";
                 uiCtx.fillRect(x, y, cardWidth, cardHeight);
             }
-        } else {
-            // Draw an empty slot
+        } 
+        else {
+            // Draw empty slot
             uiCtx.fillStyle = "rgba(0, 0, 0, 0.74)";
             uiCtx.fillRect(x, y, cardWidth, cardHeight);
         }
-
-        // Draw the slot number
+        // Draw slot number
         uiCtx.fillStyle = "white";
         uiCtx.fillText(i + 1, x + cardWidth / 2 - 5, y + cardHeight + 20);
     }

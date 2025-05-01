@@ -36,8 +36,6 @@ class BaseCard extends GameObject {
         }
         console.log(`Aplicando efectos de ${this.type} a ${target.type}`);
 
-
-
         // Apply buffs to the target's attributes
         target.health += this.healthBuff;
         target.healthRegen += this.healthRegenBuff;
@@ -92,6 +90,7 @@ class BaseCard extends GameObject {
     }
 }
 
+// ------------------------------------------------------------------------------
 // Specific card classes inheriting from BaseCard with particularities defined 
 
 class MacahuitlCard extends BaseCard {
@@ -218,6 +217,7 @@ class QuetzalcoatlCard extends BaseCard {
         this.maxUses = 1;
         this.healthBuff = 20;
         this.staminaBuff = 2;
+        this.damageBuff = 5;
         this.cardType = "benditionCard";
         this.isUnique = true; // Unique card
         this.alreadyUsed = false;
@@ -228,11 +228,12 @@ class QuetzalcoatlCard extends BaseCard {
     //para que la carta haga un efecto permanente
     applyEffect(target) {
         if (!target || this.alreadyUsed) {
-            console.log("Error o carta ya usada");
+            console.log("Error o carta ya usada, solo sumando stats");
+            target.health += this.healthBuff;
+            target.stamina += this.staminaBuff;
             return;
         }
         console.log(`Aplicando efectos de ${this.type} a ${target.type}`);
-
         target.maxHealth = 12;
         target.maxStamina = 12;
         target.basehealth = 12;
@@ -242,6 +243,7 @@ class QuetzalcoatlCard extends BaseCard {
         if (this.healthBuff > 0) {
             target.health += this.healthBuff;
         }
+        target.hasQuetzBlessing = true;
         this.alreadyUsed = true;
         if (target.inventory) {
             const index = target.inventory.items.indexOf(this);
@@ -250,14 +252,6 @@ class QuetzalcoatlCard extends BaseCard {
                 console.log(`Carta eliminada del inventario: ${this.cardType}`);
             }
         }
-        if (game && game.saveState) {
-            game.saveState.quetzalcoatlBlessing = true;
-            game.saveState.playerHealth = target.health;
-            game.saveState.playerMaxHealth = target.maxHealth;
-            game.saveState.playerMaxStamina = target.maxStamina;
-            game.saveState.playerStamina = target.stamina;
-            console.log("Estado de la carta guardado en el juego.");
-            game.saveGame();
-        }
+        console.log(target);
     }
 }

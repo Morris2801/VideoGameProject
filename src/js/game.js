@@ -16,16 +16,14 @@ Purpose
 
 class Game {
     constructor(state, level, trees) {
-        this.state = state;
+        this.state = state; //active o no
         this.level = level;
-
         const startTime = new Date();
         this.startTime = startTime;
         console.log("Game started at:", startTime);
         this.run_start = formatDateForMySQL(new Date()); /// wtf por qué se pone la hora rara
         //this.run_end = null; 
         this.run_duration = null;
-
         this.trees = trees;
         this.currentTreeIndex = 0;
         this.currentTree = this.trees[this.currentTreeIndex];
@@ -33,46 +31,36 @@ class Game {
         this.enteredThroughDir = null;
         this.hasJustSwitchedRooms = false; // a ver si así no se brinca rooms
         this.roomsSwitchCooldown = 0; //antiroomsalto2.0
-
-
         this.player = this.level.player;
         this.actors = level.actors;
         this.attackEffects = [];
         this.selectedCardIndex = null;
-
         this.isActive = true;
         this.bossDefeated = false;
-
         this.levelTimeLimit = 300;  // max timer lev1 sec <------------------------ tbd
         this.levelTimeLimit2 = 400; // max timer lev2 sec <---------------------------------tbd
         this.levelTimer = this.levelTimeLimit;  // currentTimer
-
         this.player = this.level.player;
         this.actors = level.actors;
         this.attackEffects = []; // lista de efectos de ataque 
-
         //camara
         this.camera = new Camera(this.player.position.x, this.player.position.y);
         this.camera.x = this.player.position.x;
         this.camera.y = this.player.position.y;
-
         this.isActive = true;
         // torch damage things
         this.torchDamageTimer = 0;
         this.torchDamageInterval = 1000; // 1 sec 
         this.torchContact = false;
         this.doorCooldown = 0; // ms
-
         this.updateDoorSprites();
     }
     // handles effects in list
-
-
     addAttackEffect(effect) {
         this.attackEffects.push(effect);
     }
     update(deltaTime) {
-        if (!this.isActive || this.isGameOver) return; // No aactualizar si pasusado
+        if (!this.isActive || this.isGameOver) return; // No actualizar si pausado
         this.levelTimer -= deltaTime / 1000;
         if ((this.levelTimer <= 0)) {
             console.log("Time's up");
@@ -99,8 +87,6 @@ class Game {
         }
         let currentActors = this.actors;
         // Detect collisions
-
-
         for (let actor of currentActors) {
             if (actor.type == "boss" && actor.alive == false) {
                 this.bossDefeated = true;
@@ -175,53 +161,57 @@ class Game {
             */
             // individual door handles
             if (actor.type == "updoor" && this.level.contact(this.player.innerHitbox, this.player.size, "updoor")) {
-                console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching UP door. EnteredThroughDir: ${this.enteredThroughDir}`);
+                //console.log(`[DOOR] room ${this.currentRoom.roomNum}, touching UP door. EnteredThrough: ${this.enteredThroughDir}`);
                 if (this.hasJustSwitchedRooms) {
-                    console.log("hasJustSwitched es TRUE");
+                    //console.log("hasJustSwitched es TRUE");
                     return;
                 }; // A VER SI YA DEJA DE BRINCARSE HABITACIONES
                 if (this.enteredThroughDir === "down") {
-                    console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through UP door`);
+                    //console.log(`[DOOR] Back from room ${this.currentRoom.roomNum} through UP door`);
                     this.changeRoom("back");
                     this.enteredThroughDir = null;
-                } else {
-                    console.log(`[DOOR] Going UP from room ${this.currentRoom.roomNum}`);
+                } 
+                else {
+                    //console.log(`[DOOR] Going UP from room ${this.currentRoom.roomNum}`);
                     this.changeRoom("up");
                     this.enteredThroughDir = "up";
                 }
             }
             if (actor.type == "downdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "downdoor")) {
-                console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching DOWN door. EnteredThroughDir: ${this.enteredThroughDir}`);
+                //console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching DOWN door. EnteredThroughDir: ${this.enteredThroughDir}`);
                 if (this.enteredThroughDir === "up") {
-                    console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through DOWN door`);
+                    //console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through DOWN door`);
                     this.changeRoom("back");
                     this.enteredThroughDir = null;
-                } else {
-                    console.log(`[DOOR] Going DOWN from room ${this.currentRoom.roomNum}`);
+                } 
+                else {
+                   // console.log(`[DOOR] Going DOWN from room ${this.currentRoom.roomNum}`);
                     this.changeRoom("down");
                     this.enteredThroughDir = "down";
                 }
             }
             if (actor.type == "leftdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "leftdoor")) {
-                console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching LEFT door. EnteredThroughDir: ${this.enteredThroughDir}`);
+               // console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching LEFT door. EnteredThroughDir: ${this.enteredThroughDir}`);
                 if (this.enteredThroughDir === "right") {
-                    console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through LEFT door`);
+                 //   console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through LEFT door`);
                     this.changeRoom("back");
                     this.enteredThroughDir = null;
-                } else {
-                    console.log(`[DOOR] Going LEFT from room ${this.currentRoom.roomNum}`);
+                } 
+                else {
+                //    console.log(`[DOOR] Going LEFT from room ${this.currentRoom.roomNum}`);
                     this.changeRoom("left");
                     this.enteredThroughDir = "left";
                 }
             }
             if (actor.type == "rightdoor" && this.level.contact(this.player.innerHitbox, this.player.size, "rightdoor")) {
-                console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching RIGHT door. EnteredThroughDir: ${this.enteredThroughDir}`);
+               // console.log(`[DOOR] In room ${this.currentRoom.roomNum}, touching RIGHT door. EnteredThroughDir: ${this.enteredThroughDir}`);
                 if (this.enteredThroughDir === "left") {
-                    console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through RIGHT door`);
+                //    console.log(`[DOOR] Returning to parent from room ${this.currentRoom.roomNum} through RIGHT door`);
                     this.changeRoom("back");
                     this.enteredThroughDir = null;
-                } else {
-                    console.log(`[DOOR] Going RIGHT from room ${this.currentRoom.roomNum}`);
+                } 
+                else {
+                //    console.log(`[DOOR] Going RIGHT from room ${this.currentRoom.roomNum}`);
                     this.changeRoom("right");
                     this.enteredThroughDir = "right";
                 }
@@ -230,7 +220,7 @@ class Game {
                 console.log("Exit active");
                 this.changeLevel(this.currentTreeIndex + 1); // Aquí se cambia el árbol/nivel
             }
-            /*
+            /* no terminé de testear esto, pero creo que era la mejor solución ahora que lo pienso...
             if (actor.type.endsWith("door") && this.level.contact(this.player.innerHitbox, this.player.size, actor.type)) {
                 const dir = actor.type.replace("door", "");
                 if (this.currentRoom.doors[dir]) {
@@ -240,12 +230,10 @@ class Game {
             }
                 */
         }
-
         // Eliminates defeated enemies
         this.actors = this.actors.filter(actor => actor.alive != false);
         // Eliminates "opened" vases
         this.actors = this.actors.filter(actor => actor.isOpened !== true);
-
         if (!this.torchContact) {
             this.torchDamageTimer = 0;
         }
@@ -254,7 +242,6 @@ class Game {
 
     draw(ctx, scale) {
         ctx.save();
-
         // Apply camera transformation
         const zoomScale = scale * this.camera.zoomLevel;
         const canvasWidth = ctx.canvas.width;
@@ -290,8 +277,9 @@ class Game {
                 }
             }
         }
-        this.player.draw(ctx, zoomScale);
+        //medio ineficiente esto jaja se recorre 2 veces la lista actors pero ni idea cómo evitar que se traslapen cosas que no más que así
 
+        this.player.draw(ctx, zoomScale);
         ctx.restore();
         this.drawPlayerHUD(ctx);
     }
@@ -300,9 +288,9 @@ class Game {
     changeRoom(direction) {
         this.doorCooldown = 300; // 300ms cooldown
         const nextRoom = this.currentRoom.doors[direction];
-        console.log(`[ROOM TRANSITION] Attempting to go from room ${this.currentRoom.roomNum} to direction "${direction}"`);
+        //console.log(`[ROOM TRANSITION] Attempting to go from room ${this.currentRoom.roomNum} to direction "${direction}"`);
         if (nextRoom) {
-            console.log(`[ROOM TRANSITION] Exiting room ${this.currentRoom.roomNum} through door "${direction}" to room ${nextRoom.roomNum}`);
+            //console.log(`[ROOM TRANSITION] Exiting room ${this.currentRoom.roomNum} through door "${direction}" to room ${nextRoom.roomNum}`);
             this.currentRoom = nextRoom;
             changeRoomSound.play(); this.level = new Level(this.currentRoom.levelStringValue, this.currentTreeIndex);
             this.actors = this.level.actors;
@@ -329,13 +317,12 @@ class Game {
             setTimeout(() => {
                 this.hasJustSwitchedRooms = false;
                 console.log("Timeout para transicionRoom");
-            }, this.doorCooldown);
-
+            }, this.doorCooldown); // le valió el timeout porque según internet es asíncrona, no va con deltaTime
             if (this.currentRoom.isBossRoom) {
                 const bossTrack = this.currentTreeIndex == 0 ? "bossMusic1" : "bossMusic2";
                 GameMusic.changeMusic(bossTrack);
-
-            } else {
+            } 
+            else {
                 const levelTrack = this.currentTreeIndex == 0 ? "levelMusic1" : "levelMusic2";
                 GameMusic.changeMusic(levelTrack);
             }
@@ -343,17 +330,16 @@ class Game {
             if (this.currentRoom.isBossRoom) {
                 const bossTrack = this.currentTreeIndex == 0 ? "bossMusic1" : "bossMusic2";
                 GameMusic.changeMusic(bossTrack);
-
-            } else {
+            } 
+            else {
                 const levelTrack = this.currentTreeIndex == 0 ? "levelMusic1" : "levelMusic2";
                 GameMusic.changeMusic(levelTrack);
-
-
             }
             this.doorCooldown = 300;
-            console.log(`[ROOM TRANSITION] Room ${this.currentRoom.roomNum}. Player position:`, this.player.position);
-        } else {
-            console.log(`[ROOM TRANSITION] No room "${direction}" from ${this.currentRoom.roomNum}`);
+            //console.log(`[ROOM TRANSITION] Room ${this.currentRoom.roomNum}. Player position:`, this.player.position);
+        } 
+        else {
+        //    console.log(`[ROOM TRANSITION] No room "${direction}" from ${this.currentRoom.roomNum}`);
         }
     }
     changeLevel(treeIndex) {
@@ -388,22 +374,19 @@ class Game {
             }
             this.levelTimer = this.levelTimeLimit;
             this.updateDoorSprites(); // a ver si sale
-
         }
         else {
             console.log("No hay siguiente arbol");
             this.showVictoryScreen();
         }
     }
-
-
     async gameOver() {
         console.log("Game Over");
         if (this.isGameOver) return;
         document.getElementById("flashCanvas").style.display = "flex";
         gameOverSound.play();
         this.isGameOver = true;
-        //inicio de cosas para el API
+        //inicio de cosas para el API ---------- profe Octavio si ve esto, esto es lo que guardabamos por run, que no es mucho pero es trabajo honesto
         let mostUsedCard = this.player.mostUsedCard();
         this.run_end = new Date(); // endTime, a mysql no le gustó el datatype
         let player_runstats = {
@@ -412,7 +395,6 @@ class Game {
             score: this.player.score,
             run_end: formatDateForMySQL(new Date()), //endTime, a mysql no le gustó el datatype
             run_duration: time,
-
             finished: false,
             enemies_killed: this.player.killCount,
             cards_collected: this.player.cardPickupCount,
@@ -442,8 +424,8 @@ class Game {
         }
         catch (err) {
             console.error('Error during GameOver transmitting:', err);
-
         }
+        // con esto se trata de actualizar el highscore del player pero como no ganó pues el runtime da igual
         let playertime = {
             player_id: this.player.player_id,
             runTime: time,
@@ -468,10 +450,6 @@ class Game {
         catch (err) {
             console.error('Error during playertime transmitting:', err);
         }
-
-
-
-        // Stop game activity
         this.isActive = false;
         document.getElementById("flashCanvas").style.display = "none";
         document.getElementById("canvas").style.display = "none";
@@ -495,7 +473,6 @@ class Game {
             score: this.player.score,
             run_end: formatDateForMySQL(new Date()), //endTime, a mysql no le gustó el datatype
             run_duration: time,
-
             finished: true,
             enemies_killed: this.player.killCount,
             cards_collected: this.player.cardPickupCount,
@@ -582,13 +559,10 @@ class Game {
 
     restartGame() {
         console.log("Restarting game...");
-
-        // Stop the current game loop
         this.isActive = false;
         cancelAnimationFrame(this.animationFrameId);
         window.removeEventListener("keydown", this.keydownHandler);
         window.removeEventListener("keyup", this.keyupHandler);
-
         this.currentTreeIndex = 0;
         this.currentTree = this.trees[this.currentTreeIndex];
         this.currentRoom = this.currentTree.root;
@@ -596,10 +570,23 @@ class Game {
 
         // Reset player
         this.player = this.level.player;
-        this.player.health = this.player.basehealth;
-        this.player.stamina = this.player.baseStamina;
+        this.player.hasQuetzBlessing = blessingFlag;
+// cosa por si ya tenía el blessing (ELEMENTO ROGUELITE/LIKE) (cuál era?)
+        if (this.player.hasQuetzBlessing) {
+            console.log("Dejando QuetzBless.ing");
+            this.player.maxHealth = 12;
+            this.player.maxStamina = 7;
+            this.player.basehealth = 12;
+            this.player.baseStamina = 7;
+            this.player.health = Math.min(this.player.health, this.player.maxHealth);
+            this.player.stamina = Math.min(this.player.stamina, this.player.maxStamina);
+        } 
+        else {
+            this.player.health = this.player.basehealth;
+            this.player.stamina = this.player.baseStamina;
+        }
+        
         this.player.isDead = false;
-
         this.actors = this.level.actors;
         this.attackEffects = [];
         this.isActive = true;
@@ -607,21 +594,18 @@ class Game {
         this.torchDamageTimer = 0;
         this.torchContact = false;
 
-
         // Reset UI
         document.getElementById("gameOverMenu").style.display = "none";
         document.getElementById("canvas").style.display = "flex";
         document.getElementById("uiCanvas").style.display = "flex";
 
         this.animationFrameId = requestAnimationFrame(drawScene);
-
         console.log("Game restarted successfully.");
     }
 
 
     drawPlayerHUD(ctx) {
         if (!this.player) return;
-
         ctx.font = "4px Press Start 2P";
         //Valores de las medidadas
         const barWidth = 200;
@@ -629,7 +613,6 @@ class Game {
         const barSpacing = 5;
         const barX = 30;
         const barY = 30;
-
         // barra de vida fondo
         // dibuja un rectangulo gris base
         ctx.fillStyle = "#333333";
@@ -683,7 +666,7 @@ class Game {
                     actor.setSprite('../assets/mapElements/door.png', new Rect(0, 0, 52, 52));
                 }
             }
-            actor.type.replace("","door");
+            actor.type.replace("","door"); // con esto evito que los enemigos se vayan por los bordes
         }
     }
 
@@ -777,7 +760,6 @@ function applyScreenFlash(color, duration, opacity) {
         ctx.globalAlpha = opacity;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
-
     const timeoutId = setTimeout(() => {
         if (!game.isGameOver) {
             flashActive = false;
