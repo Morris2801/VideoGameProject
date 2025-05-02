@@ -843,8 +843,8 @@ class BasePlayer extends BaseCharacter {
     const scaledHeight = hitbox.height * scale;
 
     // Dibujar hitbox
-    ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
-    ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
+    // ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+    // ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
   }
 
   restoreSprites() {
