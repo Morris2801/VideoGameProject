@@ -18,7 +18,6 @@ Purpose
 // Importing modules
 import express from 'express'
 
-// The mysql2/promise module is used to connect to the MySQL database. The promise version of the module is used to avoid the use of callbacks and instead use the async/await syntax.
 import mysql from 'mysql2/promise'
 import fs from 'fs'
 
@@ -92,7 +91,7 @@ app.post('/api/player/check', async (request, response) => {
             response.status(404).json({ message: 'Player not found' });
         }
     } catch (error) {
-        response.status(500).json({ message: 'Internal server error', error });
+        response.status(500).json({ message: 'Algo hice mal con la api jiji', error });
         console.error(error);
     } finally {
         if (connection !== null) {
@@ -177,7 +176,7 @@ app.get('/api/player/check/:username', async (request, response) => {
         if (results.length > 0) {
             response.status(200).json({ exists: true, message: 'Username already exists.' });
         } else {
-            response.status(200).json({ exists: false, message: 'Username is available.' });
+            response.status(200).json({ exists: false, message: 'Username disponible' });
         }
     } catch (error) {
         response.status(500).json({ error: 'Error checking username.' });
@@ -325,7 +324,7 @@ app.delete('/api/player/:player_id', async (request, response) => {
 })
 
 
-
+// ^_----- no se usa, solo quería completar los CRUD para player como test de conexión 
 
 // ------------------- Tests para enviar gameinfo per run -----------------
 app.get('/api/player_runstats', async (request, response) => {
@@ -552,7 +551,7 @@ app.get('/api/favoritecard', async (request, response) => {
         const [results, fields] = await connection.execute(`
             SELECT * 
             FROM player_card 
-            ORDER BY 'Usage Count' DESC LIMIT 10;`);
+            ORDER BY UsageCount DESC LIMIT 10;`);
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)
@@ -579,7 +578,7 @@ app.get('/api/favoritecard/:username', async (request, response) => {
         const [results_user, _] = await connection.query(`
             SELECT * 
             FROM player_card 
-            WHERE Username= ? ORDER BY "Usage Count" DESC LIMIT 1`, [request.params.username])
+            WHERE Username= ? ORDER BY UsageCount DESC LIMIT 1`, [request.params.username])
 
         console.log(`${results_user.length} rows returned`)
         response.json(results_user)
@@ -632,7 +631,7 @@ app.get('/api/nemesis/:username', async (request, response) => {
         connection = await connectToDB()
         const [results_user, _] = await connection.query('SELECT * FROM nemesis WHERE Username = ? ORDER BY KillCount DESC LIMIT 1', [request.params.username])
         console.log(`${results_user.length} rows returned`)
-        
+
         response.json(results_user)
         if (results.length === 1) {
             const enemyName = results[0]["Enemy"];
@@ -673,7 +672,7 @@ app.get('/api/progression', async (request, response) => {
                  FROM player AS p
                  JOIN player_runstats AS r ON p.player_id = r.player_id
                  ORDER BY p.username, r.run_start`);
-        
+
         console.log(`${results.length} rows returned`)
         console.log(results)
         response.json(results)
@@ -697,7 +696,7 @@ app.get('/api/progression/:username', async (request, response) => {
         connection = await connectToDB()
 
         const [results_user, _] = await connection.query('SELECT p.username, r.run_start, r.score FROM player AS p JOIN player_runstats AS r ON p.player_id = r.player_id WHERE p.username = ? ORDER BY r.run_start', [request.params.username])
-       
+
         console.log(`${results_user.length} rows returned`)
         response.json(results_user)
     }

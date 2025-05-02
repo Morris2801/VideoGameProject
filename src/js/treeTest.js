@@ -22,7 +22,7 @@ class TreeNode {
     constructor(roomNum, levelStringValue = "", downParent = null, enteredFromDir = null) {
         this.roomNum = roomNum;
         this.levelStringValue = levelStringValue;
-        this.downParent = downParent;
+        this.downParent = downParent; // ya no se usó mucho pero igual ya no es el parent
         this.enteredFromDir = enteredFromDir; // direction from which parent connects
         this.children = { up: null, left: null, right: null, down: null };
         this.doors = {}; // e.g. { left: childNode, right: childNode, up: childNode, down: parentNode }
@@ -46,12 +46,10 @@ class Tree{ // level tree
         let availableDirs = node === this.root
             ? ["up", "left", "right"]
             : ["up", "left", "right", "down"];
-
         if (enteredFromDir) {
             const backDir = oppositeDirections[enteredFromDir];
             availableDirs = availableDirs.filter(d => d !== backDir);
         }
-
         const maxPossibleChildren = Math.min(availableDirs.length, this.numRooms - this.currentRoomCount);
         const numChildren = Math.min(Math.floor(Math.random() * 3) + 1, maxPossibleChildren);
 

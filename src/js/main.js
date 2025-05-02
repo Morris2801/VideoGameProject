@@ -41,8 +41,8 @@ let time;
 let lastCardPickedUpGlobal = null;
 
 // Level Gens
-const numRoomsLvl1 = 7; // <- modify
-const numRoomsLvl2 = 9; // <- modify
+const numRoomsLvl1 = 7; // <- modify si quiere más reto
+const numRoomsLvl2 = 9; // <- modify si quiere más reto
 let treeLevel1 = new Tree(1,numRoomsLvl1);
 treeLevel1.treeGen();
 let treeLevel2 = new Tree(2,numRoomsLvl2);
@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // HTML element extraction
     const restartButton = document.getElementById("restartButton");
     const exitToMainButton = document.getElementsByClassName(".exitToMainButton");
-
     const startMenu = document.getElementById("startMenu");
     const pauseMenu = document.getElementById("pauseMenu");
     const startGameButton = document.getElementById("startButton");
@@ -64,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const resumeButton = document.getElementById("resumeButton");
     const loginSection = document.getElementById("loginSection");
     const cancelButton = document.getElementById("cancelButton");
-    
     const loginForm = document.getElementById("loginForm");
     const statsSidebar = document.getElementById("statsSidebar");
     const statsTrigger = document.getElementById("statsTrigger");
@@ -92,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isContextScreenActive = true;
         if (typeof GameMusic !== "undefined") {
             console.log("Iniciando música...");
+            console.log("Volume:", volume);
             GameMusic.setVolume(volume); 
             GameMusic.startMusic();  
         
@@ -103,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.style.display = "none";
     uiCanvas.style.display = "none";
     startMenu.style.display = "flex";
-    // Context screen behavior, and game start with init() function
+    // Context screen behavior, and game start + init() 
     window.addEventListener("keydown", (event) =>{
         if(isContextScreenActive && (event.key == "Enter" || event.code == "Space")){
             contextScreen.style.display = "none"; 
@@ -157,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
         if (!isValid) {
-            return; // Stop execution if validation fails
+            return; 
         }
         console.log("RegexTests passed apparently");
         // Send the data to the backend using fetch
@@ -218,17 +217,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Pause menu disabled during game over or victory.");
                 return;
             }
-
-            // Pause game
             if (!isPaused && game) {
                 pauseMenu.style.display = 'flex';
                 isPaused = true;
                 game.isActive = false;
+                document.querySelectorAll("#musicVolume").forEach((slider) => {
+                    slider.value = volume; 
+                });
+                document.querySelectorAll("#sfxVolume").forEach((slider) => {
+                    slider.value = sfxVolume;
+                });
+                document.querySelectorAll("#soundEffectsToggle").forEach((toggle) => {
+                    toggle.checked = soundEffectsEnabled;
+                });
                 console.log("Game paused.");
                 canvas.style.display = "none";
                 uiCanvas.style.display = "none";
-            } 
-            // Resume game
+            }
             else if (isPaused && game) {
                 pauseMenu.style.display = 'none';
                 canvas.style.display = "flex";
@@ -359,11 +364,9 @@ document.addEventListener('DOMContentLoaded', () => {
     */
     restartButton.addEventListener('click', () => {
         document.getElementById("gameOverMenu").style.display = "none";
-
+        let blessingFlag = game.player.hasQuetzBlessing;
         console.log("Restarting game...");
-        // Reset total elapsed time
         totalElapsedTime = 0;
-
         lastCardPickedUpGlobal = game?.player?.lastCardPickedUp || null;
         treeLevel1 = new Tree(1,numRoomsLvl1);
         treeLevel1.treeGen();
@@ -372,32 +375,37 @@ document.addEventListener('DOMContentLoaded', () => {
         initialLevel = new Level(treeLevel1.root.levelStringValue, 0);
         game.currentTreeIndex = 0;
         game.isGameOver = false;
-        gameStart();
-
-        
+        gameStart();        
+        console.log("flag", blessingFlag);
         const newPlayer = game.player;
-
-        // Initialize the inventory for the new player
         if (!newPlayer.inventory) {
-            newPlayer.inventory = { items: [], max: 6 }; // Ensure inventory is properly initialized
+            newPlayer.inventory = { items: [], max: 6 }; 
         }
-
-        // Reset player properties
-        newPlayer.health = newPlayer.basehealth;
-        newPlayer.stamina = newPlayer.baseStamina;
+        newPlayer.hasQuetzBlessing = blessingFlag;
+        if (newPlayer.hasQuetzBlessing) {
+            console.log("Dejando QuetzBless.ing");
+            newPlayer.maxHealth = 12;
+            newPlayer.maxStamina = 7;
+            newPlayer.basehealth = 12;
+            newPlayer.baseStamina = 7;
+            newPlayer.health = 12;
+            newPlayer.stamina = 7;
+        } 
+        else {
+            newPlayer.health = newPlayer.basehealth;
+            newPlayer.stamina = newPlayer.baseStamina;
+        }
         newPlayer.isDead = false;
-
-        // Restore the last card picked up, if any
+        console.log(lastCardPickedUpGlobal);
         if (lastCardPickedUpGlobal) {
-            if(lastCardPickedUpGlobal.maxUses == 0){
-                lastCardPickedUpGlobal.maxUses = 1;
-                console.log("Card uses restored");
-            }
+            lastCardPickedUpGlobal.maxUses = 1; 
+            console.log("restorecarduses:", lastCardPickedUpGlobal);
             newPlayer.inventory.items.push(lastCardPickedUpGlobal);
-            console.log("Respawned with card:", lastCardPickedUpGlobal.cardId);
+            newPlayer.inventory.items[0].maxUses = 1;
+            console.log(newPlayer.inventory.items[0]);
+            console.log("Respawned with card:", lastCardPickedUpGlobal.cardId, lastCardPickedUpGlobal.maxUses);
             console.log("New player inventory:", newPlayer.inventory.items);
         }
-
         // Reset UI
         document.getElementById("canvas").style.display = "flex";
         document.getElementById("uiCanvas").style.display = "flex";
@@ -411,16 +419,8 @@ document.addEventListener('DOMContentLoaded', () => {
             location.reload();
         });
     });
-    
     const optionsMenu = document.getElementById("optionsMenu");
-    const musicVolumeSlider = document.getElementById("musicVolume");
-    const soundEffectsToggle = document.getElementById("soundEffectsToggle");
     const backToMenuButton = document.getElementById("backToMenuButton");
-    const sfxVolumeSlider = document.getElementById("sfxVolume");
-    sfxVolumeSlider.value = sfxVolume;
-    musicVolumeSlider.value = volume; 
-
-
     // Open Options Menu from Start or Pause Menu
     /*optionsButton.addEventListener("click", () => {
         console.log("optionsmenubutton");
@@ -433,44 +433,44 @@ document.addEventListener('DOMContentLoaded', () => {
     backToMenuButton.addEventListener("click", () => {
         optionsMenu.style.display = "none";
         if (game && game.isActive) {
-            console.log("showing pause menu.");
+            console.log("pausa o n");
             pauseMenu.style.display = "flex";
         } else {
             startMenu.style.display = "flex";
         }
     });
 
-    // Adjust Music Volume
-    musicVolumeSlider.addEventListener("input", (event) => {
-        volume = event.target.value;
-        GameMusic.setVolume(volume);
-        console.log("Music volume set to:", volume);
-    });
-
-    // Toggle Sound Effects
-    soundEffectsToggle.addEventListener("change", (event) => {
-        soundEffectsEnabled = event.target.checked;
-        console.log("Sound effects enabled:", soundEffectsEnabled);
-        // Add logic to enable/disable sound effects
-    });
-
-    sfxVolumeSlider.addEventListener("input", (event) => {
-        sfxVolume = parseFloat(event.target.value); // Update the global volume variable
-        console.log("Sound effects volume set to:", sfxVolume);
-
-        running.volume = sfxVolume;
-        attack.volume = sfxVolume;
-        breaking.volume = sfxVolume;
-        dash.volume = sfxVolume;
-        powerup.volume = sfxVolume;
+    document.querySelectorAll("#sfxVolume").forEach((slider) => {
+        slider.addEventListener("input", (event) => {
+            sfxVolume = parseFloat(event.target.value); 
+            console.log("SFXVol", sfxVolume);
+            running.volume = sfxVolume;
+            attack.volume = sfxVolume;
+            breaking.volume = sfxVolume;
+            dash.volume = sfxVolume;
+            powerup.volume = sfxVolume;
+        });
     });
 
     document.querySelectorAll("#optionsButton").forEach((button) => {
         button.addEventListener("click", () => {
-            console.log("Options menu button clicked");
+            console.log("Options menu click");
             startMenu.style.display = "none";
             pauseMenu.style.display = "none";
             optionsMenu.style.display = "flex";
+        });
+    });
+    document.querySelectorAll("#soundEffectsToggle").forEach((toggle) => {
+        toggle.addEventListener("change", (event) => {
+            soundEffectsEnabled = event.target.checked;
+            console.log("Sound prendido:", soundEffectsEnabled);
+        });
+    });
+    document.querySelectorAll("#musicVolume").forEach((slider) => {
+        slider.addEventListener("input", (event) => {
+            volume = parseFloat(event.target.value); 
+            GameMusic.setVolume(volume);
+            console.log("Music vol:", volume);
         });
     });
 }); 
@@ -500,7 +500,6 @@ function init(){
     uiCanvas.style.display = "flex"; 
 
     gameStart();
-
 }
 
 // Game creation
@@ -555,7 +554,6 @@ async function gameStart() {
     }
     // debug
     console.log(`treeInd ${game.currentTreeIndex} R ${game.currentRoom.roomNum} Paths: ${paths}`);
-
     setEventListeners();
     drawScene(document.timeline.currentTime);
 }
@@ -605,7 +603,6 @@ function setEventListeners() {
             game.selectedCardIndex = index;
             game.player.useCard(index);
             console.log("Inv.Key pressed: " + event.key);
-            
         }
         //para vasija / chest
         if(event.key == "f" || event.key == "F"){
@@ -669,14 +666,15 @@ function setEventListeners() {
     });
 }
 //Stats drawing (tbd)
-const usernameText = new TextLabel(80, uiCanvasHeight/4+10, "20px Times New Roman", "white");
-//const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px Times New Roman", "white");
-//const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px Times New Roman", "white");
-const locationText = new TextLabel(80, uiCanvasHeight/4 + 45, "20px Times New Roman", "white");
+const usernameText = new TextLabel(80, uiCanvasHeight/4+10, "15px 'Press Start 2P", "white");
+//const HPText = new TextLabel(60, uiCanvasHeight/4 + 20, "20px 'Press Start 2P", "white");
+//const staminaText = new TextLabel(60, uiCanvasHeight/4 + 50, "20px 'Press Start 2P", "white");
+const locationText = new TextLabel(80, uiCanvasHeight/4 + 45, "13px 'Press Start 2P", "white");
 const transformText = new TextLabel(80, 3 * uiCanvasHeight/2 + 110, "10px Times New Roman", "yellow");
-const scoreTextUI = new TextLabel(80, uiCanvasHeight/4 + 80, "20px Times New Roman", "white"); 
+const scoreTextUI = new TextLabel(80, uiCanvasHeight/4 + 80, "11px 'Press Start 2P", "white"); 
 //display inventory, HP, stamina, ... (tbd)
 function drawUI() {
+    ctx.font = "10px 'Press Start 2P'";
     uiCtx.clearRect(0, 0, uiCanvasWidth, uiCanvasHeight);
     let inventory = game.player.inventory.items;
     let cardWidth = 80;
@@ -685,11 +683,10 @@ function drawUI() {
     const xOrigin = uiCanvasWidth / 4;
     const y = uiCanvasHeight / 2 - cardHeight / 2;
     uiCtx.textAlign = "left";
-
     usernameText.draw(uiCtx, `Name: ${globUsername}`);
     //HPText.draw(uiCtx, `HP: ${game.player.health}`);
     //staminaText.draw(uiCtx, `Stamina: ${game.player.stamina}`);
-    const timerText = new TextLabel(uiCanvasWidth - 200, uiCanvasHeight/4 + 45, "20px Times New Roman", "rgb(255, 255, 255)");
+    const timerText = new TextLabel(uiCanvasWidth - 280, uiCanvasHeight/4 + 45, "14px 'Press Start 2P", "rgb(255, 255, 255)");
     const minutes = Math.floor(game.levelTimer / 60);
     const seconds = Math.floor(game.levelTimer % 60);
     timerText.draw(uiCtx, `Time Left\n: ${minutes}:${seconds.toString().padStart(2, '0')}`);
@@ -708,46 +705,45 @@ function drawUI() {
         const secondsLeft = Math.ceil(game.player.transformationTimer / 1000);
         transformText.draw(uiCtx, `Transformation: ${game.player.transformationType} (${secondsLeft}s)`);
     }
-
     for (let i = 0; i < game.player.inventory.max; i++) {
         const x = xOrigin + i * (cardWidth + cardSpacing);
-
-        // Highlight the selected card slot
+        // Highlight  card slot
         if (game.selectedCardIndex === i) {
-            uiCtx.strokeStyle = "yellow"; // Highlight color
-            uiCtx.lineWidth = 4; // Thickness of the border
-            uiCtx.strokeRect(x - 5, y - 5, cardWidth + 10, cardHeight + 10); // Draw the border
+            uiCtx.strokeStyle = "yellow";
+            uiCtx.lineWidth = 4; 
+            uiCtx.strokeRect(x - 5, y - 5, cardWidth + 10, cardHeight + 10);
         }
-
-        // Draw the card if it exists
+        // Draw the card if
         if (inventory[i]) {
             const card = inventory[i];
             if (card.spriteImage && card.spriteImage.complete) {
                 uiCtx.drawImage(card.spriteImage, x, y, cardWidth, cardHeight);
-            } else {
+            } 
+            else {
                 uiCtx.fillStyle = "gray";
                 uiCtx.fillRect(x, y, cardWidth, cardHeight);
             }
-        } else {
-            // Draw an empty slot
+        } 
+        else {
+            // Draw empty slot
             uiCtx.fillStyle = "rgba(0, 0, 0, 0.74)";
             uiCtx.fillRect(x, y, cardWidth, cardHeight);
         }
-
-        // Draw the slot number
+        // Draw slot number
         uiCtx.fillStyle = "white";
         uiCtx.fillText(i + 1, x + cardWidth / 2 - 5, y + cardHeight + 20);
     }
 }
 //Stats canvas text (tbd)
-const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 , "20px Times New Roman", "white");
-const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 30, "20px Times New Roman", "white");
-const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 60, "20px Times New Roman", "white");
-const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 90, "20px Times New Roman", "white");
-const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 120, "20px Times New Roman", "white");
-const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 150, "20px Times New Roman", "white"); 
+const elapsedTime = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 , "10px 'Press Start 2P", "white");
+const killCount = new TextLabel(statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 30, "10px 'Press Start 2P", "white");
+const cardsPickedUp = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 60, "10px 'Press Start 2P", "white");
+const cardsUsed = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 90, "10px 'Press Start 2P", "white");
+const vasesBroken = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 120, "10px 'Press Start 2P", "white");
+const scoreTextStats = new TextLabel (statsCanvasWidth/2 - 100, statsCanvasHeight/4 + 150, "10px 'Press Start 2P", "white"); 
 
 function drawStats(){
+    ctx.font = "10px 'Press Start 2P'";
     statsCtx.clearRect(0,0, statsCanvasWidth, statsCanvasHeight);
     killCount.draw(statsCtx, `Kill Count: ${game.player.killCount}`);
     let totalSeconds = Math.floor(totalElapsedTime/1000);

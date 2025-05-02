@@ -9,7 +9,7 @@ Team members
 
 Purpose
 - Defines BasePlayer class
-- Implements inventory system (for card usage) through a stacklike datastruct 
+- Implements inventory system (for card usage) through a an array++ datastruct 
 - Handles player movement, attack mechanics and transformations
 - Tracks player stats 
 */
@@ -18,7 +18,7 @@ const PLAYER_SCALE = 1.5;  // Escala para el personaje
 const WEAPON_SCALE = 2.5;  // Escala para el arma
 const ATTACK_EFFECT_SCALE = 1.5;
 
-// Stack DataStruct pero con otro nombre
+// Array DataStruct pero con otro nombre y más cositas mágicas
 class Inventory {
   constructor() {
     this.items = [];
@@ -26,9 +26,8 @@ class Inventory {
     this.activeWeapon = null;
     this.activeTransformation = null;
     this.activeBuff = null;
-    this.player = null; // Reference to player (?)
+    this.player = null; // Reference to player (hmmm?)
   }
-  //add card to end
   push(element) {
     if (this.items.length < this.max) {
       this.items.push(element);
@@ -62,7 +61,7 @@ class Inventory {
     const card = this.items[cardIndex];
     if (!card) return false;
     console.log(`Activating card: ${card.cardType || card.type}, weapon type: ${card.weaponType}, transformation type: ${card.transformationType}`);
-    
+
     if (this.player) {
       this.player.trackCardUse(card);
     }
@@ -82,8 +81,8 @@ class Inventory {
         this.player.applyTransformation(card.transformationType || "default", duration);
       }
     }
-    else if(card.cardType === "benditionCard"){
-      if(this.player){
+    else if (card.cardType === "benditionCard") {
+      if (this.player) {
         card.applyEffect(this.player);
 
       }
@@ -93,7 +92,7 @@ class Inventory {
       this.activeBuff = this.activeBuff || [];
       this.activeBuff.push(card);
       //effecto de buff
-      
+
       if (this.player) {
         this.applyBuffEffects(card);
       }
@@ -117,34 +116,29 @@ class Inventory {
       this.player.stamina += card.staminaBuff;
     }
     if (card.damageBuff) {
-      // Damage bonus handled in getDamageBonus()
+      this.player.damage += card.damageBuff;
     }
-
-    // Visual effects if applicable
     if (card.visualEffect && this.player.applyVisualEffect) {
       this.player.applyVisualEffect(card.visualEffect);
     }
   }
   removeBuff(cardToRemove) {
     if (!this.activeBuff) return;
-
-    // Remove the buff from active buffs
     this.activeBuff = this.activeBuff.filter(card => card !== cardToRemove);
-
-    // Revert buff effects
     if (this.player) {
       this.revertBuffEffects(cardToRemove);
     }
   }
   revertBuffEffects(card) {
     if (!this.player) return;
-
-    // Revert stat changes with validation
     if (card.healthBuff && typeof this.player.health === 'number') {
       this.player.health = Math.max(1, this.player.health - card.healthBuff);
     }
     if (card.staminaBuff && typeof this.player.stamina === 'number') {
       this.player.stamina = Math.max(0, this.player.stamina - card.staminaBuff);
+    }
+    if (card.damageBuff && typeof this.player.damage === 'number') {
+      this.player.damage = Math.max(0, this.player.damage - card.damageBuff);
     }
   }
 
@@ -200,14 +194,16 @@ class AttackAnimation extends AnimatedObject {
           scaledX, scaledY,
           scaledWidth, scaledHeight
         );
-      } else {
+      }
+      else {
         ctx.drawImage(
           this.spriteImage,
           scaledX, scaledY,
           scaledWidth, scaledHeight
         );
       }
-    } else {
+    }
+    else {
       // Dibujar rectangulo de color si no hay sprite
       ctx.fillStyle = this.color;
       ctx.fillRect(
@@ -219,8 +215,6 @@ class AttackAnimation extends AnimatedObject {
 
   update(level, deltaTime) {
     super.update(level, deltaTime);
-
-    // Manejar colisiones con enemigos
     if (this.active && game) {
       for (const enemy of game.actors.filter(actor => actor.type === "enemy" || actor.type === "boss")) {
         if (boxOverlap(this, enemy) && !this.hitEnemies.includes(enemy)) {
@@ -230,8 +224,6 @@ class AttackAnimation extends AnimatedObject {
         }
       }
     }
-
-    // Marcar para eliminación cuando se completa la animación
     if (this.attackDuration >= this.attackMaxDuration) {
       this.active = false;
       this.shouldRemove = true;
@@ -241,7 +233,7 @@ class AttackAnimation extends AnimatedObject {
 }
 
 
-// ------------------
+// ------------------------------------------------------------------------
 // Jugador
 
 
@@ -254,6 +246,7 @@ class BasePlayer extends BaseCharacter {
     this.damage = 3;
     this.inventory = new Inventory();
     this.lastCardPickedUp = null;
+    this.hasQuetzBlessing = false;
 
     //stats? (inc9mplete)
     this.player_id = null; // tbd
@@ -281,12 +274,12 @@ class BasePlayer extends BaseCharacter {
     this.hasHitEnemy = false;
 
     // Dash properties
-  this.dashSpeed = 3;       // Velocidad del dash
-  this.dashDuration = 500;     // Duracion del dash en milisegundos
-  this.dashCooldown = 1000;    // Tiempo de espera entre dashes
-  this.isDashing = false;      // Estado de dash
-  this.dashTimer = 0;          // Contador de tiempo actual del dash
-  this.lastDashTime = 0;
+    this.dashSpeed = 3;       // Velocidad del dash
+    this.dashDuration = 500;     // Duracion del dash en milisegundos
+    this.dashCooldown = 1000;    // Tiempo de espera entre dashes
+    this.isDashing = false;      // Estado de dash
+    this.dashTimer = 0;          // Contador de tiempo actual del dash
+    this.lastDashTime = 0;
 
     // Cajas de colision de ataque (para detectar golpes) <- tbd
     this.attackBoxes = {
@@ -343,8 +336,8 @@ class BasePlayer extends BaseCharacter {
         main: "../assets/charSpritesheets/testSpriteSheet.png",
         attacking: "../assets/charSpritesheets/SpriteSheetPeleandoBase.png"
       },
-      "mayanWarrior":{
-        main:  "../assets/charSpritesheets/MayanSpriteSheetChar.png",
+      "mayanWarrior": {
+        main: "../assets/charSpritesheets/MayanSpriteSheetChar.png",
         attacking: "../assets/charSpritesheets/MayanPeleandoSpriteSheet.png"
 
       },
@@ -390,11 +383,8 @@ class BasePlayer extends BaseCharacter {
       up: [12, 17],
       down: [19, 23]
     };
-
     this.hasHitEnemy = false;
-
     this.inventory.setPlayer(this);
-
     this.currentVisualEffect = null;
   }
 
@@ -408,7 +398,7 @@ class BasePlayer extends BaseCharacter {
       const activated = this.inventory.activateCard(index);
       if (activated) {
         console.log("Carta activada exitosamente");
-        if(soundEffectsEnabled){
+        if (soundEffectsEnabled) {
           powerup.play();
         }
         if (card.cardType == "weaponCard") {
@@ -477,7 +467,7 @@ class BasePlayer extends BaseCharacter {
       if (game && !this.isDead) {
         this.isDead = true;
         game.gameOver();
-      } 
+      }
       return;
     }
 
@@ -517,14 +507,11 @@ class BasePlayer extends BaseCharacter {
           }
         }
       }
-
       // Finalizar ataque
       if (this.attackDuration >= this.attackMaxDuration) {
         this.attacking = false;
         this.attackDuration = 0;
         this.hasHitEnemy = false;
-
-        // volver al sprite del basecharacter depsues de atacar
         this.restoreSprites();
 
         // Volver a animacion de idle
@@ -535,26 +522,19 @@ class BasePlayer extends BaseCharacter {
     //actualizar timer si esta tranformado
     if (this.isTransformed && this.transformationTimer > 0) {
       this.transformationTimer -= deltaTime;
-
       if (this.transformationTimer <= 0) {
         this.revertTransformation();
       }
     }
-
-
   }
 
   equipWeapon(weaponType) {
     console.log(`Intentando equipar arma: ${weaponType}`);
-
-    // Verificar que el tipo de arma sea valido
     if (!this.weaponSprites[weaponType]) {
       console.warn(`Tipo de arma no encontrado: ${weaponType}, usando default`);
       weaponType = "default";
     }
-
     this.activeWeaponType = weaponType;
-
     if (!this.isTransformed) {
       this.updateCurrentSprites();
     }
@@ -612,7 +592,8 @@ class BasePlayer extends BaseCharacter {
         this.currentAttackingSprite = new Image();
         this.currentAttackingSprite.src = transformSprites.attacking || transformSprites.main;
       }
-    } else {
+    } 
+    else {
       // Si el jugador esta en estado normal, usar sprites de arma
       const weaponSprites = this.weaponSprites[this.activeWeaponType];
       if (weaponSprites) {
@@ -623,7 +604,8 @@ class BasePlayer extends BaseCharacter {
 
         this.currentAttackingSprite = new Image();
         this.currentAttackingSprite.src = weaponSprites.attacking || weaponSprites.main;
-      } else {
+      } 
+      else {
         // Usar sprites predeterminados si no hay arma
         this.currentSprite = this.normalSprite;
         //update el sprite que sera dibujado
@@ -682,23 +664,23 @@ class BasePlayer extends BaseCharacter {
     // Establecer frames de ataque basada en direccion
     const attackFrameRange = this.attackFrames[this.lastDirection];
     this.setAnimation(attackFrameRange[0], attackFrameRange[1], false, 100);
-    
-      
+
+
   }
 
   setAttackKeyReleased() {
     this.attackKeyReleased = true;
   }
-  
-    
-  
-  
+
+
+
+
   draw(ctx, scale) {
     if (this.attacking) {
       this.drawAttackingPlayer(ctx, scale);
       this.drawWeapon(ctx, scale);
       this.drawAttackHitbox(ctx, scale); //Dibujar hitbox 
-    } 
+    }
     else {
       super.draw(ctx, scale);
     }
@@ -770,8 +752,6 @@ class BasePlayer extends BaseCharacter {
 
   drawWeapon(ctx, scale) {
     const direction = this.lastDirection;
-
-
     const attackProgress = this.attackDuration / this.attackMaxDuration;
     const attackFrame = Math.min(Math.floor(attackProgress * 6), 5);
 
@@ -780,13 +760,10 @@ class BasePlayer extends BaseCharacter {
     const scaledY = this.position.y * scale;
     const scaledWidth = this.size.x * scale;
     const scaledHeight = this.size.y * scale;
-
-    // Set de posicionamiento del arma
     let offsetX = 0;
     let offsetY = 0;
     let angle = 0;
 
-    // Ajustar posicion y rotacion del arma segun la direccion
     switch (direction) {
       case 'right':
         offsetX = scaledWidth + (10 * WEAPON_SCALE);
@@ -809,18 +786,14 @@ class BasePlayer extends BaseCharacter {
         angle = Math.PI / 2;
         break;
     }
-
-    // Dibujar el arma
     ctx.save();
     ctx.translate(scaledX + offsetX, scaledY + offsetY);
     ctx.rotate(angle);
-
-    // Dimensiones del arma y recortes de los sprites
     const weaponWidth = 112 / 6;
     const weaponHeight = 64;
     const weaponSize = 10.0 * WEAPON_SCALE;
 
-    // Dibujar arma con escala
+    // Dibujar arma con escala (al final ya no se usó esto pero se podría implementar un cambio de arma)
     ctx.drawImage(
       this.weaponSprite,
       attackFrame * weaponWidth * 2, 128,
@@ -835,28 +808,25 @@ class BasePlayer extends BaseCharacter {
   drawAttackHitbox(ctx, scale) {
     // Obtener hitbox para la direccion actual
     const hitbox = this.attackBoxes[this.lastDirection];
-
     // Calcular posicion escalada
     const scaledX = (this.position.x + hitbox.xOffset) * scale;
     const scaledY = (this.position.y + hitbox.yOffset) * scale;
     const scaledWidth = hitbox.width * scale;
     const scaledHeight = hitbox.height * scale;
 
-    // Dibujar hitbox
-    // ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
-    // ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
+    // Dibujar hitbox para debug
+    /*
+    ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+    ctx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
+    */
   }
 
   restoreSprites() {
-
     this.spriteImage = this.currentSprite;
   }
 
-
-  dash(){
-    
+  dash() {
     const currentTime = Date.now();
-
     console.log("Intentando dash:", {
       stamina: this.stamina,
       attacking: this.attacking,
@@ -864,7 +834,7 @@ class BasePlayer extends BaseCharacter {
       cooldown: currentTime - this.lastDashTime > this.dashCooldown
     });
 
-    if(this.stamina > 0 && !this.attacking && !this.isDashing && currentTime - this.lastDashTime > this.dashCooldown){
+    if (this.stamina > 0 && !this.attacking && !this.isDashing && currentTime - this.lastDashTime > this.dashCooldown) {
       console.log("Dash activado en la direccion:", this.lastDirection, "velocidad", this.dashSpeed);
       this.stamina -= 1;
       this.isDashing = true;
@@ -877,7 +847,7 @@ class BasePlayer extends BaseCharacter {
         y: this.velocity.y
       };
       //Vector para el dash seguna donde miraste
-      let dashVec = new Vec(0,0);
+      let dashVec = new Vec(0, 0);
 
       switch (this.lastDirection) {
         case "right": dashVec = new Vec(1, 0); break;
@@ -886,9 +856,8 @@ class BasePlayer extends BaseCharacter {
         case "down": dashVec = new Vec(0, 1); break;
       }
 
-      //aplicar velcodiad para efectuar el dash
-      this.velocity.x = dashVec.x*this.dashSpeed;
-      this.velocity.y = dashVec.y*this.dashSpeed;
+      this.velocity.x = dashVec.x * this.dashSpeed;
+      this.velocity.y = dashVec.y * this.dashSpeed;
       console.log("Velocidad Aplicada:", this.velocity.x, this.velocity.y);
     }
   }
@@ -902,14 +871,14 @@ class BasePlayer extends BaseCharacter {
         const dashMove = this.dashSpeed * 0.05;
         let newX = this.position.x;
         let newY = this.position.y;
-        
+
         switch (this.lastDirection) {
           case "right": newX += dashMove; break;
           case "left": newX -= dashMove; break;
           case "up": newY -= dashMove; break;
           case "down": newY += dashMove; break;
         }
-        
+
         // hitbox temporal para probar colisiones
         const tempHitbox = new Rect(
           newX + this.charMargin,
@@ -917,32 +886,31 @@ class BasePlayer extends BaseCharacter {
           this.size.x - 2 * this.charMargin,
           this.size.y - 2 * this.charMargin
         );
-        
+
         // Solo mover si no hay colision con paredes
-        if (!game.level.contact(tempHitbox, this.size, 'wall') && 
-            !game.level.contact(tempHitbox, this.size, 'exit') &&
-            !game.level.contact(tempHitbox, this.size, 'updoor') &&
-            !game.level.contact(tempHitbox, this.size, 'downdoor') &&
-            !game.level.contact(tempHitbox, this.size, 'leftdoor') &&
-            !game.level.contact(tempHitbox, this.size, 'rightdoor')) {
+        if (!game.level.contact(tempHitbox, this.size, 'wall') &&
+          !game.level.contact(tempHitbox, this.size, 'exit') &&
+          !game.level.contact(tempHitbox, this.size, 'updoor') &&
+          !game.level.contact(tempHitbox, this.size, 'downdoor') &&
+          !game.level.contact(tempHitbox, this.size, 'leftdoor') &&
+          !game.level.contact(tempHitbox, this.size, 'rightdoor')) {
           // Aplicar el movimiento si no hay colision
           this.position.x = newX;
           this.position.y = newY;
         }
       }
-      
-      // Terminar el dash cuando se acabe el tiempo
       if (this.dashTimer >= this.dashDuration) {
         this.isDashing = false;
-        
+
         // Restaurar velocidad normal si el jugador no está presionando teclas
-        if (!this.movement.left.status && 
-            !this.movement.right.status && 
-            !this.movement.up.status && 
-            !this.movement.down.status) {
+        if (!this.movement.left.status &&
+          !this.movement.right.status &&
+          !this.movement.up.status &&
+          !this.movement.down.status) {
           this.velocity.x = 0;
           this.velocity.y = 0;
-        } else {
+        } 
+        else {
           // Restaurar velocidad de movimiento normal
           if (this.velocityBeforeDash) {
             this.velocity.x = this.velocityBeforeDash.x;
@@ -953,5 +921,5 @@ class BasePlayer extends BaseCharacter {
     }
   }
 
-  
+
 }
