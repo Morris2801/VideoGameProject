@@ -311,8 +311,7 @@ class BasePlayer extends BaseCharacter {
 
     // Sprites Personaje
     this.normalSprite = new Image();
-    const basePath = window.location.hostname === "localhost" ? "../" : "/VideoGameProject/src/";
-    this.normalSprite.src = `${basePath}assets/charSpritesheets/testSpriteSheet.png`;
+    this.normalSprite.src = "../assets/charSpritesheets/testSpriteSheet.png";
     this.normalSprite.onload = () => console.log("Normal sprite loaded");
 
     this.normalAttackingSprite = new Image();
